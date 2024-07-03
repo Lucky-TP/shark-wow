@@ -2,9 +2,10 @@
 import { User, signOut } from "firebase/auth";
 import Head from "next/head";
 import Image from "next/image";
-import { auth } from "src/db/firebase"; // Adjust the import path as necessary
+import { auth } from "src/db/firebaseClient"; // Adjust the import path as necessary
 import useRequireAuth from "src/utils/withAuth";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const ProfilePage = () => {
     const user: User | null = useRequireAuth();
@@ -54,6 +55,9 @@ const ProfilePage = () => {
                         <span className="font-medium">{user.email}</span>
                     </p>
                     <p className="text-sm text-gray-500">User ID: {user.uid}</p>
+                    <Link href={"/dashboard"} className="mb-4 text-blue-400">
+                        Click me to test database!
+                    </Link>
                     <button
                         onClick={handleSignOut}
                         className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 self-end"

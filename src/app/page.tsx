@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { auth, googleProvider } from "src/db/firebase"; // Adjust the import path as necessary
+import { auth, googleProvider } from "src/db/firebaseClient"; // Adjust the import path as necessary
 import { useRouter } from "next/navigation";
 import {
     User,
@@ -22,6 +22,7 @@ const HomePage = () => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
                 setUser(user);
+                router.push("/profile");
             } else {
                 setUser(null);
             }
