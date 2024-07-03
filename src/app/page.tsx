@@ -73,6 +73,7 @@ const HomePage = () => {
             const user = result.user;
             setUser(user);
             setError(null);
+            router.push("/profile");
         } catch (error: any) {
             console.error(
                 "Error registering with email and password:",
