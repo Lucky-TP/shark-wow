@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 let dataStore: any[] = [];
 
-export async function POST(request: NextRequest) {
+export async function GET(request: NextRequest) {
     try {
         const body = await request.json();
         dataStore.push(body);
