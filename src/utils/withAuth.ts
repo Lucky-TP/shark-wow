@@ -9,6 +9,7 @@ const useRequireAuth = () => {
     const router = useRouter();
 
     useEffect(() => {
+        console.log(auth);
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
                 setUser(user);

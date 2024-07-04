@@ -7,7 +7,7 @@ ARG NODE_VERSION=20.11.0
 FROM node:${NODE_VERSION}-alpine as base
 
 # Set working directory for all build stages.
-WORKDIR /usr/src/app
+WORKDIR /app
 
 ################################################################################
 # Create a stage for installing all dependencies.
@@ -17,7 +17,7 @@ FROM base as deps
 COPY package.json package-lock.json ./
 
 # Install all dependencies, including devDependencies.
-RUN npm install
+RUN npm ci
 
 ################################################################################
 # Create a new stage for development
@@ -33,7 +33,7 @@ COPY . .
 COPY servicekey.json .
 
 # Set the GOOGLE_APPLICATION_CREDENTIALS environment variable
-ENV GOOGLE_APPLICATION_CREDENTIALS=/usr/src/app/servicekey.json
+# ENV GOOGLE_APPLICATION_CREDENTIALS=/app/servicekey.json
 
 # Expose the port that the application listens on.
 EXPOSE 3000
@@ -55,7 +55,7 @@ CMD ["npm", "run", "dev"]
 # COPY servicekey.json .
 
 # # Set the GOOGLE_APPLICATION_CREDENTIALS environment variable
-# ENV GOOGLE_APPLICATION_CREDENTIALS=/usr/src/app/servicekey.json
+# # ENV GOOGLE_APPLICATION_CREDENTIALS=./servicekey.json
 
 # # Run the build script.
 # RUN npm run build
