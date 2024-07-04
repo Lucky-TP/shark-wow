@@ -1,0 +1,171 @@
+.gapx4\/5 {
+    column-gap: 0.8rem;
+}
+
+.mb8 {
+    margin-bottom: 4.8rem;
+}
+
+.w100p {
+    width: 100%;
+}
+
+.pb3 {
+    padding-bottom: 1.8rem;
+}
+
+.m0 {
+    margin: 0rem;
+}
+.mb0 {
+    margin-bottom: 0rem;
+}
+.lh24px {
+    line-height: 2.4rem;
+}
+.soft-black {
+    color: #282828;
+}
+.type-16, .job-listing, .job-listing ul li, .global-nav-search #global-nav-search-input {
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+}
+
+.project-card-root {
+    display: grid;
+    grid:
+        " MEDIA MEDIA MEDIA " auto
+        " AVATAR BASIC-DETAILS BOOKMARK_BACKERS" auto
+        " . EXPANDED-DETAILS . " auto / 5rem auto 4rem;
+    min-width: 32rem;
+    max-width: 42.7rem;
+    padding: 1.6rem;
+    z-index: 0;
+    transition-delay: .1s;
+}
+
+.project-card-details {
+    margin-top: 1.6rem;
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
+    padding-bottom: 1.6rem;
+}
+
+.project-card-root:is(.is-hovered,.is-focused) {
+    z-index: 2;
+    transition-delay: 0s;
+}
+
+.expandable-background {
+    inset: .5rem;
+    border-radius: 16px;
+    box-shadow: 0 0 0 0 transparent;
+    transition: all .1s ease-in;
+    opacity: 0;
+    z-index: -1;
+}
+
+.expandable-background.is-expanded {
+    inset: 0;
+    box-shadow: 0px 6px 16px 0px rgba(0, 0, 0, 0.12);
+    border: 1px solid #e0e0e0;
+    opacity: 1;
+}
+
+.project-card__basic-details {
+    grid-area: BASIC-DETAILS;
+}
+
+.project-card__media {
+    grid-area: MEDIA;
+}
+
+.px0 {
+    padding-right: 0rem !important;
+    padding-left: 0rem !important;
+}
+
+.project-card__grid-details {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-row-start: 2;
+    grid-column-start: 1;
+    grid-column-end: 4;
+}
+
+.project-card-root__extra-info-container {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    padding-right: 0.8rem;
+    pointer-events: none;
+    transform: translateY(1px);
+    transition-property: transform, opacity, visibility, max-height;
+    transition-duration: .1s, .1s, .1s, 0s;
+    transition-timing-function: ease-out;
+    transition-delay: 0s, 0s, 0s, .1s;
+    visibility: hidden;
+}
+
+.project-card-root__extra-info-container.is-visible {
+    max-height: 9999px;
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+    transition-delay: 0s;
+    visibility: visible;
+}
+
+.project-card__expanded-details {
+    grid-area: EXPANDED-DETAILS;
+}
+
+.no-outline {
+    outline: none;
+}
+
+.valign-top {
+    vertical-align: top;
+}
+.mr4px {
+    margin-right: 0.4rem;
+}
+.icon-20 {
+    width: 2rem;
+    height: 2rem;
+}
+
+.lh24px {
+    line-height: 2.4rem;
+}
+.medium {
+    font-weight: 500;
+}
+.type-20 {
+    font-size: 2rem;
+    line-height: 2.8rem;
+}
+.grid-container * {
+    box-sizing: inherit;
+}
+
+.visibility-hidden {
+    visibility: hidden;
+}
+
+.pointer-events-auto {
+    pointer-events: auto;
+}
+
+.l0, .global-nav-search-results {
+    left: 0rem;
+}
+.t0 {
+    top: 0rem;
+}
+.absolute, .global-nav-search-results {
+    position: absolute;
+}
+.visibility-visible {
+    visibility: visible;
+}
