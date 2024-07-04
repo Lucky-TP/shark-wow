@@ -1,7 +1,8 @@
+// "use server";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { User, onAuthStateChanged } from "firebase/auth";
-import { auth } from "../db/firebaseClient"; // Adjust the import path as necessary
+import { auth } from "src/db/firebaseClient";
 
 const useRequireAuth = () => {
     const [user, setUser] = useState<User | null>(null);

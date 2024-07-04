@@ -1,25 +1,19 @@
+import fs from "fs";
 import { initializeApp, cert, getApps } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import * as admin from "firebase-admin";
-import path from "path";
-import fs from "fs";
 
-// Resolve the path to the service account key file in the root directory
-const serviceAccountPath = path.resolve(process.cwd(), process.env.GOOGLE_APPLICATION_CREDENTIALS!);
+const serviceAccountPath = process.env.GOOGLE_APPLICATION_CREDENTIALS;
+console.log(serviceAccountPath);
 
-if (!fs.existsSync(serviceAccountPath)) {
-    console.error(
-        "Service account key file does not exist:",
-        serviceAccountPath
-    );
+if (!serviceAccountPath) {
+    console.error("GOOGLE_APPLICATION_CREDENTIALS is not set");
     process.exit(1);
 }
 
-// Read the service account key file
-const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, "utf8"));
-console.log("Loaded service account:", serviceAccount);
+const serviceAccountContent = fs.readFileSync(serviceAccountPath, "utf8");
+const serviceAccount = JSON.parse(serviceAccountContent);
 
-// Initialize Firebase Admin if not already initialized
 if (!getApps().length) {
     initializeApp({
         credential: admin.credential.cert(serviceAccount),
