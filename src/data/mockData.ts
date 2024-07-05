@@ -3,23 +3,25 @@ import { Product } from "src/types/product";
 export const productList: Product[] = [
     {
         id: 1,
-        title: "EVERYBODY TO KENMURE STREET",
-        creator: "Felipe Bustos Sierra",
+        title: "OggWay",
+        description: "Shark with Turtle",
+        creator: "Pich Super Idol",
+        creatorImageUrl: "nuk.jpg",
+        projectUrl: "https://i.ytimg.com/vi/wfbbWHzKaWw/maxresdefault.jpg",
+        productImageUrl: "shark.png",
         daysLeft: 14,
         fundedPercentage: 69,
-        imageUrl: "https://i.ytimg.com/vi/wfbbWHzKaWw/maxresdefault.jpg",
-        creatorImageUrl: "nuk.jpg",
-        projectUrl: "https://i.ytimg.com/vi/wfbbWHzKaWw/maxresdefault.jpg"
     },
     {
         id: 2,
-        title: "EVERYBODY TO KENMURE STREET",
-        creator: "Felipe Bustos Sierra",
+        title: "NUK DEV",
+        description: "This is description from Nuk",
+        creator: "Nuk Company",
+        creatorImageUrl: "nuk.jpg",
+        projectUrl: "https://i.ytimg.com/vi/wfbbWHzKaWw/maxresdefault.jpg",
+        productImageUrl: "shark2.jpg",
         daysLeft: 2,
         fundedPercentage: 100,
-        imageUrl: "https://i.ytimg.com/vi/wfbbWHzKaWw/maxresdefault.jpg",
-        creatorImageUrl: "nuk.jpg",
-        projectUrl: "https://i.ytimg.com/vi/wfbbWHzKaWw/maxresdefault.jpg"
     },
     // Add more products as needed
   ];
