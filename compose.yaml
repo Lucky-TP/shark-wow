@@ -7,6 +7,12 @@
 # You can add other services your application may depend on here, such as a
 # database or a cache. For examples, see the Awesome Compose repository:
 # https://github.com/docker/awesome-compose
+version: "3.8"
+
+networks:
+    app-network:
+        driver: bridge
+
 services:
     app:
         build:
@@ -31,6 +37,7 @@ services:
             - .:/app
             - /app/node_modules
             - ./servicekey.json:/app/servicekey.json
+            - prisma-volume:/app/.prisma # Define the prisma-volume here
         depends_on:
             db:
                 condition: service_healthy
@@ -47,8 +54,8 @@ services:
             POSTGRES_USER: ${POSTGRES_USER}
             POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
             POSTGRES_DB: ${POSTGRES_DB}
-        expose:
-            - 5432
+        ports:
+            - "5432:5432"
         healthcheck:
             test:
                 [
@@ -56,9 +63,9 @@ services:
                     "pg_isready",
                     "-q",
                     "-d",
-                    "shark-wow-database",
+                    "${POSTGRES_DB}",
                     "-U",
-                    "user",
+                    "${POSTGRES_USER}",
                 ]
             interval: 10s
             timeout: 5s
@@ -66,9 +73,6 @@ services:
         networks:
             - app-network
 
-networks:
-    app-network:
-        driver: bridge
-
 volumes:
     db-data:
+    prisma-volume:

@@ -1,10 +1,10 @@
 # syntax=docker/dockerfile:1
 
-ARG NODE_VERSION=20.11.0
+ARG NODE_VERSION=18
 
 ################################################################################
 # Use node image for base image for all stages.
-FROM node:${NODE_VERSION}-alpine as base
+FROM node:${NODE_VERSION} as base
 
 # Set working directory for all build stages.
 WORKDIR /app
@@ -14,10 +14,14 @@ WORKDIR /app
 FROM base as deps
 
 # Copy package files
-COPY package.json package-lock.json ./
+COPY package*.json ./
 
 # Install all dependencies, including devDependencies.
-RUN npm ci
+RUN npm install
+
+RUN apt-get update && apt-get install -y postgresql-client
+
+# COPY ./prisma ./prisma
 
 ################################################################################
 # Create a new stage for development
@@ -32,6 +36,7 @@ COPY . .
 # Copy the service account key file
 COPY servicekey.json .
 
+RUN npx prisma generate
 # Set the GOOGLE_APPLICATION_CREDENTIALS environment variable
 # ENV GOOGLE_APPLICATION_CREDENTIALS=/app/servicekey.json
 
