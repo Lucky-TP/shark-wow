@@ -3,10 +3,9 @@ export interface Product {
     title: string;
     description: string;
     creator: string;
-    daysLeft: number;
-    fundedPercentage: number;
-    imageUrl: string;
     creatorImageUrl: string;
     projectUrl: string;
     productImageUrl: string;
+    daysLeft: number;
+    fundedPercentage: number;
   }

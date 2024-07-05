@@ -6,24 +6,22 @@ export const productList: Product[] = [
         title: "OggWay",
         description: "Shark with Turtle",
         creator: "Pich Super Idol",
-        daysLeft: 14,
-        fundedPercentage: 69,
-        imageUrl: "https://i.ytimg.com/vi/wfbbWHzKaWw/maxresdefault.jpg",
         creatorImageUrl: "nuk.jpg",
         projectUrl: "https://i.ytimg.com/vi/wfbbWHzKaWw/maxresdefault.jpg",
-        productImageUrl: "shark.png"
+        productImageUrl: "shark.png",
+        daysLeft: 14,
+        fundedPercentage: 69,
     },
     {
         id: 2,
         title: "NUK DEV",
         description: "This is description from Nuk",
         creator: "Nuk Company",
-        daysLeft: 2,
-        fundedPercentage: 100,
-        imageUrl: "https://i.ytimg.com/vi/wfbbWHzKaWw/maxresdefault.jpg",
         creatorImageUrl: "nuk.jpg",
         projectUrl: "https://i.ytimg.com/vi/wfbbWHzKaWw/maxresdefault.jpg",
-        productImageUrl: "shark2.jpg"
+        productImageUrl: "shark2.jpg",
+        daysLeft: 2,
+        fundedPercentage: 100,
     },
     // Add more products as needed
   ];
