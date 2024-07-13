@@ -1,18 +1,18 @@
 "use client";
-import { User, signOut } from "firebase/auth";
 import Head from "next/head";
 import Image from "next/image";
-import { auth } from "src/db/firebaseClient"; // Adjust the import path as necessary
-import useRequireAuth from "src/utils/withAuth";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { User } from "firebase/auth";
+import { useAuth } from "src/utils/useAuth";
+import { signOut } from "src/services/authService";
 
-const ProfilePage = () => {
-    const user: User | null = useRequireAuth();
+export default function ProfilePage() {
+    const user: User | null = useAuth();
     const router = useRouter();
     const handleSignOut = async () => {
         try {
-            await signOut(auth);
+            await signOut();
             router.push("/");
         } catch (error: any) {
             console.error("Error signing out:", error.message);
@@ -70,6 +70,4 @@ const ProfilePage = () => {
             )}
         </div>
     );
-};
-
-export default ProfilePage;
+}

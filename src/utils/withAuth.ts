@@ -1,25 +1,11 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { User, onAuthStateChanged } from "firebase/auth";
-import { auth } from "../db/firebaseClient"; // Adjust the import path as necessary
+"use server";
+import { NextRequest } from "next/server";
+import { USER_TOKEN } from "src/constants/cookiesKeyName";
 
-const useRequireAuth = () => {
-    const [user, setUser] = useState<User | null>(null);
-    const router = useRouter();
-
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (user) {
-                setUser(user);
-            } else {
-                router.push("/"); // Redirect to login page if not authenticated
-            }
-        });
-
-        return () => unsubscribe();
-    }, []);
-
-    return user;
-};
-
-export default useRequireAuth;
+export async function withAuth(request: NextRequest) {
+    const userToken = request.cookies.get(USER_TOKEN);
+    if (!userToken) {
+        throw new Error("Unauthorized");
+    }
+    return userToken;
+}
