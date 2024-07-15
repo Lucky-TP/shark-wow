@@ -21,6 +21,7 @@ export async function signInWithGoogle() {
         const userIdToken = await result.user.getIdToken();
         const payload: SignTokenPayload = { userIdToken };
         await axios.post(apiPath.AUTH, payload);
+        await axios.post(apiPath.CREATE_USER);
     } catch (error: any) {
         console.log(error);
     }

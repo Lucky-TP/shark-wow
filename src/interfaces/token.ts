@@ -1,7 +1,7 @@
 export interface UserToken {
     tokenId: string;
     uid: string;
-    name?: string;
+    name: string;
     email?: string;
-    wallet?: number;
+    profileImageUrl?: string;
 }
