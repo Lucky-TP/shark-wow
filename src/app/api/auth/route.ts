@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
             uid: decodedToken.uid,
             name: decodedToken.name,
             email: decodedToken.email,
-            wallet: 100,
+            profileImageUrl: decodedToken.picture,
         };
         const token = signToken(tokenData);
         cookies().set(USER_TOKEN, token, {
