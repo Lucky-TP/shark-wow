@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 type Props = {}
 
-export default function ContainerFooter({}: Props) {
+export default function Footer({}: Props) {
   return (
     <section>
       <footer className="bg-gray-800 text-white py-8">
