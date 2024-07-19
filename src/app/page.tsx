@@ -10,7 +10,6 @@ export default function RootPage() {
             <Herosection/>
             <PopularProject/>
             <Footer/>
-            
         </section>
     );
 }
