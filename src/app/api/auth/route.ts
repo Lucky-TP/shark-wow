@@ -7,6 +7,7 @@ import { UserToken } from "src/interfaces/token";
 import { SignTokenPayload } from "src/interfaces/payload";
 import { StatusCode } from "src/constants/statusCode";
 import { USER_TOKEN } from "src/constants/cookiesKeyName";
+import { errorHandler } from "src/utils/errors/errorHandler";
 
 export async function POST(request: NextRequest) {
     try {
@@ -38,11 +39,7 @@ export async function POST(request: NextRequest) {
             { status: StatusCode.SUCCESS }
         );
     } catch (error: any) {
-        console.log(error);
-        return NextResponse.json(
-            { message: "Authentication failed" },
-            { status: StatusCode.UNAUTHORIZED }
-        );
+        errorHandler(error);
     }
 }
 
@@ -56,9 +53,6 @@ export async function GET(request: NextRequest) {
             { status: StatusCode.SUCCESS }
         );
     } catch (error: any) {
-        return NextResponse.json(
-            { message: "Clear authentication failed" },
-            { status: StatusCode.INTERNAL_SERVER_ERROR }
-        );
+        errorHandler(error);
     }
 }
