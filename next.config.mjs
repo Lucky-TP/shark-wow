@@ -8,6 +8,12 @@ const nextConfig = {
                 port: "",
                 pathname: "/**", // Match all paths under lh3.googleusercontent.com
             },
+            {
+                protocol: "https",
+                hostname: "firebasestorage.googleapis.com",
+                port: "",
+                pathname: "/**", // Match all paths under firebasestorage.googleapis.com
+            },
         ],
     },
 };

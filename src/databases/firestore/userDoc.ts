@@ -1,5 +1,7 @@
+import { StatusCode } from "src/constants/statusCode";
 import { db } from "src/libs/firebase/firebaseAdmin";
 import { UserData } from "src/types/schema/user";
+import { CustomError } from "src/utils/errors/customError";
 
 const USER_COLLECTION_PATH = "/users";
 
@@ -20,12 +22,14 @@ export async function addNewUser(userId: string, userData: UserData) {
         const userSnapshot = await userDoc.get();
 
         if (userSnapshot.exists) {
-            throw new Error("User exists");
+            throw new CustomError("User exists", StatusCode.ALREADY_EXISTS);
         }
 
         await userDoc.set(userData);
-        console.log("New user added successfully");
     } catch (error: any) {
-        throw new Error("Error adding new user:", error);
+        throw new CustomError(
+            "Error adding new user:",
+            StatusCode.INTERNAL_SERVER_ERROR
+        );
     }
 }

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { StatusCode } from "src/constants/statusCode";
 import { addNewUser } from "src/databases/firestore/userDoc";
 import { UserData } from "src/types/schema/user";
+import { errorHandler } from "src/utils/errors/errorHandler";
 import { withAuthAndVerify } from "src/utils/withAuth";
 
 export async function POST(request: NextRequest) {
@@ -23,9 +24,6 @@ export async function POST(request: NextRequest) {
             { status: StatusCode.CREATED }
         );
     } catch (error: any) {
-        return NextResponse.json(
-            { message: "Create user failed" },
-            { status: StatusCode.INTERNAL_SERVER_ERROR }
-        );
+        return errorHandler(error);
     }
 }
