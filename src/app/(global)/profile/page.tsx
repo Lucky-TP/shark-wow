@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { User } from "firebase/auth";
 import { useAuth } from "src/utils/useAuth";
 import { signOut } from "src/services/authService";
+import FileUpload from "src/components/FileUpload";
 
 export default function ProfilePage() {
     const user: User | null = useAuth();
@@ -55,9 +56,10 @@ export default function ProfilePage() {
                         <span className="font-medium">{user.email}</span>
                     </p>
                     <p className="text-sm text-gray-500">User ID: {user.uid}</p>
-                    <Link href={"/dashboard"} className="mb-4 text-blue-400">
+                    {/* <Link href={"/dashboard"} className="mb-4 text-blue-400">
                         Click me to test database!
-                    </Link>
+                    </Link> */}
+                    <FileUpload />
                     <button
                         onClick={handleSignOut}
                         className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 self-end"
