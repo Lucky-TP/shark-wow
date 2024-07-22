@@ -7,4 +7,5 @@ export const pagePath = {
 export const apiPath = {
     AUTH: "api/auth",
     CREATE_USER: "api/users/create",
+    UPLOAD_FILE: "api/files/upload",
 };
