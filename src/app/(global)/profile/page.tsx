@@ -58,6 +58,13 @@ export default function ProfilePage() {
                     <Link href={"/dashboard"} className="mb-4 text-blue-400">
                         Click me to test database!
                     </Link>
+              
+                    <button
+                        onClick={() => router.push("/")}
+                        className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 self-end"
+                    >
+                        home page
+                    </button>
                     <button
                         onClick={handleSignOut}
                         className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 self-end"

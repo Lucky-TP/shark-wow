@@ -10,15 +10,15 @@ export async function middleware(request: NextRequest) {
     const isPublicPath = publicPaths.includes(pathname);
     const token = request.cookies.get(USER_TOKEN)?.value || "";
 
-    if (token && isPublicPath) {
-        return NextResponse.redirect(
-            new URL(pagePath.PROFILE, request.nextUrl)
-        );
-    }
+    // if (token && isPublicPath) {
+    //     return NextResponse.redirect(
+    //         new URL(pagePath.PROFILE, request.nextUrl)
+    //     );
+    // }
 
-    if (!token && !isPublicPath) {
-        return NextResponse.redirect(new URL(pagePath.SIGNIN, request.nextUrl));
-    }
+    // if (!token && !isPublicPath) {
+    //     return NextResponse.redirect(new URL(pagePath.SIGNIN, request.nextUrl));
+    // }
 
     // try {
     //     const { payload } = await jwtVerify(token, secret);
