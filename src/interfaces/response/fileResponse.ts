@@ -1,7 +1,4 @@
-export interface DefaultResponse {
-    message: string;
-    status: number;
-}
+import { DefaultResponse } from "./commonResponse";
 
 export interface FileUploadResponse extends DefaultResponse {
     url?: string;
