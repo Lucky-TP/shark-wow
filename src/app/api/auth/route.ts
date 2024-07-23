@@ -4,14 +4,14 @@ import { auth } from "src/libs/firebase/firebaseAdmin";
 import { signToken } from "src/utils/jwt";
 import { withAuth } from "src/utils/withAuth";
 import { UserToken } from "src/interfaces/token";
-import { SignTokenPayload } from "src/interfaces/payload";
+import { SignInPayload } from "src/interfaces/payload/userPayload";
 import { StatusCode } from "src/constants/statusCode";
 import { USER_TOKEN } from "src/constants/cookiesKeyName";
 import { errorHandler } from "src/utils/errors/errorHandler";
 
 export async function POST(request: NextRequest) {
     try {
-        const { userIdToken }: SignTokenPayload = await request.json();
+        const { userIdToken }: SignInPayload = await request.json();
 
         if (!userIdToken) {
             return NextResponse.json(
