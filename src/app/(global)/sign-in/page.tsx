@@ -7,7 +7,7 @@ export default function SigninPage() {
     return (
         <>
             <SigninPlaceHolder/>
-            {/* <SignInWithGoogle /> */}
+            <SignInWithGoogle />
         </>
     );
 }
