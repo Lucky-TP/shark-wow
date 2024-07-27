@@ -3,7 +3,7 @@ import { useState } from "react";
 import { signInWithGoogle } from "src/services/authService";
 import { Button } from "antd";
 
-export function SignInWithGoogle() {
+export default function SignInWithGoogle() {
     const router = useRouter();
     const [loading, setLoading] = useState<boolean>(false);
     const onSignIn = async () => {

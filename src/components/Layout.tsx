@@ -1,7 +1,7 @@
 import { type NextPage } from "next";
 import { Layout as AntdLayout } from "antd";
-import Navbar from "./global/navigation/mainNav";
-import Footer from "./global/footer/containerFooter";
+import Navbar from "./global/navigation/Navbar";
+import Footer from "./global/footer/Footer";
 interface Props {
     children: React.ReactNode;
 }
