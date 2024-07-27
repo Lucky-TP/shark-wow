@@ -1,4 +1,5 @@
-import { Blog, ProjectStatus, ReceivedComment } from "./common";
+import { Blog, ReceivedComment } from "./common";
+import { ProjectStatus } from "./enums";
 
 interface Stage {
     stageId: number;
@@ -11,6 +12,19 @@ interface Funding {
     goal: number;
 }
 
+interface UpdateLog {
+    id: number;
+    details: Blog[];
+}
+
+interface Product {
+    price: number;
+    quantity: number;
+    description: string;
+    arrivalDate: Date;
+    websiteUrl: string;
+}
+
 export interface ProjectModel {
     projectId: number;
     uid: string;
@@ -20,10 +34,11 @@ export interface ProjectModel {
     favoriteCount: number;
     status: ProjectStatus;
     funding: Funding;
+    product: Product;
     categories: string[];
     stages: Stage[];
     stories: Blog[];
-    updateLogs: Blog[];
+    updateLogs: UpdateLog[];
     comments: ReceivedComment[];
     payment?: unknown;
 }
