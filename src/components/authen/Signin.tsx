@@ -19,7 +19,7 @@ export default function SigninPlaceHolder({}: Props) {
                         <p>Don't have an account? <a href="#" className="underline text-blue-500">Sign up</a></p>
                     </div>
                     <div className="flex flex-col mt-24">
-                        <p className="font-semibold text-gray-700 mb-4">Your account details</p>
+                        <p className="font-medium text-gray-700 mb-4">Your account details</p>
                         <div className="w-full mb-4">
                             <input className="border border-gray-300 w-full p-3 rounded" type="email" id="email" placeholder="Email Address"/>
                         </div>
