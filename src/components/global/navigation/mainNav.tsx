@@ -6,7 +6,7 @@ import { MdAccountCircle } from "react-icons/md";
 
 type Props = {}
 
-export default function MainNav({}: Props) {
+export default function Navbar({}: Props) {
   return (
     <section>
         <nav className='px-[3vw] bg-gray-200 shadow-md py-[2vh]'>
