@@ -1,16 +1,43 @@
 "use client";
-import Head from "next/head";
-import Image from "next/image";
-import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { User } from "firebase/auth";
+import axios, { AxiosResponse } from "axios";
+import { Button } from "antd";
 import { useAuth } from "src/utils/useAuth";
 import { signOut } from "src/services/authService";
+import { apiPath, pagePath } from "src/constants/routePath";
+import { UserModel } from "src/interfaces/models/user";
+import { GetUserResponse } from "src/interfaces/response/userResponse";
 import FileUpload from "src/components/FileUpload";
 
 export default function ProfilePage() {
-    const user: User | null = useAuth();
+    const [user, setUser] = useState<UserModel>();
+    const [loading, setLoading] = useState<boolean>(false);
+    const { user: authUser, authLoading } = useAuth();
     const router = useRouter();
+
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            try {
+                setLoading(true);
+                if (!authUser) {
+                    router.push(pagePath.SIGNIN);
+                    return;
+                }
+                const response: AxiosResponse<GetUserResponse> =
+                    await axios.get(apiPath.USERS.GET_SELF);
+                setUser(response.data.data);
+            } catch (error) {
+                console.error("Error fetching user profile:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        if (!authLoading) {
+            fetchUserProfile();
+        }
+    }, [authUser]);
+
     const handleSignOut = async () => {
         try {
             await signOut();
@@ -20,65 +47,67 @@ export default function ProfilePage() {
         }
     };
 
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
-            <Head>
-                <title>User Profile</title>
-                <meta name="description" content="User Profile Page" />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
-            <h1 className="text-2xl font-bold mb-4">User Profile</h1>
-            {user ? (
-                <div className="bg-white p-6 rounded-lg shadow-md flex flex-col">
-                    <div className="flex items-center justify-center mb-4">
-                        {user.photoURL ? (
-                            <Image
-                                src={user.photoURL}
-                                priority={true}
-                                width={300}
-                                height={300}
-                                alt="User Photo"
-                                className="w-20 h-20 rounded-full"
-                            />
-                        ) : (
-                            <Image
-                                src={"/surprised-emoji-svgrepo-com.svg"}
-                                priority={true}
-                                width={300}
-                                height={300}
-                                alt="User Photo"
-                                className="w-20 h-20 rounded-full"
-                            />
-                        )}
+        <div className="min-h-screen flex items-center">
+            {user && (
+                <div className="mx-auto p-4">
+                    <h1 className="text-2xl font-bold mb-4">Profile</h1>
+                    <img
+                        src={user.profileImageUrl}
+                        alt={`${user.firstName} ${user.lastName}`}
+                        className="rounded-full w-32 h-32 mb-4"
+                    />
+                    <div className="mb-2">
+                        <strong>Name: </strong>
+                        {user.firstName} {user.lastName}
                     </div>
-                    <p className="mb-4">
-                        Welcome,{" "}
-                        <span className="font-medium">{user.email}</span>
-                    </p>
-                    <p className="text-sm text-gray-500">User ID: {user.uid}</p>
-                    {/* <Link href={"/dashboard"} className="mb-4 text-blue-400">
-                          Click me to test database!
-
-                      </Link>
-
-                      <button
-                          onClick={() => router.push("/")}
-                          className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 self-end"
-                      >
-                          home page
-                      </button>
-                    </Link> */}
+                    <div className="mb-2">
+                        <strong>Email: </strong>
+                        {user.email}
+                    </div>
+                    <div className="mb-2">
+                        <strong>Role: </strong>
+                        {user.role}
+                    </div>
+                    <div className="mb-2">
+                        <strong>My Projects: </strong>
+                        {user.myProjectIds.join(", ")}
+                    </div>
+                    <div className="mb-2">
+                        <strong>Favorite Projects: </strong>
+                        {user.favoriteProjectIds.join(", ")}
+                    </div>
+                    <div className="mb-2">
+                        <strong>Comments Received: </strong>
+                        <ul>
+                            {user.receivedComments.map((comment) => (
+                                <li key={comment.commentId}>
+                                    {comment.message}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div className="mb-2">
+                        <strong>Transaction Logs: </strong>
+                        <ul>
+                            {user.transactionLogs.map((log) => (
+                                <li key={log.projectId}>
+                                    Project ID: {log.projectId}, Stage ID:{" "}
+                                    {log.stageId}, Cost: {log.cost}, Type:{" "}
+                                    {log.type}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                     <FileUpload />
-
-                    <button
-                        onClick={handleSignOut}
-                        className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 self-end"
-                    >
-                        Sign Out
-                    </button>
+                    <Button onClick={handleSignOut} type="primary">
+                        SignOut
+                    </Button>
                 </div>
-            ) : (
-                <p>Loading...</p>
             )}
         </div>
     );

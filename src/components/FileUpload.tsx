@@ -4,7 +4,7 @@ import axios, { AxiosResponse } from "axios";
 import { Button, Form, Upload, message as antdMessage } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { apiPath } from "src/constants/routePath";
-import { FileUploadResponse } from "src/interfaces/response";
+import { FileUploadResponse } from "src/interfaces/response/fileResponse";
 
 export default function FileUpload() {
     const [file, setFile] = useState<File | null>(null);
@@ -33,7 +33,7 @@ export default function FileUpload() {
         try {
             setLoading(true);
             const response: AxiosResponse<FileUploadResponse> =
-                await axios.post(apiPath.UPLOAD_FILE, formData, {
+                await axios.post(apiPath.FILES.UPLOAD, formData, {
                     headers: {
                         "Content-Type": "multipart/form-data",
                     },

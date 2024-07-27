@@ -1,24 +1,13 @@
+import { getDoc } from "./utils";
 import { StatusCode } from "src/constants/statusCode";
-import { db } from "src/libs/firebase/firebaseAdmin";
-import { UserData } from "src/types/schema/user";
+import { UserModel } from "src/interfaces/models/user";
 import { CustomError } from "src/utils/errors/customError";
 
 const USER_COLLECTION_PATH = "/users";
 
-export function getDoc(userId: string) {
-    const userDoc = db.collection(USER_COLLECTION_PATH).doc(userId);
-    console.log(userDoc);
-    return userDoc;
-}
-
-export function getCollection() {
-    const usersCollection = db.collection(USER_COLLECTION_PATH);
-    return usersCollection;
-}
-
-export async function addNewUser(userId: string, userData: UserData) {
+export async function addNewUser(userData: UserModel) {
     try {
-        const userDoc = getDoc(userId);
+        const userDoc = getDoc(USER_COLLECTION_PATH, userData.uid);
         const userSnapshot = await userDoc.get();
 
         if (userSnapshot.exists) {
@@ -27,9 +16,21 @@ export async function addNewUser(userId: string, userData: UserData) {
 
         await userDoc.set(userData);
     } catch (error: any) {
-        throw new CustomError(
-            "Error adding new user:",
-            StatusCode.INTERNAL_SERVER_ERROR
-        );
+        throw error;
+    }
+}
+
+export async function getUser(uid: string) {
+    try {
+        const userDoc = getDoc(USER_COLLECTION_PATH, uid);
+        const userSnapshot = await userDoc.get();
+
+        if (!userSnapshot.exists) {
+            throw new CustomError("User not exists", StatusCode.NOT_FOUND);
+        }
+        
+        return userSnapshot.data();
+    } catch (error: any) {
+        throw error;
     }
 }
