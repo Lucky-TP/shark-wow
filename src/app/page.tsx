@@ -8,6 +8,7 @@ export default function RootPage() {
             <HeroSection/>
             <PopularProject/>
             <PopularCreator/>
+            {/*kuaytoey ai sus*/}
         </>
     );
 }
