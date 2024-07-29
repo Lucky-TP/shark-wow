@@ -2,7 +2,7 @@ import React from 'react'
 
 type Props = {}
 
-export default function Herosection({}: Props) {
+export default function HeroSection({}: Props) {
   return (
     <section>
         <div className="flex items-center justify-center min-h-screen bg-gray-50 py-12">

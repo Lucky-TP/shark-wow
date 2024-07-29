@@ -1,4 +1,3 @@
-import { Image } from 'antd';
 import Link from 'next/link';
 import React from 'react';
 
@@ -6,7 +5,7 @@ import { MdAccountCircle } from "react-icons/md";
 
 type Props = {}
 
-export default function MainNav({}: Props) {
+export default function Navbar({}: Props) {
   return (
     <section>
         <nav className='px-[3vw] bg-gray-200 shadow-md py-[2vh]'>
@@ -18,22 +17,22 @@ export default function MainNav({}: Props) {
                     </Link>
                 </div>
                 <ul className='flex flex-row gap-x-[3vw] items-center'>
-                    <li>
-                    <Link href="/blogs" className='text-gray-800 hover:text-blue-500'>BLOGS</Link>
-                    </li>
                     {/* <li>
-                    <Link href="/create-project" className='text-gray-800 hover:text-blue-500'>CREATE PROJECT</Link>
+                        <Link href="/blogs" className='text-gray-800 hover:text-blue-500'>BLOGS</Link>
                     </li> */}
                     <li>
-                    <Link href="/catagories" className='text-gray-800 hover:text-blue-500'>CATAGORIES</Link>
+                        <Link href="/create-project" className='text-gray-800 hover:text-blue-500'>CREATE PROJECT</Link>
                     </li>
                     <li>
-                    <Link href="/sign-in" className='text-gray-800 hover:text-blue-500'>SIGN IN / SIGN UP</Link>
+                        <Link href="/catagories" className='text-gray-800 hover:text-blue-500'>CATAGORIES</Link>
                     </li>
                     <li>
-                    <Link href="/my-account" className='text-gray-800 hover:text-blue-500 flex items-center'>
-                        <MdAccountCircle  className='text-3xl'/>
-                    </Link>
+                        <Link href="/sign-in" className='text-gray-800 hover:text-blue-500'>SIGN IN / SIGN UP</Link>
+                    </li>
+                    <li>
+                        <Link href="/my-account" className='text-gray-800 hover:text-blue-500 flex items-center'>
+                            <MdAccountCircle  className='text-3xl'/>
+                        </Link>
                     </li>
                 </ul>
             </div>

@@ -1,17 +1,13 @@
-import Footer from "src/components/global/footer/containerFooter";
-import MainNav from "src/components/global/navigation/mainNav";
-import Herosection from "src/components/homepage/herosection";
-import PopularCreator from "src/components/homepage/popularCreator";
-import PopularProject from "src/components/homepage/popularProject";
+import HeroSection from "src/components/homepage/HeroSection";
+import PopularCreator from "src/components/homepage/PopularCreator";
+import PopularProject from "src/components/homepage/PopularProject";
 
 export default function RootPage() {
     return (
-        <section>
-            <MainNav/>
-            <Herosection/>
+        <>
+            <HeroSection/>
             <PopularProject/>
             <PopularCreator/>
-            <Footer/>
-        </section>
+        </>
     );
 }
