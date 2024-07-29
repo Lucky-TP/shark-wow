@@ -1,24 +1,40 @@
-import { ReceivedComment, TransactionType } from "./common";
+import { ReceivedComment } from "./common";
 
-interface TransactionLog {
-    projectId: number;
-    stageId: number;
-    cost: number;
-    slipUrl: string;
-    type: TransactionType;
+interface PopularDetail {
+    totalProjectSuccess: number;
+    totalSupporter: number;
+}
+
+interface Address {
+    country: string;
+    city: string;
+    province: string;
+    postalCode: string;
+}
+
+interface Contact {
+    facebook: string;
+    X: string;
+    youtube: string;
+    phone: string;
 }
 
 export interface UserModel {
-    uid: string;
+    uid: number; // pk
+    username: string;
+    password?: string;
     firstName: string;
     lastName: string;
+    aboutMe: string;
     email: string;
-    role: string;
     profileImageUrl?: string;
-    myProjectIds: number[];
+    ownProjectIds: number[];
     favoriteProjectIds: number[];
+    popularDetail: PopularDetail;
     receivedComments: ReceivedComment[];
-    transactionLogs: TransactionLog[];
+    interestCategories: string[];
+    address: Address;
+    contact: Contact;
+    cvUrl: string;
     agreement: boolean;
-    signInType?: unknown;
 }
