@@ -1,11 +1,11 @@
 import { db } from "src/libs/firebase/firebaseAdmin";
 
-export function getDoc(path: string, userId: string) {
-    const userDoc = db.collection(path).doc(userId);
-    return userDoc;
+export function getDoc(path: string, id: number) {
+    const doc = db.collection(path).doc(String(id));
+    return doc;
 }
 
 export function getCollection(path: string) {
-    const usersCollection = db.collection(path);
-    return usersCollection;
+    const collection = db.collection(path);
+    return collection;
 }
