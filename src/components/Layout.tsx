@@ -10,7 +10,7 @@ const Layout: NextPage<Props> = ({children}) => {
     return (
         <AntdLayout className="min-h-screen w-screen">
             <Navbar/>
-            <main>{children}</main>
+            <main className="min-h-screen">{children}</main>
             <Footer/>
         </AntdLayout>
     );
