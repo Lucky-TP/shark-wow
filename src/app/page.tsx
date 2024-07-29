@@ -1,14 +1,14 @@
-import HeroSection from "src/components/homepage/HeroSection";
+import HeroSection from "src/components/homepage/herosection";
 import PopularCreator from "src/components/homepage/PopularCreator";
 import PopularProject from "src/components/homepage/PopularProject";
 
 export default function RootPage() {
     return (
-        <>
+        <section>
             <HeroSection/>
             <PopularProject/>
             <PopularCreator/>
             {/*kuaytoey ai sus*/}
-        </>
+        </section>
     );
 }
