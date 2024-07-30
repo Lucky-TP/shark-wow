@@ -20,7 +20,7 @@ interface Contact {
 }
 
 export interface UserModel {
-    uid: number; // pk
+    uid: string; // pk
     username: string;
     password?: string;
     firstName: string;

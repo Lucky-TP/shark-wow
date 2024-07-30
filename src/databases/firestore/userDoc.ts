@@ -3,6 +3,7 @@ import { StatusCode } from "src/constants/statusCode";
 import { CollectionPath } from "src/constants/collection";
 import { UserModel } from "src/interfaces/models/user";
 import { CustomError } from "src/utils/errors/customError";
+import { UserToken } from "src/interfaces/token";
 
 const USER_COLLECTION = CollectionPath.USER;
 
@@ -21,7 +22,7 @@ export async function addNewUser(userData: UserModel) {
     }
 }
 
-export async function getUser(uid: number) {
+export async function getUser(uid: string) {
     try {
         const userDoc = getDoc(USER_COLLECTION, uid);
         const userSnapshot = await userDoc.get();
@@ -30,7 +31,7 @@ export async function getUser(uid: number) {
             throw new CustomError("User not exists", StatusCode.NOT_FOUND);
         }
 
-        return userSnapshot.data();
+        return userSnapshot.data() as UserModel;
     } catch (error: any) {
         throw error;
     }

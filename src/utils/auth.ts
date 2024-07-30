@@ -1,24 +1,26 @@
-import { NextRequest, NextResponse } from "next/server";
-import { StatusCode } from "src/constants/statusCode";
+import { CollectionPath } from "src/constants/collection";
 import { addNewUser } from "src/databases/firestore/userDoc";
 import { UserModel } from "src/interfaces/models/user";
-import { errorHandler } from "src/utils/errors/errorHandler";
-import { withAuthVerify } from "src/utils/withAuth";
+import { getDoc } from "src/databases/firestore/utils";
+import { UserToken } from "src/interfaces/token";
+import { DecodedIdToken } from "firebase-admin/auth";
 
-export async function POST(request: NextRequest) {
-    try {
-        const tokenData = await withAuthVerify(request);
-        const { uid, name, profileImageUrl, email } = tokenData;
-        const [firstName, lastName] = name.split(" ");
+export async function findOrCreateUser(
+    tokenData: DecodedIdToken
+): Promise<UserModel> {
+    const { uid, name, email, picture } = tokenData;
+    const userDoc = getDoc(CollectionPath.USER, uid);
+    const userSnapshot = await userDoc.get();
 
+    if (!userSnapshot.exists) {
         const newUser: UserModel = {
             uid,
-            username: email?.split("@")[0] || "",
-            firstName: firstName || "",
-            lastName: lastName || "",
+            username: name,
+            firstName: "",
+            lastName: "",
             aboutMe: "",
             email: email || "",
-            profileImageUrl,
+            profileImageUrl: picture || "",
             ownProjectIds: [],
             favoriteProjectIds: [],
             popularDetail: {
@@ -44,11 +46,8 @@ export async function POST(request: NextRequest) {
         };
 
         await addNewUser(newUser);
-        return NextResponse.json(
-            { message: "Create user successful" },
-            { status: StatusCode.CREATED }
-        );
-    } catch (error: any) {
-        return errorHandler(error);
+        return newUser;
     }
+
+    return userSnapshot.data() as UserModel;
 }

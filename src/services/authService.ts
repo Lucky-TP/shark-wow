@@ -20,8 +20,7 @@ export async function signInWithGoogle() {
         const result = await signInWithPopup(auth, provider);
         const userIdToken = await result.user.getIdToken();
         const payload: SignInPayload = { userIdToken };
-        await axios.post(apiPath.AUTH, payload);
-        await axios.post(apiPath.USERS.CREATE);
+        await axios.post(apiPath.AUTH.GOOGLE_SIGNIN, payload);
     } catch (error: any) {
         console.log(error);
     }
@@ -30,7 +29,7 @@ export async function signInWithGoogle() {
 export async function signOut() {
     try {
         const result = await _signOut(auth);
-        await axios.get(apiPath.AUTH);
+        await axios.get(apiPath.AUTH.SIGNOUT);
     } catch (error: any) {
         console.log(error);
     }
