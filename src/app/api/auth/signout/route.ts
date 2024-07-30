@@ -1,18 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
-import { StatusCode } from "src/constants/statusCode";
-import { getUser } from "src/databases/firestore/userDoc";
-import { errorHandler } from "src/utils/errors/errorHandler";
+import { cookies } from "next/headers";
 import { withAuthVerify } from "src/utils/withAuth";
+import { StatusCode } from "src/constants/statusCode";
+import { errorHandler } from "src/utils/errors/errorHandler";
 
 export async function GET(request: NextRequest) {
     try {
-        const tokenData = await withAuthVerify(request);
-        const retrivedUser = await getUser(tokenData.uid);
+        await withAuthVerify(request);
+        const cookieStore = cookies();
+        cookieStore.getAll().forEach(({ name }) => cookieStore.delete(name));
         return NextResponse.json(
-            { message: "Retrived user successful", data: retrivedUser },
+            { message: "Clear authentication successful" },
             { status: StatusCode.SUCCESS }
         );
     } catch (error: any) {
-        return errorHandler(error);
+        errorHandler(error);
     }
 }
