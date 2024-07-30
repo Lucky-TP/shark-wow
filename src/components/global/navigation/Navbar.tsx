@@ -19,7 +19,7 @@ export default function Navbar({}: Props) {
                     </li>
                    <li>
                         <Link href='/explore'>
-                            <h1 className='text-gray-600 text-lg font-medium'>EXPLORE</h1>
+                            <h1 className='text-gray-600 text-lg font-medium'>SHARK WOW</h1>
                         </Link>
                    </li>
                     
