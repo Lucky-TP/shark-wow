@@ -4,7 +4,7 @@ import PopularProject from "src/components/homepage/PopularProject";
 
 export default function RootPage() {
     return (
-        <section>
+        <section className="">
             <HeroSection/>
             <PopularProject/>
             <PopularCreator/>
