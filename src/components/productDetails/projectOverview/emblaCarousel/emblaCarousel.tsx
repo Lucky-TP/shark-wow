@@ -12,7 +12,7 @@ import Autoplay from 'embla-carousel-autoplay'
 import useEmblaCarousel from 'embla-carousel-react'
 
 import './embra.css'
-import Image from 'next/image.js'
+import { Image } from 'antd'
 
 type PropType = {
   slides: any[]
@@ -48,37 +48,32 @@ const EmblaCarousel = (props : PropType) => {
   } = usePrevNextButtons(emblaApi, onNavButtonClick)
 
   return (
-    <section className="flex flex-col">
-      <div className="embla__viewport" ref={emblaRef}>
-        <div className="embla__container">
+    <section className="flex flex-col items-center justify-center embla h-full gap-y-[3vh]">
+      <div className="embla__viewport overflow-x-hidden h-[70vh]" ref={emblaRef}>
+        <div className="embla__container h-full flex items-center">
           {slides.map((e) => (
             <div className="embla__slide" key={e}>
               <div className="embla__slide__number">
-                <Image src={e.image} alt='' width={500} height={500}/>
+                <Image src={e.image} alt=''/>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="embla__controls">
-        <div className="embla__buttons">
+      <div className="flex flex-row justify-between  px-[1vw] w-full">
           <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
+          <div className="flex flex-row items-center justify-center gap-x-[0.5vw] overflow-x-auto max-w-[30vw] px-[3vw]">
+              {slides.map((slide, index) => (
+                <DotButton
+                  slide={slide}
+                  currentIndex={index}
+                  key={slide.id}
+                  onClick={() => onDotButtonClick(index)}
+                />
+              ))}              
+          </div>
           <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
-        </div>
-
-        <div className="embla__dots">
-          {scrollSnaps.map((_, index) => (
-            <DotButton
-              key={index}
-              onClick={() => onDotButtonClick(index)}
-              className={'embla__dot'.concat(
-                index === selectedIndex ? ' embla__dot--selected' : ''
-                
-              ) }
-            />
-          ))}
-        </div>
       </div>
     </section>
   )

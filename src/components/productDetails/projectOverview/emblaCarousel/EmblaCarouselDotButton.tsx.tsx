@@ -51,14 +51,24 @@ import React, {
     }
   }
   
-  type PropType = ComponentPropsWithRef<'button'>
+  type SlideType = {
+    image: string;
+    // add other properties of the slide object
+  }
+  
+  type PropType = ComponentPropsWithRef<'button'> & { slide: SlideType, currentIndex: number }
   
   export const DotButton: React.FC<PropType> = (props) => {
     const { children, ...restProps } = props
-  
+    console.log(props.slide.image)
+
     return (
-      <button type="button" {...restProps}>
-        {children}
+      // className='border-2 border-gray-500 p-1 rounded-full
+      <button
+        type="button" {...restProps}
+        className='cursor-pointer max-w-[5vw] min-w-[5vw]'
+      > 
+        <img src={props.slide.image} alt='' className='w-full'/>
       </button>
     )
   }
