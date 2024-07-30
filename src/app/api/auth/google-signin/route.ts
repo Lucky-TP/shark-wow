@@ -11,7 +11,7 @@ import { findOrCreateUser } from "src/utils/auth";
 
 export async function POST(request: NextRequest) {
     try {
-        const { userIdToken }: SignInPayload = await request.json();
+        const { userIdToken } : SignInPayload = await request.json();
 
         if (!userIdToken) {
             return NextResponse.json(

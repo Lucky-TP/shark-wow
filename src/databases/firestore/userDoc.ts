@@ -31,7 +31,7 @@ export async function getUser(uid: string) {
             throw new CustomError("User not exists", StatusCode.NOT_FOUND);
         }
 
-        return userSnapshot.data();
+        return userSnapshot.data() as UserModel;
     } catch (error: any) {
         throw error;
     }
