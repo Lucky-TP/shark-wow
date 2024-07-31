@@ -12,7 +12,9 @@ export default function TargetStage({stage}: Props) {
   return (
     <li
         key={stage.stageId}
-        className="flex flex-col items-center bg-gray-100 min-w-[60vw] h-[60vh] rounded-lg shadow-lg my-[3vh] hover:shadow-xl hover:scale-[1.02] transition-all duration-500 hover:translate-y-[-2vh] cursor-default"
+        className="flex flex-col items-center justify-between bg-gray-100 min-w-[60vw] h-[60vh] px-[2vw] py-[3vh]
+        rounded-lg shadow-lg hover:shadow-xl hover:scale-[1.02]
+        transition-all duration-500 hover:translate-y-[-2vh] cursor-pointer"
     >
         {/* <img
         alt={stage.name}
@@ -20,20 +22,43 @@ export default function TargetStage({stage}: Props) {
         className="w-full rounded-t-lg cursor-pointer"
         draggable={false}
         /> */}
-        <div className='flex flex-col justify-between px-[1.5vw] my-[1.5vh] gap-y-[1vh]'>
-        <p className="text-red-500 text-sm font-normal">
-            {stage.name}
-        </p>
-        <h3 className="text-xl font-semibold text-gray-800">{stage.name}</h3>
-        <span className="flex items-center text-gray-600 ml-[0.5vw]">
-            <FaLocationDot className="text-base mr-2" />
-            <p className="text-base">Start: {stage.startDate.toDateString()}</p>
-        </span>
-        <span className="flex items-center text-gray-600 ml-[0.5vw]">
-            <FaLocationDot className="text-base mr-2" />
-            <p className="text-base">End: {stage.expireDate.toDateString()}</p>
-        </span>
+        <div className='flex flex-col justify-between px-[1.5vw] my-[1.5vh] gap-y-[1vh] w-full'>
+            <p className="text-red-500 text-sm font-normal">
+                {stage.name}
+            </p>
+            <h3 className="text-xl font-semibold text-gray-800">{stage.name}</h3>
+            <span className="flex items-center text-gray-600 ml-[0.5vw]">
+                <FaLocationDot className="text-base mr-2" />
+                <p className="text-base">Start: {stage.startDate.toDateString()}</p>
+            </span>
+            <span className="flex items-center text-gray-600 ml-[0.5vw]">
+                <FaLocationDot className="text-base mr-2" />
+                <p className="text-base">End: {stage.expireDate.toDateString()}</p>
+            </span>
         </div>
+        <div className='flex flex-col w-full'>
+            <p>
+                {stage.detail}
+            </p>
+            <p>
+                Current Funding {stage.currentFunding}
+            </p>
+            <p>
+                Goal funding this stage {stage.goalFunding}
+            </p>
+            <p>
+                {stage.totalSupporter}
+            </p>
+            <p>
+                {stage.stageId}
+            </p>           
+        </div>
+        <div className='flex items-center justify-center w-full'>
+            <button className='px-[4vw] py-[2vh] bg-orange-400 rounded-xl'>
+                Support this stage
+            </button>
+        </div>
+
     </li>
   )
 }

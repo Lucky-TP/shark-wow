@@ -17,7 +17,7 @@ export default function MainProjectTabs({}: Props) {
         <section >
             <ul className='flex flex-row justify-between '>
                 <li
-                    className='bg-orange-200 w-full h-full flex items-center text-center justify-center py-[3vh] hover:bg-orange-300 cursor-pointer'
+                    className={` ${activeTab === 'story' ? 'bg-orange-400' : 'bg-orange-200'} w-full h-full flex items-center text-center justify-center py-[3vh] hover:bg-orange-300 cursor-pointer `}
                     onClick={() => setActiveTab('story')}
                 >
                     <h2 className='text-xl font-semibold'>
@@ -25,7 +25,7 @@ export default function MainProjectTabs({}: Props) {
                     </h2>
                 </li>
                 <li
-                    className='bg-orange-200 w-full h-full flex items-center text-center justify-center py-[3vh] hover:bg-orange-300 cursor-pointer'
+                    className={` ${activeTab === 'stage' ? 'bg-orange-300' : 'bg-orange-200'} w-full h-full flex items-center text-center justify-center py-[3vh] hover:bg-orange-300 cursor-pointer `}
                     onClick={() => setActiveTab('stage')}
                 >                    
                     <h2 className='text-xl font-semibold'>
@@ -33,7 +33,7 @@ export default function MainProjectTabs({}: Props) {
                     </h2>
                 </li>
                 <li
-                    className='bg-orange-200 w-full h-full flex items-center text-center justify-center py-[3vh] hover:bg-orange-300 cursor-pointer'
+                    className={` ${activeTab === 'update' ? 'bg-orange-300' : 'bg-orange-200'} w-full h-full flex items-center text-center justify-center py-[3vh] hover:bg-orange-300 cursor-pointer `}
                     onClick={() => setActiveTab('update')}
                 >
                     <h2 className='text-xl font-semibold'>
@@ -41,7 +41,7 @@ export default function MainProjectTabs({}: Props) {
                     </h2>
                 </li>
                 <li
-                    className='bg-orange-200 w-full h-full flex items-center text-center justify-center py-[3vh] hover:bg-orange-300 cursor-pointer'
+                    className={` ${activeTab === 'discussion' ? 'bg-orange-300' : 'bg-orange-200'} w-full h-full flex items-center text-center justify-center py-[3vh] hover:bg-orange-300 cursor-pointer `}
                     onClick={() => setActiveTab('discussion')}
                 >
                     <h2 className='text-xl font-semibold'>
@@ -49,7 +49,7 @@ export default function MainProjectTabs({}: Props) {
                     </h2>
                 </li>
                 <li
-                    className='bg-orange-200 w-full h-full flex items-center text-center justify-center py-[3vh] hover:bg-orange-300 cursor-pointer'
+                    className={` ${activeTab === 'to-creator' ? 'bg-orange-300' : 'bg-orange-200'} w-full h-full flex items-center text-center justify-center py-[3vh] hover:bg-orange-300 cursor-pointer `}
                     onClick={() => setActiveTab('to-creator')}
                 >   
                     <h2 className='text-xl font-semibold'>

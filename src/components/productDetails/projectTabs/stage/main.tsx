@@ -162,7 +162,6 @@ export default function ProjectStages() {
             <Skeleton active />
           </li>
         }
-
       </ul>
     </section>
   );
