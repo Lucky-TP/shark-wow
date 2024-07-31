@@ -32,6 +32,7 @@ export async function PUT(request: NextRequest) { //edit user info
         await userDoc.update({firstName: body.firstName || currentUserData.firstName,
             lastName: body.lastName || currentUserData.lastName,
             aboutMe: body.aboutMe || currentUserData.aboutMe,
+            //profileImageUrl: body.profileImageUrl || currentUserData.profileImageUrl,
             address: body.address || currentUserData.address,
             contact: body.contact || currentUserData.contact});
         
