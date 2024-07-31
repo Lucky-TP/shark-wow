@@ -8,7 +8,7 @@ export default function Page({ params} : any) {
     console.log(params.projectId)
 
     return (
-        <section className='flex flex-col py-[3vh]'>
+        <section className='flex flex-col py-[5vh]'>
             <MainProjectOverview/>
         </section>
     )
