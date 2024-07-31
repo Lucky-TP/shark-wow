@@ -5,6 +5,12 @@ export function getDoc(path: string, id: number | string) {
     return doc;
 }
 
+export async function getDocAndSnapshot(path: string, id: number | string) {
+    const doc = getDoc(path, id);
+    const snapshot = await doc.get();
+    return { doc, snapshot };
+}
+
 export function getCollection(path: string) {
     const collection = db.collection(path);
     return collection;
