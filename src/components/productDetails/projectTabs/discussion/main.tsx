@@ -4,8 +4,8 @@ type Props = {}
 
 export default function MainProjectDiscussion({}: Props) {
   return (
-    <section>
-        
+    <section className='w-full bg-slate-200 h-[50vh]'>
+        discussion project
     </section>
   )
 }

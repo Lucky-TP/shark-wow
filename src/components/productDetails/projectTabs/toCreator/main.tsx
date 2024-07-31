@@ -4,8 +4,8 @@ type Props = {}
 
 export default function MainProjectToCreator({}: Props) {
   return (
-    <section>
-        
+    <section className='w-full bg-slate-200 h-[50vh]'>
+        to creator project
     </section>
   )
 }
