@@ -67,7 +67,6 @@ const EmblaCarousel = (props : PropType) => {
               {slides.map((slide, index) => (
                 <DotButton
                   slide={slide}
-                  currentIndex={index}
                   key={slide.id}
                   onClick={() => onDotButtonClick(index)}
                 />

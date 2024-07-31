@@ -4,7 +4,7 @@ import MainProjectOverview from 'src/components/productDetails/projectOverview/m
 import MainProjectTabs from 'src/components/productDetails/projectTabs/main'
 
 export default function Page({params} : any) {
-    console.log(params.projectId)
+    console.log('getting project ?Id ',params.projectID)
     return (
         <section className='flex flex-col pt-[5vh] gap-y-[5vh]'>
             <MainProjectOverview/>

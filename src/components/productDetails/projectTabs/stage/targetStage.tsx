@@ -53,9 +53,11 @@ export default function TargetStage({stage}: Props) {
                 {stage.stageId}
             </p>           
         </div>
-        <div className='flex items-center justify-center w-full'>
-            <button className='px-[4vw] py-[2vh] bg-orange-400 rounded-xl'>
-                Support this stage
+        <div className='flex items-center justify-center w-full '>
+            <button className='px-[4vw] py-[2vh] bg-orange-400 rounded-xl shadow-md hover:shadow-lg  hover:scale-[1.03] transition-all duration-500'>
+                <p className='text-white text-lg'>
+                    Support this stage
+                </p>
             </button>
         </div>
 
