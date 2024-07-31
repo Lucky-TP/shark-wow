@@ -7,7 +7,7 @@ type Props = {}
 
 export default function ProjectOverview({}: Props) {
   return (
-    <section className='flex flex-col max-h-[80vh] min-h-[70vh] w-full pl-[2vw] pr-[4vw] gap-y-[2vh] '>
+    <section className='flex flex-col h-full w-full pl-[2vw] pr-[4vw] gap-y-[1vh] '>
         <ProjectOverviewInfo/>
         <ProjectStat/>
         <InteractProject/>
