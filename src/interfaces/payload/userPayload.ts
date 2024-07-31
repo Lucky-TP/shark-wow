@@ -20,7 +20,8 @@ export interface EditUserPayload {
     firstName?: string;
     lastName?: string;
     aboutMe?: string;
-    //profileImageUrl?: string;
     address?: Address;
     contact?: Contact;
+    profileImageFile?: Blob;
+    cvFile?: Blob;
 }
