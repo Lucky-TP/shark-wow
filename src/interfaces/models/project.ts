@@ -8,7 +8,7 @@ interface Update {
     belongTo?: StageId;
 }
 
-interface Stage {
+export interface Stage {
     stageId: StageId;
     name: string;
     startDate: Date;

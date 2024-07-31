@@ -57,7 +57,7 @@ export default function MainProjectTabs({}: Props) {
                     </h2>
                 </li>
             </ul>
-            <section>
+            <section className='py-[5vh] bg-orange-50'>
                 {
                     activeTab === 'story' && (
                         <MainProjectStory/>
