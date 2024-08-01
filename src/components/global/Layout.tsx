@@ -1,8 +1,8 @@
 "use client"
 import { type NextPage } from "next";
 import { Layout as AntdLayout } from "antd";
-import Navbar from "./global/navigation/Navbar";
-import Footer from "./global/footer/Footer";
+import Navbar from "./navigation/Navbar";
+import Footer from "./footer/Footer";
 import { usePathname } from "next/navigation";
 interface Props {
     children: React.ReactNode;
