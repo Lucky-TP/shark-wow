@@ -12,7 +12,7 @@ export default function TargetStage({stage}: Props) {
   return (
     <li
         key={stage.stageId}
-        className="flex flex-col items-center justify-between bg-gray-100 min-w-[60vw] h-[60vh] px-[2vw] py-[3vh]
+        className="flex flex-col items-center justify-between bg-gray-100 md:min-w-[40vw] max-w-[40vw] h-[60vh] px-[2vw] py-[3vh]
         rounded-lg shadow-lg hover:shadow-xl hover:scale-[1.02]
         transition-all duration-500 hover:translate-y-[-2vh] cursor-pointer"
     >

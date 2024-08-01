@@ -65,7 +65,7 @@ export const usePrevNextButtons = (
   
     return (
       <button
-        className="embla__button embla__button--prev"
+        className=" flex items-center justify-center "
         type="button"
         {...restProps}
       >
@@ -82,8 +82,8 @@ export const usePrevNextButtons = (
   
     return (
       <button
-        className="embla__button embla__button--next "
-        type="button"
+      className=" flex items-center justify-center "
+      type="button"
         {...restProps}
       >
       <div className='hover:bg-gray-200 rounded-full p-2 cursor-pointer'>

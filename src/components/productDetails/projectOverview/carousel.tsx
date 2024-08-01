@@ -76,7 +76,7 @@ const SLIDES = [
 export default function ProjectCarousel({}: Props) {
     
     return (
-        <section className='flex justify-center items-center h-full'>
+        <section className='flex justify-center items-center h-full sm:px-[3vw] md:px-0'>
             <EmblaCarousel slides={SLIDES} options={OPTIONS} />
         </section>
     )
