@@ -63,12 +63,12 @@ export default function Signup({}: Props) {
                                     <input className="border border-gray-300 w-full p-3 rounded" type="password" id="password" placeholder="Postal Code" required/>
                                 </div>
                             </div>
+                            <div className="w-full text-center mb-4">
+                                <button type ="submit" className="bg-orange-300  items-center px-3 py-1.5 rounded-full shadow-md hover:bg-orange-200 transition">
+                                        <span className="text-white mx-12 my-">Sign up</span>
+                                </button>
+                            </div>
                         </form>
-                        <div className="w-full text-center mb-4">
-                            <button type ="submit" className="bg-orange-300  items-center px-3 py-1.5 rounded-full shadow-md hover:bg-orange-200 transition">
-                                    <span className="text-white mx-12 my-">Sign up</span>
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>

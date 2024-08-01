@@ -48,18 +48,18 @@ export default function Signin({}: Props) {
                             <div className="w-full mb-4">
                                 <input className="border border-gray-300 w-full p-3 rounded" type="password" id="password" placeholder="Password"/>
                             </div>
+                            <div className="w-full text-left mb-4">
+                                <a href="#" className="underline text-orange-300 hover:text-orange-200">Forgot your password?</a>
+                            </div>
+                            <div className="w-full mt-auto text-center mb-4">
+                                <p className="mb-4 text-sm text-gray-600">By clicking the Sign In button below, you agree to the Shark wow <a href="#" className="underline text-orange-300 hover:text-orange-200">Terms of Service</a> and acknowledge the <a href="#" className="underline text-orange-300 hover:text-orange-200">Privacy Notice</a>.</p>
+                            </div>
+                            <div className="w-full text-center mb-4">
+                                <button className="bg-orange-300  items-center px-3 py-1.5 rounded-full shadow-md hover:bg-orange-200 transition">
+                                        <span className="text-white mx-12 my-">Sign in</span>
+                                </button>
+                            </div>
                         </form>
-                        <div className="w-full text-left mb-4">
-                            <a href="#" className="underline text-orange-300 hover:text-orange-200">Forgot your password?</a>
-                        </div>
-                        <div className="w-full mt-auto text-center mb-4">
-                            <p className="mb-4 text-sm text-gray-600">By clicking the Sign In button below, you agree to the Shark wow <a href="#" className="underline text-orange-300 hover:text-orange-200">Terms of Service</a> and acknowledge the <a href="#" className="underline text-orange-300 hover:text-orange-200">Privacy Notice</a>.</p>
-                        </div>
-                        <div className="w-full text-center mb-4">
-                            <button className="bg-orange-300  items-center px-3 py-1.5 rounded-full shadow-md hover:bg-orange-200 transition">
-                                    <span className="text-white mx-12 my-">Sign in</span>
-                            </button>
-                        </div>
                         <div className="w-full flex items-center justify-center mb-4">
                             <span className="border-t border-gray-300 flex-grow"></span>
                             <span className="mx-2 text-gray-500">OR</span>
