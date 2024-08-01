@@ -44,6 +44,7 @@ export async function POST(request: NextRequest) {
         };
 
         await addNewUser(newUser);
+        
         return NextResponse.json(
             { message: "Create user successful" },
             { status: StatusCode.CREATED }
