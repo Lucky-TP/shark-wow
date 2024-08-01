@@ -35,9 +35,7 @@ export async function POST(request : NextRequest){
             stages: [{
                 stageId: StageId.CONCEPT,
                 name: "Concept",
-                //startDate: Date,
-                //expireDate: Date,
-                status: StageStatus.INCOMING,
+                status: StageStatus.NOT_USE,
                 detail: "",
                 imageUrl: "",
                 currentFunding: 0,
@@ -47,9 +45,7 @@ export async function POST(request : NextRequest){
             {
                 stageId: StageId.PROTOTYPE,
                 name: "Prototype",
-                //startDate: Date,
-                //expireDate: Date,
-                status: StageStatus.INCOMING,
+                status: StageStatus.NOT_USE,
                 detail: "",
                 imageUrl: "",
                 currentFunding: 0,
@@ -59,9 +55,7 @@ export async function POST(request : NextRequest){
             {
                 stageId: StageId.PRODUCTION,
                 name: "Production",
-                //startDate: Date,
-                //expireDate: Date,
-                status: StageStatus.INCOMING,
+                status: StageStatus.NOT_USE,
                 detail: "",
                 imageUrl: "",
                 currentFunding: 0,
