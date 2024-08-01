@@ -4,8 +4,9 @@ type Props = {}
 
 export default function page({}: Props) {
   return (
-    <section>
-      explore project page placeholder
-    </section>
+    <div>
+        my supporting page place holder
+        see all my supported project
+    </div>
   )
 }

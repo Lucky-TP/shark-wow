@@ -5,10 +5,7 @@ type Props = {}
 export default function page({}: Props) {
   return (
     <div>
-        Form state creating funding details 
-        State config 
-        Project details 
-        Funding details
+        Contributions page place holder
     </div>
   )
 }
