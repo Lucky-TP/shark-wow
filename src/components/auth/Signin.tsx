@@ -31,13 +31,13 @@ export default function SigninPlaceHolder({}: Props) {
                     </Link>
                 <div className='fixed top-20'>
                     <p className="text-white mb-5 mt-20">Welcome back</p>
-                    <h1 className="text-white text-4xl font-medium">Sign in to Shark wow</h1>
+                    <h1 className="text-white text-4xl font-medium">Sign in to Shark Wow</h1>
                 </div>
             </div>
             <div className="w-full flex flex-col justify-center items-center bg-white p-16 rounded-tl-4xl">
                 <div className="w-full pl-20">
                     <div className="text-right text-sm text-gray-600 mb-4 absolute top-10 right-14">
-                        <p>Don't have an account? <a href="#" className="underline text-orange-300 hover:text-orange-200">Sign up</a></p>
+                        <p>Don't have an account? <a href="/sign-up" className="underline text-orange-300 hover:text-orange-200">Sign up</a></p>
                     </div>
                     <div className="flex flex-col mt-24">
                         <p className="font-medium text-gray-700 mb-4">Your account details</p>
