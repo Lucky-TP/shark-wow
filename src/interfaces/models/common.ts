@@ -1,4 +1,4 @@
-import { BlogType } from "./enums";
+import { UserModel } from "./user";
 
 export interface ReceivedComment {
     commentId: number;
@@ -7,7 +7,7 @@ export interface ReceivedComment {
     date: Date;
 }
 
-export interface PopularCreator{
+export interface PopularCreator {
     firstName: string;
     lastName: string;
     profileImageUrl?: string;
@@ -15,3 +15,7 @@ export interface PopularCreator{
     totalProjectSuccess: number;
     totalSupporter: number;
 }
+
+export type UserDataWithDate = Omit<UserModel, "birthDate"> & {
+    birthDate: Date;
+};
