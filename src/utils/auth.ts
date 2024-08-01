@@ -2,8 +2,8 @@ import { CollectionPath } from "src/constants/collection";
 import { addNewUser } from "src/databases/firestore/userDoc";
 import { UserModel } from "src/interfaces/models/user";
 import { getDoc } from "src/databases/firestore/utils";
-import { UserToken } from "src/interfaces/token";
 import { DecodedIdToken } from "firebase-admin/auth";
+import { dateToTimestamp } from "./dateFormat";
 
 export async function findOrCreateUser(
     tokenData: DecodedIdToken
@@ -27,6 +27,7 @@ export async function findOrCreateUser(
                 totalProjectSuccess: 0,
                 totalSupporter: 0,
             },
+            birthDate: dateToTimestamp(new Date()),
             receivedComments: [],
             interestCategories: [],
             address: {
