@@ -63,8 +63,8 @@ export default function MainProjectUpdates() {
   },[])
 
   return (
-      <section className='flex flex-row w-full justify-between px-[3vw] gap-x-[3vw]'>
-          <nav className='flex flex-col w-2/5 items-center'>
+      <section className='flex flex-row w-full justify-between px-[5vw]'>
+          <nav className='flex flex-col  min-w-fit items-center'>
               <h1 className='text-2xl font-semibold  mb-[3vh]'>Progression</h1>
               <ul className='flex flex-col gap-y-[3vh] '>
                   {updateState.update.map((update,index) => (
@@ -76,8 +76,8 @@ export default function MainProjectUpdates() {
                             currentUpdate: index
                           })
                         }}
-                        className='flex items-center justify-center p-3 bg-orange-300 rounded-xl w-full px-[1vw]
-                                  hover:bg-orange-400 hover:scale-[1.02] duration-500 transition-colors cursor-pointer '
+                        className='flex items-center justify-center p-3 bg-orange-300 rounded-xl w-full px-[1vw] shadow-lg
+                                  hover:bg-orange-400 hover:scale-[1.02] duration-500 transition-all cursor-pointer '
                       >
                           <p className='text-lg text-gray-700 font-medium text-center'>
                             {update.detail}
