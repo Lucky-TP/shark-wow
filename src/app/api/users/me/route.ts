@@ -5,18 +5,27 @@ import { getUser } from "src/databases/firestore/userDoc";
 import { getDocAndSnapshot } from "src/databases/firestore/utils";
 import { errorHandler } from "src/utils/errors/errorHandler";
 import { withAuthVerify } from "src/utils/withAuth";
-import { UserModel } from "src/interfaces/models/user";
 import { EditUserPayload } from "src/interfaces/payload/userPayload";
 import { uploadFile } from "src/services/fileService";
+import { timestampToDate } from "src/utils/dateFormat";
 import { StoragePath } from "src/constants/storage";
+import { UserModel } from "src/interfaces/models/user";
+import { UserDataWithDate } from "src/interfaces/models/common";
 
 export async function GET(request: NextRequest) {
     //get user info
     try {
         const tokenData = await withAuthVerify(request);
         const retrivedUser = await getUser(tokenData.uid);
+
+        const { birthDate, ...user } = retrivedUser;
+        const modifyUser: UserDataWithDate = {
+            ...user,
+            birthDate: timestampToDate(birthDate),
+        };
+
         return NextResponse.json(
-            { message: "Retrived user successful", data: retrivedUser },
+            { message: "Retrived user successful", data: modifyUser },
             { status: StatusCode.SUCCESS }
         );
     } catch (error: any) {
