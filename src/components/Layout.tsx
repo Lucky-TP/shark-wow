@@ -9,7 +9,7 @@ interface Props {
 }
 
 const Layout: NextPage<Props> = ({children}) => {
-    const hiddenPaths = ["/sign-in"]; // Add more path to hide Navbar and Footer
+    const hiddenPaths = ["/sign-in", "/sign-up"]; // Add more path to hide Navbar and Footer
     const currentPath = usePathname();
     const hideNavbarAndFooter = hiddenPaths.includes(currentPath);
 
