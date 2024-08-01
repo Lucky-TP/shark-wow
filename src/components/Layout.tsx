@@ -1,17 +1,23 @@
+"use client"
 import { type NextPage } from "next";
 import { Layout as AntdLayout } from "antd";
 import Navbar from "./global/navigation/Navbar";
 import Footer from "./global/footer/Footer";
+import { usePathname } from "next/navigation";
 interface Props {
     children: React.ReactNode;
 }
 
 const Layout: NextPage<Props> = ({children}) => {
+    const hiddenPaths = ["/sign-in"]; // Add more path to hide Navbar and Footer
+    const currentPath = usePathname();
+    const hideNavbarAndFooter = hiddenPaths.includes(currentPath);
+
     return (
         <AntdLayout className="min-h-screen w-screen">
-            <Navbar/>
+            {!hideNavbarAndFooter && (<Navbar/>)}
             <main className="min-h-screen">{children}</main>
-            <Footer/>
+            {!hideNavbarAndFooter && (<Footer/>)}
         </AntdLayout>
     );
 };
