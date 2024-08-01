@@ -1,8 +1,6 @@
 import React, { useCallback } from 'react'
-
 import { EmblaOptionsType, EmblaCarouselType } from 'embla-carousel'
 import { DotButton, useDotButton } from './EmblaCarouselDotButton.tsx'
-
 import {
   PrevButton,
   NextButton,
@@ -10,7 +8,6 @@ import {
 } from './EmblaCarouselArrowButtons'
 import Autoplay from 'embla-carousel-autoplay'
 import useEmblaCarousel from 'embla-carousel-react'
-
 import './embra.css'
 import { Image } from 'antd'
 
@@ -19,7 +16,7 @@ type PropType = {
   options?: EmblaOptionsType
 }
 
-const EmblaCarousel = (props : PropType) => {
+const EmblaCarousel = (props: PropType) => {
   const { slides, options } = props
   const [emblaRef, emblaApi] = useEmblaCarousel(options, [Autoplay()])
 
@@ -52,27 +49,27 @@ const EmblaCarousel = (props : PropType) => {
       <div className="embla__viewport overflow-x-hidden h-[70vh]" ref={emblaRef}>
         <div className="embla__container h-full flex items-center">
           {slides.map((e) => (
-            <div className="embla__slide" key={e}>
+            <div className="embla__slide" key={e.id}>
               <div className="embla__slide__number">
-                <Image src={e.image} alt=''/>
+                <Image src={e.image} alt='' />
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="flex flex-row justify-between  px-[1vw] w-full">
-          <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
-          <div className="flex flex-row items-center justify-center gap-x-[0.5vw] overflow-x-auto max-w-[30vw] px-[3vw]">
-              {slides.map((slide, index) => (
-                <DotButton
-                  slide={slide}
-                  key={slide.id}
-                  onClick={() => onDotButtonClick(index)}
-                />
-              ))}              
-          </div>
-          <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
+      <div className="flex flex-row justify-between px-[1vw] w-full">
+        <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
+        <div className="flex flex-row items-center justify-center gap-x-[0.5vw] overflow-x-auto max-w-[30vw] px-[3vw]">
+          {slides.map((slide, index) => (
+            <DotButton
+              slide={slide}
+              key={slide.id}
+              onClick={() => onDotButtonClick(index)}
+            />
+          ))}
+        </div>
+        <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
       </div>
     </section>
   )
