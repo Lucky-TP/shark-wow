@@ -1,5 +1,5 @@
 import React from 'react';
-import { Product } from 'src/types/product';
+import { Product } from 'src/mock/types/product';
 import ProductCard from './ProductCard/ProductCard';
 
 type ProductListProps = {
