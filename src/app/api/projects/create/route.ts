@@ -28,7 +28,12 @@ export async function POST(request : NextRequest){
             name: "",
             images: [],
             description: "",
-            address: "",
+            address: {
+                country: "",
+                city: "",
+                province: "",
+                postalCode: ""
+            },
             totalSupporter: 0,
             status: ProjectStatus.DRAFT,
             categories: [],

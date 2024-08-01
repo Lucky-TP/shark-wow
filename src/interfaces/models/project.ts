@@ -1,6 +1,13 @@
 import { ReceivedComment } from "./common";
 import { ProjectStatus, StageId, StageStatus } from "./enums";
 
+export interface Address {
+    country: string;
+    city: string;
+    province: string;
+    postalCode: string;
+}
+
 export interface Update {
     id: number;
     detail: string;
@@ -27,7 +34,7 @@ export interface ProjectModel {
     name: string;
     images: string[];
     description: string;
-    address: string;
+    address: Address;
     totalSupporter: number;
     status: ProjectStatus;
     categories: string[];
