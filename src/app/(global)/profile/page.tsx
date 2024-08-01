@@ -1,15 +1,20 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
 import axios, { AxiosResponse } from "axios";
-import { Button } from "antd";
+
+
 import { useAuth } from "src/utils/useAuth";
 import { signOut } from "src/services/authService";
+
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { Button } from "antd";
+
 import { apiPath, pagePath } from "src/constants/routePath";
 import { UserModel } from "src/interfaces/models/user";
 import { GetUserResponse } from "src/interfaces/response/userResponse";
-import FileUpload from "src/components/FileUpload";
+
+import FileUpload from "src/components/global/FileUpload";
 
 export default function ProfilePage() {
     const [user, setUser] = useState<UserModel>();
