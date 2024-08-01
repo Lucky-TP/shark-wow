@@ -1,6 +1,6 @@
 import React from 'react'
 
-import MainProjectOverview from 'src/components/productDetails/projectOverview/main'
+import MainProjectOverview from 'src/components/productDetails/projectOverview/Main'
 import MainProjectTabs from 'src/components/productDetails/projectTabs/main'
 
 export default function Page({params} : any) {
