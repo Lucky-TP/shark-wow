@@ -25,51 +25,41 @@ const SLIDES = [
         description: 'Slide 3 description',
         image: '/assets/shark.png'
     },     {
-        id: 1,
+        id: 4,
         title: 'Slide 1',
         description: 'Slide 1 description',
         image: '/nuk.jpg'
     }, {
-        id: 2,
+        id: 5,
         title: 'Slide 2',
         description: 'Slide 2 description',
         image: '/shark2.jpg'
     }, {
-        id: 3,
+        id: 6,
         title: 'Slide 3',
         description: 'Slide 3 description',
         image: '/assets/shark.png'
     },     {
-        id: 1,
+        id: 7,
         title: 'Slide 1',
         description: 'Slide 1 description',
         image: '/nuk.jpg'
     }, {
-        id: 2,
+        id: 8,
         title: 'Slide 2',
         description: 'Slide 2 description',
         image: '/shark2.jpg'
     }, {
-        id: 3,
+        id: 9,
         title: 'Slide 3',
         description: 'Slide 3 description',
         image: '/assets/shark.png'
     },     {
-        id: 1,
+        id: 10,
         title: 'Slide 1',
         description: 'Slide 1 description',
         image: '/nuk.jpg'
-    }, {
-        id: 2,
-        title: 'Slide 2',
-        description: 'Slide 2 description',
-        image: '/shark2.jpg'
-    }, {
-        id: 3,
-        title: 'Slide 3',
-        description: 'Slide 3 description',
-        image: '/assets/shark.png'
-    }, 
+    }
 ]
 
 

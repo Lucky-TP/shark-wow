@@ -7,7 +7,7 @@ type Props = {}
 
 export default function MainProjectOverview({}: Props) {
   return (
-    <section className='flex flex-row justify-between  h-full w-full'>
+    <section className='flex flex-row justify-between py-[5vh] h-full w-full bg-orange-50'>
         <div className='w-8/12'>
              <ProjectCarousel />
         </div>

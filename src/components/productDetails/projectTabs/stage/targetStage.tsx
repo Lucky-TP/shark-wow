@@ -12,8 +12,8 @@ export default function TargetStage({stage}: Props) {
   return (
     <li
         key={stage.stageId}
-        className="flex flex-col items-center justify-between bg-gray-100 md:min-w-[40vw] max-w-[40vw] h-[60vh] px-[2vw] py-[3vh]
-        rounded-lg shadow-lg hover:shadow-xl hover:scale-[1.02]
+        className="flex flex-col items-center justify-between bg-orange-100 md:min-w-[40vw] max-w-[40vw] h-[60vh] px-[2vw] py-[3vh]
+        rounded-lg  hover:shadow-xl hover:scale-[1.02] hover:bg-orange-200 border border-orange-200 shadow-xl
         transition-all duration-500 hover:translate-y-[-2vh] cursor-pointer"
     >
         {/* <img
@@ -54,7 +54,7 @@ export default function TargetStage({stage}: Props) {
             </p>           
         </div>
         <div className='flex items-center justify-center w-full '>
-            <button className='px-[4vw] py-[2vh] bg-orange-400 rounded-xl shadow-md hover:shadow-lg  hover:scale-[1.03] transition-all duration-500'>
+            <button className='px-[4vw] py-[2vh] bg-orange-400 rounded-xl shadow-md hover:shadow-lg  hover:scale-[1.03] hover:bg-orange-600 transition-all duration-700'>
                 <p className='text-white text-lg'>
                     Support this stage
                 </p>
