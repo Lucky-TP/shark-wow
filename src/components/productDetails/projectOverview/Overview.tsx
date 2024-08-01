@@ -1,7 +1,7 @@
 import React from 'react'
-import ProjectOverviewInfo from './overview/info'
-import ProjectStat from './overview/projectStat'
-import InteractProject from './overview/interactProject'
+import ProjectOverviewInfo from './overview/Info'
+import ProjectStat from './overview/ProjectStat'
+import InteractProject from './overview/InteractProject'
 
 type Props = {}
 
@@ -10,7 +10,8 @@ export default function ProjectOverview({}: Props) {
     <section className='flex flex-col h-full w-full pl-[2vw] pr-[4vw] gap-y-[1vh] '>
         <ProjectOverviewInfo/>
         <ProjectStat/>
-        <InteractProject/>
+        <InteractProject/> 
+        
     </section>
   )
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import MainProjectOverview from 'src/components/productDetails/projectOverview/Main'
-import MainProjectTabs from 'src/components/productDetails/projectTabs/main'
+import MainProjectTabs from 'src/components/productDetails/projectTabs/Main'
 
 export default function Page({params} : any) {
     // console.log('getting project ?Id ',params.projectID)

@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 
-import EmblaCarousel from './emblaCarousel/emblaCarousel'
+import EmblaCarousel from './emblaCarousel/EmblaCarousel'
 import { EmblaOptionsType } from 'embla-carousel'
 
 type Props = {}
