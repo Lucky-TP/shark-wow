@@ -1,7 +1,7 @@
 import { ReceivedComment } from "./common";
 import { ProjectStatus, StageId, StageStatus } from "./enums";
 
-interface Update {
+export interface Update {
     id: number;
     detail: string;
     date: Date;
