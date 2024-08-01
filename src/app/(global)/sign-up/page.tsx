@@ -1,10 +1,10 @@
 "use client";
-import SignupPlaceHolder from "src/components/auth/Signup";
+import Signup from "src/components/auth/Signup";
 
 export default function SigninPage() {
     return (
         <>
-            <SignupPlaceHolder/>
+            <Signup/>
         </>
     );
 }
