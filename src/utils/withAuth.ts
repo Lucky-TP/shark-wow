@@ -6,15 +6,10 @@ import { UserToken } from "src/interfaces/token";
 import { CustomError } from "./errors/customError";
 import { StatusCode } from "src/constants/statusCode";
 
-export async function withAuth(request: NextRequest) {
+export async function withAuthVerify(request: NextRequest) {
     const userToken = request.cookies.get(USER_TOKEN)?.value;
     if (!userToken) {
         throw new CustomError("Unauthorized", StatusCode.UNAUTHORIZED);
     }
-    return userToken;
-}
-
-export async function withAuthAndVerify(request: NextRequest) {
-    const userToken = await withAuth(request);
     return verifyToken(userToken) as UserToken;
 }

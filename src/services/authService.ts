@@ -9,6 +9,7 @@ import {
 import { auth } from "src/libs/firebase/firebaseClient";
 import { apiPath } from "src/constants/routePath";
 import { SignInPayload } from "src/interfaces/payload/userPayload";
+import { IS_COOKIE_SET } from "src/constants/sessionKeyName";
 
 export function onAuthStateChanged(callback: (user: User | null) => void) {
     return _onAuthStateChanged(auth, callback);
@@ -20,8 +21,8 @@ export async function signInWithGoogle() {
         const result = await signInWithPopup(auth, provider);
         const userIdToken = await result.user.getIdToken();
         const payload: SignInPayload = { userIdToken };
-        await axios.post(apiPath.AUTH, payload);
-        await axios.post(apiPath.USERS.CREATE);
+        await axios.post(apiPath.AUTH.GOOGLE_SIGNIN, payload);
+        sessionStorage.setItem(IS_COOKIE_SET, "true");
     } catch (error: any) {
         console.log(error);
     }
@@ -29,8 +30,9 @@ export async function signInWithGoogle() {
 
 export async function signOut() {
     try {
+        await axios.get(apiPath.AUTH.SIGNOUT);
+        sessionStorage.removeItem(IS_COOKIE_SET);
         const result = await _signOut(auth);
-        await axios.get(apiPath.AUTH);
     } catch (error: any) {
         console.log(error);
     }

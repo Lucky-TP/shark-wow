@@ -21,7 +21,7 @@ export async function addNewUser(userData: UserModel) {
     }
 }
 
-export async function getUser(uid: number) {
+export async function getUser(uid: string) {
     try {
         const userDoc = getDoc(USER_COLLECTION, uid);
         const userSnapshot = await userDoc.get();
@@ -30,7 +30,7 @@ export async function getUser(uid: number) {
             throw new CustomError("User not exists", StatusCode.NOT_FOUND);
         }
 
-        return userSnapshot.data();
+        return userSnapshot.data() as UserModel;
     } catch (error: any) {
         throw error;
     }

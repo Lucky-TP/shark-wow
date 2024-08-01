@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import axios, { AxiosResponse } from "axios";
 import { Button } from "antd";
 import { useAuth } from "src/utils/useAuth";
@@ -56,11 +57,19 @@ export default function ProfilePage() {
             {user && (
                 <div className="mx-auto p-4">
                     <h1 className="text-2xl font-bold mb-4">Profile</h1>
-                    <img
-                        src={user.profileImageUrl}
-                        alt={`${user.firstName} ${user.lastName}`}
-                        className="rounded-full w-32 h-32 mb-4"
-                    />
+                    {user.profileImageUrl && (
+                        <Image
+                            src={user.profileImageUrl}
+                            alt={`${user.firstName} ${user.lastName}`}
+                            className="rounded-full w-32 h-32 mb-4"
+                            width={300}
+                            height={300}
+                        />
+                    )}
+                    <div className="mb-2">
+                        <strong>Username: </strong>
+                        {user.username}
+                    </div>
                     <div className="mb-2">
                         <strong>Name: </strong>
                         {user.firstName} {user.lastName}
@@ -70,42 +79,55 @@ export default function ProfilePage() {
                         {user.email}
                     </div>
                     <div className="mb-2">
-                        <strong>Role: </strong>
-                        {user.role}
+                        <strong>About Me: </strong>
+                        {user.aboutMe}
                     </div>
                     <div className="mb-2">
                         <strong>My Projects: </strong>
-                        {user.myProjectIds.join(", ")}
+                        {user.ownProjectIds.join(", ")}
                     </div>
                     <div className="mb-2">
                         <strong>Favorite Projects: </strong>
                         {user.favoriteProjectIds.join(", ")}
                     </div>
                     <div className="mb-2">
+                        <strong>Popular Detail: </strong>
+                        Total Project Success:{" "}
+                        {user.popularDetail.totalProjectSuccess}, Total
+                        Supporter: {user.popularDetail.totalSupporter}
+                    </div>
+                    <div className="mb-2">
                         <strong>Comments Received: </strong>
                         <ul>
                             {user.receivedComments.map((comment) => (
                                 <li key={comment.commentId}>
-                                    {comment.message}
+                                    {comment.detail}
                                 </li>
                             ))}
                         </ul>
                     </div>
                     <div className="mb-2">
-                        <strong>Transaction Logs: </strong>
-                        <ul>
-                            {user.transactionLogs.map((log) => (
-                                <li key={log.projectId}>
-                                    Project ID: {log.projectId}, Stage ID:{" "}
-                                    {log.stageId}, Cost: {log.cost}, Type:{" "}
-                                    {log.type}
-                                </li>
-                            ))}
-                        </ul>
+                        <strong>Interest Categories: </strong>
+                        {user.interestCategories.join(", ")}
+                    </div>
+                    <div className="mb-2">
+                        <strong>Address: </strong>
+                        {user.address.country}, {user.address.city},{" "}
+                        {user.address.province}, {user.address.postalCode}
+                    </div>
+                    <div className="mb-2">
+                        <strong>Contact: </strong>
+                        Facebook: {user.contact.facebook}, Twitter:{" "}
+                        {user.contact.X}, YouTube: {user.contact.youtube},
+                        Phone: {user.contact.phone}
+                    </div>
+                    <div className="mb-2">
+                        <strong>CV URL: </strong>
+                        {user.cvUrl}
                     </div>
                     <FileUpload />
                     <Button onClick={handleSignOut} type="primary">
-                        SignOut
+                        Sign Out
                     </Button>
                 </div>
             )}

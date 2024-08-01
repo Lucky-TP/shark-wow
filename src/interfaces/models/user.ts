@@ -1,18 +1,19 @@
+import { Timestamp } from "firebase-admin/firestore";
 import { ReceivedComment } from "./common";
 
-interface PopularDetail {
+export interface PopularDetail {
     totalProjectSuccess: number;
     totalSupporter: number;
 }
 
-interface Address {
+export interface Address {
     country: string;
     city: string;
     province: string;
     postalCode: string;
 }
 
-interface Contact {
+export interface Contact {
     facebook: string;
     X: string;
     youtube: string;
@@ -20,7 +21,7 @@ interface Contact {
 }
 
 export interface UserModel {
-    uid: number; // pk
+    uid: string; // pk
     username: string;
     password?: string;
     firstName: string;
@@ -33,7 +34,8 @@ export interface UserModel {
     popularDetail: PopularDetail;
     receivedComments: ReceivedComment[];
     interestCategories: string[];
-    address: Address;
+    birthDate: Timestamp;
+    address: Address[];
     contact: Contact;
     cvUrl: string;
     agreement: boolean;

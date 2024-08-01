@@ -1,57 +1,148 @@
-import Link from 'next/link';
-import React from 'react';
+"use client";
+import Link from "next/link";
+import React from "react";
 
-import { MdAccountCircle } from "react-icons/md";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { UserModel } from "src/interfaces/models/user";
+import { apiPath } from "src/constants/routePath";
+import axios, { AxiosResponse } from "axios";
+import { GetUserResponse } from "src/interfaces/response/userResponse";
+import { signOut } from "src/services/authService";
+import { Dropdown } from "antd";
+import { IS_COOKIE_SET } from "src/constants/sessionKeyName";
+import Image from "next/image";
 
-type Props = {}
+type Props = {};
 
 export default function Navbar({}: Props) {
-  return (
-    <section>
-        <nav className='px-[3vw] bg-gray-200 shadow-md py-[2vh]'>
-            <div className='flex flex-row justify-between items-center'>
-                <ul className='flex flex-row items-center gap-x-[3vw]'>
-                    <li>
+    const checkCookieSet = () => {
+        let value: string | null = null;
+        if (typeof window !== "undefined") {
+            value = sessionStorage.getItem(IS_COOKIE_SET);
+        }
+        if (value) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    const [user, setUser] = useState<UserModel | null>();
+    const router = useRouter();
+    const [isCookieSet, setIsCookieSet] = useState<boolean>(checkCookieSet());
+
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            try {
+                const response: AxiosResponse<GetUserResponse> =
+                    await axios.get(apiPath.USERS.GET_SELF);
+                setUser(response.data.data);
+            } catch (error) {
+                setUser(null);
+                console.error("Error fetching user profile:", error);
+            }
+        };
+        if (isCookieSet) {
+            fetchUserProfile();
+        } else {
+            setUser(null);
+        }
+    }, [isCookieSet]);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const value = checkCookieSet();
+            setIsCookieSet(value);
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    const handleSignOut = async () => {
+        try {
+            await signOut();
+            router.refresh();
+            router.push("/");
+        } catch (error: any) {
+            console.error("Error signing out:", error.message);
+        }
+    };
+
+    // if (loading) {
+    //     return <div>Loading...</div>;
+    // }
+
+    return (
+        <section>
+            <nav className="px-[3vw] bg-gray-200 shadow-md py-[2vh]">
+                <div className="flex flex-row justify-between items-center">
+                    <div className="flex items-center">
                         <Link href="/">
-                            <img src='/assets/shark.png' className='w-[40px] h-[40px] rounded-full' alt="SharkWow Logo" />
-                            {/* Shark Wow group */}
+                            <Image
+                                src="/assets/shark.png"
+                                className="w-[40px] h-[40px] test rounded-full"
+                                alt="SharkWow Logo"
+                                width={40}
+                                height={40}
+                            />
                         </Link>
-                    </li>
-                   <li>
-                        <Link href='/explore'>
-                            <h1 className='text-gray-600 text-lg font-medium'>SHARK WOW</h1>
-                        </Link>
-                   </li>
-                    
-                </ul>
-                <ul className='flex flex-row gap-x-[3vw] items-center'>
-                    {/* <li>
-                        <Link href="/blogs" className='text-gray-800 hover:text-blue-500'>BLOGS</Link>
-                    </li> */}
-                    <li>
-                        <Link href="/create-project" className=''>
-                            <h1 className='text-gray-600 text-lg font-medium'>CREATE PROJECT</h1>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href="/catagories" className=''>
-                             <h1 className='text-gray-600 text-lg font-medium'>CATAGORIES</h1>
-                        </Link>
-                    </li>
- 
-                    <li>
-                        <Link href="/catagories" className=''>
-                             <h1 className='text-gray-600 text-lg font-medium'>SIGN IN / SIGN UP</h1>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href="/my-account" className='text-gray-600 text-lg font-medium flex items-center'>
-                            <MdAccountCircle  className='text-3xl'/>
-                        </Link>
-                    </li>
-                </ul>
-            </div>
-       </nav>
-    </section>
-  )
+                    </div>
+                    <ul className="flex flex-row gap-x-[3vw] items-center">
+                        <li>
+                            <Link
+                                href="/create-project"
+                                className="text-gray-800 hover:text-blue-500"
+                            >
+                                CREATE PROJECT
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                href="/catagories"
+                                className="text-gray-800 hover:text-blue-500"
+                            >
+                                CATAGORIES
+                            </Link>
+                        </li>
+                        <li>
+                            {!user && (
+                                <Link
+                                    href="/sign-in"
+                                    className="text-gray-800 hover:text-blue-500"
+                                >
+                                    SIGN IN / SIGN UP
+                                </Link>
+                            )}
+                            {user && (
+                                <Dropdown
+                                    menu={{
+                                        items: [
+                                            {
+                                                key: "1",
+                                                label: (
+                                                    <div
+                                                        onClick={handleSignOut}
+                                                    >
+                                                        sign out
+                                                    </div>
+                                                ),
+                                                danger: true,
+                                            },
+                                        ],
+                                    }}
+                                >
+                                    <img
+                                        src={user.profileImageUrl}
+                                        alt={`${user.firstName} ${user.lastName}`}
+                                        className="rounded-full w-12 h-12"
+                                    />
+                                </Dropdown>
+                            )}
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </section>
+    );
 }
