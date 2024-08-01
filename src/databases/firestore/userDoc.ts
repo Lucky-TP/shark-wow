@@ -3,7 +3,6 @@ import { StatusCode } from "src/constants/statusCode";
 import { CollectionPath } from "src/constants/collection";
 import { UserModel } from "src/interfaces/models/user";
 import { CustomError } from "src/utils/errors/customError";
-import { UserToken } from "src/interfaces/token";
 
 const USER_COLLECTION = CollectionPath.USER;
 

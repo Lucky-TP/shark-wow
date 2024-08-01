@@ -11,6 +11,7 @@ import { GetUserResponse } from "src/interfaces/response/userResponse";
 import { signOut } from "src/services/authService";
 import { Dropdown } from "antd";
 import { IS_COOKIE_SET } from "src/constants/sessionKeyName";
+import Image from "next/image";
 
 type Props = {};
 
@@ -78,10 +79,12 @@ export default function Navbar({}: Props) {
                 <div className="flex flex-row justify-between items-center">
                     <div className="flex items-center">
                         <Link href="/">
-                            <img
+                            <Image
                                 src="/assets/shark.png"
-                                className="w-[40px] h-[40px] rounded-full"
+                                className="w-[40px] h-[40px] test rounded-full"
                                 alt="SharkWow Logo"
+                                width={40}
+                                height={40}
                             />
                         </Link>
                     </div>
