@@ -14,6 +14,7 @@ export enum StageId {
     CONCEPT = 0,
     PROTOTYPE = 1,
     PRODUCTION = 2,
+    UNDEFINE = 3
 }
 
 export enum StageStatus {
