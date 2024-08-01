@@ -30,12 +30,7 @@ export async function findOrCreateUser(
             birthDate: dateToTimestamp(new Date()),
             receivedComments: [],
             interestCategories: [],
-            address: {
-                country: "",
-                city: "",
-                province: "",
-                postalCode: "",
-            },
+            address: [],
             contact: {
                 facebook: "",
                 X: "",
