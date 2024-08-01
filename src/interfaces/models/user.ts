@@ -35,7 +35,7 @@ export interface UserModel {
     receivedComments: ReceivedComment[];
     interestCategories: string[];
     birthDate: Timestamp;
-    address: Address;
+    address: Address[];
     contact: Contact;
     cvUrl: string;
     agreement: boolean;

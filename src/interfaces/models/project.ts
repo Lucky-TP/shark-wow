@@ -1,18 +1,25 @@
 import { ReceivedComment } from "./common";
 import { ProjectStatus, StageId, StageStatus } from "./enums";
 
-interface Update {
+export interface Address {
+    country: string;
+    city: string;
+    province: string;
+    postalCode: string;
+}
+
+export interface Update {
     id: number;
     detail: string;
     date: Date;
     belongTo?: StageId;
 }
 
-interface Stage {
+export interface Stage {
     stageId: StageId;
     name: string;
-    startDate: Date;
-    expireDate: Date;
+    startDate?: Date;
+    expireDate?: Date;
     status: StageStatus;
     detail: string;
     imageUrl: string;
@@ -27,7 +34,7 @@ export interface ProjectModel {
     name: string;
     images: string[];
     description: string;
-    address: string;
+    address: Address;
     totalSupporter: number;
     status: ProjectStatus;
     categories: string[];
