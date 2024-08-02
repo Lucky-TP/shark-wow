@@ -16,6 +16,13 @@ export interface PopularCreator {
     totalSupporter: number;
 }
 
+export interface Address {
+    country: string;
+    city: string;
+    province: string;
+    postalCode: string;
+}
+
 export type UserDataWithDate = Omit<UserModel, "birthDate"> & {
     birthDate: Date;
 };
