@@ -3,10 +3,11 @@ import { auth } from "src/libs/firebase/firebaseAdmin";
 import { UserIdTokenPayload } from "src/interfaces/payload/authPayload";
 import { StatusCode } from "src/constants/statusCode";
 import { errorHandler } from "src/utils/errors/errorHandler";
-import { createUser } from "src/databases/firestore/userDoc";
 import { signUserSession } from "src/utils/cookie";
-import { getUser } from "src/databases/firestore/userDoc";
 import { UserModel } from "src/interfaces/models/user";
+import { createUser } from "src/databases/firestore/userDoc";
+import { getDocAndSnapshot } from "src/databases/firestore/utils";
+import { CollectionPath } from "src/constants/collection";
 
 export async function POST(request: NextRequest) {
     try {
@@ -20,9 +21,12 @@ export async function POST(request: NextRequest) {
         }
 
         const decodedToken = await auth.verifyIdToken(userIdToken);
-        const existsUser = await getUser(decodedToken.uid);
+        const { snapshot: userSnapshot } = await getDocAndSnapshot(
+            CollectionPath.USER,
+            decodedToken.uid
+        );
 
-        if (!existsUser) {
+        if (!userSnapshot.exists) {
             const userData: Partial<UserModel> = {
                 uid: decodedToken.uid,
                 username: decodedToken.name,
