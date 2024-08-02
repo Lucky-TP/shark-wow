@@ -36,7 +36,7 @@ export async function POST(request : NextRequest){
             },
             totalSupporter: 0,
             status: ProjectStatus.DRAFT,
-            categories: [],
+            categories: "",
             stages: [{
                 stageId: StageId.CONCEPT,
                 name: "Concept",
