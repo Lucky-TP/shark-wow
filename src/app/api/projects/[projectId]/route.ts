@@ -13,7 +13,7 @@ export async function GET(request : NextRequest, {params}: {params: {projectId: 
         if (!projectData){
             return NextResponse.json(
                 { message: "Project not exist" },
-                { status: StatusCode.BAD_REQUEST }
+                { status: StatusCode.NOT_FOUND }
             );
         }
 
