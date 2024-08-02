@@ -3,8 +3,9 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "";
 export const apiPath = {
     AUTH: {
         // BASE: `${API_BASE_URL}/api/auth`,
-        GOOGLE_SIGNIN: `${API_BASE_URL}/api/auth/google-signin`,
-        EMAIL_SIGNIN: `${API_BASE_URL}/api/auth/email-signin`,
+        GOOGLE_SIGNIN: `${API_BASE_URL}/api/auth/signin/google`,
+        EMAIL_SIGNIN: `${API_BASE_URL}/api/auth/signin/email`,
+        EMAIL_SIGNUP: `${API_BASE_URL}/api/auth/signup/email`,
         SIGNOUT: `${API_BASE_URL}/api/auth/signout`,
     },
     USERS: {
