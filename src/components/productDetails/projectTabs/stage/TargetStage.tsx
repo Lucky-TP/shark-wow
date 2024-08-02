@@ -29,11 +29,11 @@ export default function TargetStage({stage}: Props) {
             <h3 className="text-xl font-semibold text-gray-800">{stage.name}</h3>
             <span className="flex items-center text-gray-600 ml-[0.5vw]">
                 <FaLocationDot className="text-base mr-2" />
-                <p className="text-base">Start: {stage.startDate.toDateString()}</p>
+                <p className="text-base">Start: {stage.startDate?.toDateString()}</p>
             </span>
             <span className="flex items-center text-gray-600 ml-[0.5vw]">
                 <FaLocationDot className="text-base mr-2" />
-                <p className="text-base">End: {stage.expireDate.toDateString()}</p>
+                <p className="text-base">End: {stage.expireDate?.toDateString()}</p>
             </span>
         </div>
         <div className='flex flex-col w-full'>

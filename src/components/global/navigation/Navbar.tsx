@@ -4,7 +4,6 @@ import React from "react";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { UserModel } from "src/interfaces/models/user";
 import { apiPath } from "src/constants/routePath";
 import axios, { AxiosResponse } from "axios";
 import { GetUserResponse } from "src/interfaces/response/userResponse";
@@ -12,6 +11,7 @@ import { signOut } from "src/services/authService";
 import { Dropdown } from "antd";
 import { IS_COOKIE_SET } from "src/constants/sessionKeyName";
 import Image from "next/image";
+import { UserDataWithDate } from "src/interfaces/models/common";
 
 type Props = {};
 
@@ -28,7 +28,7 @@ export default function Navbar({}: Props) {
         }
     };
 
-    const [user, setUser] = useState<UserModel | null>();
+    const [user, setUser] = useState<UserDataWithDate | null>();
     const router = useRouter();
     const [isCookieSet, setIsCookieSet] = useState<boolean>(checkCookieSet());
 
