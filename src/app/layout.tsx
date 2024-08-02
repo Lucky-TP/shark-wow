@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 
-import Layout from "src/components/Layout";
+import Layout from "src/components/global/Layout";
 
 export const metadata: Metadata = {
   title: "Shark WoW",
