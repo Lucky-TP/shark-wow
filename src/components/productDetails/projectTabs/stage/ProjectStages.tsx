@@ -153,8 +153,8 @@ export default function ProjectStages() {
         ref={StageList}
       >
         {
-          StagesPayload.stages?.map((stage: Stage) => (
-            <TargetStage stage={stage}/>
+          StagesPayload.stages?.map((stage: Stage, key) => (
+            <TargetStage key={key} stage={stage}/>
           ))
         }
         {(StagesPayload.isLoading || StagesPayload.stages === null) &&
