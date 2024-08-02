@@ -1,7 +1,7 @@
 import React from 'react'
 
 import ProjectCarousel from './Carousel'
-import ProjectOverview from './Overview'
+import ProjectOverview from './ProjectOverview'
 
 type Props = {}
 

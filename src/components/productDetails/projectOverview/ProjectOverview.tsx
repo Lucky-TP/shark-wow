@@ -1,5 +1,5 @@
 import React from 'react'
-import ProjectOverviewInfo from './overview/Info'
+import ProjectOverviewInfo from './overview/ProjectOverviewInfo'
 import ProjectStat from './overview/ProjectStat'
 import InteractProject from './overview/InteractProject'
 

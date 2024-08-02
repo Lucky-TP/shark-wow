@@ -2,11 +2,11 @@
 import React, { useState } from 'react'
 
 
-import MainProjectStory from './story/Main'
-import MainProjectStage from './stage/Main'
-import MainProjectUpdates from './updates/Main'
-import MainProjectDiscussion from './discussion/Main'
-import MainProjectToCreator from './toCreator/Main'
+import MainProjectStory from './story/MainProjectStory'
+import MainProjectStage from './stage/ProjectStages'
+import MainProjectUpdates from './updates/MainProjectUpdates'
+import MainProjectDiscussion from './discussion/MainProjectDiscussion'
+import MainProjectToCreator from './toCreator/MainProjectToCreator'
 
 type Props = {}
 
