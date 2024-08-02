@@ -11,13 +11,13 @@ import { useRouter } from "next/navigation";
 import { Button } from "antd";
 
 import { apiPath, pagePath } from "src/constants/routePath";
-import { UserModel } from "src/interfaces/models/user";
 import { GetUserResponse } from "src/interfaces/response/userResponse";
 
 import FileUpload from "src/components/global/FileUpload";
+import { UserDataWithDate } from "src/interfaces/models/common";
 
 export default function ProfilePage() {
-    const [user, setUser] = useState<UserModel>();
+    const [user, setUser] = useState<UserDataWithDate | null>();
     const [loading, setLoading] = useState<boolean>(false);
     const { user: authUser, authLoading } = useAuth();
     const router = useRouter();
@@ -117,8 +117,8 @@ export default function ProfilePage() {
                     </div>
                     <div className="mb-2">
                         <strong>Address: </strong>
-                        {user.address.country}, {user.address.city},{" "}
-                        {user.address.province}, {user.address.postalCode}
+                        {/* {user.address.country}, {user.address.city},{" "}
+                        {user.address.province}, {user.address.postalCode} */}
                     </div>
                     <div className="mb-2">
                         <strong>Contact: </strong>

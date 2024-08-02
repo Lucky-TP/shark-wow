@@ -53,6 +53,6 @@ export async function GET(request: NextRequest) {
             { status: StatusCode.SUCCESS }
         );
     } catch (error: any) {
-        errorHandler(error);
+        return errorHandler(error);
     }
 }
