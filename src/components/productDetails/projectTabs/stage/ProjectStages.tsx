@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef } from 'react';
 
 import { Stage } from 'src/interfaces/models/project';
 
-import TargetStage from './targetStage';
+import TargetStage from './TargetStage';
 
 import { Skeleton } from 'antd';
 
