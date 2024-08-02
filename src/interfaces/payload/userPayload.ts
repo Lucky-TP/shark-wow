@@ -12,10 +12,6 @@ interface Contact {
     phone?: string;
 }
 
-export interface SignInPayload {
-    userIdToken: string;
-}
-
 export interface EditUserPayload {
     firstName?: string;
     lastName?: string;

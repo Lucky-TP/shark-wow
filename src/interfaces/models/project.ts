@@ -1,12 +1,5 @@
-import { ReceivedComment } from "./common";
+import { Address, ReceivedComment } from "./common";
 import { ProjectStatus, StageId, StageStatus } from "./enums";
-
-export interface Address {
-    country: string;
-    city: string;
-    province: string;
-    postalCode: string;
-}
 
 export interface Update {
     id: number;
