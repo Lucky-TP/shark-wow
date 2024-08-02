@@ -27,7 +27,7 @@ export interface UserModel {
     popularDetail: PopularDetail;
     receivedComments: ReceivedComment[];
     interestCategories: string[];
-    birthDate?: Timestamp;
+    birthDate: Timestamp;
     address: Address[];
     contact: Contact;
     cvUrl: string;
