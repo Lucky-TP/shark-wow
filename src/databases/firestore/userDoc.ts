@@ -1,23 +1,41 @@
-import { getDoc } from "./utils";
+import { getCollection, getDoc } from "./utils";
 import { StatusCode } from "src/constants/statusCode";
 import { CollectionPath } from "src/constants/collection";
 import { UserModel } from "src/interfaces/models/user";
 import { CustomError } from "src/utils/errors/customError";
 import { dateToTimestamp } from "src/utils/dateFormat";
+import { db } from "src/libs/firebase/firebaseAdmin";
 
 const USER_COLLECTION = CollectionPath.USER;
 
 export async function addNewUser(userData: UserModel) {
     try {
-        const userDoc = getDoc(USER_COLLECTION, userData.uid);
-        const userSnapshot = await userDoc.get();
+        const { uid, email } = userData;
+        await db.runTransaction(async (transaction) => {
+            const userCollection = getCollection(USER_COLLECTION);
 
-        if (userSnapshot.exists) {
-            throw new CustomError("User exists", StatusCode.ALREADY_EXISTS);
-        }
+            const userDocRef = userCollection.doc(uid);
+            const userSnapshot = await transaction.get(userDocRef);
+            if (userSnapshot.exists) {
+                throw new CustomError(
+                    "User aleready exists",
+                    StatusCode.ALREADY_EXISTS
+                );
+            }
 
-        await userDoc.set(userData);
-    } catch (error: any) {
+            const querySnapshot = await transaction.get(
+                userCollection.where("email", "==", email)
+            );
+            if (!querySnapshot.empty) {
+                throw new CustomError(
+                    "Email aleready used",
+                    StatusCode.ALREADY_EXISTS
+                );
+            }
+
+            transaction.set(userDocRef, userData);
+        });
+    } catch (error: unknown) {
         throw error;
     }
 }
@@ -25,41 +43,50 @@ export async function addNewUser(userData: UserModel) {
 export async function createUser(
     userData?: Partial<UserModel>
 ): Promise<UserModel> {
-    const uid = userData?.uid;
-    if (!uid) {
-        throw new CustomError("Uid not given", StatusCode.BAD_REQUEST);
+    try {
+        const uid = userData?.uid;
+        if (!uid) {
+            throw new CustomError("Uid not given", StatusCode.BAD_REQUEST);
+        }
+
+        const email = userData?.email;
+        if (!email) {
+            throw new CustomError("Email not given", StatusCode.BAD_REQUEST);
+        }
+
+        const newUser: UserModel = {
+            uid,
+            username: userData?.username || "",
+            firstName: userData?.firstName || "",
+            lastName: userData?.lastName || "",
+            aboutMe: userData?.aboutMe || "",
+            email,
+            profileImageUrl: userData?.profileImageUrl || "",
+            birthDate: userData?.birthDate || dateToTimestamp(new Date()),
+            ownProjectIds: [],
+            favoriteProjectIds: [],
+            popularDetail: {
+                totalProjectSuccess: 0,
+                totalSupporter: 0,
+            },
+            receivedComments: [],
+            interestCategories: [],
+            address: userData?.address || [],
+            contact: userData.contact || {
+                facebook: "",
+                X: "",
+                youtube: "",
+                phone: "",
+            },
+            cvUrl: "",
+            agreement: userData?.agreement || false,
+        };
+
+        await addNewUser(newUser);
+        return newUser;
+    } catch (error: unknown) {
+        throw error;
     }
-
-    const newUser: UserModel = {
-        uid,
-        username: userData?.username || "",
-        firstName: userData?.firstName || "",
-        lastName: userData?.lastName || "",
-        aboutMe: userData?.aboutMe || "",
-        email: userData?.email || "",
-        profileImageUrl: userData?.profileImageUrl || "",
-        birthDate: userData?.birthDate || dateToTimestamp(new Date()),
-        ownProjectIds: [],
-        favoriteProjectIds: [],
-        popularDetail: {
-            totalProjectSuccess: 0,
-            totalSupporter: 0,
-        },
-        receivedComments: [],
-        interestCategories: [],
-        address: userData?.address || [],
-        contact: userData.contact || {
-            facebook: "",
-            X: "",
-            youtube: "",
-            phone: "",
-        },
-        cvUrl: "",
-        agreement: userData?.agreement || false,
-    };
-
-    await addNewUser(newUser);
-    return newUser;
 }
 
 export async function getUser(uid: string) {
