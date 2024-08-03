@@ -1,4 +1,6 @@
+import { Transaction } from "firebase-admin/firestore";
 import { db } from "src/libs/firebase/firebaseAdmin";
+import { CollectionPath } from "src/constants/collection";
 
 export function getDoc(path: string, id: number | string) {
     const doc = db.collection(path).doc(String(id));

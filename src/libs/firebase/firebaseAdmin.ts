@@ -1,6 +1,5 @@
 import {
     initializeApp,
-    applicationDefault,
     getApps,
     cert,
 } from "firebase-admin/app";
