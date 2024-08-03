@@ -21,7 +21,7 @@ export interface PopularCreator {
     totalSupporter: number;
 }
 
-export interface PopularProject {
+export interface ShowProject {
     projectId: number;
     name: string;
     images: string[];
