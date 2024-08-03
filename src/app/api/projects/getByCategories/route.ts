@@ -1,19 +1,28 @@
 import { NextRequest , NextResponse } from "next/server";
 import { errorHandler } from "src/utils/errors/errorHandler";
-import { StatusCode } from "src/constants/statusCode";
-import { CollectionPath } from "src/constants/collection";
 import { getCollection } from "src/databases/firestore/utils";
+import { CollectionPath } from "src/constants/collection";
 import { ProjectModel } from "src/interfaces/models/project";
-import { ProjectStatus, StageId } from "src/interfaces/models/enums";
 import { ShowProject } from "src/interfaces/models/common";
+import { StageId } from "src/interfaces/models/enums";
+import { StatusCode } from "src/constants/statusCode";
 
-export async function GET(request : NextRequest) {
-    try {
+export async function GET( request : NextRequest) {
+    try{
+        const categories = request.nextUrl.searchParams.getAll('categories');
+        
+        if(!categories || categories.length === 0){
+            return NextResponse.json(
+                { message: "Categories parameter is missing or empty"},
+                { status: StatusCode.BAD_REQUEST },
+            );
+        }
+
         const allProjectData = getCollection(CollectionPath.PROJECT);
-        const topTenProject = await allProjectData.where("status","==",ProjectStatus.RUNNING).select("projectId","name","images","description","stages").orderBy('totalSupporter','desc').limit(10).get();
-        const topTen : ShowProject[] = [];
+        const projectWithCategories = await allProjectData.where("categories","in",categories).select("projectId","name","images","description","stages").get();
+        const allProjectInCategories : ShowProject[] = [];
 
-        topTenProject.forEach(project => {
+        projectWithCategories.forEach(project =>{
             const targetProject = project.data() as ProjectModel;
             const tmp : ShowProject = {
                 projectId: targetProject.projectId,
@@ -33,11 +42,11 @@ export async function GET(request : NextRequest) {
                     goalFunding: targetProject.stages[StageId.PRODUCTION].goalFunding
                 }],
             };
-            topTen.push(tmp);
+            allProjectInCategories.push(tmp);
         });
 
         return NextResponse.json(
-            { message: "retrieve 10 popular project successful",data:topTen},
+            { message: "retrieved all project by target categories successful",data:allProjectInCategories},
             { status: StatusCode.SUCCESS },
         );
     }
