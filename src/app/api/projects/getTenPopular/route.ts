@@ -10,8 +10,7 @@ import { PopularProject } from "src/interfaces/models/common";
 export async function GET(request : NextRequest) {
     try {
         const allProjectData = getCollection(CollectionPath.PROJECT);
-        const topTenProject = await allProjectData.where("status","==",ProjectStatus.RUNNING).orderBy('totalSupporter','desc').limit(10).get();
-
+        const topTenProject = await allProjectData.where("status","==",ProjectStatus.RUNNING).select("projectId","name","images","description","stages").orderBy('totalSupporter','desc').limit(10).get();
         const topTen : PopularProject[] = [];
 
         topTenProject.forEach(project => {
