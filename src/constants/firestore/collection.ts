@@ -1,5 +1,3 @@
-
-
 export enum CollectionPath {
     METADATA = "/metadata",
     USER = "/users",

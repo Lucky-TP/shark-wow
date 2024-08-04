@@ -1,9 +1,9 @@
 "use server";
 import { NextRequest } from "next/server";
-import { USER_TOKEN } from "src/constants/cookiesKeyName";
 import { verifyToken } from "./jwt";
+import { CustomError } from "../../libs/errors/apiError";
 import { UserToken } from "src/interfaces/token";
-import { CustomError } from "./errors/customError";
+import { USER_TOKEN } from "src/constants/cookiesKeyName";
 import { StatusCode } from "src/constants/statusCode";
 
 export async function withAuthVerify(request: NextRequest) {

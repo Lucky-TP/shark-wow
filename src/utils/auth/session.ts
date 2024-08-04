@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { DecodedIdToken } from "firebase-admin/auth";
 import { signToken } from "./jwt";
-import { translateDurationToSeconds } from "./dateFormat";
+import { translateDurationToSeconds } from "../date";
 import { UserToken } from "src/interfaces/token";
 import { USER_TOKEN } from "src/constants/cookiesKeyName";
 

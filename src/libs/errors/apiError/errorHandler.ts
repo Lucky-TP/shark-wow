@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { CustomError } from "./customError";
 
-export function errorHandler(err: any) {
+export function errorHandler(err: unknown) {
     if (err instanceof CustomError) {
         return NextResponse.json(
             { message: err.message },
