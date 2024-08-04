@@ -1,47 +1,63 @@
-import { NextRequest , NextResponse } from "next/server";
-import { errorHandler } from "src/utils/errors/errorHandler";
+import { NextRequest, NextResponse } from "next/server";
+import { errorHandler } from "src/libs/errors/apiError";
 import { StatusCode } from "src/constants/statusCode";
-import { CollectionPath } from "src/constants/collection";
-import { getCollection } from "src/databases/firestore/utils";
+import { CollectionPath } from "src/constants/firestore";
+import { getCollectionRef } from "src/libs/databases/firestore";
 import { ProjectModel } from "src/interfaces/models/project";
 import { ProjectStatus, StageId } from "src/interfaces/models/enums";
 import { ShowProject } from "src/interfaces/models/common";
 
-export async function GET(request : NextRequest) {
+export async function GET(request: NextRequest) {
     try {
-        const allProjectData = getCollection(CollectionPath.PROJECT);
-        const topTenProject = await allProjectData.where("status","==",ProjectStatus.RUNNING).select("projectId","name","images","description","stages").orderBy('totalSupporter','desc').limit(10).get();
-        const topTen : ShowProject[] = [];
+        const allProjectData = getCollectionRef(CollectionPath.PROJECT);
+        const topTenProject = await allProjectData
+            .where("status", "==", ProjectStatus.RUNNING)
+            .select("projectId", "name", "images", "description", "stages")
+            .orderBy("totalSupporter", "desc")
+            .limit(10)
+            .get();
+        const topTen: ShowProject[] = [];
 
-        topTenProject.forEach(project => {
+        topTenProject.forEach((project) => {
             const targetProject = project.data() as ProjectModel;
-            const tmp : ShowProject = {
+            const tmp: ShowProject = {
                 projectId: targetProject.projectId,
                 name: targetProject.name,
                 images: targetProject.images,
                 description: targetProject.description,
-                stages: [{
-                    currentFunding: targetProject.stages[StageId.CONCEPT].currentFunding,
-                    goalFunding: targetProject.stages[StageId.CONCEPT].goalFunding
-                },
-                {
-                    currentFunding: targetProject.stages[StageId.PROTOTYPE].currentFunding,
-                    goalFunding: targetProject.stages[StageId.PROTOTYPE].goalFunding
-                },
-                {
-                    currentFunding: targetProject.stages[StageId.PRODUCTION].currentFunding,
-                    goalFunding: targetProject.stages[StageId.PRODUCTION].goalFunding
-                }],
+                stages: [
+                    {
+                        currentFunding:
+                            targetProject.stages[StageId.CONCEPT]
+                                .currentFunding,
+                        goalFunding:
+                            targetProject.stages[StageId.CONCEPT].goalFunding,
+                    },
+                    {
+                        currentFunding:
+                            targetProject.stages[StageId.PROTOTYPE]
+                                .currentFunding,
+                        goalFunding:
+                            targetProject.stages[StageId.PROTOTYPE].goalFunding,
+                    },
+                    {
+                        currentFunding:
+                            targetProject.stages[StageId.PRODUCTION]
+                                .currentFunding,
+                        goalFunding:
+                            targetProject.stages[StageId.PRODUCTION]
+                                .goalFunding,
+                    },
+                ],
             };
             topTen.push(tmp);
         });
 
         return NextResponse.json(
-            { message: "retrieve 10 popular project successful",data:topTen},
-            { status: StatusCode.SUCCESS },
+            { message: "retrieve 10 popular project successful", data: topTen },
+            { status: StatusCode.SUCCESS }
         );
-    }
-    catch (error : any){
+    } catch (error: any) {
         return errorHandler(error);
     }
 }

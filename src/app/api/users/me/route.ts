@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import { CollectionPath } from "src/constants/collection";
+import { CollectionPath } from "src/constants/firestore";
 import { StatusCode } from "src/constants/statusCode";
-import { getUser } from "src/databases/firestore/userDoc";
-import { getDocAndSnapshot } from "src/databases/firestore/utils";
-import { errorHandler } from "src/utils/errors/errorHandler";
-import { withAuthVerify } from "src/utils/withAuth";
+import { getUser } from "src/libs/databases/users";
+import { getDocRef } from "src/libs/databases/firestore";
+import { errorHandler } from "src/libs/errors/apiError";
+import { withAuthVerify } from "src/utils/auth";
 import { EditUserPayload } from "src/interfaces/payload/userPayload";
 import { uploadFile } from "src/services/fileService";
-import { timestampToDate } from "src/utils/dateFormat";
-import { StoragePath } from "src/constants/storage";
+import { timestampToDate } from "src/utils/date";
+import { StoragePath } from "src/constants/firestore/storage";
 import { UserModel } from "src/interfaces/models/user";
 import { UserDataWithDate } from "src/interfaces/models/common";
 
@@ -56,21 +56,19 @@ export async function PUT(request: NextRequest) {
             cvUrl = await uploadFile(cvFile, StoragePath.USER.CV(uid));
         }
 
-        const { doc: userDoc, snapshot: userSnapshot } =
-            await getDocAndSnapshot(CollectionPath.USER, tokenData.uid);
+        const userDocRef = getDocRef(CollectionPath.USER, uid);
+        const userSnapshot = await userDocRef.get();
         if (!userSnapshot.exists) {
             return NextResponse.json(
                 { message: "User not exists" },
                 { status: StatusCode.NOT_FOUND }
             );
         }
-
         const currentUserData = userSnapshot.data() as UserModel;
-        await userDoc.update({
+        await userDocRef.update({
             firstName: body.firstName || currentUserData.firstName,
             lastName: body.lastName || currentUserData.lastName,
             aboutMe: body.aboutMe || currentUserData.aboutMe,
-            //profileImageUrl: body.profileImageUrl || currentUserData.profileImageUrl,
             address: body.address || currentUserData.address,
             contact: body.contact || currentUserData.contact,
             profileImageUrl,
@@ -81,7 +79,7 @@ export async function PUT(request: NextRequest) {
             { message: "Update user successful" },
             { status: StatusCode.SUCCESS }
         );
-    } catch (error: any) {
+    } catch (error: unknown) {
         return errorHandler(error);
     }
 }

@@ -1,14 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
+import { DecodedIdToken } from "firebase-admin/auth";
 import { auth } from "src/libs/firebase/firebaseAdmin";
-import { createUser } from "src/databases/firestore/userDoc";
+import { createUser } from "src/libs/databases/users";
 import { StatusCode } from "src/constants/statusCode";
 import { UserModel } from "src/interfaces/models/user";
 import { EmailSignUpWithToken } from "src/interfaces/payload/authPayload";
-import { signUserSession } from "src/utils/cookie";
-import { milliToTimestamp } from "src/utils/dateFormat";
-import { errorHandler } from "src/utils/errors/errorHandler";
-import { DecodedIdToken } from "firebase-admin/auth";
-import { CustomError } from "src/utils/errors/customError";
+import { signUserSession } from "src/utils/auth";
+import { milliToTimestamp } from "src/utils/date";
+import { CustomError, errorHandler } from "src/libs/errors/apiError";
 
 export async function POST(request: NextRequest) {
     let decodedToken: DecodedIdToken | null = null;

@@ -1,3 +1,5 @@
+"use client";
+
 import axios from "axios";
 import {
     GoogleAuthProvider,
@@ -15,7 +17,7 @@ import {
     EmailSignUpWithToken,
     UserIdTokenPayload,
 } from "src/interfaces/payload/authPayload";
-import { IS_COOKIE_SET } from "src/constants/sessionKeyName";
+import { IS_COOKIE_SET } from "src/constants/sessionStorageKeyName";
 import { EmailSignUpPayload } from "src/interfaces/payload/authPayload";
 
 export function onAuthStateChanged(callback: (user: User | null) => void) {
@@ -31,6 +33,7 @@ export async function signInWithGoogle() {
         await axios.post(apiPath.AUTH.GOOGLE_SIGNIN, userIdTokenPayload);
         sessionStorage.setItem(IS_COOKIE_SET, "true");
     } catch (error: any) {
+        await signOut();
         throw new Error("Sign-in with google failed");
     }
 }
@@ -48,6 +51,7 @@ export async function signInWithEmail(payload: EmailSignInPayload) {
         await axios.post(apiPath.AUTH.EMAIL_SIGNIN, userIdTokenPayload);
         sessionStorage.setItem(IS_COOKIE_SET, "true");
     } catch (error: any) {
+        await signOut();
         throw new Error("Sign-in with email failed");
     }
 }
@@ -65,6 +69,7 @@ export async function signUpWithEmail(payload: EmailSignUpPayload) {
         await axios.post(apiPath.AUTH.EMAIL_SIGNUP, newPayload);
         sessionStorage.setItem(IS_COOKIE_SET, "true");
     } catch (error: any) {
+        await signOut();
         throw new Error("Sign-up with email failed");
     }
 }

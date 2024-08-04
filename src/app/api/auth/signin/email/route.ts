@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { UserIdTokenPayload } from "src/interfaces/payload/authPayload";
 import { auth } from "src/libs/firebase/firebaseAdmin";
-import { signUserSession } from "src/utils/cookie";
-import { errorHandler } from "src/utils/errors/errorHandler";
+import { errorHandler } from "src/libs/errors/apiError";
+import { UserIdTokenPayload } from "src/interfaces/payload/authPayload";
+import { signUserSession } from "src/utils/auth";
 
 export async function POST(request: NextRequest) {
     try {
@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
             { message: "Authentication successful" },
             { status: 200 }
         );
-    } catch (error: any) {
+    } catch (error: unknown) {
         return errorHandler(error);
     }
 }

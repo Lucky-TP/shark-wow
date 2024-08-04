@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { withAuthVerify } from "src/utils/withAuth";
+import { errorHandler } from "src/libs/errors/apiError";
 import { StatusCode } from "src/constants/statusCode";
-import { errorHandler } from "src/utils/errors/errorHandler";
-import { clearUserSession } from "src/utils/cookie";
+import { withAuthVerify, clearUserSession } from "src/utils/auth";
 
 export async function GET(request: NextRequest) {
     try {
@@ -12,7 +11,7 @@ export async function GET(request: NextRequest) {
             { message: "Clear authentication successful" },
             { status: StatusCode.SUCCESS }
         );
-    } catch (error: any) {
+    } catch (error: unknown) {
         return errorHandler(error);
     }
 }
