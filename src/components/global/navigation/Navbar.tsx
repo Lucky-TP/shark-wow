@@ -9,7 +9,7 @@ import axios, { AxiosResponse } from "axios";
 import { GetUserResponse } from "src/interfaces/response/userResponse";
 import { signOut } from "src/services/authService";
 import { Dropdown } from "antd";
-import { IS_COOKIE_SET } from "src/constants/sessionKeyName";
+import { IS_COOKIE_SET } from "src/constants/sessionStorageKeyName";
 import Image from "next/image";
 import { UserDataWithDate } from "src/interfaces/models/common";
 

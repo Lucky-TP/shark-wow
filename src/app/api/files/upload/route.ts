@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { StatusCode } from "src/constants/statusCode";
-import { withAuthVerify } from "src/utils/withAuth";
-import { errorHandler } from "src/utils/errors/errorHandler";
+import { withAuthVerify } from "src/utils/auth";
 import { uploadFile } from "src/services/fileService";
+import { errorHandler } from "src/libs/errors/apiError";
+import { StatusCode } from "src/constants/statusCode";
 
 export async function POST(request: NextRequest) {
     try {
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
             },
             { status: StatusCode.CREATED }
         );
-    } catch (error: any) {
+    } catch (error: unknown) {
         return errorHandler(error);
     }
 }
