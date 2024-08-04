@@ -1,5 +1,10 @@
 import { UserModel } from "./user";
 
+interface Stage{
+    currentFunding: number;
+    goalFunding: number;
+}
+
 export interface ReceivedComment {
     commentId: number;
     uid: number;
@@ -14,6 +19,14 @@ export interface PopularCreator {
     email: string;
     totalProjectSuccess: number;
     totalSupporter: number;
+}
+
+export interface ShowProject {
+    projectId: number;
+    name: string;
+    images: string[];
+    description: string;
+    stages: Stage[];
 }
 
 export interface Address {

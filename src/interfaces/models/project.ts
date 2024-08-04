@@ -30,7 +30,7 @@ export interface ProjectModel {
     address: Address;
     totalSupporter: number;
     status: ProjectStatus;
-    categories: string[];
+    categories: string;
     stages: Stage[];
     story: string;
     discussion: ReceivedComment[];
