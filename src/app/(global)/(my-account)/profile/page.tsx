@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 
-
 import { useAuth } from "src/utils/auth/useAuth";
 import { signOut } from "src/services/authService";
 
