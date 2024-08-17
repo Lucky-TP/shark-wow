@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
     try {
         const { userIdToken }: UserIdTokenPayload = await request.json();
         const decodedToken = await auth.verifyIdToken(userIdToken);
-        signUserSession(decodedToken);
+        await signUserSession(decodedToken);
 
         return NextResponse.json(
             { message: "Authentication successful" },
