@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
         const fileName = (body.file as File).name;
         const downloadUrl = await uploadFile(
             body.file as Blob,
-            StoragePath.USER.PROFILE(uid)
+            `${StoragePath.USER.PROFILE(uid)}`
         );
 
         return NextResponse.json(

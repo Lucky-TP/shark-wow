@@ -1,18 +1,20 @@
 "use server";
 import { bucket } from "src/libs/firebase/firebaseAdmin";
-import { StoragePath } from "src/constants/firestore";
+import { getDownloadURL } from "firebase-admin/storage";
 
-export async function uploadFile(file: Blob, pathName: string) {
+export async function uploadFile(
+    file: Blob,
+    pathName: string
+): Promise<string> {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
     const fileUpload = bucket.file(pathName);
     await fileUpload.save(buffer, {
-        metadata: {
-            contentType: file.type,
-        },
-        public: true,
+        metadata: { contentType: file.type },
     });
-    const downloadUrl = `${StoragePath.BASE_URL}/${pathName}`;
-    return downloadUrl;
+    await fileUpload.makePublic();
+
+    const downloadURL = await getDownloadURL(fileUpload);
+    return downloadURL;
 }
