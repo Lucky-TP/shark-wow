@@ -1,9 +1,16 @@
 import { useRouter } from "next/navigation";
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import { signInWithEmail, signInWithGoogle } from "src/services/authService";
 import { Button } from "antd";
 import Link from "next/link";
-import { EmailSignInPayload } from "src/interfaces/payload/authPayload";
+import {
+    EmailSignInPayload,
+    UserIdTokenPayload,
+} from "src/interfaces/payload/authPayload";
+import { getRedirectResult } from "firebase/auth";
+import { auth } from "src/libs/firebase/firebaseClient";
+import { apiPath } from "src/constants/routePath";
+import axios from "axios";
 
 type Props = {};
 
@@ -11,13 +18,16 @@ export default function Signin({}: Props) {
     const router = useRouter();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState<boolean>(false);
 
     const onSignInWithGoogle = async () => {
         try {
+            setLoading(true);
             await signInWithGoogle();
             router.push("/profile");
         } catch (error: any) {
             console.log(error);
+            setLoading(false);
         }
     };
 
@@ -26,11 +36,37 @@ export default function Signin({}: Props) {
         try {
             const payload: EmailSignInPayload = { email, password };
             await signInWithEmail(payload);
-            router.push("/profile");
         } catch (error: any) {
             console.log(error);
         }
     };
+
+    useEffect(() => {
+        const handleRedirectResult = async () => {
+            try {
+                const result = await getRedirectResult(auth);
+                if (result) {
+                    const userIdToken = await result.user.getIdToken();
+                    const userIdTokenPayload: UserIdTokenPayload = {
+                        userIdToken,
+                    };
+                    await axios.post(
+                        apiPath.AUTH.GOOGLE_SIGNIN,
+                        userIdTokenPayload
+                    );
+                    router.push("/profile");
+                } else {
+                    console.log("No result or user is null");
+                }
+            } catch (error) {
+                console.error("Error getting redirect result:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        handleRedirectResult();
+    }, [router]);
 
     return (
         <section>
