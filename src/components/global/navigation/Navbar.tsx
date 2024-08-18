@@ -9,69 +9,42 @@ import axios, { AxiosResponse } from "axios";
 import { GetUserResponse } from "src/interfaces/response/userResponse";
 import { signOut } from "src/services/authService";
 import { Dropdown } from "antd";
-import { IS_COOKIE_SET } from "src/constants/sessionStorageKeyName";
 import Image from "next/image";
 import { UserDataWithDate } from "src/interfaces/models/common";
+import { useAuth } from "src/hooks/useAuth";
 
 type Props = {};
 
 export default function Navbar({}: Props) {
-    const checkCookieSet = () => {
-        let value: string | null = null;
-        if (typeof window !== "undefined") {
-            value = sessionStorage.getItem(IS_COOKIE_SET);
-        }
-        if (value) {
-            return true;
-        } else {
-            return false;
-        }
-    };
-
-    const [user, setUser] = useState<UserDataWithDate | null>();
     const router = useRouter();
-    const [isCookieSet, setIsCookieSet] = useState<boolean>(checkCookieSet());
-
+    const [user, setUser] = useState<UserDataWithDate | null>();
+    const { user: userHook } = useAuth();
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
                 const response: AxiosResponse<GetUserResponse> =
                     await axios.get(apiPath.USERS.GET_SELF);
-                setUser(response.data.data);
-            } catch (error) {
+                console.log(response);
+                setUser(response.data.data || null);
+            } catch (error: any) {
                 setUser(null);
-                console.error("Error fetching user profile:", error);
             }
         };
-        if (isCookieSet) {
+        if (userHook) {
             fetchUserProfile();
         } else {
             setUser(null);
         }
-    }, [isCookieSet]);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            const value = checkCookieSet();
-            setIsCookieSet(value);
-        }, 1000);
-
-        return () => clearInterval(interval);
-    }, []);
+    }, [userHook, setUser]);
 
     const handleSignOut = async () => {
         try {
             await signOut();
-            router.refresh();
             router.push("/");
         } catch (error: any) {
             console.error("Error signing out:", error.message);
         }
     };
-
-    // if (loading) {
-    //     return <div>Loading...</div>;
-    // }
 
     return (
         <section>

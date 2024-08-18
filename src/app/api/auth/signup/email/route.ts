@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
         };
 
         await createUser(userData);
-        signUserSession(decodedToken);
+        await signUserSession(decodedToken);
 
         return NextResponse.json(
             { message: "Sign-in successful" },

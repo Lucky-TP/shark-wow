@@ -1,13 +1,15 @@
+"use server";
+
 import { cookies } from "next/headers";
 import { DecodedIdToken } from "firebase-admin/auth";
-import { signToken } from "./jwt";
+import { generateJWT } from "./jose";
 import { translateDurationToSeconds } from "../date";
 import { UserToken } from "src/interfaces/token";
 import { USER_TOKEN } from "src/constants/cookiesKeyName";
 
-export function signUserSession(decodedToken: DecodedIdToken) {
+export async function signUserSession(decodedToken: DecodedIdToken) {
     const tokenData: UserToken = { uid: decodedToken.uid };
-    const token = signToken(tokenData);
+    const token = await generateJWT(tokenData);
     const cookieStore = cookies();
     cookieStore.set(USER_TOKEN, token, {
         maxAge: translateDurationToSeconds("1d"),
@@ -17,7 +19,7 @@ export function signUserSession(decodedToken: DecodedIdToken) {
     });
 }
 
-export function clearUserSession() {
+export async function clearUserSession() {
     const cookieStore = cookies();
     cookieStore.getAll().forEach(({ name }) => cookieStore.delete(name));
 }
