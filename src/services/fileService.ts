@@ -1,10 +1,18 @@
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { storage } from "src/libs/firebase/firebaseClient";
+"use server";
+import { bucket } from "src/libs/firebase/firebaseAdmin";
+import { StoragePath } from "src/constants/firestore";
 
-export async function uploadFile(file: Blob, url: string) {
+export async function uploadFile(file: Blob, pathName: string) {
     const arrayBuffer = await file.arrayBuffer();
-    const storageRef = ref(storage, url);
-    const snapshot = await uploadBytes(storageRef, new Uint8Array(arrayBuffer));
-    const downloadUrl = await getDownloadURL(snapshot.ref);
+    const buffer = Buffer.from(arrayBuffer);
+
+    const fileUpload = bucket.file(pathName);
+    await fileUpload.save(buffer, {
+        metadata: {
+            contentType: file.type,
+        },
+        public: true,
+    });
+    const downloadUrl = `${StoragePath.BASE_URL}/${pathName}`;
     return downloadUrl;
 }

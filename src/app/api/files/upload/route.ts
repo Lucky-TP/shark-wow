@@ -3,6 +3,7 @@ import { withAuthVerify } from "src/utils/auth";
 import { uploadFile } from "src/services/fileService";
 import { errorHandler } from "src/libs/errors/apiError";
 import { StatusCode } from "src/constants/statusCode";
+import { StoragePath } from "src/constants/firestore";
 
 export async function POST(request: NextRequest) {
     try {
@@ -24,7 +25,7 @@ export async function POST(request: NextRequest) {
         const fileName = (body.file as File).name;
         const downloadUrl = await uploadFile(
             body.file as Blob,
-            `images/${uid}/${fileName}`
+            StoragePath.USER.PROFILE(uid)
         );
 
         return NextResponse.json(
