@@ -24,7 +24,6 @@ export default function Signin({}: Props) {
         try {
             setLoading(true);
             await signInWithGoogle();
-            router.push("/profile");
         } catch (error: any) {
             console.log(error);
             setLoading(false);
