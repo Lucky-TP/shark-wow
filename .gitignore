@@ -38,3 +38,4 @@ next-env.d.ts
 
 # fire private
 service-account-credentials.json
+certificates
