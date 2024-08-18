@@ -11,7 +11,7 @@ import { signOut } from "src/services/authService";
 import { Dropdown } from "antd";
 import Image from "next/image";
 import { UserDataWithDate } from "src/interfaces/models/common";
-import { useAuth } from "src/utils/auth";
+import { useAuth } from "src/hooks/useAuth";
 
 type Props = {};
 
