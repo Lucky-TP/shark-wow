@@ -16,7 +16,7 @@ export interface EditUserPayload {
     firstName?: string;
     lastName?: string;
     aboutMe?: string;
-    address?: Address;
+    address?: Address[];
     contact?: Contact;
     profileImageFile?: Blob;
     cvFile?: Blob;

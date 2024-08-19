@@ -9,18 +9,17 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "antd";
 
-import { apiPath, pagePath } from "src/constants/routePath";
-import { GetUserResponse } from "src/interfaces/response/userResponse";
+import { pagePath } from "src/constants/routePath";
 
 import FileUpload from "src/components/global/FileUpload";
 import { UserDataWithDate } from "src/interfaces/models/common";
+import { getSelf } from "src/services/apiService/users/getSelf";
 
 export default function ProfilePage() {
     const [user, setUser] = useState<UserDataWithDate | null>();
     const [loading, setLoading] = useState<boolean>(false);
     const { user: authUser, authLoading } = useAuth();
     const router = useRouter();
-
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
@@ -29,9 +28,8 @@ export default function ProfilePage() {
                     router.push(pagePath.SIGNIN);
                     return;
                 }
-                const response: AxiosResponse<GetUserResponse> =
-                    await axios.get(apiPath.USERS.GET_SELF);
-                setUser(response.data.data);
+                const result = await getSelf();
+                setUser(result.data || null);
             } catch (error) {
                 console.error("Error fetching user profile:", error);
             } finally {
