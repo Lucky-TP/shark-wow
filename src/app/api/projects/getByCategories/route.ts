@@ -9,7 +9,7 @@ import { StatusCode } from "src/constants/statusCode";
 
 export async function GET(request: NextRequest) {
     try {
-        const categories = request.nextUrl.searchParams.getAll("categories");
+        const categories = request.nextUrl.searchParams.getAll("category");
 
         if (!categories || categories.length === 0) {
             return NextResponse.json(
