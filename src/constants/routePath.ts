@@ -11,6 +11,8 @@ export const apiPath = {
     USERS: {
         CREATE: `${API_BASE_URL}/api/users/create`,
         GET_SELF: `${API_BASE_URL}/api/users/me`,
+        EDIT_SELF: `${API_BASE_URL}/api/users/me`,
+        GET_TEN_POPULAR: `${API_BASE_URL}/api/users/getTenPopular`,
         GET_BY_ID: (userId: string) => `${API_BASE_URL}/api/users/${userId}`,
         UPDATE: (userId: string) =>
             `${API_BASE_URL}/api/users/${userId}/update`,
@@ -26,6 +28,8 @@ export const apiPath = {
     PROJECTS: {
         CREATE: `${API_BASE_URL}/api/projects/create`,
         GET_ALL: `${API_BASE_URL}/api/projects`,
+        GET_BY_CATEGORIES: `${API_BASE_URL}/api/projects/getByCategories`,
+        GET_TEN_POPULAR: `${API_BASE_URL}/api/projects/getTenPopular`,
         GET_BY_ID: (projectId: string) =>
             `${API_BASE_URL}/api/projects/${projectId}`,
         UPDATE: (projectId: string) =>

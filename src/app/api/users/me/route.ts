@@ -44,16 +44,16 @@ export async function PUT(request: NextRequest) {
 
         const { profileImageFile, cvFile } = body;
 
-        let profileImageUrl = "";
+        let promiseUploadImage: Promise<string> | undefined;
         if (profileImageFile) {
-            profileImageUrl = await uploadFile(
+            promiseUploadImage = uploadFile(
                 profileImageFile,
                 StoragePath.USER.PROFILE(uid)
             );
         }
-        let cvUrl = "";
+        let promiseUploadCv: Promise<string> | undefined;
         if (cvFile) {
-            cvUrl = await uploadFile(cvFile, StoragePath.USER.CV(uid));
+            promiseUploadCv = uploadFile(cvFile, StoragePath.USER.CV(uid));
         }
 
         const userDocRef = getDocRef(CollectionPath.USER, uid);
@@ -64,6 +64,23 @@ export async function PUT(request: NextRequest) {
                 { status: StatusCode.NOT_FOUND }
             );
         }
+
+        if (body.address) {
+            body.address = JSON.parse(body.address as unknown as string);
+        }
+        if (body.contact) {
+            body.contact = JSON.parse(body.contact as unknown as string);
+        }
+
+        let profileImageUrl = "";
+        if (promiseUploadImage) {
+            profileImageUrl = await promiseUploadImage;
+        }
+        let cvUrl = "";
+        if (promiseUploadCv) {
+            cvUrl = await promiseUploadCv;
+        }
+        
         const currentUserData = userSnapshot.data() as UserModel;
         await userDocRef.update({
             firstName: body.firstName || currentUserData.firstName,
