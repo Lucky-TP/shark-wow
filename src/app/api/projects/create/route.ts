@@ -2,9 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { errorHandler } from "src/libs/errors/apiError";
 import { CollectionPath } from "src/constants/firestore";
 import { withAuthVerify } from "src/utils/auth";
-import { getNextId } from "src/libs/databases/metadata";
 import {
-    MetadataId,
     ProjectStatus,
     StageId,
     StageStatus,
@@ -18,19 +16,13 @@ import { addNewProject } from "src/libs/databases/projects";
 export async function POST(request: NextRequest) {
     try {
         const tokenData = await withAuthVerify(request);
-        const { uid } = tokenData;
-        const newProjectId = await getNextId(MetadataId.PROJECT);
 
+        const { uid } = tokenData;
         const userDocRef = getDocRef(CollectionPath.USER, uid);
         const userSnapshot = await userDocRef.get();
 
-        const currentUserData = userSnapshot.data() as UserModel;
-        await userDocRef.update({
-            ownProjectIds: [...currentUserData.ownProjectIds, newProjectId],
-        });
-
         const newProject: ProjectModel = {
-            projectId: newProjectId,
+            projectId: "",
             uid: uid,
             name: "",
             images: [],
@@ -82,13 +74,17 @@ export async function POST(request: NextRequest) {
             website: "",
         };
 
-        await addNewProject(newProject);
+        const newProjectId = await addNewProject(newProject);
+        const currentUserData = userSnapshot.data() as UserModel;
+        await userDocRef.update({
+            ownProjectIds: [...currentUserData.ownProjectIds, newProjectId],
+        });
         return NextResponse.json(
             {
                 message:
                     "Create draft project and update user project successful",
             },
-            { status: StatusCode.SUCCESS }
+            { status: StatusCode.CREATED }
         );
     } catch (error: unknown) {
         return errorHandler(error);
