@@ -22,7 +22,7 @@ export interface Stage {
 }
 
 export interface ProjectModel {
-    projectId: number;
+    projectId: string;
     uid: string;
     name: string;
     images: string[];
