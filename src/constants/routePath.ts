@@ -33,9 +33,9 @@ export const apiPath = {
         GET_BY_ID: (projectId: string) =>
             `${API_BASE_URL}/api/projects/${projectId}`,
         UPDATE: (projectId: string) =>
-            `${API_BASE_URL}/api/projects/${projectId}/update`,
+            `${API_BASE_URL}/api/projects/${projectId}`,
         DELETE: (projectId: string) =>
-            `${API_BASE_URL}/api/projects/${projectId}/delete`,
+            `${API_BASE_URL}/api/projects/${projectId}`,
     },
     COMMENTS: {
         CREATE: `${API_BASE_URL}/api/comments/create`,

@@ -16,6 +16,7 @@ export interface Stage {
     status: StageStatus;
     detail: string;
     imageUrl: string;
+    minimumFunding: number;
     currentFunding: number;
     goalFunding: number;
     totalSupporter: number;
@@ -25,12 +26,12 @@ export interface ProjectModel {
     projectId: string;
     uid: string;
     name: string;
-    images: string[];
+    carouselImageUrls: string[];
     description: string;
     address: Address;
     totalSupporter: number;
     status: ProjectStatus;
-    categories: string;
+    category: string;
     stages: Stage[];
     story: string;
     discussion: ReceivedComment[];
