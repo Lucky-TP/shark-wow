@@ -5,6 +5,8 @@ import { Button, Form, Upload, message as antdMessage } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { apiPath } from "src/constants/routePath";
 import { FileUploadResponse } from "src/interfaces/response/fileResponse";
+import { upload } from "src/services/apiService/files/upload";
+import { FileTypeKeys } from "src/constants/payloadKeys/file";
 
 export default function FileUpload() {
     const [file, setFile] = useState<File | null>(null);
@@ -22,26 +24,33 @@ export default function FileUpload() {
     };
 
     const handleSubmit = async () => {
-        if (!file) {
-            antdMessage.error("Please select a file to upload.");
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append("file", file);
+        // if (!file) {
+        //     antdMessage.error("Please select a file to upload.");
+        //     return;
+        // }
 
         try {
+            const mockFile: Blob = new Blob(["file content 1"], {
+                type: "image/png",
+            });
+
+            const mockFiles: Blob[] = [
+                new Blob(["file content 1"], { type: "image/png" }),
+                new Blob(["file content 2"], { type: "image/png" }),
+                new Blob(["file content 3"], { type: "image/png" }),
+                new Blob(["file content 4"], { type: "image/png" }),
+            ];
+
             setLoading(true);
-            const response: AxiosResponse<FileUploadResponse> =
-                await axios.post(apiPath.FILES.UPLOAD, formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                });
-            setMessage(response.data.message);
-            setImageUrl(response.data.url || null);
+            const response: FileUploadResponse[] = await upload({
+                file: mockFile,
+                fileType: FileTypeKeys.CAROUSEL_IMAGE_FILES,
+                projectId: "QM2gmeMoyqJb35GAbDQe",
+            });
+            setMessage(response[0].message);
+            setImageUrl(response[0].url || null);
             setFile(null);
-            antdMessage.success(response.data.message);
+            antdMessage.success(response[0].message);
         } catch (error: any) {
             setMessage(error.response?.data?.message || "Upload failed");
             antdMessage.error(error.response?.data?.message || "Upload failed");

@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
             projectId: "",
             uid: uid,
             name: "",
-            images: [],
+            carouselImageUrls: [],
             description: "",
             address: {
                 country: "",
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
             },
             totalSupporter: 0,
             status: ProjectStatus.DRAFT,
-            categories: "",
+            category: "",
             stages: [
                 {
                     stageId: StageId.CONCEPT,
@@ -43,6 +43,7 @@ export async function POST(request: NextRequest) {
                     status: StageStatus.NOT_USE,
                     detail: "",
                     imageUrl: "",
+                    minimumFunding: 0,
                     currentFunding: 0,
                     goalFunding: -1,
                     totalSupporter: 0,
@@ -53,6 +54,7 @@ export async function POST(request: NextRequest) {
                     status: StageStatus.NOT_USE,
                     detail: "",
                     imageUrl: "",
+                    minimumFunding: 0,
                     currentFunding: 0,
                     goalFunding: -1,
                     totalSupporter: 0,
@@ -63,6 +65,7 @@ export async function POST(request: NextRequest) {
                     status: StageStatus.NOT_USE,
                     detail: "",
                     imageUrl: "",
+                    minimumFunding: 0,
                     currentFunding: 0,
                     goalFunding: -1,
                     totalSupporter: 0,

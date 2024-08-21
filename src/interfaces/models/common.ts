@@ -1,6 +1,7 @@
 import { UserModel } from "./user";
 
 interface Stage {
+    minimumFunding: number;
     currentFunding: number;
     goalFunding: number;
 }
@@ -24,9 +25,10 @@ export interface PopularCreator {
 export interface ShowProject {
     projectId: string;
     name: string;
-    images: string[];
+    carouselImageUrls: string[];
     description: string;
     stages: Stage[];
+    category: string;
 }
 
 export interface Address {

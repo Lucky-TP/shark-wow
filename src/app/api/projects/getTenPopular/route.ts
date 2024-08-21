@@ -12,7 +12,13 @@ export async function GET(request: NextRequest) {
         const allProjectData = getCollectionRef(CollectionPath.PROJECT);
         const topTenProject = await allProjectData
             .where("status", "==", ProjectStatus.RUNNING)
-            .select("projectId", "name", "images", "description", "stages")
+            .select(
+                "projectId",
+                "name",
+                "carouselImageUrls",
+                "description",
+                "stages"
+            )
             .orderBy("totalSupporter", "desc")
             .limit(10)
             .get();
@@ -23,10 +29,14 @@ export async function GET(request: NextRequest) {
             const tmp: ShowProject = {
                 projectId: targetProject.projectId,
                 name: targetProject.name,
-                images: targetProject.images,
+                carouselImageUrls: targetProject.carouselImageUrls,
                 description: targetProject.description,
+                category: targetProject.category,
                 stages: [
                     {
+                        minimumFunding:
+                            targetProject.stages[StageId.CONCEPT]
+                                .minimumFunding,
                         currentFunding:
                             targetProject.stages[StageId.CONCEPT]
                                 .currentFunding,
@@ -34,6 +44,9 @@ export async function GET(request: NextRequest) {
                             targetProject.stages[StageId.CONCEPT].goalFunding,
                     },
                     {
+                        minimumFunding:
+                            targetProject.stages[StageId.PROTOTYPE]
+                                .minimumFunding,
                         currentFunding:
                             targetProject.stages[StageId.PROTOTYPE]
                                 .currentFunding,
@@ -41,6 +54,9 @@ export async function GET(request: NextRequest) {
                             targetProject.stages[StageId.PROTOTYPE].goalFunding,
                     },
                     {
+                        minimumFunding:
+                            targetProject.stages[StageId.PRODUCTION]
+                                .minimumFunding,
                         currentFunding:
                             targetProject.stages[StageId.PRODUCTION]
                                 .currentFunding,
