@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useRef } from 'react';
-import ProductCard from '../ProductCard';
+import ProductCard from './ProductCard';
 import { productList } from 'src/mock/data/mockData';
 
 type Props = {
   category?: string;  // Optional category string
 };
 
-export default function MultiProductCard({ category }: Props) {
+export default function CarouselProductCard({ category }: Props) {
   const carouselRef = useRef<HTMLDivElement>(null);
 
   const scrollLeft = () => {
@@ -29,7 +29,7 @@ export default function MultiProductCard({ category }: Props) {
 
   return (
     <section className="relative">
-      <p className='pb-2'>{category}</p>
+      <p className='pb-2 font-bold'>{category}</p>
       <div className='relative'>
         <button
           onClick={scrollLeft}
