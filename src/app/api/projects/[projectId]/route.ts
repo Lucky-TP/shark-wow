@@ -6,10 +6,7 @@ import { getDocRef } from "src/libs/databases/firestore";
 import { CollectionPath } from "src/constants/firestore";
 import { ProjectStatus } from "src/interfaces/models/enums";
 import { withAuthVerify } from "src/utils/auth";
-import {
-    EditDraftProjectPayload,
-    EditRunningProjectPayload,
-} from "src/interfaces/payload/projectPayload";
+import { EditProjectPayload } from "src/interfaces/payload/projectPayload";
 
 export async function GET(
     request: NextRequest,
@@ -42,34 +39,35 @@ export async function PUT(
     { params }: { params: { projectId: string } }
 ) {
     try {
+        const tokenData = await withAuthVerify(request);
+        const { uid } = tokenData;
+
         const projectDocRef = getDocRef(
             CollectionPath.PROJECT,
             params.projectId
         );
         const projectSnapshot = await projectDocRef.get();
-        const projectData = projectSnapshot.data() as ProjectModel;
-        const tokenData = await withAuthVerify(request);
-        const { uid } = tokenData;
-
-        if (!projectData) {
+        if (!projectSnapshot.exists) {
             return NextResponse.json(
                 { message: "Project not exist" },
                 { status: StatusCode.NOT_FOUND }
             );
         }
 
-        if (uid != projectData.uid) {
+        const projectData = projectSnapshot.data() as ProjectModel;
+        if (uid !== projectData.uid) {
             return NextResponse.json(
                 { message: "you have no permission to edit this project" },
                 { status: StatusCode.UNAUTHORIZED }
             );
         }
 
+        const body: Partial<EditProjectPayload> = await request.json();
         if (projectData.status == ProjectStatus.DRAFT) {
-            const body: EditDraftProjectPayload = await request.json();
             await projectDocRef.update({
                 name: body.name || projectData.name,
-                images: body.images || projectData.images,
+                carouselImageUrls:
+                    body.carouselImageUrls || projectData.carouselImageUrls,
                 description: body.description || projectData.description,
                 address: body.address || projectData.address,
                 status: body.status || projectData.status,
@@ -81,7 +79,6 @@ export async function PUT(
                 //payment: body.payment || projectData.payment
             });
         } else if (projectData.status == ProjectStatus.RUNNING) {
-            const body: EditRunningProjectPayload = await request.json();
             await projectDocRef.update({
                 description: body.description || projectData.description,
                 status: body.status || projectData.status,
@@ -98,7 +95,7 @@ export async function PUT(
         }
 
         return NextResponse.json(
-            { message: "edit project data successful" },
+            { message: "Edit project data successful" },
             { status: StatusCode.SUCCESS }
         );
     } catch (error: any) {

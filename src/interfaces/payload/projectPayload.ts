@@ -1,43 +1,17 @@
-import { ProjectStatus, StageId, StageStatus } from "../models/enums";
+import { Address } from "../models/common";
+import { ProjectStatus } from "../models/enums";
+import { Stage, Update } from "../models/project";
 
-interface Address {
-    country?: string;
-    city?: string;
-    province?: string;
-    postalCode?: string;
-}
-
-interface Update {
-    detail?: string;
-    date?: Date;
-    belongTo?: StageId;
-}
-
-interface Stage {
-    status?: StageStatus;
-    detail?: string;
-    imageUrl?: string;
-    goalFunding?: number;
-}
-
-export interface EditRunningProjectPayload {
-    description?: string;
-    status?: ProjectStatus;
-    story?: string;
-    update?: Update[];
-    website?: string;
-}
-
-export interface EditDraftProjectPayload {
-    name?: string;
-    images?: string[];
-    description?: string;
-    address?: Address;
-    status?: ProjectStatus;
-    categories?: string;
-    stages?: Stage[];
-    story?: string;
-    update?: Update[];
-    website?: string;
+export interface EditProjectPayload {
+    name: string;
+    carouselImageUrls: string[];
+    description: string;
+    address: Partial<Address>;
+    status: ProjectStatus;
+    categories: string;
+    stages: Partial<Stage>[];
+    story: string;
+    update: Partial<Update>[];
+    website: string;
     //payment?: unknown;
 }
