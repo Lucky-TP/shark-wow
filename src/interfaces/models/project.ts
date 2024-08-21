@@ -31,7 +31,7 @@ export interface ProjectModel {
     address: Address;
     totalSupporter: number;
     status: ProjectStatus;
-    categories: string;
+    category: string;
     stages: Stage[];
     story: string;
     discussion: ReceivedComment[];

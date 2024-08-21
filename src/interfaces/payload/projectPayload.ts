@@ -8,7 +8,7 @@ export interface EditProjectPayload {
     description: string;
     address: Partial<Address>;
     status: ProjectStatus;
-    categories: string;
+    category: string;
     stages: Partial<Stage>[];
     story: string;
     update: Partial<Update>[];
