@@ -28,6 +28,7 @@ export interface ShowProject {
     carouselImageUrls: string[];
     description: string;
     stages: Stage[];
+    category: string;
 }
 
 export interface Address {

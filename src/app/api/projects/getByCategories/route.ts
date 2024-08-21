@@ -38,6 +38,7 @@ export async function GET(request: NextRequest) {
                 name: targetProject.name,
                 carouselImageUrls: targetProject.carouselImageUrls,
                 description: targetProject.description,
+                category: targetProject.category,
                 stages: [
                     {
                         minimumFunding:
