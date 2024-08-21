@@ -1,27 +1,46 @@
-import { Product } from "src/mock/types/product";
+import { ShowProject } from "src/interfaces/models/common";
+export const productList: ShowProject[] = [
+    {
+        projectId: "1",
+        name: "hum yai",
+        images: ["./nuk.jpg"],
+        description: "pom chob hee",
+        stages: [{
+            currentFunding: 5000,
+            goalFunding: 10000
+        }]
+    },
+    {
+        projectId: "2",
+        name: "hum lek",
+        images: ["./assets/shark.png"],
+        description: "pom gead hee",
+        stages: [{
+            currentFunding: 2000,
+            goalFunding: 10000
+        }]
+    },
+    {
+        projectId: "3",
+        name: "hum noy",
+        images: ["./shark2.jpg"],
+        description: "pom doo hee",
+        stages: [{
+            currentFunding: 9000,
+            goalFunding: 10000
+        }]
+    },
+    {
+        projectId: "3",
+        name: "hum big",
+        images: ["./heart.png"],
+        description: "pom doo hee",
+        stages: [{
+            currentFunding: 7000,
+            goalFunding: 10000
+        }]
+    },
 
-export const productList: Product[] = [
-    {
-        id: 1,
-        title: "OggWay",
-        description: "Shark with Turtle",
-        creator: "Pich Super Idol",
-        creatorImageUrl: "nuk.jpg",
-        projectUrl: "https://i.ytimg.com/vi/wfbbWHzKaWw/maxresdefault.jpg",
-        productImageUrl: "shark.png",
-        daysLeft: 14,
-        fundedPercentage: 69,
-    },
-    {
-        id: 2,
-        title: "NUK DEV",
-        description: "This is description from Nuk",
-        creator: "Nuk Company",
-        creatorImageUrl: "nuk.jpg",
-        projectUrl: "https://i.ytimg.com/vi/wfbbWHzKaWw/maxresdefault.jpg",
-        productImageUrl: "shark2.jpg",
-        daysLeft: 2,
-        fundedPercentage: 100,
-    },
+    
     // Add more products as needed
   ];
