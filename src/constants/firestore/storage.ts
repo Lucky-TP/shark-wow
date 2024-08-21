@@ -6,5 +6,8 @@ export const StoragePath = {
         PROFILE: (uid: string) => `users/${uid}/images/profile`,
         CV: (uid: string) => `users/${uid}/files/cv`,
     },
-    PROJECT: {},
+    PROJECT: {
+        CAROUSEL_IMAGES: (uid: string, projectId: string) =>
+            `projects/${uid}/${projectId}/${new Date().getTime()}`,
+    },
 };

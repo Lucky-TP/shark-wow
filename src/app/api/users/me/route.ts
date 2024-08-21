@@ -6,9 +6,7 @@ import { getDocRef } from "src/libs/databases/firestore";
 import { errorHandler } from "src/libs/errors/apiError";
 import { withAuthVerify } from "src/utils/auth";
 import { EditUserPayload } from "src/interfaces/payload/userPayload";
-import { uploadFile } from "src/services/fileService";
 import { timestampToDate } from "src/utils/date";
-import { StoragePath } from "src/constants/firestore/storage";
 import { UserModel } from "src/interfaces/models/user";
 import { UserDataWithDate } from "src/interfaces/models/common";
 
@@ -39,22 +37,20 @@ export async function PUT(request: NextRequest) {
         const tokenData = await withAuthVerify(request);
         const { uid } = tokenData;
 
-        const formData = await request.formData();
-        const body: EditUserPayload = Object.fromEntries(formData);
+        // const formData = await request.formData();
+        // const body: Partial<EditUserPayload> = Object.fromEntries(formData);
 
-        const { profileImageFile, cvFile } = body;
-
-        let promiseUploadImage: Promise<string> | undefined;
-        if (profileImageFile) {
-            promiseUploadImage = uploadFile(
-                profileImageFile,
-                StoragePath.USER.PROFILE(uid)
-            );
-        }
-        let promiseUploadCv: Promise<string> | undefined;
-        if (cvFile) {
-            promiseUploadCv = uploadFile(cvFile, StoragePath.USER.CV(uid));
-        }
+        // let promiseUploadImage: Promise<string> | undefined;
+        // if (profileImageFile) {
+        //     promiseUploadImage = uploadFile(
+        //         profileImageFile,
+        //         StoragePath.USER.PROFILE(uid)
+        //     );
+        // }
+        // let promiseUploadCv: Promise<string> | undefined;
+        // if (cvFile) {
+        //     promiseUploadCv = uploadFile(cvFile, StoragePath.USER.CV(uid));
+        // }
 
         const userDocRef = getDocRef(CollectionPath.USER, uid);
         const userSnapshot = await userDocRef.get();
@@ -65,22 +61,23 @@ export async function PUT(request: NextRequest) {
             );
         }
 
-        if (body.address) {
-            body.address = JSON.parse(body.address as unknown as string);
-        }
-        if (body.contact) {
-            body.contact = JSON.parse(body.contact as unknown as string);
-        }
+        // if (body.address) {
+        //     body.address = JSON.parse(body.address as unknown as string);
+        // }
+        // if (body.contact) {
+        //     body.contact = JSON.parse(body.contact as unknown as string);
+        // }
 
-        let profileImageUrl = "";
-        if (promiseUploadImage) {
-            profileImageUrl = await promiseUploadImage;
-        }
-        let cvUrl = "";
-        if (promiseUploadCv) {
-            cvUrl = await promiseUploadCv;
-        }
-        
+        // let profileImageUrl = "";
+        // if (promiseUploadImage) {
+        //     profileImageUrl = await promiseUploadImage;
+        // }
+        // let cvUrl = "";
+        // if (promiseUploadCv) {
+        //     cvUrl = await promiseUploadCv;
+        // }
+
+        const body: Partial<EditUserPayload> = await request.json();
         const currentUserData = userSnapshot.data() as UserModel;
         await userDocRef.update({
             firstName: body.firstName || currentUserData.firstName,
@@ -88,8 +85,9 @@ export async function PUT(request: NextRequest) {
             aboutMe: body.aboutMe || currentUserData.aboutMe,
             address: body.address || currentUserData.address,
             contact: body.contact || currentUserData.contact,
-            profileImageUrl,
-            cvUrl,
+            profileImageUrl:
+                body.profileImageUrl || currentUserData.profileImageUrl,
+            cvUrl: body.cvUrl || currentUserData.cvUrl,
         });
 
         return NextResponse.json(
