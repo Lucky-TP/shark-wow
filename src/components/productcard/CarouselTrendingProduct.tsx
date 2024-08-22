@@ -3,13 +3,9 @@
 import React, { useRef, useEffect, useState } from 'react';
 import ProductCard from './ProductCard';
 import { ShowProject } from 'src/interfaces/models/common'; // Adjust the import path as needed
-import { getByCategories } from 'src/services/apiService/projects/getByCategories'; // Adjust the import path as needed
+import { getTenPopular } from 'src/services/apiService/projects/getTenPopular'; // Adjust the import path as needed
 
-type Props = {
-  category: string;  // Single category string
-};
-
-export default function CarouselProductCard({ category }: Props) {
+export default function CarouselProductCard() {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [products, setProducts] = useState<ShowProject[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -18,9 +14,9 @@ export default function CarouselProductCard({ category }: Props) {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const data = await getByCategories([category]);  // Pass category as an array with a single element
+        const data = await getTenPopular();  
 
-        setProducts(data.data);  // Assuming the response data structure is { data: ShowProject[] }
+        setProducts(data.data);  
       } catch (error) {
         setError('An error occurred while fetching products.');
         console.error('An error occurred while fetching products:', error);
@@ -30,7 +26,7 @@ export default function CarouselProductCard({ category }: Props) {
     };
 
     fetchProducts();
-  }, [category]);
+  }, []);
 
   const scrollLeft = () => {
     if (carouselRef.current) {
@@ -49,7 +45,7 @@ export default function CarouselProductCard({ category }: Props) {
 
   return (
     <section className="relative">
-      <p className='pb-2 font-bold'>{category}</p>
+      <p className='pb-2 font-bold'>Top 10 Popular Projects</p>
       <div className='relative'>
         <button
           onClick={scrollLeft}
