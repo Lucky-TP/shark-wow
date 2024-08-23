@@ -1,5 +1,6 @@
 import React from 'react';
 import { ShowProject } from 'src/interfaces/models/common';
+import Image from 'next/image';
 
 interface ProductCardProps {
     product: ShowProject;
@@ -14,11 +15,18 @@ const ProductCard = ({ product }: ProductCardProps) => {
             <div className='pl-6 p-3'>
                 <div className="w-full h-full rounded-lg overflow-hidden relative group">
                     <div className="relative w-full h-48"> {/* Fixed height for the image container */}
-                        <img
+                        <Image 
+                        src={`/${product.carouselImageUrls}`} 
+                        alt={'project img'}  
+                        width={500} // Specify the width you want
+                        height={500} // Specify the height you want
+                        className="w-full h-full object-contain" 
+                        />
+                        {/* <img
                             className="w-full h-full object-contain" // Ensure the image fits within the container without cropping
                             src={`/${product.carouselImageUrls}`}
                             alt="project img"
-                        />
+                        /> */}
                         {/* Hover elements */}
                         <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
                             <button className="absolute bottom-2 bg-orange-600 text-white font-semibold py-2 px-4 rounded-full">
