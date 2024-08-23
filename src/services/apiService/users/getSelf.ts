@@ -7,6 +7,7 @@ export async function getSelf(): Promise<GetUserResponse> {
         const result: AxiosResponse<GetUserResponse> = await axios.get(
             apiPath.USERS.GET_SELF
         );
+        result.data.status = result.status;
         return result.data;
     } catch (error: unknown) {
         throw new Error("Get user-self failed");
