@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
 
         const allProjectData = getCollectionRef(CollectionPath.PROJECT);
         const projectWithCategories = await allProjectData
-            .where("categories", "in", categories)
+            .where("category", "in", categories)
             .select(
                 "projectId",
                 "name",
@@ -78,8 +78,7 @@ export async function GET(request: NextRequest) {
 
         return NextResponse.json(
             {
-                message:
-                    "retrieved all project by target categories successful",
+                message: "Retrieved all project by categories successful",
                 data: allProjectInCategories,
             },
             { status: StatusCode.SUCCESS }
