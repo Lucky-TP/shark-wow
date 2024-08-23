@@ -49,7 +49,7 @@ export default function CarouselProductCard() {
       <div className='relative'>
         <button
           onClick={scrollLeft}
-          className='absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-transparent hover:bg-orange-400 p-2 rounded-full flex items-center justify-center h-12 w-12 border border-gray-300 hover:border-gray-500 transition-all duration-300'
+          className='absolute -left-4 top-1/2 transform -translate-y-1/2 z-10 bg-transparent hover:bg-orange-400 p-2 rounded-full flex items-center justify-center h-12 w-12 border border-gray-300 hover:border-gray-500 transition-all duration-300'
         >
           <span className='sr-only'>Scroll Left</span>
           <svg
@@ -73,7 +73,7 @@ export default function CarouselProductCard() {
         </div>
         <button
           onClick={scrollRight}
-          className='absolute right-5 top-1/2 transform -translate-y-1/2 z-10 bg-transparent hover:bg-orange-400 p-2 rounded-full flex items-center justify-center h-12 w-12 border border-gray-300 hover:border-gray-500 transition-all duration-300'
+          className='absolute -right-5 top-1/2 transform -translate-y-1/2 z-10 bg-transparent hover:bg-orange-400 p-2 rounded-full flex items-center justify-center h-12 w-12 border border-gray-300 hover:border-gray-500 transition-all duration-300'
         >
           <span className='sr-only'>Scroll Right</span>
           <svg
