@@ -89,7 +89,7 @@ export default function Signin({}: Props) {
                     <div className="w-full pl-20">
                         <div className="text-right text-sm text-gray-600 mb-4 absolute top-10 right-14">
                             <p>
-                                Don&apost have an account?{" "}
+                                Don't have an account?{" "}
                                 <a
                                     href="/sign-up"
                                     className="underline text-orange-300 hover:text-orange-200"
