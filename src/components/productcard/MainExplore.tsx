@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import CarouselProductCard from 'src/components/productcard/CarouselProductCard';
 import CarouselTrendingProduct from 'src/components/productcard/CarouselTrendingProduct';
 import CategoryProductCard from 'src/components/productcard/CategoryProductCard';
+import Withmock from './withmock';
 
 type Props = {};
 
@@ -37,6 +38,7 @@ export default function MainExplore({}: Props) {
       <div className='text-xl flex flex-col w-10/12'>
         {!selectedCategory && (
           <>
+            {/* <Withmock category='Food'/> */}
             <CarouselTrendingProduct />
             <CarouselProductCard category="Food" />
             <CarouselProductCard category="Technology" />
