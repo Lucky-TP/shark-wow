@@ -1,14 +1,11 @@
-import {
-    GoogleAuthProvider,
-    signInWithRedirect,
-} from "firebase/auth";
+import { GoogleAuthProvider, signInWithRedirect } from "firebase/auth";
 import { signOut } from "./signOut";
 import { auth } from "src/libs/firebase/firebaseClient";
 
 export async function signInWithGoogle() {
     try {
         const provider = new GoogleAuthProvider();
-        signInWithRedirect(auth, provider);
+        await signInWithRedirect(auth, provider);
         // const userIdToken = await userCredential.user.getIdToken();
         // const userIdTokenPayload: UserIdTokenPayload = { userIdToken };
         // await axios.post(apiPath.AUTH.GOOGLE_SIGNIN, userIdTokenPayload);

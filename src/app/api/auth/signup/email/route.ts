@@ -4,16 +4,16 @@ import { auth } from "src/libs/firebase/firebaseAdmin";
 import { createUser } from "src/libs/databases/users";
 import { StatusCode } from "src/constants/statusCode";
 import { UserModel } from "src/interfaces/models/user";
-import { EmailSignUpWithToken } from "src/interfaces/payload/authPayload";
-import { signUserSession } from "src/utils/auth";
+import { EmailSignUpPayload } from "src/interfaces/payload/authPayload";
+import { extractBearerToken, signUserSession } from "src/utils/auth";
 import { milliToTimestamp } from "src/utils/date";
 import { CustomError, errorHandler } from "src/libs/errors/apiError";
 
 export async function POST(request: NextRequest) {
     let decodedToken: DecodedIdToken | null = null;
     try {
-        const body: EmailSignUpWithToken = await request.json();
-        const { userIdToken } = body;
+        const userIdToken = extractBearerToken(request);
+        const body: EmailSignUpPayload = await request.json();
         decodedToken = await auth.verifyIdToken(userIdToken);
 
         // const salt = await genSalt(10);

@@ -2,10 +2,7 @@ import axios from "axios";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { signOut } from "./signOut";
 import { auth } from "src/libs/firebase/firebaseClient";
-import {
-    EmailSignUpPayload,
-    EmailSignUpWithToken,
-} from "src/interfaces/payload/authPayload";
+import { EmailSignUpPayload } from "src/interfaces/payload/authPayload";
 import { apiPath } from "src/constants/routePath";
 import { IS_COOKIE_SET } from "src/constants/sessionStorageKeyName";
 
@@ -18,8 +15,9 @@ export async function signUpWithEmail(payload: EmailSignUpPayload) {
             password
         );
         const userIdToken = await userCredential.user.getIdToken();
-        const newPayload: EmailSignUpWithToken = { ...payload, userIdToken };
-        await axios.post(apiPath.AUTH.EMAIL_SIGNUP, newPayload);
+        await axios.post(apiPath.AUTH.EMAIL_SIGNUP, payload, {
+            headers: { Authorization: `Bearer ${userIdToken}` },
+        });
         sessionStorage.setItem(IS_COOKIE_SET, "true");
     } catch (error: any) {
         await signOut();
