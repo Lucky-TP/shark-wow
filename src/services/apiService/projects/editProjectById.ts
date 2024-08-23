@@ -8,11 +8,12 @@ export async function editProjectById(
     payload: Partial<EditProjectPayload>
 ): Promise<DefaultResponse> {
     try {
-        const response: AxiosResponse<DefaultResponse> = await axios.put(
+        const result: AxiosResponse<DefaultResponse> = await axios.put(
             apiPath.PROJECTS.UPDATE(projectId),
             payload
         );
-        return response.data;
+        result.data.status = result.status;
+        return result.data;
     } catch (error: unknown) {
         throw new Error("Create project failed");
     }

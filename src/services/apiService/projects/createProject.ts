@@ -4,10 +4,11 @@ import { DefaultResponse } from "src/interfaces/response/commonResponse";
 
 export async function createProject(): Promise<DefaultResponse> {
     try {
-        const response: AxiosResponse<DefaultResponse> = await axios.post(
+        const result: AxiosResponse<DefaultResponse> = await axios.post(
             apiPath.PROJECTS.CREATE
         );
-        return response.data;
+        result.data.status = result.status;
+        return result.data;
     } catch (error: unknown) {
         throw new Error("Create project failed");
     }
