@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "src/libs/firebase/firebaseAdmin";
 import { errorHandler } from "src/libs/errors/apiError";
-import { UserIdTokenPayload } from "src/interfaces/payload/authPayload";
-import { signUserSession } from "src/utils/auth";
+import { extractBearerToken, signUserSession } from "src/utils/auth";
 
 export async function POST(request: NextRequest) {
     try {
-        const { userIdToken }: UserIdTokenPayload = await request.json();
+        const userIdToken = extractBearerToken(request);
         const decodedToken = await auth.verifyIdToken(userIdToken);
         await signUserSession(decodedToken);
 

@@ -1,16 +1,12 @@
 import { useRouter } from "next/navigation";
 import { useState, FormEvent, useEffect } from "react";
-import { signInWithEmail, signInWithGoogle } from "src/services/authService";
-import { Button } from "antd";
-import Link from "next/link";
 import {
-    EmailSignInPayload,
-    UserIdTokenPayload,
-} from "src/interfaces/payload/authPayload";
-import { getRedirectResult } from "firebase/auth";
-import { auth } from "src/libs/firebase/firebaseClient";
-import { apiPath } from "src/constants/routePath";
-import axios from "axios";
+    getRedirectResult,
+    signInWithEmail,
+    signInWithGoogle,
+} from "src/services/authService";
+import Link from "next/link";
+import { EmailSignInPayload } from "src/interfaces/payload/authPayload";
 
 type Props = {};
 
@@ -24,11 +20,27 @@ export default function Signin({}: Props) {
         try {
             setLoading(true);
             await signInWithGoogle();
+            // router.push("/redirect-handler");
         } catch (error: any) {
             console.log(error);
+        } finally {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        const handler = async () => {
+            try {
+                const result = await getRedirectResult();
+                if (result) {
+                    router.push("/profile");
+                }
+            } catch (error: unknown) {
+                alert("Contact Nuk");
+            }
+        };
+        handler();
+    }, [router]);
 
     const onSignInWithEmail = async (event: FormEvent) => {
         event.preventDefault();
@@ -40,32 +52,9 @@ export default function Signin({}: Props) {
         }
     };
 
-    useEffect(() => {
-        const handleRedirectResult = async () => {
-            try {
-                const result = await getRedirectResult(auth);
-                if (result) {
-                    const userIdToken = await result.user.getIdToken();
-                    const userIdTokenPayload: UserIdTokenPayload = {
-                        userIdToken,
-                    };
-                    await axios.post(
-                        apiPath.AUTH.GOOGLE_SIGNIN,
-                        userIdTokenPayload
-                    );
-                    router.push("/profile");
-                } else {
-                    console.log("No result or user is null");
-                }
-            } catch (error) {
-                console.error("Error getting redirect result:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        handleRedirectResult();
-    }, [router]);
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <section>
