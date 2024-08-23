@@ -28,7 +28,7 @@ export default function CarouselProductCard({ category }: Props) {
     : productList;
 
   return (
-    <section className="relative bg-[#E5D8CA]">
+    <section className="relative">
       <p className='pb-2 font-bold'>{category}</p>
       <div className='relative'>
         <button
