@@ -47,7 +47,7 @@ export default function MainExplore({}: Props) {
         <div className='text-xl flex flex-col' style={{ width: `73%` }}>
           {!selectedCategory && (
             <>
-              <Withmock category='Food'/>
+              {/* <Withmock category='Food'/> */}
               <CarouselTrendingProduct />
               <CarouselProductCard category="Food" />
               <CarouselProductCard category="Technology" />
