@@ -1,5 +1,4 @@
 import React from 'react';
-import { FaFacebook, FaTwitter, FaYoutube } from 'react-icons/fa';
 
 type Props = {};
 
@@ -36,5 +35,6 @@ export default function UserProfile({}: Props) { // เปลี่ยนชื�
         </div>
    </section>
    </div>
+
   );
 }
