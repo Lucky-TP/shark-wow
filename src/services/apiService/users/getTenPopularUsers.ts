@@ -7,6 +7,7 @@ export async function getTenPopularUsers(): Promise<GetTopTenCreatorResponse> {
         const result: AxiosResponse<GetTopTenCreatorResponse> = await axios.get(
             apiPath.USERS.GET_TEN_POPULAR
         );
+        result.data.status = result.status;
         return result.data;
     } catch (error: unknown) {
         throw new Error("Get ten popular users failed");

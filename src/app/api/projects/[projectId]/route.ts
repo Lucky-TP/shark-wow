@@ -71,7 +71,7 @@ export async function PUT(
                 description: body.description || projectData.description,
                 address: body.address || projectData.address,
                 status: body.status || projectData.status,
-                categories: body.category || projectData.category,
+                category: body.category || projectData.category,
                 stages: body.stages || projectData.stages,
                 story: body.story || projectData.story,
                 update: body.update || projectData.update,

@@ -8,8 +8,9 @@ export async function editSelf(
     payload: Partial<EditUserPayload>
 ): Promise<DefaultResponse> {
     try {
-        const response = await axios.put(apiPath.USERS.EDIT_SELF, payload);
-        return response.data;
+        const result = await axios.put(apiPath.USERS.EDIT_SELF, payload);
+        result.data.status = result.status;
+        return result.data;
     } catch (error: unknown) {
         throw new Error("Edit user-self failed");
     }
