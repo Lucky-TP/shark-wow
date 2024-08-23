@@ -17,7 +17,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
                     <div className="relative w-full h-48"> {/* Fixed height for the image container */}
                         <img
                             className="w-full h-full object-contain" // Ensure the image fits within the container without cropping
-                            src={`/${product.carouselImageUrls}`}
+                            src={product.carouselImageUrls[0]}
                             alt="project img"
                         />
                         {/* Hover elements */}
