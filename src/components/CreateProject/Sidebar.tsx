@@ -9,7 +9,7 @@ export default function Sidebar() {
     const pathName = usePathname()
 
     const links = [
-        { href: "/create-project/basics", label: "Basics" },
+        { href: "/create-project/basic", label: "Basic" },
         { href: "/create-project/story", label: "Story" },
         { href: "/create-project/stages", label: "Stages" },
         { href: "/create-project/payment", label: "Payment" },
