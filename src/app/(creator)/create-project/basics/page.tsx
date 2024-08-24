@@ -1,11 +1,12 @@
 import FormBasic from "src/components/CreateProject/FormBasic";
 import Sidebar from "src/components/CreateProject/Sidebar";
 
-export default function CreateProject() {
+export default function Basics() {
     return (
         <>
-            <div className="p-4 flex flex-row gap-10">
+            <div className="flex flex-row gap-10 p-4">
                 <Sidebar/>
+                <FormBasic/>
             </div>
         </>
     )
