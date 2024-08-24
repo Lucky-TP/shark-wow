@@ -3,13 +3,16 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "";
 export const apiPath = {
     AUTH: {
         // BASE: `${API_BASE_URL}/api/auth`,
-        GOOGLE_SIGNIN: `${API_BASE_URL}/api/auth/google-signin`,
-        EMAIL_SIGNIN: `${API_BASE_URL}/api/auth/email-signin`,
+        GOOGLE_SIGNIN: `${API_BASE_URL}/api/auth/signin/google`,
+        EMAIL_SIGNIN: `${API_BASE_URL}/api/auth/signin/email`,
+        EMAIL_SIGNUP: `${API_BASE_URL}/api/auth/signup/email`,
         SIGNOUT: `${API_BASE_URL}/api/auth/signout`,
     },
     USERS: {
         CREATE: `${API_BASE_URL}/api/users/create`,
         GET_SELF: `${API_BASE_URL}/api/users/me`,
+        EDIT_SELF: `${API_BASE_URL}/api/users/me`,
+        GET_TEN_POPULAR: `${API_BASE_URL}/api/users/getTenPopular`,
         GET_BY_ID: (userId: string) => `${API_BASE_URL}/api/users/${userId}`,
         UPDATE: (userId: string) =>
             `${API_BASE_URL}/api/users/${userId}/update`,
@@ -25,12 +28,14 @@ export const apiPath = {
     PROJECTS: {
         CREATE: `${API_BASE_URL}/api/projects/create`,
         GET_ALL: `${API_BASE_URL}/api/projects`,
+        GET_BY_CATEGORIES: `${API_BASE_URL}/api/projects/getByCategories`,
+        GET_TEN_POPULAR: `${API_BASE_URL}/api/projects/getTenPopular`,
         GET_BY_ID: (projectId: string) =>
             `${API_BASE_URL}/api/projects/${projectId}`,
         UPDATE: (projectId: string) =>
-            `${API_BASE_URL}/api/projects/${projectId}/update`,
+            `${API_BASE_URL}/api/projects/${projectId}`,
         DELETE: (projectId: string) =>
-            `${API_BASE_URL}/api/projects/${projectId}/delete`,
+            `${API_BASE_URL}/api/projects/${projectId}`,
     },
     COMMENTS: {
         CREATE: `${API_BASE_URL}/api/comments/create`,

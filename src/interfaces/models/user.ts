@@ -1,16 +1,9 @@
 import { Timestamp } from "firebase-admin/firestore";
-import { ReceivedComment } from "./common";
+import { Address, ReceivedComment } from "./common";
 
 export interface PopularDetail {
     totalProjectSuccess: number;
     totalSupporter: number;
-}
-
-export interface Address {
-    country: string;
-    city: string;
-    province: string;
-    postalCode: string;
 }
 
 export interface Contact {

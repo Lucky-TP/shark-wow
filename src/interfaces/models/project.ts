@@ -1,12 +1,5 @@
-import { ReceivedComment } from "./common";
+import { Address, ReceivedComment } from "./common";
 import { ProjectStatus, StageId, StageStatus } from "./enums";
-
-export interface Address {
-    country: string;
-    city: string;
-    province: string;
-    postalCode: string;
-}
 
 export interface Update {
     id: number;
@@ -23,21 +16,22 @@ export interface Stage {
     status: StageStatus;
     detail: string;
     imageUrl: string;
+    minimumFunding: number;
     currentFunding: number;
     goalFunding: number;
     totalSupporter: number;
 }
 
 export interface ProjectModel {
-    projectId: number;
+    projectId: string;
     uid: string;
     name: string;
-    images: string[];
+    carouselImageUrls: string[];
     description: string;
     address: Address;
     totalSupporter: number;
     status: ProjectStatus;
-    categories: string;
+    category: string;
     stages: Stage[];
     story: string;
     discussion: ReceivedComment[];

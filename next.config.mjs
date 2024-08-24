@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
     images: {
         remotePatterns: [
@@ -14,7 +15,21 @@ const nextConfig = {
                 port: "",
                 pathname: "/**", // Match all paths under firebasestorage.googleapis.com
             },
+            {
+                protocol: "https",
+                hostname: "storage.googleapis.com",
+                port: "",
+                pathname: "/**", // Match all paths under storage.googleapis.com
+            },
         ],
+    },
+    async rewrites() {
+        return [
+            {
+                source: "/__/auth/:path*",
+                destination: "https://shark-wow.firebaseapp.com/__/auth/:path*",
+            },
+        ];
     },
 };
 export default nextConfig;

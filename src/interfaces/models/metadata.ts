@@ -1,6 +1,6 @@
 import { MetadataId } from "./enums";
 
-export interface Metadata {
+export interface MetadataModel {
     id: MetadataId;
     lastId: number;
 }
