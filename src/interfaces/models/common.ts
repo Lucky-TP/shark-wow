@@ -6,13 +6,6 @@ interface Stage {
     goalFunding: number;
 }
 
-export interface ReceivedComment {
-    commentId: number;
-    uid: number;
-    detail: string;
-    date: Date;
-}
-
 export interface PopularCreator {
     firstName: string;
     lastName: string;
@@ -36,6 +29,32 @@ export interface Address {
     city: string;
     province: string;
     postalCode: string;
+}
+
+export interface CommentReply {
+    replyId: string
+    repliedToUid: string
+    ownerUid: string
+    date: Date
+    detail: string
+}
+
+export interface CommentProject {
+    commentId: string
+    projectId: string
+    uid: string
+    replys: CommentReply[] 
+    date: Date
+    detail: string
+}
+
+export interface CommentCreator {
+    commentId: string
+    creatorUid: string
+    ownerUid: string
+    replys: CommentReply[]
+    date: Date
+    detail: string
 }
 
 export type UserDataWithDate = Omit<UserModel, "birthDate"> & {

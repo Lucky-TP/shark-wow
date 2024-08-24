@@ -1,5 +1,5 @@
 import { Timestamp } from "firebase-admin/firestore";
-import { Address, ReceivedComment } from "./common";
+import { Address } from "./common";
 
 export interface PopularDetail {
     totalProjectSuccess: number;
@@ -25,7 +25,7 @@ export interface UserModel {
     ownProjectIds: number[];
     favoriteProjectIds: number[];
     popularDetail: PopularDetail;
-    receivedComments: ReceivedComment[];
+    receivedComments: string[];
     interestCategories: string[];
     birthDate: Timestamp;
     address: Address[];
