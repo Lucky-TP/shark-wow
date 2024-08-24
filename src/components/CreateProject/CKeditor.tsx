@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-const CkeditorComponent: React.FC = () => {
+export default function CkeditorComponent() {
   const [editorData, setEditorData] = useState<string>('');
 
   const handleEditorChange = (event: any, editor: any) => {
@@ -26,5 +26,3 @@ const CkeditorComponent: React.FC = () => {
     </div>
   );
 };
-
-export default CkeditorComponent;

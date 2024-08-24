@@ -1,8 +1,8 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import { Form, InputNumber, Button, Typography, Input, DatePicker } from 'antd';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+// import { CKEditor } from '@ckeditor/ckeditor5-react';
+// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
 
@@ -104,13 +104,13 @@ export default function FormStages() {
           </Typography.Paragraph>
         </Form.Item>
         <Form.Item label="Stage Details">
-          <CKEditor
+          {/* <CKEditor
             editor={ClassicEditor}
             data=""
             onChange={(event, editor) => {
               // Handle CKEditor data change if needed
             }}
-          />
+          /> */}
         </Form.Item>
 
         <Title level={3}>Stage 2 : Prototype</Title>
@@ -140,13 +140,13 @@ export default function FormStages() {
           </Typography.Paragraph>
         </Form.Item>
         <Form.Item label="Stage Details">
-          <CKEditor
+          {/* <CKEditor
             editor={ClassicEditor}
             data=""
             onChange={(event, editor) => {
               // Handle CKEditor data change if needed
             }}
-          />
+          /> */}
         </Form.Item>
 
         <Title level={3}>Stage 3 : Production</Title>
@@ -176,13 +176,13 @@ export default function FormStages() {
           </Typography.Paragraph>
         </Form.Item>
         <Form.Item label="Stage Details">
-          <CKEditor
+          {/* <CKEditor
             editor={ClassicEditor}
             data=""
             onChange={(event, editor) => {
               // Handle CKEditor data change if needed
             }}
-          />
+          /> */}
         </Form.Item>
 
         <Form.Item>
