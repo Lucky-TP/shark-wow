@@ -1,11 +1,11 @@
-import React from 'react'
+import Sidebar from "src/components/CreateProject/Sidebar";
 
-type Props = {}
-
-export default function page({}: Props) {
-  return (
-    <section>
-        page
-    </section>
-  )
+export default function CreateProject() {
+    return (
+        <>
+            <div className="p-4 flex flex-row gap-10">
+                <Sidebar/>
+            </div>
+        </>
+    )
 }
