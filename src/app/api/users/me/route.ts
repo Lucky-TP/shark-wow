@@ -8,7 +8,10 @@ import { withAuthVerify } from "src/utils/auth";
 import { EditUserPayload } from "src/interfaces/payload/userPayload";
 import { timestampToDate } from "src/utils/date";
 import { UserModel } from "src/interfaces/models/user";
-import { UserDataWithDate } from "src/interfaces/models/common";
+import { CommentCreator, CommentReply, UserDataWithDate } from "src/interfaces/models/common";
+import { getCollectionRef } from "src/libs/databases/firestore";
+import { CommentCreatorModel } from "src/interfaces/models/commentCreator";
+import { CommentReplyModel } from "src/interfaces/models/commentReply";
 
 export async function GET(request: NextRequest) {
     //get user info
@@ -22,8 +25,62 @@ export async function GET(request: NextRequest) {
             birthDate: timestampToDate(birthDate),
         };
 
+        const commentData = getCollectionRef(CollectionPath.COMMENTCREATOR);
+        const allComment : CommentCreator[] = [];
+
+        if(modifyUser.receivedComments.length !== 0){
+            const commentWithUserId = await commentData
+                .where("commentId", "in", modifyUser.receivedComments)
+                .get();
+
+            await Promise.all(commentWithUserId.docs.map(async (comment) => {
+                const userComment = comment.data() as CommentCreatorModel;
+                const replytData = getCollectionRef(CollectionPath.COMMENTREPLY);
+                const allReply: CommentReply[] = [];
+                if(userComment.replyIds.length !== 0){
+                    const replyWithCommentId = await replytData
+                        .where("replyId", "in", userComment.replyIds)
+                        .get();
+
+                    replyWithCommentId.forEach((reply) => {
+                        const commentReply = reply.data() as CommentReplyModel;
+                        allReply.push(commentReply);
+                    });
+                }
+                const tmp: CommentCreator = {
+                    commentId: userComment.commentId,
+                    creatorUid: userComment.creatorUid,
+                    ownerUid: userComment.ownerUid,
+                    replys: allReply,
+                    date: userComment.date,
+                    detail: userComment.detail,
+                };
+                allComment.push(tmp);
+            }));        
+        }
+
+        const dataUser = {
+            uid: modifyUser.uid,
+            username: modifyUser.username,
+            firstName: modifyUser.firstName,
+            lastName: modifyUser.lastName,
+            aboutMe: modifyUser.aboutMe,
+            email: modifyUser.email,
+            profileImageUrl: modifyUser.profileImageUrl,
+            ownProjectIds: modifyUser.ownProjectIds,
+            favoriteProjectIds: modifyUser.favoriteProjectIds,
+            popularDetail: modifyUser.popularDetail,
+            receivedComments: allComment,
+            interestCategories: modifyUser.interestCategories,
+            birthDate: modifyUser.birthDate,
+            address: modifyUser.address,
+            contact: modifyUser.contact,
+            cvUrl: modifyUser.cvUrl,
+            agreement: modifyUser.agreement
+        }
+
         return NextResponse.json(
-            { message: "Retrived user successful", data: modifyUser },
+            { message: "Retrived user successful", data: dataUser },
             { status: StatusCode.SUCCESS }
         );
     } catch (error: any) {
