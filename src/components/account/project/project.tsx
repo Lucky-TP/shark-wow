@@ -1,10 +1,11 @@
 import React from 'react';
+import CarouselProductCard from "src/components/productcard/CarouselProductCard"
+import Buttonseemore from "src/components/account/project/buttonseemore";
 
 type Props = {};
 
 export default function Myproject({}: Props) { // เปลี่ยนชื่อเป็น UserProfile
   return (
-    <div>
       <section>
         <div className=" bg-[#E5D8CA] flex items-start">
           <div className="w-full">
@@ -26,15 +27,17 @@ export default function Myproject({}: Props) { // เปลี่ยนชื่
             <hr className="border-t-4 border-black w-4/5 my-8 ml-40" />
         </div>
         </div>
-   </section>
-   <section>
         <div className=" bg-[#E5D8CA] flex items-start">
              <div className="w-full">
                 <h1 className="text-5xl text-black text-left mt-20 ml-40">project</h1>
             </div>
         </div>
+        <CarouselProductCard/>
+        <Buttonseemore/>
    </section>
-   </div>
+   
+   
+   
 
   );
 }
