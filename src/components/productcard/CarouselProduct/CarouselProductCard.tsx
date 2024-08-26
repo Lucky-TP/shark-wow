@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect, useState } from "react";
-import ProductCard from "./ProductCard";
+import ProductCard from "../SingleProduct/SingleProductCard";
 import { ShowProject } from "src/interfaces/models/common"; // Adjust the import path as needed
 import { getProjectByCategories } from "src/services/apiService/projects/getProjectByCategories"; // Adjust the import path as needed
 

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from 'react';
-import ProductCard from './ProductCard';
+import ProductCard from './SingleProduct/SingleProductCard';
 import { productList } from 'src/mock/data/mockData';
 
 type Props = {
