@@ -11,7 +11,7 @@ export default function HeroSection({}: Props) {
             <p className="text-xl mb-8">
                 Shark WoW is a web application designed to empower creators and engage supporters. Our platform allows creators to effectively showcase their projects, ideas, and needs. Supporters can explore these listings, find projects that resonate with them, and support the project.
             </p>
-            <button className="bg-blue-600 text-white py-3 px-6 rounded-lg text-lg hover:bg-blue-700 transition duration-300">
+            <button className="bg-primary text-white py-3 px-6 rounded-lg text-lg transition duration-300">
                 Explore Now
             </button>
             </div>
