@@ -25,7 +25,7 @@ export interface UserModel {
     ownProjectIds: number[];
     favoriteProjectIds: number[];
     popularDetail: PopularDetail;
-    receivedComments: string[];
+    receivedCommentIds: string[];
     interestCategories: string[];
     birthDate: Timestamp;
     address: Address[];
