@@ -76,17 +76,6 @@ export default function Signin({}: Props) {
                 </div>
                 <div className="w-full flex flex-col justify-center items-center bg-white p-16 rounded-tl-4xl">
                     <div className="w-full pl-20">
-                        <div className="text-right text-sm text-gray-600 mb-4 absolute top-10 right-14">
-                            <p>
-                                Don&apost have an account?{" "}
-                                <a
-                                    href="/sign-up"
-                                    className="underline text-orange-300 hover:text-orange-200"
-                                >
-                                    Sign up
-                                </a>
-                            </p>
-                        </div>
                         <div className="flex flex-col mt-24">
                             <p className="font-medium text-gray-700 mb-4">
                                 Your account details
@@ -114,15 +103,28 @@ export default function Signin({}: Props) {
                                         }
                                     />
                                 </div>
-                                <div className="w-full text-left mb-4">
-                                    <a
-                                        href="#"
-                                        className="underline text-orange-300 hover:text-orange-200"
-                                    >
-                                        Forgot your password?
-                                    </a>
+                                <div className="flex flex-row justify-between w-full text-left mb-4">
+                                    <div>
+                                        <a
+                                            href="#"
+                                            className="underline text-orange-300 hover:text-orange-200"
+                                        >
+                                            Forgot your password?
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <p>
+                                            {`Don't have an account? `}
+                                            <a
+                                                href="/sign-up"
+                                                className="underline text-orange-300 hover:text-orange-200"
+                                            >
+                                                Sign up
+                                            </a>
+                                        </p>
+                                    </div>
                                 </div>
-                                <div className="w-full mt-auto text-center mb-4">
+                                {/* <div className="w-full mt-auto text-center mb-4">
                                     <p className="mb-4 text-sm text-gray-600">
                                         By clicking the Sign In button below,
                                         you agree to the Shark wow{" "}
@@ -141,7 +143,7 @@ export default function Signin({}: Props) {
                                         </a>
                                         .
                                     </p>
-                                </div>
+                                </div> */}
                                 <div className="w-full text-center mb-4">
                                     <button className="bg-orange-300  items-center px-3 py-1.5 rounded-full shadow-md hover:bg-orange-200 transition">
                                         <span className="text-white mx-12 my-">
