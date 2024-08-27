@@ -11,12 +11,12 @@ import { Button } from "antd";
 
 import { pagePath } from "src/constants/routePath";
 
+import { UserData } from "src/interfaces/models/common";
 import FileUpload from "src/components/global/FileUpload";
-import { UserDataWithDate } from "src/interfaces/models/common";
 import { getSelf } from "src/services/apiService/users/getSelf";
 
 export default function ProfilePage() {
-    const [user, setUser] = useState<UserDataWithDate | null>();
+    const [user, setUser] = useState<UserData | null>();
     const [loading, setLoading] = useState<boolean>(false);
     const { user: authUser, authLoading } = useAuth();
     const router = useRouter();
@@ -86,7 +86,11 @@ export default function ProfilePage() {
                     </div>
                     <div className="mb-2">
                         <strong>My Projects: </strong>
-                        {user.ownProjectIds.join(", ")}
+                        {user.ownProjects.join(", ")}
+                    </div>
+                    <div className="mb-2">
+                        <strong>Recivied Comments: </strong>
+                        {user.receivedComments.join(", ")}
                     </div>
                     <div className="mb-2">
                         <strong>Favorite Projects: </strong>

@@ -1,8 +1,8 @@
 import { DefaultResponse } from "./commonResponse";
-import { PopularCreator, UserDataWithDate } from "../models/common";
+import { PopularCreator, UserData } from "../models/common";
 
 export interface GetUserResponse extends DefaultResponse {
-    data?: UserDataWithDate;
+    data?: UserData;
 }
 
 export interface EditUserResponse extends DefaultResponse {}

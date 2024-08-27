@@ -1,16 +1,10 @@
+import { ProjectModel } from "./project";
 import { UserModel } from "./user";
 
 interface Stage {
     minimumFunding: number;
     currentFunding: number;
     goalFunding: number;
-}
-
-export interface ReceivedComment {
-    commentId: number;
-    uid: number;
-    detail: string;
-    date: Date;
 }
 
 export interface PopularCreator {
@@ -38,6 +32,36 @@ export interface Address {
     postalCode: string;
 }
 
-export type UserDataWithDate = Omit<UserModel, "birthDate"> & {
-    birthDate: Date;
+export interface CommentReply {
+    replyId: string;
+    repliedToUid: string;
+    ownerUid: string;
+    date: Date;
+    detail: string;
+}
+
+export interface CommentProject {
+    commentId: string;
+    projectId: string;
+    uid: string;
+    replys: CommentReply[];
+    date: Date;
+    detail: string;
+}
+
+export interface CommentCreator {
+    commentId: string;
+    creatorUid: string;
+    ownerUid: string;
+    replys: CommentReply[];
+    date: Date;
+    detail: string;
+}
+
+export type UserData = Omit<
+    UserModel,
+    "ownProjectIds" | "receivedCommentIds"
+> & {
+    ownProjects: ProjectModel[];
+    receivedComments: CommentCreator[];
 };

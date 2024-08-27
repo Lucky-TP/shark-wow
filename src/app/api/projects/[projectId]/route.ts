@@ -7,11 +7,12 @@ import { CollectionPath } from "src/constants/firestore";
 import { ProjectStatus } from "src/interfaces/models/enums";
 import { withAuthVerify } from "src/utils/auth";
 import { EditProjectPayload } from "src/interfaces/payload/projectPayload";
+import { CommentProjectModel } from "src/interfaces/models/commentProject";
+import { getCollectionRef } from "src/libs/databases/firestore";
+import { CommentReplyModel } from "src/interfaces/models/commentReply";
+import { CommentReply , CommentProject } from "src/interfaces/models/common";
 
-export async function GET(
-    request: NextRequest,
-    { params }: { params: { projectId: string } }
-) {
+export async function GET(request: NextRequest,{ params }: { params: { projectId: string } }){
     try {
         const projectDocRef = getDocRef(
             CollectionPath.PROJECT,
@@ -25,11 +26,63 @@ export async function GET(
             );
         }
         const projectData = projectSnapshot.data() as ProjectModel;
+
+        const commentData = getCollectionRef(CollectionPath.COMMENTPROJECT);
+        const allComment : CommentProject[] = [];
+
+        if(projectData.discussion.length !== 0){
+            const commentWithProjectId = await commentData
+                .where("commentId", "in", projectData.discussion)
+                .get();
+
+            await Promise.all(commentWithProjectId.docs.map(async (comment) => {
+                const projectComment = comment.data() as CommentProjectModel;
+                const replytData = getCollectionRef(CollectionPath.COMMENTREPLY);
+                const allReply: CommentReply[] = [];
+                if(projectComment.replyIds.length !== 0){
+                    const replyWithCommentId = await replytData
+                        .where("replyId", "in", projectComment.replyIds)
+                        .get();
+
+                    replyWithCommentId.forEach((reply) => {
+                        const commentReply = reply.data() as CommentReplyModel;
+                        allReply.push(commentReply);
+                    });
+                }
+                const tmp: CommentProject = {
+                    commentId: projectComment.commentId,
+                    projectId: projectComment.projectId,
+                    uid: projectComment.uid,
+                    replys: allReply,
+                    date: projectComment.date,
+                    detail: projectComment.detail,
+                };
+                allComment.push(tmp);
+            }));        
+        }
+        const projectWithAllCommentData = {
+            projectId: projectData.projectId,
+            uid: projectData.uid,
+            name: projectData.name,
+            carouselImageUrls: projectData.carouselImageUrls,
+            description: projectData.description,
+            address: projectData.address,
+            totalSupporter: projectData.totalSupporter,
+            status: projectData.status,
+            category: projectData.category,
+            stages: projectData.stages,
+            story: projectData.story,
+            discussion: allComment,
+            update: projectData.update,
+            website: projectData.website,
+            payment: projectData.payment,
+        };
         return NextResponse.json(
-            { message: "Get project data successful", data: projectData },
+            { message: "Get project data successful", data: projectWithAllCommentData },
             { status: StatusCode.SUCCESS }
         );
-    } catch (error: unknown) {
+    }
+    catch (error: unknown) {
         return errorHandler(error);
     }
 }

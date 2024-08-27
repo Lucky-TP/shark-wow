@@ -1,4 +1,4 @@
-import { Address, ReceivedComment } from "./common";
+import { Address } from "./common";
 import { ProjectStatus, StageId, StageStatus } from "./enums";
 
 export interface Update {
@@ -34,7 +34,7 @@ export interface ProjectModel {
     category: string;
     stages: Stage[];
     story: string;
-    discussion: ReceivedComment[];
+    discussion: string[];
     update: Update[];
     website: string;
     payment?: unknown;
