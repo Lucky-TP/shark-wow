@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import CarouselProductCard from 'src/components/ProductCard/CarouselProduct/CarouselProductCard';
 import CarouselTrendingProduct from 'src/components/ProductCard/CarouselProduct/CarouselTrendingProduct';
-import CategoryProductCard from './CategoryProductCard';
+import CategoryProductCard from './CategoryProduct/CategoryProductCard';
 import Withmock from '../../ProductCard/Withmock';
 import SearchBar from '../SearchBar';
 
