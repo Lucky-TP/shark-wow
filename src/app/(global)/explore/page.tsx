@@ -1,5 +1,5 @@
 import React from 'react'
-import MainExplore from 'src/components/ProductCard/MainExplore'
+import MainExplore from 'src/components/ProductCardTemp/MainExplore'
 
 type Props = {}
 

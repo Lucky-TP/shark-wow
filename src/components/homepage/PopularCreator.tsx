@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Link from 'next/link'
-import CarouselTrendingProductCard from '../ProductCard/CarouselTrendingProduct'
+import CarouselTrendingProductCard from '../ProductCardTemp/CarouselTrendingProduct'
 
 type Props = {}
 
