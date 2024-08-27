@@ -10,22 +10,21 @@ import { GetUserResponse } from "src/interfaces/response/userResponse";
 import { signOut } from "src/services/authService";
 import { Dropdown } from "antd";
 import Image from "next/image";
-import { UserDataWithDate } from "src/interfaces/models/common";
+import { UserData } from "src/interfaces/models/common";
 import { useAuth } from "src/hooks/useAuth";
+import { getSelf } from "src/services/apiService/users/getSelf";
 
 type Props = {};
 
 export default function Navbar({}: Props) {
     const router = useRouter();
-    const [user, setUser] = useState<UserDataWithDate | null>();
+    const [user, setUser] = useState<UserData | null>();
     const { user: userHook } = useAuth();
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
-                const response: AxiosResponse<GetUserResponse> =
-                    await axios.get(apiPath.USERS.GET_SELF);
-                console.log(response);
-                setUser(response.data.data || null);
+                const result = await getSelf();
+                setUser(result.data);
             } catch (error: any) {
                 setUser(null);
             }
