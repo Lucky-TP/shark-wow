@@ -3,14 +3,13 @@
 import React, { useRef, useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import { ShowProject } from "src/interfaces/models/common"; // Adjust the import path as needed
-import { getTenPopularProjects } from "src/services/apiService/projects/getTenPopularProjects"; // Adjust the import path as needed
+import { getProjectByCategories } from "src/services/apiService/projects/getProjectByCategories"; // Adjust the import path as needed
 
-interface CarouselTrendingProductCardProps {
-    showTopic?: boolean;
-}
-export default function CarouselTrendingProductCard({
-    showTopic = true,
-}: CarouselTrendingProductCardProps) {
+type Props = {
+    category: string; // Single category string
+};
+
+export default function CarouselProductCard({ category }: Props) {
     const carouselRef = useRef<HTMLDivElement>(null);
     const [products, setProducts] = useState<ShowProject[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -19,9 +18,9 @@ export default function CarouselTrendingProductCard({
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const data = await getTenPopularProjects();
+                const data = await getProjectByCategories([category]); // Pass category as an array with a single element
 
-                setProducts(data.data);
+                setProducts(data.data); // Assuming the response data structure is { data: ShowProject[] }
             } catch (error) {
                 setError("An error occurred while fetching products.");
                 console.error(
@@ -34,7 +33,7 @@ export default function CarouselTrendingProductCard({
         };
 
         fetchProducts();
-    }, []);
+    }, [category]);
 
     const scrollLeft = () => {
         if (carouselRef.current) {
@@ -59,7 +58,7 @@ export default function CarouselTrendingProductCard({
 
     return (
         <section className="relative">
-            {showTopic && <p className="pb-2 font-bold">Top 10 Popular Projects</p>}
+            <p className="pb-2 font-bold">{category}</p>
             <div className="relative">
                 <button
                     onClick={scrollLeft}
