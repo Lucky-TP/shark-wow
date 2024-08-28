@@ -1,6 +1,6 @@
 import React from 'react';
-import CarouselProductCard from "src/components/productcard/CarouselProductCard"
 import Buttonseemore from "src/components/account/project/buttonseemore";
+import CarouselProductCard from 'src/components/Productcard/CarouselProductCard';
 
 type Props = {};
 

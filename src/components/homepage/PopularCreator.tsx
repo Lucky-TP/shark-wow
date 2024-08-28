@@ -1,10 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
-<<<<<<< HEAD
-=======
 import CarouselTrendingProductCard from '../ProductCard/CarouselTrendingProduct'
 
->>>>>>> de58d297ae7d42dccdc15d470f12828b7a04887f
 type Props = {}
 
 export default function PopularCreator({}: Props) {
