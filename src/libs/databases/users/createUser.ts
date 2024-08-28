@@ -6,7 +6,7 @@ import { CustomError } from "src/libs/errors/apiError";
 
 export async function createUser(
     userData?: Partial<UserModel>
-): Promise<UserModel> {
+): Promise<void> {
     try {
         const uid = userData?.uid;
         if (!uid) {
@@ -47,7 +47,6 @@ export async function createUser(
         };
 
         await addNewUser(newUser);
-        return newUser;
     } catch (error: unknown) {
         if (error instanceof CustomError) {
             throw error;
