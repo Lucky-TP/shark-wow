@@ -23,13 +23,13 @@ export interface UserModel {
     email: string;
     profileImageUrl?: string;
     ownProjectIds: number[];
-    favoriteProjectIds: number[];
+    favoriteProjectIds: string[];
     popularDetail: PopularDetail;
     receivedCommentIds: string[];
     interestCategories: string[];
     birthDate: Timestamp;
-    address: Address[];
-    contact: Contact;
+    address: Partial<Address>[];
+    contact: Partial<Contact>;
     cvUrl: string;
     agreement: boolean;
 }
