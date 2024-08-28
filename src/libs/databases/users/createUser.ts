@@ -33,7 +33,7 @@ export async function createUser(
                 totalProjectSuccess: 0,
                 totalSupporter: 0,
             },
-            receivedComments: [],
+            receivedCommentIds: [],
             interestCategories: [],
             address: userData?.address || [],
             contact: userData.contact || {

@@ -5,7 +5,12 @@ import ProductCard from "../SingleProduct/SingleProductCard";
 import { ShowProject } from "src/interfaces/models/common"; // Adjust the import path as needed
 import { getTenPopularProjects } from "src/services/apiService/projects/getTenPopularProjects"; // Adjust the import path as needed
 
-export default function CarouselProductCard() {
+interface CarouselTrendingProductCardProps {
+    showTopic?: boolean;
+}
+export default function CarouselTrendingProductCard({
+    showTopic = true,
+}: CarouselTrendingProductCardProps) {
     const carouselRef = useRef<HTMLDivElement>(null);
     const [products, setProducts] = useState<ShowProject[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -54,7 +59,7 @@ export default function CarouselProductCard() {
 
     return (
         <section className="relative">
-            <p className="pb-2 font-bold">Top 10 Popular Projects</p>
+            {showTopic && <p className="pb-2 font-bold">Top 10 Popular Projects</p>}
             <div className="relative">
                 <button
                     onClick={scrollLeft}

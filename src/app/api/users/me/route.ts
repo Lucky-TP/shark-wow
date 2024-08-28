@@ -6,9 +6,17 @@ import { getDocRef } from "src/libs/databases/firestore";
 import { errorHandler } from "src/libs/errors/apiError";
 import { withAuthVerify } from "src/utils/auth";
 import { EditUserPayload } from "src/interfaces/payload/userPayload";
-import { timestampToDate } from "src/utils/date";
 import { UserModel } from "src/interfaces/models/user";
-import { UserDataWithDate } from "src/interfaces/models/common";
+import {
+    CommentCreator,
+    CommentReply,
+    UserData,
+} from "src/interfaces/models/common";
+import { getCollectionRef } from "src/libs/databases/firestore";
+import { CommentCreatorModel } from "src/interfaces/models/commentCreator";
+import { CommentReplyModel } from "src/interfaces/models/commentReply";
+import { GetUserResponse } from "src/interfaces/response/userResponse";
+import { ProjectModel } from "src/interfaces/models/project";
 
 export async function GET(request: NextRequest) {
     //get user info
@@ -16,17 +24,76 @@ export async function GET(request: NextRequest) {
         const tokenData = await withAuthVerify(request);
         const retrivedUser = await getUser(tokenData.uid);
 
-        const { birthDate, ...user } = retrivedUser;
-        const modifyUser: UserDataWithDate = {
-            ...user,
-            birthDate: timestampToDate(birthDate),
+        // get own project datas
+        const ownProjects: ProjectModel[] = [];
+        if (retrivedUser.ownProjectIds.length > 0) {
+            const projectCollection = getCollectionRef(CollectionPath.PROJECT);
+            const querySnapshot = await projectCollection
+                .where("projectId", "in", retrivedUser.ownProjectIds)
+                .get();
+            querySnapshot.docs.forEach((doc) => {
+                if (doc.exists) {
+                    const project = doc.data() as ProjectModel;
+                    ownProjects.push(project);
+                }
+            });
+        }
+
+        // get recvied comment datas
+        const receivedComments: CommentCreator[] = [];
+        if (retrivedUser.receivedCommentIds.length > 0) {
+            const commentCreatorCollection = getCollectionRef(
+                CollectionPath.COMMENTCREATOR
+            );
+            const querySnapshot = await commentCreatorCollection
+                .where("commentId", "in", retrivedUser.receivedCommentIds)
+                .get();
+
+            const replyCommentCollection = getCollectionRef(
+                CollectionPath.COMMENTREPLY
+            );
+            await Promise.all(
+                querySnapshot.docs.map(async (commentDoc) => {
+                    const baseComment =
+                        commentDoc.data() as CommentCreatorModel;
+                    const repliedComments: CommentReply[] = [];
+                    if (baseComment.replyIds.length > 0) {
+                        const replyWithCommentId = await replyCommentCollection
+                            .where("replyId", "in", baseComment.replyIds)
+                            .get();
+
+                        replyWithCommentId.forEach((reply) => {
+                            const commentReply =
+                                reply.data() as CommentReplyModel;
+                            repliedComments.push(commentReply);
+                        });
+                    }
+                    const commentCreator: CommentCreator = {
+                        commentId: baseComment.commentId,
+                        creatorUid: baseComment.creatorUid,
+                        ownerUid: baseComment.ownerUid,
+                        replys: repliedComments,
+                        date: baseComment.date,
+                        detail: baseComment.detail,
+                    };
+                    receivedComments.push(commentCreator);
+                })
+            );
+        }
+
+        const { receivedCommentIds, ownProjectIds, ...extractedUser } =
+            retrivedUser;
+        const dataUser: UserData = {
+            ...extractedUser,
+            ownProjects,
+            receivedComments,
         };
 
         return NextResponse.json(
-            { message: "Retrived user successful", data: modifyUser },
+            { message: "Retrived user successful", data: dataUser },
             { status: StatusCode.SUCCESS }
         );
-    } catch (error: any) {
+    } catch (error: unknown) {
         return errorHandler(error);
     }
 }
