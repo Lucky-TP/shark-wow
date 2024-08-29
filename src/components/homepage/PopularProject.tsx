@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { ShowProject } from 'src/interfaces/models/common';
 import { getTenPopularProjects } from 'src/services/apiService/projects/getTenPopularProjects';
 import Link from 'next/link'
-import CarouselProductCard from 'src/components/productCard/CarouselProduct/CarouselProductCard';
+import CarouselProductCard from 'src/components/productcard/CarouselProduct/CarouselProductCard';
 
 type Props = {}
 

@@ -3,7 +3,6 @@
 import React, { useRef } from 'react';
 import { productList } from 'src/mock/data/mockData';
 import SingleProductCard from './SingleProduct/SingleProductCard';
-
 type Props = {
   category?: string;  // Optional category string
 };
