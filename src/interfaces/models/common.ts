@@ -1,4 +1,6 @@
+import { CommentModel } from "./comment";
 import { ProjectModel } from "./project";
+import { ReplyModel } from "./reply";
 import { UserModel } from "./user";
 
 interface Stage {
@@ -32,36 +34,11 @@ export interface Address {
     postalCode: string;
 }
 
-export interface CommentReply {
-    replyId: string;
-    repliedToUid: string;
-    ownerUid: string;
-    date: Date;
-    detail: string;
-}
+export type CommentData = Omit<CommentModel, "replyIds"> & {
+    replys?: ReplyModel[];
+};
 
-export interface CommentProject {
-    commentId: string;
-    projectId: string;
-    uid: string;
-    replys: CommentReply[];
-    date: Date;
-    detail: string;
-}
-
-export interface CommentCreator {
-    commentId: string;
-    creatorUid: string;
-    ownerUid: string;
-    replys: CommentReply[];
-    date: Date;
-    detail: string;
-}
-
-export type UserData = Omit<
-    UserModel,
-    "ownProjectIds" | "receivedCommentIds"
-> & {
+export type UserData = Omit<UserModel, "ownProjectIds" | "receivedCommentIds"> & {
     ownProjects: ProjectModel[];
-    receivedComments: CommentCreator[];
+    receivedComments: CommentData[];
 };
