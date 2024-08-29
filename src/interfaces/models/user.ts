@@ -22,7 +22,7 @@ export interface UserModel {
     aboutMe: string;
     email: string;
     profileImageUrl?: string;
-    ownProjectIds: number[];
+    ownProjectIds: string[];
     favoriteProjectIds: string[];
     popularDetail: PopularDetail;
     receivedCommentIds: string[];

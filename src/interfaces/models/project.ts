@@ -34,7 +34,7 @@ export interface ProjectModel {
     category: string;
     stages: Stage[];
     story: string;
-    discussion: string[];
+    discussionIds: string[];
     update: Update[];
     website: string;
     payment?: unknown;
