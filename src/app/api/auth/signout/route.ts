@@ -6,7 +6,7 @@ import { withAuthVerify, clearUserSession } from "src/utils/auth";
 export async function GET(request: NextRequest) {
     try {
         await withAuthVerify(request);
-        clearUserSession();
+        await clearUserSession();
         return NextResponse.json(
             { message: "Clear authentication successful" },
             { status: StatusCode.SUCCESS }
