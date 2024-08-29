@@ -12,9 +12,6 @@ export default function PopularProject({}: Props) {
     const [topproducts, setTopProducts] = useState<ShowProject[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    const OnGettingPopularProject = () => {
-        // Fetch popular project
-    }
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -35,6 +32,9 @@ export default function PopularProject({}: Props) {
   
         fetchProducts();
     }, []);
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error}</p>;
     
     return (
         <section className='bg-white p-10'>
