@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import CarouselProductCard from 'src/components/productcard/CarouselProduct/CarouselProductCard';
+import CarouselProductCard from 'src/components/NewProductCard/CarouselProduct/CarouselProductCard';
 import CarouselTrendingProductCard from './CarouselProductTopTen/CarouselTrendingProduct';
 import CategoryProductCard from './CategoryProduct/CategoryProductCard';
 import SearchBar from '../SearchBar';
