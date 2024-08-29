@@ -5,12 +5,11 @@ import { getUser } from "src/libs/databases/users";
 import { errorHandler } from "src/libs/errors/apiError";
 import { withAuthVerify } from "src/utils/auth";
 import { EditUserPayload } from "src/interfaces/payload/userPayload";
-import { CommentCreator, CommentReply, UserData } from "src/interfaces/models/common";
+import { CommentData, UserData } from "src/interfaces/models/common";
 import { getCollectionRef } from "src/libs/databases/firestore";
-import { CommentCreatorModel } from "src/interfaces/models/commentCreator";
-import { CommentReplyModel } from "src/interfaces/models/commentReply";
 import { ProjectModel } from "src/interfaces/models/project";
 import { updateUser } from "src/libs/databases/users/updateUser";
+import { getComments } from "src/libs/databases/comments";
 
 export async function GET(request: NextRequest) {
     //get user info
@@ -33,41 +32,42 @@ export async function GET(request: NextRequest) {
             });
         }
 
-        // get recvied comment datas
-        const receivedComments: CommentCreator[] = [];
-        if (retrivedUser.receivedCommentIds.length > 0) {
-            const commentCreatorCollection = getCollectionRef(CollectionPath.COMMENTCREATOR);
-            const querySnapshot = await commentCreatorCollection
-                .where("commentId", "in", retrivedUser.receivedCommentIds)
-                .get();
+        const receivedComments: CommentData[] = await getComments(retrivedUser.receivedCommentIds);
+        // // get recvied comment datas
+        // const receivedComments: CommentData[] = [];
+        // if (retrivedUser.receivedCommentIds.length > 0) {
+        //     const commentCollection = getCollectionRef(CollectionPath.COMMENT);
+        //     const querySnapshot = await commentCollection
+        //         .where("commentId", "in", retrivedUser.receivedCommentIds)
+        //         .get();
 
-            const replyCommentCollection = getCollectionRef(CollectionPath.COMMENTREPLY);
-            await Promise.all(
-                querySnapshot.docs.map(async (commentDoc) => {
-                    const baseComment = commentDoc.data() as CommentCreatorModel;
-                    const repliedComments: CommentReply[] = [];
-                    if (baseComment.replyIds.length > 0) {
-                        const replyWithCommentId = await replyCommentCollection
-                            .where("replyId", "in", baseComment.replyIds)
-                            .get();
+        //     const replyCollection = getCollectionRef(CollectionPath.REPLY);
+        //     await Promise.all(
+        //         querySnapshot.docs.map(async (commentDoc) => {
+        //             const baseComment = commentDoc.data() as CommentModel;
+        //             const repliedComments: ReplyModel[] = [];
+        //             if (baseComment.replyIds.length > 0) {
+        //                 const replyWithCommentId = await replyCollection
+        //                     .where("replyId", "in", baseComment.replyIds)
+        //                     .get();
 
-                        replyWithCommentId.forEach((reply) => {
-                            const commentReply = reply.data() as CommentReplyModel;
-                            repliedComments.push(commentReply);
-                        });
-                    }
-                    const commentCreator: CommentCreator = {
-                        commentId: baseComment.commentId,
-                        creatorUid: baseComment.creatorUid,
-                        ownerUid: baseComment.ownerUid,
-                        replys: repliedComments,
-                        date: baseComment.date,
-                        detail: baseComment.detail,
-                    };
-                    receivedComments.push(commentCreator);
-                })
-            );
-        }
+        //                 replyWithCommentId.forEach((reply) => {
+        //                     const retrivedReply = reply.data() as ReplyModel;
+        //                     repliedComments.push(retrivedReply);
+        //                 });
+        //             }
+        //             const comment: CommentData = {
+        //                 commentId: baseComment.commentId,
+        //                 authorId: baseComment.authorId,
+        //                 detail: baseComment.detail,
+        //                 createAt: baseComment.createAt,
+        //                 updateAt: baseComment.updateAt,
+        //                 replys: repliedComments,
+        //             };
+        //             receivedComments.push(comment);
+        //         })
+        //     );
+        // }
 
         const { receivedCommentIds, ownProjectIds, ...extractedUser } = retrivedUser;
         const dataUser: UserData = {
