@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react'
 
 import Link from 'next/link'
-import CarouselTrendingProductCard from '../ProductCard/CarouselTrendingProduct'
+import CarouselTrendingProductCard from '../global/Explore/CarouselProductTopTen/CarouselTrendingProduct'
 
 type Props = {}
 
