@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect,useState } from 'react';
-import CarouselProductCard from 'src/components/ProductCard/CarouselProduct/CarouselProductCard';
+import CarouselProductCard from 'src/components/productCard/CarouselProduct/CarouselProductCard';
 import { ShowProject } from 'src/interfaces/models/common';
 import { getTenPopularProjects } from 'src/services/apiService/projects/getTenPopularProjects';
 

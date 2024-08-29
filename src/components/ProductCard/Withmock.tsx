@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useRef } from 'react';
-import ProductCard from './SingleProduct/SingleProductCard';
 import { productList } from 'src/mock/data/mockData';
+import SingleProductCard from './SingleProduct/SingleProductCard';
 
 type Props = {
   category?: string;  // Optional category string
@@ -50,7 +50,7 @@ export default function Withmock({ category }: Props) {
           <ul className='flex space-x-8'> 
           {filteredProductList.map(product => (
               <li key={product.projectId} className='flex-shrink-0' style={{ width: 'calc(25% - 32px)' }}>
-                <ProductCard product={product} />
+                <SingleProductCard product={product}/>
               </li>
             ))}
           </ul>
