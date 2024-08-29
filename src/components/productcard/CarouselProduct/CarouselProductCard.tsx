@@ -11,7 +11,7 @@ type Props = {
 
 export default function CarouselProductCard({ title, data }: Props) {
     const carouselRef = useRef<HTMLDivElement>(null);
-
+    console.log(data)
     const scrollLeft = () => {
         if (carouselRef.current) {
             carouselRef.current.scrollBy({
