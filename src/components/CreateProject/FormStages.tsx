@@ -50,7 +50,7 @@ export default function FormStages() {
   };
 
   return (
-    <div style={{ padding: '24px', maxWidth: '800px', margin: 'auto' }}>
+    <div>
       <Title level={2}>Form Stages</Title>
       <Form form={form} layout="vertical" onValuesChange={handleFormChange}>
         <Form.Item name="packages" label="Q1: How many packages do you want to sell for funding">
@@ -98,7 +98,7 @@ export default function FormStages() {
             ({totalFunding * (conceptOwnership / 100)} baht)
           </Typography.Paragraph>
         </Form.Item>
-        <Form.Item label="Fund for this stage">
+        <Form.Item label="Discount for 1 product">
           <Typography.Paragraph>
             {conceptOwnership * price / 100} baht
           </Typography.Paragraph>
