@@ -34,7 +34,7 @@ const SingleCreatorCard = ({ creator }: CreatorCardProps) => {
                         </div>
                     </div>
                     <div className="pt-3 py-1">
-                        <h2 className="text-xl font-semibold text-gray-800">{creator.firstName}<span> </span>{creator.lastName}</h2>
+                        <h2 className="text-xl font-semibold text-gray-800">{creator.firstName}<span>  </span>{creator.lastName}</h2>
                     </div>
                     
                 </div>
