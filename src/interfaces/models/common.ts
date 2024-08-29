@@ -35,7 +35,7 @@ export interface Address {
 }
 
 export type CommentData = Omit<CommentModel, "replyIds"> & {
-    replys?: ReplyModel[];
+    replys: ReplyModel[];
 };
 
 export type UserData = Omit<UserModel, "ownProjectIds" | "receivedCommentIds"> & {
