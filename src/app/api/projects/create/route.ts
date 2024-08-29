@@ -2,16 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { errorHandler } from "src/libs/errors/apiError";
 import { CollectionPath } from "src/constants/firestore";
 import { withAuthVerify } from "src/utils/auth";
-import {
-    ProjectStatus,
-    StageId,
-    StageStatus,
-} from "src/interfaces/models/enums";
+import { ProjectStatus, StageId, StageStatus } from "src/interfaces/models/enums";
 import { StatusCode } from "src/constants/statusCode";
 import { getDocRef } from "src/libs/databases/firestore";
 import { UserModel } from "src/interfaces/models/user";
 import { ProjectModel } from "src/interfaces/models/project";
 import { addNewProject } from "src/libs/databases/projects";
+import { updateUser } from "src/libs/databases/users";
 
 export async function POST(request: NextRequest) {
     try {
@@ -72,20 +69,17 @@ export async function POST(request: NextRequest) {
                 },
             ],
             story: "",
-            discussion: [],
+            discussionIds: [],
             update: [],
             website: "",
         };
 
         const newProjectId = await addNewProject(newProject);
         const currentUserData = userSnapshot.data() as UserModel;
-        await userDocRef.update({
-            ownProjectIds: [...currentUserData.ownProjectIds, newProjectId],
-        });
+        await updateUser(uid, { ownProjectIds: [...currentUserData.ownProjectIds, newProjectId] });
         return NextResponse.json(
             {
-                message:
-                    "Create draft project and update user project successful",
+                message: "Create draft project and update user project successful",
             },
             { status: StatusCode.CREATED }
         );
