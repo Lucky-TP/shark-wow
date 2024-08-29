@@ -40,7 +40,7 @@ export default function CarouselTrendingProductCard({}: Props) {
 
   return (
     <section className='flex flex-col justify-between py-[3vh] h-full w-full '>
-      <CarouselProductCard title='' data={topproducts} />
+      <CarouselProductCard title='Top 10 Popular Projects' data={topproducts} />
     </section>
   );
 }

@@ -1,20 +1,40 @@
 'use client'
 
-import React, { useEffect } from 'react'
-
+import React, { useEffect, useState } from 'react'
+import { ShowProject } from 'src/interfaces/models/common';
+import { getTenPopularProjects } from 'src/services/apiService/projects/getTenPopularProjects';
 import Link from 'next/link'
-import CarouselTrendingProductCard from '../global/Explore/CarouselProductTopTen/CarouselTrendingProduct'
+import CarouselProductCard from 'src/components/ProductCard/CarouselProduct/CarouselProductCard';
 
 type Props = {}
 
 export default function PopularProject({}: Props) {
+    const [topproducts, setTopProducts] = useState<ShowProject[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
     const OnGettingPopularProject = () => {
         // Fetch popular project
     }
 
     useEffect(() => {
-        OnGettingPopularProject()
-    })
+        const fetchProducts = async () => {
+            try {
+                const data = await getTenPopularProjects();
+  
+                setTopProducts(data.data);
+            } catch (error) {
+                setError("An error occurred while fetching products.");
+                console.error(
+                    "An error occurred while fetching products:",
+                    error
+                );
+            } finally {
+                setLoading(false);
+            }
+        };
+  
+        fetchProducts();
+    }, []);
     
     return (
         <section className='bg-white p-10'>
@@ -28,7 +48,7 @@ export default function PopularProject({}: Props) {
                     </Link>
                 </span>
             </div>
-            <CarouselTrendingProductCard showTopic={false} />
+            <CarouselProductCard title='' data={topproducts} />
         </section>
     )
 }
