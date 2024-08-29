@@ -6,7 +6,7 @@ interface ProductCardProps {
     product: ShowProject;
 }
 
-const ProductCard = ({ product }: ProductCardProps) => {
+const SingleProductCard = ({ product }: ProductCardProps) => {
     const percentageFunded = Math.round(
         (product.stages[0].currentFunding / product.stages[0].goalFunding) * 100
     );
@@ -55,4 +55,4 @@ const ProductCard = ({ product }: ProductCardProps) => {
     );
 };
 
-export default ProductCard;
+export default SingleProductCard;
