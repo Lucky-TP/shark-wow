@@ -6,7 +6,6 @@ import { StatusCode } from "src/constants/statusCode";
 import { UserModel } from "src/interfaces/models/user";
 import { EmailSignUpPayload } from "src/interfaces/payload/authPayload";
 import { extractBearerToken, signUserSession } from "src/utils/auth";
-import { milliToTimestamp } from "src/utils/date";
 import { CustomError, errorHandler } from "src/libs/errors/apiError";
 
 export async function POST(request: NextRequest) {
@@ -24,7 +23,7 @@ export async function POST(request: NextRequest) {
             firstName: body.firstName,
             lastName: body.lastName,
             email: body.email,
-            birthDate: milliToTimestamp(body.birthDate),
+            birthDate: body.birthDate,
             address: [body.address],
         };
 
