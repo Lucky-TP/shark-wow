@@ -33,42 +33,6 @@ export async function GET(request: NextRequest) {
         }
 
         const receivedComments: CommentData[] = await getComments(retrivedUser.receivedCommentIds);
-        // // get recvied comment datas
-        // const receivedComments: CommentData[] = [];
-        // if (retrivedUser.receivedCommentIds.length > 0) {
-        //     const commentCollection = getCollectionRef(CollectionPath.COMMENT);
-        //     const querySnapshot = await commentCollection
-        //         .where("commentId", "in", retrivedUser.receivedCommentIds)
-        //         .get();
-
-        //     const replyCollection = getCollectionRef(CollectionPath.REPLY);
-        //     await Promise.all(
-        //         querySnapshot.docs.map(async (commentDoc) => {
-        //             const baseComment = commentDoc.data() as CommentModel;
-        //             const repliedComments: ReplyModel[] = [];
-        //             if (baseComment.replyIds.length > 0) {
-        //                 const replyWithCommentId = await replyCollection
-        //                     .where("replyId", "in", baseComment.replyIds)
-        //                     .get();
-
-        //                 replyWithCommentId.forEach((reply) => {
-        //                     const retrivedReply = reply.data() as ReplyModel;
-        //                     repliedComments.push(retrivedReply);
-        //                 });
-        //             }
-        //             const comment: CommentData = {
-        //                 commentId: baseComment.commentId,
-        //                 authorId: baseComment.authorId,
-        //                 detail: baseComment.detail,
-        //                 createAt: baseComment.createAt,
-        //                 updateAt: baseComment.updateAt,
-        //                 replys: repliedComments,
-        //             };
-        //             receivedComments.push(comment);
-        //         })
-        //     );
-        // }
-
         const { receivedCommentIds, ownProjectIds, ...extractedUser } = retrivedUser;
         const dataUser: UserData = {
             ...extractedUser,
