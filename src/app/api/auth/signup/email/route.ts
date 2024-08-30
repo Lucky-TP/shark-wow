@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { DecodedIdToken } from "firebase-admin/auth";
 import { auth } from "src/libs/firebase/firebaseAdmin";
-import { createUser } from "src/libs/databases/users";
+import { createUser, deleteUser } from "src/libs/databases/users";
 import { StatusCode } from "src/constants/statusCode";
 import { UserModel } from "src/interfaces/models/user";
 import { EmailSignUpPayload } from "src/interfaces/payload/authPayload";
@@ -30,14 +30,12 @@ export async function POST(request: NextRequest) {
         await createUser(userData);
         await signUserSession(decodedToken);
 
-        return NextResponse.json(
-            { message: "Sign-in successful" },
-            { status: StatusCode.SUCCESS }
-        );
+        return NextResponse.json({ message: "Sign-in successful" }, { status: StatusCode.SUCCESS });
     } catch (error: unknown) {
         if (error instanceof Error || error instanceof CustomError) {
             if (decodedToken) {
                 await auth.deleteUser(decodedToken.uid);
+                await deleteUser(decodedToken.uid);
             }
         }
         return errorHandler(error);
