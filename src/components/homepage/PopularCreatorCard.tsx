@@ -15,7 +15,7 @@ export default function PopularCreatorCard({}: Props) {
         try {
             setLoading(true);
             const data = await getTenPopularUsers();
-
+            console.log(data);
             setData(data.data);
         } catch (error) {
             setError("An error occurred while fetching products.");
@@ -25,6 +25,7 @@ export default function PopularCreatorCard({}: Props) {
             );
         } finally {
             setLoading(false);
+            console.log(data);
         }
     };
     useEffect(() => {
