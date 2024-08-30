@@ -6,8 +6,8 @@ import { CustomError } from "src/libs/errors/apiError";
 
 export async function getUser(uid: string) {
     try {
-        const userDoc = getDocRef(CollectionPath.USER, uid);
-        const userSnapshot = await userDoc.get();
+        const userDocRef = getDocRef(CollectionPath.USER, uid);
+        const userSnapshot = await userDocRef.get();
 
         if (!userSnapshot.exists) {
             throw new CustomError("User not exists", StatusCode.NOT_FOUND);
@@ -18,9 +18,6 @@ export async function getUser(uid: string) {
         if (error instanceof CustomError) {
             throw error;
         }
-        throw new CustomError(
-            "Get user failed",
-            StatusCode.INTERNAL_SERVER_ERROR
-        );
+        throw new CustomError("Get user failed", StatusCode.INTERNAL_SERVER_ERROR);
     }
 }
