@@ -24,8 +24,9 @@ export default function PopularCreatorCard({}: Props) {
                 error
             );
         } finally {
-            setLoading(false);
             console.log(data);
+            setLoading(false);
+            
         }
     };
     useEffect(() => {
