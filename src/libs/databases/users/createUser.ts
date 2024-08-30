@@ -1,7 +1,7 @@
 import { addNewUser } from "./addNewUser";
 import { UserModel } from "src/interfaces/models/user";
 import { StatusCode } from "src/constants/statusCode";
-import { dateToTimestamp } from "src/utils/date";
+import { dateToTimestamp } from "src/utils/date/adminDateConversion";
 import { CustomError } from "src/libs/errors/apiError";
 
 export async function createUser(

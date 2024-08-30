@@ -8,8 +8,8 @@ export async function getReplies(replyIds: string[]): Promise<ReplyModel[]> {
     try {
         const retrivedReplies: ReplyModel[] = [];
         if (replyIds.length > 0) {
-            const commentCollection = getCollectionRef(CollectionPath.COMMENT);
-            const querySnapshot = await commentCollection.where("commentId", "in", replyIds).get();
+            const replyCollection = getCollectionRef(CollectionPath.REPLY);
+            const querySnapshot = await replyCollection.where("replyId", "in", replyIds).get();
             querySnapshot.docs.forEach((replyRef) => {
                 const replyModel = replyRef.data() as ReplyModel;
                 retrivedReplies.push(replyModel);

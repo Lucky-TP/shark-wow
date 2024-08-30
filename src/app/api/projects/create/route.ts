@@ -80,6 +80,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(
             {
                 message: "Create draft project and update user project successful",
+                data: newProjectId,
             },
             { status: StatusCode.CREATED }
         );

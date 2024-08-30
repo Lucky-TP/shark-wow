@@ -10,7 +10,7 @@ export async function getComments(commentIds: string[]): Promise<CommentData[]> 
     try {
         const retrivedCommentsDatas: CommentData[] = [];
         const replyIds: string[] = [];
-        if (retrivedCommentsDatas.length > 0) {
+        if (commentIds.length > 0) {
             const retrivedCommentsModels: CommentModel[] = [];
             const commentCollection = getCollectionRef(CollectionPath.COMMENT);
             const querySnapshot = await commentCollection
@@ -18,12 +18,15 @@ export async function getComments(commentIds: string[]): Promise<CommentData[]> 
                 .get();
             querySnapshot.docs.forEach((commentRef) => {
                 const commentModel = commentRef.data() as CommentModel;
+                console.log(commentModel);
                 retrivedCommentsModels.push(commentModel);
                 commentModel.replyIds.forEach((replyId) => {
                     replyIds.push(replyId);
                 });
             });
+            console.log(replyIds);
             const retrivedReplies = await getReplies(replyIds);
+            console.log(retrivedReplies);
             retrivedCommentsModels.forEach((commentModel) => {
                 const filteredReplies = retrivedReplies.filter(({ replyId }) => {
                     return commentModel.replyIds.includes(replyId);
