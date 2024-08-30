@@ -1,3 +1,4 @@
+import { Timestamp } from "firebase/firestore";
 import { Address } from "./common";
 import { ProjectStatus, StageId, StageStatus } from "./enums";
 
@@ -11,8 +12,8 @@ export interface Update {
 export interface Stage {
     stageId: StageId;
     name: string;
-    startDate?: Date;
-    expireDate?: Date;
+    startDate?: Timestamp;
+    expireDate?: Timestamp;
     status: StageStatus;
     detail: string;
     imageUrl: string;

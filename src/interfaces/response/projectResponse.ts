@@ -6,6 +6,10 @@ export interface GetProjectResponse extends DefaultResponse {
     data?: ProjectModel;
 }
 
+export interface CreateProjectResponse extends DefaultResponse {
+    data?: { projectId: string };
+}
+
 export interface GetProjectsByCategoriesResponse extends DefaultResponse {
     data: ShowProject[];
 }
