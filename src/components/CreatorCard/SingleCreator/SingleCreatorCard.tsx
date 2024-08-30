@@ -1,5 +1,6 @@
 import React from 'react';
 import { PopularCreator } from 'src/interfaces/models/common';
+import Image from 'next/image';
 
 interface CreatorCardProps {
     creator: PopularCreator;
@@ -12,10 +13,10 @@ const SingleCreatorCard = ({ creator }: CreatorCardProps) => {
             <div className='pl-6 p-3'>
                 <div className="w-full h-full rounded-lg overflow-hidden relative group">
                     <div className="relative w-full h-48"> {/* Fixed height for the image container */}
-                        <img
+                        <Image
                             className="w-full h-full object-contain" // Ensure the image fits within the container without cropping
-                            src={creator.profileImageUrl}
-                            alt={creator.firstName}
+                            src={`${creator.profileImageUrl}`}
+                            alt={`${creator.firstName} ${creator.lastName}'s profile picture`}
                             width={400}
                             height={400}
                         />
