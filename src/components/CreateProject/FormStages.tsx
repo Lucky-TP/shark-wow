@@ -54,7 +54,7 @@ export default function FormStages() {
         status: values.conceptOwnership || 2, // Default to 2 if not provided
         detail: '', // Add other details as necessary
         imageUrl: '',
-        minimumFunding: 0,
+        fundingCost: 0,
         currentFunding: 0,
         goalFunding: 0,
         totalSupporter: 0,
@@ -66,7 +66,7 @@ export default function FormStages() {
         status: values.prototypeOwnership || 2, // Default to 2 if not provided
         detail: '', // Add other details as necessary
         imageUrl: '',
-        minimumFunding: 0,
+        fundingCost: 0,
         currentFunding: 0,
         goalFunding: 0,
         totalSupporter: 0,
@@ -78,7 +78,7 @@ export default function FormStages() {
         status: values.productionOwnership || 2, // Default to 2 if not provided
         detail: '', // Add other details as necessary
         imageUrl: '',
-        minimumFunding: 0,
+        fundingCost: 0,
         currentFunding: 0,
         goalFunding: 0,
         totalSupporter: 0,

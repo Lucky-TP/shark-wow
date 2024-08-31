@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
-import { ShowProject } from "src/interfaces/models/common"; // Adjust the import path as needed
+import { ShowProject } from "src/interfaces/datas/project"; // Adjust the import path as needed
 import { getProjectByCategories } from "src/services/apiService/projects/getProjectByCategories"; // Adjust the import path as needed
 
 type Props = {
@@ -23,10 +23,7 @@ export default function CarouselProductCard({ category }: Props) {
                 setProducts(data.data); // Assuming the response data structure is { data: ShowProject[] }
             } catch (error) {
                 setError("An error occurred while fetching products.");
-                console.error(
-                    "An error occurred while fetching products:",
-                    error
-                );
+                console.error("An error occurred while fetching products:", error);
             } finally {
                 setLoading(false);
             }

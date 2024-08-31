@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getUser } from "src/libs/databases/users";
 import { updateUser } from "src/libs/databases/users/updateUser";
 import { errorHandler } from "src/libs/errors/apiError";
-import { withAuthVerify } from "src/utils/auth";
+import { withAuthVerify } from "src/utils/api/auth";
 import { StatusCode } from "src/constants/statusCode";
 
 export async function PUT(request: NextRequest, { params }: { params: { projectId: string } }) {

@@ -1,15 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import { errorHandler } from "src/libs/errors/apiError";
-import { StatusCode } from "src/constants/statusCode";
-import { ProjectModel, Update } from "src/interfaces/models/project";
 import { getDocRef } from "src/libs/databases/firestore";
-import { CollectionPath } from "src/constants/firestore";
-import { ProjectStatus } from "src/interfaces/models/enums";
-import { withAuthVerify } from "src/utils/auth";
-import { EditProjectPayload } from "src/interfaces/payload/projectPayload";
-import { CommentData } from "src/interfaces/models/common";
+import { errorHandler } from "src/libs/errors/apiError";
 import { getComments } from "src/libs/databases/comments";
 import { updateProject } from "src/libs/databases/projects";
+import { withAuthVerify } from "src/utils/api/auth";
+import { StatusCode } from "src/constants/statusCode";
+import { CollectionPath } from "src/constants/firestore";
+import { ProjectModel } from "src/interfaces/models/project";
+import { ProjectStatus } from "src/interfaces/models/enums";
+import { CommentData } from "src/interfaces/datas/comment";
+import { ProjectData } from "src/interfaces/datas/project";
+import { EditProjectPayload } from "src/interfaces/payload/projectPayload";
 
 export async function GET(request: NextRequest, { params }: { params: { projectId: string } }) {
     try {
@@ -21,27 +22,29 @@ export async function GET(request: NextRequest, { params }: { params: { projectI
                 { status: StatusCode.NOT_FOUND }
             );
         }
-        const projectData = projectSnapshot.data() as ProjectModel;
-        const discussion: CommentData[] = await getComments(projectData.discussionIds);
-        const projectWithAllCommentData = {
-            projectId: projectData.projectId,
-            uid: projectData.uid,
-            name: projectData.name,
-            carouselImageUrls: projectData.carouselImageUrls,
-            description: projectData.description,
-            address: projectData.address,
-            totalSupporter: projectData.totalSupporter,
-            status: projectData.status,
-            category: projectData.category,
-            stages: projectData.stages,
-            story: projectData.story,
-            discussion: discussion,
-            update: projectData.update,
-            website: projectData.website,
-            payment: projectData.payment,
+        const projectModel = projectSnapshot.data() as ProjectModel;
+        const discussions: CommentData[] = await getComments(projectModel.discussionIds);
+        const projectData: ProjectData = {
+            projectId: projectModel.projectId,
+            uid: projectModel.uid,
+            name: projectModel.name,
+            carouselImageUrls: projectModel.carouselImageUrls,
+            description: projectModel.description,
+            address: projectModel.address,
+            totalSupporter: projectModel.totalSupporter,
+            status: projectModel.status,
+            category: projectModel.category,
+            totalQuantity: projectModel.totalQuantity,
+            costPerQuantity: projectModel.costPerQuantity,
+            stages: projectModel.stages,
+            story: projectModel.story,
+            discussion: discussions,
+            update: projectModel.update,
+            website: projectModel.website,
+            payment: projectModel.payment,
         };
         return NextResponse.json(
-            { message: "Get project data successful", data: projectWithAllCommentData },
+            { message: "Get project data successful", data: projectData },
             { status: StatusCode.SUCCESS }
         );
     } catch (error: unknown) {
@@ -63,9 +66,9 @@ export async function PUT(request: NextRequest, { params }: { params: { projectI
             );
         }
 
-        const currentProjectData = projectSnapshot.data() as ProjectModel;
-        const projectId = currentProjectData.projectId;
-        if (uid !== currentProjectData.uid) {
+        const currentProjectModel = projectSnapshot.data() as ProjectModel;
+        const projectId = currentProjectModel.projectId;
+        if (uid !== currentProjectModel.uid) {
             return NextResponse.json(
                 { message: "You have no permission to update this project" },
                 { status: StatusCode.UNAUTHORIZED }
@@ -73,23 +76,21 @@ export async function PUT(request: NextRequest, { params }: { params: { projectI
         }
 
         const body: Partial<EditProjectPayload> = await request.json();
-        if (currentProjectData.status === ProjectStatus.DRAFT) {
+        if (currentProjectModel.status === ProjectStatus.DRAFT) {
             await updateProject(projectId, {
                 name: body.name,
                 carouselImageUrls: body.carouselImageUrls,
                 description: body.description,
                 address: body.address,
-                status: body.status,
                 category: body.category,
                 stages: body.stages,
                 story: body.story,
                 update: body.update,
                 website: body.website,
             });
-        } else if (currentProjectData.status === ProjectStatus.RUNNING) {
+        } else if (currentProjectModel.status === ProjectStatus.RUNNING) {
             await updateProject(projectId, {
                 description: body.description,
-                status: body.status,
                 story: body.story,
                 update: body.update,
                 website: body.website,
@@ -103,10 +104,10 @@ export async function PUT(request: NextRequest, { params }: { params: { projectI
         }
 
         return NextResponse.json(
-            { message: "Update project data successful" },
+            { message: "Update project successful" },
             { status: StatusCode.SUCCESS }
         );
-    } catch (error: any) {
+    } catch (error: unknown) {
         return errorHandler(error);
     }
 }

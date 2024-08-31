@@ -10,8 +10,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "antd";
 
 import { pagePath } from "src/constants/routePath";
-
-import { UserData } from "src/interfaces/models/common";
+import { UserData } from "src/interfaces/datas/user";
 import FileUpload from "src/components/global/FileUpload";
 import { getSelf } from "src/services/apiService/users/getSelf";
 
@@ -98,17 +97,14 @@ export default function ProfilePage() {
                     </div>
                     <div className="mb-2">
                         <strong>Popular Detail: </strong>
-                        Total Project Success:{" "}
-                        {user.popularDetail.totalProjectSuccess}, Total
+                        Total Project Success: {user.popularDetail.totalProjectSuccess}, Total
                         Supporter: {user.popularDetail.totalSupporter}
                     </div>
                     <div className="mb-2">
                         <strong>Comments Received: </strong>
                         <ul>
                             {user.receivedComments.map((comment) => (
-                                <li key={comment.commentId}>
-                                    {comment.detail}
-                                </li>
+                                <li key={comment.commentId}>{comment.detail}</li>
                             ))}
                         </ul>
                     </div>
@@ -123,9 +119,8 @@ export default function ProfilePage() {
                     </div>
                     <div className="mb-2">
                         <strong>Contact: </strong>
-                        Facebook: {user.contact.facebook}, Twitter:{" "}
-                        {user.contact.X}, YouTube: {user.contact.youtube},
-                        Phone: {user.contact.phone}
+                        Facebook: {user.contact.facebook}, Twitter: {user.contact.X}, YouTube:{" "}
+                        {user.contact.youtube}, Phone: {user.contact.phone}
                     </div>
                     <div className="mb-2">
                         <strong>CV URL: </strong>

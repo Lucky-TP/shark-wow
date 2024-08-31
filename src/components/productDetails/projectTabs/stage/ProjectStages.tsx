@@ -24,7 +24,7 @@ async function onGetStages(): Promise<{ status: number, payload: { content: Stag
     payload: {
       content: [
         {
-          minimumFunding: 0,
+          fundingCost: 0,
           stageId: 0,
           name: "Planning Phase",
           startDate: dateToTimestamp(new Date('2023-01-01')),
@@ -37,7 +37,7 @@ async function onGetStages(): Promise<{ status: number, payload: { content: Stag
           totalSupporter: 200
         },
         {
-          minimumFunding: 0,
+          fundingCost: 0,
           stageId: 1,
           name: "Development Phase",
           startDate: dateToTimestamp(new Date('2023-03-01')),
@@ -50,7 +50,7 @@ async function onGetStages(): Promise<{ status: number, payload: { content: Stag
           totalSupporter: 500
         },
         {
-          minimumFunding: 0,
+          fundingCost: 0,
           stageId: 2,
           name: "Launch Phase",
           startDate: dateToTimestamp(new Date('2023-06-01')),

@@ -8,8 +8,8 @@ import { errorHandler } from "src/libs/errors/apiError";
 
 export async function GET(request: NextRequest) {
     try {
-        const allUserData = getCollectionRef(CollectionPath.USER);
-        const topTenCreator = await allUserData
+        const userCollection = getCollectionRef(CollectionPath.USER);
+        const topTenCreator = await userCollection
             .orderBy("popularDetail.totalProjectSuccess", "desc")
             .orderBy("popularDetail.totalSupporter", "desc")
             .limit(10)

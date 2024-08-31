@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 import { DecodedIdToken } from "firebase-admin/auth";
 import { generateJWT } from "./jose";
-import { translateDurationToSeconds } from "../date/translateDurationToSeconds";
+import { translateDurationToSeconds } from "../../date/translateDurationToSeconds";
 import { UserToken } from "src/interfaces/token";
 import { USER_TOKEN } from "src/constants/cookiesKeyName";
 

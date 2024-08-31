@@ -7,7 +7,7 @@ import Image from "next/image";
 import { signOut } from "src/services/authService";
 import { getSelf } from "src/services/apiService/users/getSelf";
 import { createProject } from "src/services/apiService/projects/createProject"; // Import your function
-import { UserData } from "src/interfaces/models/common";
+import { UserData } from "src/interfaces/datas/user";
 import { useAuth } from "src/hooks/useAuth";
 
 type Props = {};
@@ -69,10 +69,7 @@ export default function Navbar({}: Props) {
                     </div>
                     <ul className="flex flex-row gap-x-[3vw] items-center">
                         <li>
-                            <Link
-                                href="/explore"
-                                className="text-gray-800 hover:text-white"
-                            >
+                            <Link href="/explore" className="text-gray-800 hover:text-white">
                                 EXPLORE
                             </Link>
                         </li>
@@ -86,10 +83,7 @@ export default function Navbar({}: Props) {
                         </li>
                         <li>
                             {!user && (
-                                <Link
-                                    href="/sign-in"
-                                    className="text-gray-800 hover:text-white"
-                                >
+                                <Link href="/sign-in" className="text-gray-800 hover:text-white">
                                     SIGN IN / SIGN UP
                                 </Link>
                             )}
@@ -99,13 +93,7 @@ export default function Navbar({}: Props) {
                                         items: [
                                             {
                                                 key: "1",
-                                                label: (
-                                                    <div
-                                                        onClick={handleSignOut}
-                                                    >
-                                                        sign out
-                                                    </div>
-                                                ),
+                                                label: <div onClick={handleSignOut}>sign out</div>,
                                                 danger: true,
                                             },
                                         ],

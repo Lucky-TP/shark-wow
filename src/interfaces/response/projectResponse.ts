@@ -1,5 +1,5 @@
 import { DefaultResponse } from "./commonResponse";
-import { ShowProject } from "../models/common";
+import { ShowProject } from "../datas/project";
 import { ProjectModel } from "../models/project";
 
 export interface GetProjectResponse extends DefaultResponse {
