@@ -6,12 +6,12 @@ export interface EditProjectPayload {
     name: string;
     carouselImageUrls: string[];
     description: string;
-    address: Partial<Address>;
+    address: Address;
     status: ProjectStatus;
     category: string;
-    stages: Partial<Stage>[];
+    stages: Stage[];
     story: string;
-    update: Partial<Update>[];
+    update: Update[];
     website: string;
     //payment?: unknown;
 }
