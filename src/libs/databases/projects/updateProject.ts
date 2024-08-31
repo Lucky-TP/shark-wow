@@ -17,19 +17,20 @@ export async function updateProject(
             }
             const currentProjectData = projectSnapshot.data() as ProjectModel;
             const updateData: Partial<ProjectModel> = {
-                name: newProjectData.name || currentProjectData.name,
-                carouselImageUrls:
-                    newProjectData.carouselImageUrls || currentProjectData.carouselImageUrls,
-                description: newProjectData.description || currentProjectData.description,
-                address: newProjectData.address || currentProjectData.address,
-                totalSupporter: newProjectData.totalSupporter || currentProjectData.totalSupporter,
-                status: newProjectData.status || currentProjectData.status,
-                category: newProjectData.category || currentProjectData.category,
-                stages: newProjectData.stages || currentProjectData.stages,
-                story: newProjectData.story || currentProjectData.story,
-                discussionIds: newProjectData.discussionIds || currentProjectData.discussionIds,
-                update: newProjectData.update || currentProjectData.update,
-                website: newProjectData.website || currentProjectData.website,
+                name: newProjectData.name ?? currentProjectData.name,
+                carouselImageUrls: newProjectData.carouselImageUrls
+                    ? [...newProjectData.carouselImageUrls, ...currentProjectData.carouselImageUrls]
+                    : currentProjectData.carouselImageUrls,
+                description: newProjectData.description ?? currentProjectData.description,
+                address: newProjectData.address ?? currentProjectData.address,
+                totalSupporter: newProjectData.totalSupporter ?? currentProjectData.totalSupporter,
+                status: newProjectData.status ?? currentProjectData.status,
+                category: newProjectData.category ?? currentProjectData.category,
+                stages: newProjectData.stages ?? currentProjectData.stages,
+                story: newProjectData.story ?? currentProjectData.story,
+                discussionIds: newProjectData.discussionIds ?? currentProjectData.discussionIds,
+                update: newProjectData.update ?? currentProjectData.update,
+                website: newProjectData.website ?? currentProjectData.website,
             };
             transaction.update(projectDocRef, updateData);
         });
