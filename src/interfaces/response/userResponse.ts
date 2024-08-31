@@ -1,5 +1,5 @@
 import { DefaultResponse } from "./commonResponse";
-import { PopularCreator } from "../models/common";
+import { PopularCreator } from "../datas/user";
 import { UserData } from "../datas/user";
 
 export interface GetUserResponse extends DefaultResponse {
