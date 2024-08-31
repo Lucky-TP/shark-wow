@@ -9,7 +9,7 @@ export default function Sidebar() {
     const pathName = usePathname()
 
     // Extract project ID from the current pathname
-    const projectIdMatch = pathName.match(/\/create-project\/(\d+)/);
+    const projectIdMatch = pathName.match(/\/create-project\/([a-zA-Z0-9]+)/);
     const projectId = projectIdMatch ? projectIdMatch[1] : "";
 
     const links = [
