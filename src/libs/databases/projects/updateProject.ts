@@ -7,9 +7,9 @@ import { ProjectModel } from "src/interfaces/models/project";
 export async function updateProject(
     projectId: string,
     newProjectData: Partial<ProjectModel>
-): Promise<void> {
+): Promise<ProjectModel> {
     try {
-        await runTransaction(async (transaction) => {
+        const updatedProjectModel = await runTransaction(async (transaction) => {
             const projectDocRef = getDocRef(CollectionPath.PROJECT, projectId);
             const projectSnapshot = await transaction.get(projectDocRef);
             if (!projectSnapshot.exists) {
@@ -33,7 +33,10 @@ export async function updateProject(
                 website: newProjectData.website ?? currentProjectData.website,
             };
             transaction.update(projectDocRef, updateData);
+            const updatedSnapshot = await transaction.get(projectDocRef);
+            return updatedSnapshot.data() as ProjectModel;
         });
+        return updatedProjectModel;
     } catch (error: unknown) {
         throw new CustomError("Update project failed", StatusCode.INTERNAL_SERVER_ERROR);
     }

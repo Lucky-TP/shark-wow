@@ -4,7 +4,7 @@ import { CreateReplyPayload } from "src/interfaces/payload/replyPayload";
 import { getComments, updateComment } from "src/libs/databases/comments";
 import { createReply } from "src/libs/databases/replies";
 import { errorHandler } from "src/libs/errors/apiError";
-import { withAuthVerify } from "src/utils/auth";
+import { withAuthVerify } from "src/utils/api/auth";
 
 export async function POST(
     request: NextRequest,

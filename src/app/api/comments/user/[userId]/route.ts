@@ -4,19 +4,19 @@ import { getUser, updateUser } from "src/libs/databases/users";
 import { createComment } from "src/libs/databases/comments/createComment";
 import { CreateCommentPayload } from "src/interfaces/payload/commentPayload";
 import { StatusCode } from "src/constants/statusCode";
-import { withAuthVerify } from "src/utils/auth";
+import { withAuthVerify } from "src/utils/api/auth";
 
 export async function POST(request: NextRequest, { params }: { params: { userId: string } }) {
     try {
         const author = await withAuthVerify(request);
-        const creatorId = params.userId;
+        const targetUserId = params.userId;
         const body: CreateCommentPayload = await request.json();
 
         const commentId = await createComment(author.uid, body);
-        const creatorData = await getUser(creatorId);
+        const targetUserModel = await getUser(targetUserId);
 
-        const newReceivedCommentIds = [...creatorData.receivedCommentIds, commentId];
-        await updateUser(creatorId, { receivedCommentIds: newReceivedCommentIds });
+        const newReceivedCommentIds = [...targetUserModel.receivedCommentIds, commentId];
+        await updateUser(targetUserId, { receivedCommentIds: newReceivedCommentIds });
         return NextResponse.json(
             { message: "Create comment to uesr successful" },
             { status: StatusCode.CREATED }

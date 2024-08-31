@@ -10,7 +10,7 @@ import { GetUserResponse } from "src/interfaces/response/userResponse";
 import { signOut } from "src/services/authService";
 import { Dropdown } from "antd";
 import Image from "next/image";
-import { UserData } from "src/interfaces/models/common";
+import { UserData } from "src/interfaces/datas/user";
 import { useAuth } from "src/hooks/useAuth";
 import { getSelf } from "src/services/apiService/users/getSelf";
 
@@ -61,27 +61,18 @@ export default function Navbar({}: Props) {
                     </div>
                     <ul className="flex flex-row gap-x-[3vw] items-center">
                         <li>
-                            <Link
-                                href="/explore"
-                                className="text-gray-800 hover:text-white"
-                            >
+                            <Link href="/explore" className="text-gray-800 hover:text-white">
                                 EXPLORE
                             </Link>
                         </li>
                         <li>
-                            <Link
-                                href="/create-project"
-                                className="text-gray-800 hover:text-white"
-                            >
+                            <Link href="/create-project" className="text-gray-800 hover:text-white">
                                 CREATE PROJECT
                             </Link>
                         </li>
                         <li>
                             {!user && (
-                                <Link
-                                    href="/sign-in"
-                                    className="text-gray-800 hover:text-white"
-                                >
+                                <Link href="/sign-in" className="text-gray-800 hover:text-white">
                                     SIGN IN / SIGN UP
                                 </Link>
                             )}
@@ -91,13 +82,7 @@ export default function Navbar({}: Props) {
                                         items: [
                                             {
                                                 key: "1",
-                                                label: (
-                                                    <div
-                                                        onClick={handleSignOut}
-                                                    >
-                                                        sign out
-                                                    </div>
-                                                ),
+                                                label: <div onClick={handleSignOut}>sign out</div>,
                                                 danger: true,
                                             },
                                         ],

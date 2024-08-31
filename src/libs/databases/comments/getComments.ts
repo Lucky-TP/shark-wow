@@ -1,7 +1,7 @@
 import { getCollectionRef } from "../firestore";
 import { getReplies } from "../replies";
 import { CustomError } from "src/libs/errors/apiError";
-import { CommentData } from "src/interfaces/models/common";
+import { CommentData } from "src/interfaces/datas/comment";
 import { CommentModel } from "src/interfaces/models/comment";
 import { StatusCode } from "src/constants/statusCode";
 import { CollectionPath } from "src/constants/firestore";
