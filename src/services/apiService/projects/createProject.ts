@@ -1,10 +1,10 @@
 import axios, { AxiosResponse } from "axios";
 import { apiPath } from "src/constants/routePath";
-import { DefaultResponse } from "src/interfaces/response/commonResponse";
+import { CreateProjectResponse } from "src/interfaces/response/projectResponse";
 
-export async function createProject(): Promise<DefaultResponse> {
+export async function createProject(): Promise<CreateProjectResponse> {
     try {
-        const result: AxiosResponse<DefaultResponse> = await axios.post(
+        const result: AxiosResponse<CreateProjectResponse> = await axios.post(
             apiPath.PROJECTS.CREATE
         );
         result.data.status = result.status;
