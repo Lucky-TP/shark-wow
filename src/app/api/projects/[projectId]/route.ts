@@ -52,7 +52,7 @@ export async function GET(request: NextRequest, { params }: { params: { projectI
 export async function PUT(request: NextRequest, { params }: { params: { projectId: string } }) {
     try {
         const tokenData = await withAuthVerify(request);
-        const { uid } = tokenData;
+        const uid = tokenData.uid;
 
         const projectDocRef = getDocRef(CollectionPath.PROJECT, params.projectId);
         const projectSnapshot = await projectDocRef.get();
