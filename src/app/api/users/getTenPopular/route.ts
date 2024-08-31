@@ -3,7 +3,7 @@ import { StatusCode } from "src/constants/statusCode";
 import { CollectionPath } from "src/constants/firestore";
 import { getCollectionRef } from "src/libs/databases/firestore";
 import { UserModel } from "src/interfaces/models/user";
-import { PopularCreator } from "src/interfaces/models/common";
+import { PopularCreator } from "src/interfaces/datas/user";
 import { errorHandler } from "src/libs/errors/apiError";
 
 export async function GET(request: NextRequest) {
@@ -19,12 +19,12 @@ export async function GET(request: NextRequest) {
         topTenCreator.forEach((user) => {
             const targetUser = user.data() as UserModel;
             const tmp: PopularCreator = {
+                uid: targetUser.uid,
                 firstName: targetUser.firstName,
                 lastName: targetUser.lastName,
                 profileImageUrl: targetUser.profileImageUrl,
                 email: targetUser.email,
-                totalProjectSuccess:
-                    targetUser.popularDetail.totalProjectSuccess,
+                totalProjectSuccess: targetUser.popularDetail.totalProjectSuccess,
                 totalSupporter: targetUser.popularDetail.totalSupporter,
             };
             topTen.push(tmp);
