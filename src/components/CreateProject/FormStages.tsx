@@ -10,11 +10,12 @@ import { StageId } from 'src/interfaces/models/enums';
 
 const { Title } = Typography;
 
-export default function FormStages() {
+type Props = {
+  projectId: string;
+};
+
+export default function FormStages({projectId}: Props) {
   const router = useRouter();
-  const pathName = usePathname();
-  const projectIdMatch = pathName.match(/\/create-project\/([a-zA-Z0-9]+)/);
-  const projectId = projectIdMatch ? projectIdMatch[1] : "";
   const [form] = Form.useForm();
   const [projectData, setProjectData] = useState<ProjectModel | undefined>();
 

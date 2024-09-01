@@ -3,14 +3,16 @@
 import { useState, useEffect } from "react";
 import { Form, Input, Button, Select, DatePicker, Upload, message, Image } from "antd";
 import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { upload } from "src/services/apiService/files/upload";
 import { editProjectById } from "src/services/apiService/projects/editProjectById";
 import { getProjectById } from "src/services/apiService/projects/getProjectById"; // Import the getProjectById function
 import { FileTypeKeys } from "src/constants/payloadKeys/file";
 import { EditProjectPayload } from "src/interfaces/payload/projectPayload";
 
-type Props = {};
+type Props = {
+  projectId: string;
+};
 
 const getBase64 = (file: File): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -20,11 +22,8 @@ const getBase64 = (file: File): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
-export default function FormBasic({}: Props) {
-  const pathName = usePathname();
+export default function FormBasic({projectId}: Props) {
   const router = useRouter();
-  const projectIdMatch = pathName.match(/\/create-project\/([a-zA-Z0-9]+)/);
-  const projectId = projectIdMatch ? projectIdMatch[1] : "";
 
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState<any[]>([]);
