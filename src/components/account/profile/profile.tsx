@@ -42,13 +42,13 @@ export default function UserProfile({}: Props) { // เปลี่ยนชื�
           <div className="w-full">
             <h1 className="text-7xl  text-black text-left ml-40 mt-20">{user?.username}</h1>
           <div className="flex items-start ml-72 space-x-10 mt-20">
-              <button className="bg-[#D2825E] text-white font-semibold py-2 px-16 rounded-xl text-xl">
+              <button className="bg-[#D2825E] text-white font-semibold py-2 px-16 rounded-xl text-xl"  onClick={() => router.push('/profiletoy')}>
                 Profile
               </button>
-              <button className="bg-[#D2825E] text-white font-semibold py-2 px-16 rounded-xl text-xl">
+              <button className="bg-[#D2825E] text-white font-semibold py-2 px-16 rounded-xl text-xl"  onClick={() => router.push('/my-project')}>
                 Projects
               </button>
-              <button className="bg-[#D2825E] text-white font-semibold py-2 px-16 rounded-xl text-xl">
+              <button className="bg-[#D2825E] text-white font-semibold py-2 px-16 rounded-xl text-xl" onClick={() => router.push('/contribution')}>
                 Contribution
               </button>
               <button className="bg-[#D2825E] text-white font-semibold py-2 px-16 rounded-xl text-xl">
@@ -80,7 +80,7 @@ export default function UserProfile({}: Props) { // เปลี่ยนชื�
                 <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-blue-500 text-3xl">
                   <FaTwitter />
                 </a>
-                <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-red-600 text-3xl">
+                <a href={user?.contact.youtube} target="_blank" rel="noopener noreferrer" className="text-red-600 text-3xl">
                 <FaYoutube />
                 </a>
               </div>
