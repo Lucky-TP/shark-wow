@@ -23,6 +23,16 @@ export async function GET(request: NextRequest, { params }: { params: { projectI
             );
         }
         const projectModel = projectSnapshot.data() as ProjectModel;
+        if (projectModel.status === ProjectStatus.DRAFT) {
+            const projectOwner = await withAuthVerify(request);
+            if (projectModel.uid !== projectOwner.uid) {
+                return NextResponse.json(
+                    { message: "No permission to access draft project" },
+                    { status: StatusCode.UNAUTHORIZED }
+                );
+            }
+        }
+
         const discussions: CommentData[] = await getComments(projectModel.discussionIds);
         const projectData: ProjectData = {
             projectId: projectModel.projectId,
