@@ -34,12 +34,12 @@ export default function Page({ params }: { params: { projectID: string } }) {
           const response = await getProjectById(projectID);
           const data =  response.data;
 
-          await new Promise(resolve => setTimeout(resolve, 4000));
+          // await new Promise(resolve => setTimeout(resolve, 500));
 
           SetProjectResponse({
             ...ProjectResponse,
             projectData: data,
-            isLoading: false
+            isLoading : false
           })
 
         } catch (error) {

@@ -4,6 +4,7 @@ import { getUserById } from 'src/services/apiService/users/getUserById'
 
 import { ProjectModel } from 'src/interfaces/models/project'
 
+
 import { message, Skeleton } from 'antd'
 
 
@@ -18,12 +19,12 @@ type Props = Partial<ProjectModel> &  {
 function formatDate(date : string | undefined)  {
   if(date === undefined) return ''
   const dateO = new Date(date); // Convert to Date object
-
+  console.log(dateO)
   const day = String(dateO.getDate()).padStart(2, '0');
   const month = String(dateO.getMonth() + 1).padStart(2, '0'); // Months are zero-based
   const year = dateO.getFullYear();
 
-  return `${day}/${month}/${year}`;
+  return `${day}/${month}/${year}` ;
 }
 
 
@@ -88,15 +89,15 @@ export default function ProjectOverviewInfo({
       {
         !isLoading && 
         <>
-          <div className='flex flex-row'>
-            <div className="w-16 h-16 rounded-full">
+          <div className='flex flex-row items-center gap-x-[2vw] '>
+            <div className="rounded-full">
               <img
                 src={userInfomation.imageUrl}
-                className="w-16 h-16 rounded-full"/>
+                className="rounded-full max-w-[5vw]"/>
             </div>
             <div className="ml-4">
               <h2 className="text-2xl font-bold">{userInfomation.name}</h2>
-              <p className="text-gray-600">Created at {formatDate(userInfomation.date)}</p>
+              <p className="text-gray-600">Created at {userInfomation.date !==undefined ? formatDate(userInfomation.date) : ""}</p>
             </div>
           </div>
           <div>
