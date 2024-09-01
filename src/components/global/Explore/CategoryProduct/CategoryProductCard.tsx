@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import ProductCard from "./ProductCard";
+import SingleProductCard from "src/components/NewProductCard/SingleProduct/SingleProductCard";
 import { ShowProject } from "src/interfaces/datas/project"; // Adjust the import path as needed
 import { getProjectByCategories } from "src/services/apiService/projects/getProjectByCategories";
 import { StatusCode } from "src/constants/statusCode";
@@ -13,7 +13,7 @@ type Props = {
 
 export default function CategoryProductCard({ category }: Props) {
     const [products, setProducts] = useState<ShowProject[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -25,6 +25,7 @@ export default function CategoryProductCard({ category }: Props) {
             }
 
             try {
+                setLoading(true);
                 const response = await getProjectByCategories([encodeURI(category)]);
                 console.log(response.status);
                 if (response.status === StatusCode.SUCCESS) {
@@ -53,7 +54,7 @@ export default function CategoryProductCard({ category }: Props) {
                 <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {products.map((product) => (
                         <li key={product.projectId} className="flex-shrink-0">
-                            <ProductCard product={product} />
+                            <SingleProductCard product={product} />
                         </li>
                     ))}
                 </ul>

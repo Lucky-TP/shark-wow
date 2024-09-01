@@ -2,8 +2,9 @@
 import React, { useEffect,useState } from 'react'
 import Link from 'next/link'
 import CarouselCreatorCard from '../CreatorCard/CarouselCreator/CarouselCreatorCard'
-import { PopularCreator } from 'src/interfaces/models/common'
+import { PopularCreator } from 'src/interfaces/datas/user';
 import {getTenPopularUsers} from 'src/services/apiService/users/getTenPopularUsers'
+import LoadingSection from '../global/LoadingSection';
 
 type Props = {}
 
@@ -38,7 +39,7 @@ export default function PopularCreatorCard({}: Props) {
 
     return (
         <>
-            {(loading) && <p>Loading...</p>}
+            {(loading) && <p><LoadingSection/></p>}
             {error && <p>Error: {error}</p>}
             { (!loading) && data.length != 0 && 
             <section className='bg-white p-10'>

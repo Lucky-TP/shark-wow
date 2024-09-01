@@ -4,8 +4,9 @@ import CarouselProductCard from 'src/components/NewProductCard/CarouselProduct/C
 import CarouselTrendingProductCard from './CarouselProductTopTen/CarouselTrendingProduct';
 import CategoryProductCard from './CategoryProduct/CategoryProductCard';
 import SearchBar from '../SearchBar';
-import { ShowProject } from 'src/interfaces/models/common';
+import { ShowProject } from 'src/interfaces/datas/project';
 import { getProjectByCategories } from 'src/services/apiService/projects/getProjectByCategories';
+import LoadingPage from '../LoadingPage';
 
 interface AllData {
   categories: string[],
@@ -27,12 +28,13 @@ export default function MainExplore() {
     Film: [],
     House: []
   });
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const foodResponse = await getProjectByCategories(['Food']);
         const technologyResponse = await getProjectByCategories(['Technology']);
         const artResponse = await getProjectByCategories(['Art']);
@@ -64,6 +66,10 @@ export default function MainExplore() {
   const handleCategoryClick = (category: string | null) => {
     setSelectedCategory(category);
   };
+
+  if (loading) {
+    return <LoadingPage/>;
+  }
 
   return (
     <section className='flex flex-col justify-between py-[3vh] h-full w-full bg-orange-50'>

@@ -1,10 +1,11 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { ShowProject } from 'src/interfaces/models/common';
+import { ShowProject } from 'src/interfaces/datas/project';
 import { getTenPopularProjects } from 'src/services/apiService/projects/getTenPopularProjects';
 import Link from 'next/link'
 import CarouselProductCard from 'src/components/NewProductCard/CarouselProduct/CarouselProductCard';
+import LoadingSection from '../global/LoadingSection';
 
 type Props = {}
 
@@ -41,7 +42,7 @@ export default function PopularProject({}: Props) {
     
     return (
         <>
-            {(loading) && <p>Loading...</p>}
+            {(loading) && <p><LoadingSection/></p>}
             {error && <p>Error: {error}</p>}
             { (!loading) && topproducts.length != 0 && 
             <section className='bg-white p-10'>

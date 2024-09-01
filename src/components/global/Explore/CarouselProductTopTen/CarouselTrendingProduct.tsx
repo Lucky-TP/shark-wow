@@ -1,19 +1,21 @@
 "use client";
 import React, { useEffect,useState } from 'react';
 import CarouselProductCard from 'src/components/NewProductCard/CarouselProduct/CarouselProductCard';
-import { ShowProject } from 'src/interfaces/models/common';
+import { ShowProject } from 'src/interfaces/datas/project';
 import { getTenPopularProjects } from 'src/services/apiService/projects/getTenPopularProjects';
+import LoadingSection from '../../LoadingSection';
 
 type Props = {};
 
 export default function CarouselTrendingProductCard({}: Props) {
   const [topproducts, setTopProducts] = useState<ShowProject[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
       const fetchProducts = async () => {
           try {
+            setLoading(true);
               const data = await getTenPopularProjects();
 
               setTopProducts(data.data);
@@ -33,7 +35,7 @@ export default function CarouselTrendingProductCard({}: Props) {
 
   
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <p><LoadingSection/></p>;
   if (error) return <p>Error: {error}</p>;
 
  

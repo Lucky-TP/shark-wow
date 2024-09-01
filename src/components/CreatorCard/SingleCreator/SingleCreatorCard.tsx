@@ -1,13 +1,18 @@
 import React from 'react';
-import { PopularCreator } from 'src/interfaces/models/common';
+import { PopularCreator } from 'src/interfaces/datas/user';
 import Image from 'next/image';
+import { useRouter } from "next/navigation";
 
 interface CreatorCardProps {
     creator: PopularCreator;
 }
 
 const SingleCreatorCard = ({ creator }: CreatorCardProps) => {
-    
+    const router = useRouter();
+
+    const handleViewProject = () => {
+        router.push(`/explore/creator/${creator.uid}`);
+    };
     return (
         <section>
             <div className='pl-6 p-3'>
@@ -22,7 +27,10 @@ const SingleCreatorCard = ({ creator }: CreatorCardProps) => {
                         />
                         {/* Hover elements */}
                         <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
-                            <button className="absolute bottom-2 bg-orange-600 text-white font-semibold py-2 px-4 rounded-full">
+                            <button 
+                                className="absolute bottom-2 bg-orange-600 text-white font-semibold py-2 px-4 rounded-full"
+                                onClick={handleViewProject}
+                                >
                                 View Creator
                             </button>
                         </div>
