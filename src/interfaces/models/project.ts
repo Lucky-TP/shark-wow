@@ -1,4 +1,5 @@
-import { Address, ReceivedComment } from "./common";
+import { Timestamp } from "firebase/firestore";
+import { Address } from "./common";
 import { ProjectStatus, StageId, StageStatus } from "./enums";
 
 export interface Update {
@@ -11,12 +12,12 @@ export interface Update {
 export interface Stage {
     stageId: StageId;
     name: string;
-    startDate?: Date;
-    expireDate?: Date;
+    startDate?: Timestamp;
+    expireDate?: Timestamp;
     status: StageStatus;
     detail: string;
     imageUrl: string;
-    minimumFunding: number;
+    fundingCost: number;
     currentFunding: number;
     goalFunding: number;
     totalSupporter: number;
@@ -31,10 +32,12 @@ export interface ProjectModel {
     address: Address;
     totalSupporter: number;
     status: ProjectStatus;
+    totalQuantity: number;
+    costPerQuantity: number;
     category: string;
     stages: Stage[];
     story: string;
-    discussion: ReceivedComment[];
+    discussionIds: string[];
     update: Update[];
     website: string;
     payment?: unknown;

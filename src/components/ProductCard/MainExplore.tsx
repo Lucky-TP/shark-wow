@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from 'react';
-import CarouselProductCard from 'src/components/productcard/CarouselProductCard';
-import CarouselTrendingProduct from 'src/components/productcard/CarouselTrendingProduct';
-import CategoryProductCard from 'src/components/productcard/CategoryProductCard';
+import CarouselProductCard from 'src/components/ProductCard/CarouselProductCard';
+import CarouselTrendingProduct from 'src/components/ProductCard/CarouselTrendingProduct';
+import CategoryProductCard from 'src/components/ProductCard/CategoryProductCard';
 import Withmock from './Withmock';
 import SearchBar from '../global/SearchBar';
 

@@ -1,12 +1,12 @@
 import { addNewUser } from "./addNewUser";
 import { UserModel } from "src/interfaces/models/user";
 import { StatusCode } from "src/constants/statusCode";
-import { dateToTimestamp } from "src/utils/date";
+import { dateToTimestamp } from "src/utils/date/adminDateConversion";
 import { CustomError } from "src/libs/errors/apiError";
 
 export async function createUser(
     userData?: Partial<UserModel>
-): Promise<UserModel> {
+): Promise<void> {
     try {
         const uid = userData?.uid;
         if (!uid) {
@@ -33,7 +33,7 @@ export async function createUser(
                 totalProjectSuccess: 0,
                 totalSupporter: 0,
             },
-            receivedComments: [],
+            receivedCommentIds: [],
             interestCategories: [],
             address: userData?.address || [],
             contact: userData.contact || {
@@ -47,7 +47,6 @@ export async function createUser(
         };
 
         await addNewUser(newUser);
-        return newUser;
     } catch (error: unknown) {
         if (error instanceof CustomError) {
             throw error;

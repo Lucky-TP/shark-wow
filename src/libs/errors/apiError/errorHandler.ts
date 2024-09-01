@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { CustomError } from "./customError";
 
 export function errorHandler(err: unknown) {
+    console.log(err);
     if (err instanceof CustomError) {
         return NextResponse.json(
             { message: err.message },

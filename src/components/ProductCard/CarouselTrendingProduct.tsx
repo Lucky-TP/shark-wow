@@ -2,14 +2,16 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
-import { ShowProject } from "src/interfaces/models/common"; // Adjust the import path as needed
-import { getProjectByCategories } from "src/services/apiService/projects/getProjectByCategories"; // Adjust the import path as needed
+import { ShowProject } from "src/interfaces/datas/project"; // Adjust the import path as needed
+import { getTenPopularProjects } from "src/services/apiService/projects/getTenPopularProjects"; // Adjust the import path as needed
+import LoadingSection from "../global/LoadingSection";
 
-type Props = {
-    category: string; // Single category string
-};
-
-export default function CarouselProductCard({ category }: Props) {
+interface CarouselTrendingProductCardProps {
+    showTopic?: boolean;
+}
+export default function CarouselTrendingProductCard({
+    showTopic = true,
+}: CarouselTrendingProductCardProps) {
     const carouselRef = useRef<HTMLDivElement>(null);
     const [products, setProducts] = useState<ShowProject[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -18,22 +20,19 @@ export default function CarouselProductCard({ category }: Props) {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const data = await getProjectByCategories([category]); // Pass category as an array with a single element
+                const data = await getTenPopularProjects();
 
-                setProducts(data.data); // Assuming the response data structure is { data: ShowProject[] }
+                setProducts(data.data);
             } catch (error) {
                 setError("An error occurred while fetching products.");
-                console.error(
-                    "An error occurred while fetching products:",
-                    error
-                );
+                console.error("An error occurred while fetching products:", error);
             } finally {
                 setLoading(false);
             }
         };
 
         fetchProducts();
-    }, [category]);
+    }, []);
 
     const scrollLeft = () => {
         if (carouselRef.current) {
@@ -53,12 +52,12 @@ export default function CarouselProductCard({ category }: Props) {
         }
     };
 
-    if (loading) return <p>Loading...</p>;
+    if (loading) return <LoadingSection/>;
     if (error) return <p>Error: {error}</p>;
 
     return (
         <section className="relative">
-            <p className="pb-2 font-bold">{category}</p>
+            {showTopic && <p className="pb-2 font-bold">Top 10 Popular Projects</p>}
             <div className="relative">
                 <button
                     onClick={scrollLeft}

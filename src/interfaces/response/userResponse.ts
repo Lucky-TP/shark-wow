@@ -1,12 +1,16 @@
 import { DefaultResponse } from "./commonResponse";
-import { PopularCreator, UserDataWithDate } from "../models/common";
+import { PopularCreator, PublicUserData } from "../datas/user";
+import { UserData } from "../datas/user";
 
 export interface GetUserResponse extends DefaultResponse {
-    data?: UserDataWithDate;
+    data?: UserData;
 }
 
 export interface EditUserResponse extends DefaultResponse {}
 
 export interface GetTopTenCreatorResponse extends DefaultResponse {
     data: PopularCreator[];
+}
+export interface GetUserByIdResponse extends DefaultResponse {
+    data?: PublicUserData;
 }

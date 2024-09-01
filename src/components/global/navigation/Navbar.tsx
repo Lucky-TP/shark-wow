@@ -1,31 +1,28 @@
 "use client";
 import Link from "next/link";
-import React from "react";
-
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { apiPath } from "src/constants/routePath";
-import axios, { AxiosResponse } from "axios";
-import { GetUserResponse } from "src/interfaces/response/userResponse";
-import { signOut } from "src/services/authService";
-import { Dropdown } from "antd";
+import { Button, Dropdown } from "antd";
 import Image from "next/image";
-import { UserDataWithDate } from "src/interfaces/models/common";
+import { signOut } from "src/services/authService";
+import { getSelf } from "src/services/apiService/users/getSelf";
+import { createProject } from "src/services/apiService/projects/createProject"; // Import your function
+import { UserData } from "src/interfaces/datas/user";
 import { useAuth } from "src/hooks/useAuth";
 
 type Props = {};
 
 export default function Navbar({}: Props) {
     const router = useRouter();
-    const [user, setUser] = useState<UserDataWithDate | null>();
+    const [user, setUser] = useState<UserData | null>();
+    const [loading, setLoading] = useState(false);
     const { user: userHook } = useAuth();
+
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
-                const response: AxiosResponse<GetUserResponse> =
-                    await axios.get(apiPath.USERS.GET_SELF);
-                console.log(response);
-                setUser(response.data.data || null);
+                const result = await getSelf();
+                setUser(result.data);
             } catch (error: any) {
                 setUser(null);
             }
@@ -36,6 +33,23 @@ export default function Navbar({}: Props) {
             setUser(null);
         }
     }, [userHook, setUser]);
+
+    const handleCreateProject = async () => {
+        try {
+            setLoading(true);
+            const result = await createProject();
+            const projectId = result.data; // Get the project ID from response
+            router.push(`/create-project/${projectId}/basic`); // Navigate to the project page
+            setLoading(false);
+        } catch (error: any) {
+            router.push(`/sign-in`)
+            console.error("Error creating project:", error.message);
+        }
+    };
+
+    const handleProfile = async () => {
+        router.push("/profile")
+    };
 
     const handleSignOut = async () => {
         try {
@@ -48,42 +62,38 @@ export default function Navbar({}: Props) {
 
     return (
         <section>
-            <nav className="px-[3vw] bg-gray-200 shadow-md py-[2vh]">
+            <nav className="px-[3vw] bg-primary shadow-md py-[2vh]">
                 <div className="flex flex-row justify-between items-center">
                     <div className="flex items-center">
                         <Link href="/">
                             <Image
-                                src="/assets/shark.png"
-                                className="w-[40px] h-[40px] test rounded-full"
+                                src="/assets/NavbarIcon.svg"
                                 alt="SharkWow Logo"
-                                width={40}
-                                height={40}
+                                width={150}
+                                height={150}
                             />
                         </Link>
                     </div>
                     <ul className="flex flex-row gap-x-[3vw] items-center">
                         <li>
-                            <Link
-                                href="/create-project"
-                                className="text-gray-800 hover:text-blue-500"
-                            >
-                                CREATE PROJECT
+                            <Link href="/explore" className="text-gray-800 hover:text-white">
+                                EXPLORE
                             </Link>
                         </li>
                         <li>
-                            <Link
-                                href="/catagories"
-                                className="text-gray-800 hover:text-blue-500"
+                            <Button
+                                type="link"
+                                onClick={handleCreateProject}
+                                loading={loading}
                             >
-                                CATAGORIES
-                            </Link>
+                                <span className="text-gray-800 hover:text-white">
+                                    CREATE PROJECT
+                                </span>
+                            </Button>
                         </li>
                         <li>
                             {!user && (
-                                <Link
-                                    href="/sign-in"
-                                    className="text-gray-800 hover:text-blue-500"
-                                >
+                                <Link href="/sign-in" className="text-gray-800 hover:text-white">
                                     SIGN IN / SIGN UP
                                 </Link>
                             )}
@@ -93,22 +103,22 @@ export default function Navbar({}: Props) {
                                         items: [
                                             {
                                                 key: "1",
-                                                label: (
-                                                    <div
-                                                        onClick={handleSignOut}
-                                                    >
-                                                        sign out
-                                                    </div>
-                                                ),
+                                                label: <div onClick={handleProfile}>Profile</div>,
+                                            },
+                                            {
+                                                key: "2",
+                                                label: <div onClick={handleSignOut}>sign out</div>,
                                                 danger: true,
                                             },
                                         ],
                                     }}
                                 >
-                                    <img
-                                        src={user.profileImageUrl}
+                                    <Image
+                                        src={user.profileImageUrl || ""}
                                         alt={`${user.firstName} ${user.lastName}`}
                                         className="rounded-full w-12 h-12"
+                                        width={150}
+                                        height={150}
                                     />
                                 </Dropdown>
                             )}

@@ -1,27 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
 import { errorHandler } from "src/libs/errors/apiError";
 import { CollectionPath } from "src/constants/firestore";
-import { withAuthVerify } from "src/utils/auth";
-import {
-    ProjectStatus,
-    StageId,
-    StageStatus,
-} from "src/interfaces/models/enums";
+import { withAuthVerify } from "src/utils/api/auth";
+import { ProjectStatus, StageId, StageStatus } from "src/interfaces/models/enums";
 import { StatusCode } from "src/constants/statusCode";
 import { getDocRef } from "src/libs/databases/firestore";
 import { UserModel } from "src/interfaces/models/user";
 import { ProjectModel } from "src/interfaces/models/project";
 import { addNewProject } from "src/libs/databases/projects";
+import { updateUser } from "src/libs/databases/users";
 
 export async function POST(request: NextRequest) {
     try {
         const tokenData = await withAuthVerify(request);
 
-        const { uid } = tokenData;
+        const uid = tokenData.uid;
         const userDocRef = getDocRef(CollectionPath.USER, uid);
         const userSnapshot = await userDocRef.get();
 
-        const newProject: ProjectModel = {
+        const newProjectModel: ProjectModel = {
             projectId: "",
             uid: uid,
             name: "",
@@ -34,6 +31,8 @@ export async function POST(request: NextRequest) {
                 postalCode: "",
             },
             totalSupporter: 0,
+            totalQuantity: 0,
+            costPerQuantity: 0,
             status: ProjectStatus.DRAFT,
             category: "",
             stages: [
@@ -43,7 +42,7 @@ export async function POST(request: NextRequest) {
                     status: StageStatus.NOT_USE,
                     detail: "",
                     imageUrl: "",
-                    minimumFunding: 0,
+                    fundingCost: 0,
                     currentFunding: 0,
                     goalFunding: -1,
                     totalSupporter: 0,
@@ -54,7 +53,7 @@ export async function POST(request: NextRequest) {
                     status: StageStatus.NOT_USE,
                     detail: "",
                     imageUrl: "",
-                    minimumFunding: 0,
+                    fundingCost: 0,
                     currentFunding: 0,
                     goalFunding: -1,
                     totalSupporter: 0,
@@ -65,27 +64,25 @@ export async function POST(request: NextRequest) {
                     status: StageStatus.NOT_USE,
                     detail: "",
                     imageUrl: "",
-                    minimumFunding: 0,
+                    fundingCost: 0,
                     currentFunding: 0,
                     goalFunding: -1,
                     totalSupporter: 0,
                 },
             ],
             story: "",
-            discussion: [],
+            discussionIds: [],
             update: [],
             website: "",
         };
 
-        const newProjectId = await addNewProject(newProject);
-        const currentUserData = userSnapshot.data() as UserModel;
-        await userDocRef.update({
-            ownProjectIds: [...currentUserData.ownProjectIds, newProjectId],
-        });
+        const newProjectId = await addNewProject(newProjectModel);
+        const currentUserModel = userSnapshot.data() as UserModel;
+        await updateUser(uid, { ownProjectIds: [...currentUserModel.ownProjectIds, newProjectId] });
         return NextResponse.json(
             {
-                message:
-                    "Create draft project and update user project successful",
+                message: "Create draft project and update user's project successful",
+                data: newProjectId,
             },
             { status: StatusCode.CREATED }
         );
