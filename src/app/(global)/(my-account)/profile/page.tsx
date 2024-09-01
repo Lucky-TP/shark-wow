@@ -95,10 +95,6 @@ export default function ProfilePage() {
                                         <strong>Description: </strong> {project.description} <br />
                                         <strong>Status: </strong> {project.status == 0 ? "Draft" : "Funding"} <br />
                                         <strong>Category: </strong> {project.category} <br />
-                                        <strong>Total Supporter: </strong> {project.totalSupporter} <br />
-                                        <strong>Total Quantity: </strong> {project.totalQuantity} <br />
-                                        <strong>Cost Per Quantity: </strong> {project.costPerQuantity} <br />
-                                        <strong>Website: </strong> {project.website} <br />
                                         <div className="mt-2">
                                             <strong>Images: </strong>
                                             <div className="flex space-x-2 mt-2">
