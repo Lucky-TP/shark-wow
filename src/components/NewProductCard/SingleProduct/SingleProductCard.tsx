@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ShowProject } from "src/interfaces/datas/project";
 import Image from 'next/image';
 import { useRouter } from "next/navigation";
+import LoadingSection from 'src/components/global/LoadingSection';
 
 interface ProductCardProps {
     product: ShowProject;
@@ -9,14 +10,15 @@ interface ProductCardProps {
 
 const SingleProductCard = ({ product }: ProductCardProps) => {
     const router = useRouter();
-    
+    const [isLoading, setIsLoading] = useState(false);
+
     const percentageFunded = Math.round(
         (product.stages[0].currentFunding / product.stages[0].goalFunding) * 100
     );
-    
+
     const handleViewProject = () => {
+        setIsLoading(true);
         router.push(`/explore/${product.projectId}`);
-        // router.push(`/${product.projectId}`);
     };
 
     return (
@@ -24,10 +26,13 @@ const SingleProductCard = ({ product }: ProductCardProps) => {
             <div className="pl-6 p-3">
                 <div className="w-full h-full rounded-lg overflow-hidden relative group">
                     <div className="relative w-full h-48">
-                        {" "}
-                        {/* Fixed height for the image container */}
+                        {isLoading && (
+                            <div className="absolute inset-0 z-10 flex items-center justify-center bg-white bg-opacity-70">
+                                <LoadingSection />
+                            </div>
+                        )}
                         <Image
-                            className="w-full h-full object-contain" // Ensure the image fits within the container without cropping
+                            className="w-full h-full object-contain"
                             src={product.carouselImageUrls[0]}
                             alt={product.projectId}
                             width={400}

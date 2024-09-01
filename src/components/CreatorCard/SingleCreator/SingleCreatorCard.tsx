@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { PopularCreator } from 'src/interfaces/datas/user';
 import Image from 'next/image';
 import { useRouter } from "next/navigation";
+import LoadingSection from 'src/components/global/LoadingSection';
 
 interface CreatorCardProps {
     creator: PopularCreator;
@@ -9,8 +10,9 @@ interface CreatorCardProps {
 
 const SingleCreatorCard = ({ creator }: CreatorCardProps) => {
     const router = useRouter();
-
+    const [isLoading, setIsLoading] = useState(false);
     const handleViewProject = () => {
+        setIsLoading(true);
         router.push(`/explore/creator/${creator.uid}`);
     };
     return (
@@ -18,6 +20,11 @@ const SingleCreatorCard = ({ creator }: CreatorCardProps) => {
             <div className='pl-6 p-3'>
                 <div className="w-full h-full rounded-lg overflow-hidden relative group">
                     <div className="relative w-full h-48"> {/* Fixed height for the image container */}
+                        {isLoading && (
+                            <div className="absolute inset-0 z-10 flex items-center justify-center bg-white bg-opacity-70">
+                                <LoadingSection />
+                            </div>
+                        )}
                         <Image
                             className="w-full h-full object-contain" // Ensure the image fits within the container without cropping
                             src={`${creator.profileImageUrl}`}
