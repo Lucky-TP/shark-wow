@@ -1,12 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Form, Input, Button, Select, DatePicker, Upload } from "antd";
 import dayjs from "dayjs";
 import Title from "antd/es/typography/Title";
-type Props = {}
 
-export default function FormPayment({}: Props) {
+type Props = {
+    projectId: string;
+  };
+
+export default function FormPayment({projectId}: Props) {
     const [form] = Form.useForm();
 
     useEffect(() => {
