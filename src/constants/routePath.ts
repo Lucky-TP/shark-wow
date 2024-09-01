@@ -33,10 +33,18 @@ export const apiPath = {
         DELETE: (projectId: string) => `${API_BASE_URL}/api/projects/${projectId}`,
     },
     COMMENTS: {
-        CREATE: `${API_BASE_URL}/api/comments/create`,
-        GET_BY_PROJECT_ID: (projectId: string) =>
-            `${API_BASE_URL}/api/comments/project/${projectId}`,
-        DELETE: (commentId: string) => `${API_BASE_URL}/api/comments/${commentId}/delete`,
+        USER: {
+            CREATE: (userId: string) => `${API_BASE_URL}/api/comments/user/${userId}`,
+        },
+        PROJECT: {
+            CREATE: (projectId: string) => `${API_BASE_URL}/api/comments/project/${projectId}`,
+        },
+        UPDATE: (commentId: string) => `${API_BASE_URL}/api/comments/${commentId}`,
+    },
+    REPLIES: {
+        CREATE: (parentCommentId: string) =>
+            `${API_BASE_URL}/api/replies/create/${parentCommentId}`,
+        UPDATE: (replyId: string) => `${API_BASE_URL}/api/replies/${replyId}`,
     },
 };
 
