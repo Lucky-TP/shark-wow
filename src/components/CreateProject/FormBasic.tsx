@@ -30,6 +30,7 @@ export default function FormBasic({projectId}: Props) {
   const [previewOpen, setPreviewOpen] = useState<boolean>(false);
   const [previewImage, setPreviewImage] = useState<string>("");
   const [initialCarouselImageUrls, setInitialCarouselImageUrls] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   // Fetch project data and set initial form values
   useEffect(() => {
@@ -71,7 +72,13 @@ export default function FormBasic({projectId}: Props) {
   }, [projectId, form]);
 
   const onFinish = async (values: any) => {
-    console.log("Form values:", values);
+    setLoading(true);
+
+    if (fileList.length === 0) {
+      message.error("Please input your project images!");
+      setLoading(false);
+      return;
+    }
 
     let carouselImageUrls: string[] = [...initialCarouselImageUrls];
 
@@ -118,6 +125,8 @@ export default function FormBasic({projectId}: Props) {
       router.push(`/create-project/${projectId}/story`);
     } catch (error) {
       message.error("Project update failed!");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -153,7 +162,7 @@ export default function FormBasic({projectId}: Props) {
         form={form}
         layout="vertical"
         onFinish={onFinish}
-        className="max-w-[460px]"
+        className="w-full"
       >
         <h1 className="text-4xl mb-1">Basic Details</h1>
         <p className="mb-2">Summarize your details for a good impression</p>
@@ -240,7 +249,7 @@ export default function FormBasic({projectId}: Props) {
           </Select>
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" loading={loading} disabled={loading} htmlType="submit">
             Save & continue
           </Button>
         </Form.Item>
