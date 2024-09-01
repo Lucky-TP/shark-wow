@@ -4,6 +4,7 @@ import React, { useRef, useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import { ShowProject } from "src/interfaces/datas/project"; // Adjust the import path as needed
 import { getProjectByCategories } from "src/services/apiService/projects/getProjectByCategories"; // Adjust the import path as needed
+import LoadingSection from "../global/LoadingSection";
 
 type Props = {
     category: string; // Single category string
@@ -50,7 +51,7 @@ export default function CarouselProductCard({ category }: Props) {
         }
     };
 
-    if (loading) return <p>Loading...</p>;
+    if (loading) return <LoadingSection/>;
     if (error) return <p>Error: {error}</p>;
 
     return (
