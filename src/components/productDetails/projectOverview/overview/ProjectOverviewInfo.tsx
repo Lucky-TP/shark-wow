@@ -16,10 +16,9 @@ type Props = Partial<ProjectModel> &  {
   description?: string
 }
 
-function formatDate(date : string | undefined)  {
-  if(date === undefined) return ''
+function formatDate(date : string )  {
+  if(date === '') return ''
   const dateO = new Date(date); // Convert to Date object
-  console.log(dateO)
   const day = String(dateO.getDate()).padStart(2, '0');
   const month = String(dateO.getMonth() + 1).padStart(2, '0'); // Months are zero-based
   const year = dateO.getFullYear();
@@ -34,6 +33,7 @@ export default function ProjectOverviewInfo({
   stageId,
   name,
   description
+  // current stage 
 }: Props) {
 
   const [userInfomation, setUserDetails] = useState({
@@ -66,7 +66,6 @@ export default function ProjectOverviewInfo({
     //isLoading goes to false 
     
     if(!isLoading){
-      console.log(isLoading )
       OnGettingUserDetails()
     }
 
