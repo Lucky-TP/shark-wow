@@ -3,6 +3,8 @@ import { UserModel } from "../models/user";
 import { CommentData } from "./comment";
 import { ShowProject } from "./project";
 
+import { Timestamp } from "firebase/firestore";
+
 export type UserData = Omit<UserModel, "ownProjectIds" | "receivedCommentIds"> & {
     ownProjects: ProjectModel[];
     receivedComments: CommentData[];
