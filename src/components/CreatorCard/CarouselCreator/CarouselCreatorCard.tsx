@@ -1,39 +1,16 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
-import ProductCard from "./ProductCard";
-import { ShowProject } from "src/interfaces/datas/project"; // Adjust the import path as needed
-import { getTenPopularProjects } from "src/services/apiService/projects/getTenPopularProjects"; // Adjust the import path as needed
-import LoadingSection from "../global/LoadingSection";
+import React, { useRef } from "react";
+import SingleCreatorCard from "../SingleCreator/SingleCreatorCard";
+import { PopularCreator } from "src/interfaces/datas/user";
 
-interface CarouselTrendingProductCardProps {
-    showTopic?: boolean;
-}
-export default function CarouselTrendingProductCard({
-    showTopic = true,
-}: CarouselTrendingProductCardProps) {
+type Props = {
+    data: PopularCreator[]; // Array of products passed as a prop
+};
+
+export default function CarouselCreatorCard({ data }: Props) {
     const carouselRef = useRef<HTMLDivElement>(null);
-    const [products, setProducts] = useState<ShowProject[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const data = await getTenPopularProjects();
-
-                setProducts(data.data);
-            } catch (error) {
-                setError("An error occurred while fetching products.");
-                console.error("An error occurred while fetching products:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchProducts();
-    }, []);
-
+    
     const scrollLeft = () => {
         if (carouselRef.current) {
             carouselRef.current.scrollBy({
@@ -52,16 +29,13 @@ export default function CarouselTrendingProductCard({
         }
     };
 
-    if (loading) return <LoadingSection/>;
-    if (error) return <p>Error: {error}</p>;
-
     return (
         <section className="relative">
-            {showTopic && <p className="pb-2 font-bold">Top 10 Popular Projects</p>}
             <div className="relative">
                 <button
                     onClick={scrollLeft}
                     className="absolute -left-4 top-1/2 transform -translate-y-1/2 z-10 bg-transparent hover:bg-orange-400 p-2 rounded-full flex items-center justify-center h-12 w-12 border border-gray-300 hover:border-gray-500 transition-all duration-300"
+                    aria-label="Scroll Left"
                 >
                     <span className="sr-only">Scroll Left</span>
                     <svg
@@ -81,13 +55,13 @@ export default function CarouselTrendingProductCard({
                 </button>
                 <div className="pt-2 pb-4 overflow-x-hidden" ref={carouselRef}>
                     <ul className="flex space-x-8">
-                        {products.map((product) => (
+                        {data.map((creator) => (
                             <li
-                                key={product.projectId}
+                                key={creator.firstName}
                                 className="flex-shrink-0"
                                 style={{ width: "calc(25% - 32px)" }}
                             >
-                                <ProductCard product={product} />
+                                <SingleCreatorCard creator={creator} />
                             </li>
                         ))}
                     </ul>
@@ -95,6 +69,7 @@ export default function CarouselTrendingProductCard({
                 <button
                     onClick={scrollRight}
                     className="absolute -right-5 top-1/2 transform -translate-y-1/2 z-10 bg-transparent hover:bg-orange-400 p-2 rounded-full flex items-center justify-center h-12 w-12 border border-gray-300 hover:border-gray-500 transition-all duration-300"
+                    aria-label="Scroll Right"
                 >
                     <span className="sr-only">Scroll Right</span>
                     <svg

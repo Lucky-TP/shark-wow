@@ -1,24 +1,38 @@
-import React from "react";
+import React, { useState } from 'react';
 import { ShowProject } from "src/interfaces/datas/project";
-import Image from "next/image";
+import Image from 'next/image';
+import { useRouter } from "next/navigation";
+import LoadingSection from 'src/components/global/LoadingSection';
 
 interface ProductCardProps {
     product: ShowProject;
 }
 
-const ProductCard = ({ product }: ProductCardProps) => {
+const SingleProductCard = ({ product }: ProductCardProps) => {
+    const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false);
+
     const percentageFunded = Math.round(
         (product.stages[0].currentFunding / product.stages[0].goalFunding) * 100
     );
+
+    const handleViewProject = () => {
+        setIsLoading(true);
+        router.push(`/explore/${product.projectId}`);
+    };
+
     return (
         <section>
             <div className="pl-6 p-3">
                 <div className="w-full h-full rounded-lg overflow-hidden relative group">
                     <div className="relative w-full h-48">
-                        {" "}
-                        {/* Fixed height for the image container */}
+                        {isLoading && (
+                            <div className="absolute inset-0 z-10 flex items-center justify-center bg-white bg-opacity-70">
+                                <LoadingSection />
+                            </div>
+                        )}
                         <Image
-                            className="w-full h-full object-contain" // Ensure the image fits within the container without cropping
+                            className="w-full h-full object-contain"
                             src={product.carouselImageUrls[0]}
                             alt={product.projectId}
                             width={400}
@@ -26,7 +40,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
                         />
                         {/* Hover elements */}
                         <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
-                            <button className="absolute bottom-2 bg-orange-600 text-white font-semibold py-2 px-4 rounded-full">
+                            <button 
+                                className="absolute bottom-2 bg-orange-600 text-white font-semibold py-2 px-4 rounded-full"
+                                onClick={handleViewProject}
+                            >
                                 View Project
                             </button>
                         </div>
@@ -71,4 +88,4 @@ const ProductCard = ({ product }: ProductCardProps) => {
     );
 };
 
-export default ProductCard;
+export default SingleProductCard;

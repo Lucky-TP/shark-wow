@@ -1,25 +1,23 @@
-'use client'
-
-import React, { useEffect, useState } from 'react'
-import { ShowProject } from 'src/interfaces/datas/project';
-import { getTenPopularProjects } from 'src/services/apiService/projects/getTenPopularProjects';
+"use client";
+import React, { useEffect,useState } from 'react'
 import Link from 'next/link'
-import CarouselProductCard from 'src/components/NewProductCard/CarouselProduct/CarouselProductCard';
+import CarouselCreatorCard from '../CreatorCard/CarouselCreator/CarouselCreatorCard'
+import { PopularCreator } from 'src/interfaces/datas/user';
+import {getTenPopularUsers} from 'src/services/apiService/users/getTenPopularUsers'
 import LoadingSection from '../global/LoadingSection';
 
 type Props = {}
 
-export default function PopularProject({}: Props) {
-    const [topproducts, setTopProducts] = useState<ShowProject[]>([]);
+export default function PopularCreatorCard({}: Props) {
+    const [data, setData] = useState<PopularCreator[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const fetchProducts = async () => {
-
         try {
             setLoading(true);
-            const data = await getTenPopularProjects();
+            const data = await getTenPopularUsers();
             console.log(data);
-            setTopProducts(data.data);
+            setData(data.data);
         } catch (error) {
             setError("An error occurred while fetching products.");
             console.error(
@@ -27,27 +25,26 @@ export default function PopularProject({}: Props) {
                 error
             );
         } finally {
-            console.log(topproducts)
+            console.log(data);
             setLoading(false);
+            
         }
     };
-
-    
     useEffect(() => {
-        
+
         fetchProducts();
     }, []);
 
-    
-    
+  
+
     return (
         <>
             {(loading) && <p><LoadingSection/></p>}
             {error && <p>Error: {error}</p>}
-            { (!loading) && topproducts.length != 0 && 
+            { (!loading) && data.length != 0 && 
             <section className='bg-white p-10'>
                 <div className='flex flex-row items-center justify-between'>
-                    <h2 className="text-3xl font-bold mb-4">Popular Project</h2>
+                    <h2 className="text-3xl font-bold mb-4">Popular Creator</h2>
                     <span>
                         <Link href='/catargories'>
                             <p>
@@ -56,12 +53,12 @@ export default function PopularProject({}: Props) {
                         </Link>
                     </span>
                 </div>
-                <CarouselProductCard title='' data={topproducts} />
+                <CarouselCreatorCard data={data}/>
             </section>
             }
         </>
     )
 
-    
-    
+
+  
 }

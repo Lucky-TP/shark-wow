@@ -1,4 +1,4 @@
-import CKeditor from 'src/components/CreateProject/CKeditor';
+// import CKeditor from 'src/components/CreateProject/CKeditor';
 import Sidebar from 'src/components/CreateProject/Sidebar';
 
 export default function Story() {
