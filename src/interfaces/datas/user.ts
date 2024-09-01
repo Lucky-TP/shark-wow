@@ -20,6 +20,7 @@ export interface PopularCreator {
 
 export type PublicUserData = Omit<
     UserModel,
+    | "email"
     | "favoriteProjectIds"
     | "interestCategories"
     | "birthDate"

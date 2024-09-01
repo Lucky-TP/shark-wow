@@ -32,7 +32,6 @@ export async function GET(request: NextRequest, { params }: { params: { userId: 
             firstName: userModel.firstName,
             lastName: userModel.lastName,
             aboutMe: userModel.aboutMe,
-            email: userModel.email,
             profileImageUrl: userModel.profileImageUrl,
             popularDetail: userModel.popularDetail,
             receivedCommentIds: userModel.receivedCommentIds,
