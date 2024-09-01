@@ -35,16 +35,16 @@ export default function Navbar({}: Props) {
     }, [userHook, setUser]);
 
     const handleCreateProject = async () => {
+        setLoading(true);
         try {
-            setLoading(true);
             const result = await createProject();
             const projectId = result.data; // Get the project ID from response
             router.push(`/create-project/${projectId}/basic`); // Navigate to the project page
         } catch (error: any) {
-            setLoading(true);
             router.push(`/sign-in`)
-            setLoading(false);
             console.error("Error creating project:", error.message);
+        } finally {
+            setLoading(false);
         }
     };
 
