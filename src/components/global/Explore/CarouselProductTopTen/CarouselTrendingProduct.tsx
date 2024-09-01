@@ -15,7 +15,7 @@ export default function CarouselTrendingProductCard({}: Props) {
   useEffect(() => {
       const fetchProducts = async () => {
           try {
-            setLoading(true);
+              setLoading(true);
               const data = await getTenPopularProjects();
 
               setTopProducts(data.data);
