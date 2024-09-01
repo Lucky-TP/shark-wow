@@ -6,7 +6,7 @@ import { ShowProject } from "src/interfaces/datas/project"; // Adjust the import
 
 type Props = {
     title: string; // Single category string
-    data: ShowProject[]; // Array of products passed as a prop
+    data?: ShowProject[]; // Array of products passed as a prop
 };
 
 export default function CarouselProductCard({ title, data }: Props) {
