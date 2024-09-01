@@ -55,36 +55,30 @@ const EmblaCarousel = (props: PropType) => {
 
 
   return (
-    <section className="flex flex-col items-center justify-center embla w-full h-full gap-y-[3vh]">
+    <section className="flex flex-col items-center justify-between embla w-full h-full gap-y-[2vh]">
       {
         (props.isLoading ) &&
         <div className='flex w-full h-full items-center justify-center'>
-            <Spin 
-              size='large'
-              style={{fontSize: '2rem', color: '#fbd38d'}}
-              className='flex text-2xl text-orange-300 font-semibold absolute z-10'>
-            </Spin>
-            <Skeleton
-                variant="rectangular"
-                className='w-full h-full rounded-lg bg-orange-200'
-            />                  
+        <span className=' flex w-full h-full bg-orange-200 rounded-xl animate-pulse duration-700'>
+            
+        </span>  
         </div>
       }
       {
         !props.isLoading && slides.length === 0  &&
-        <div className='flex w-full h-full items-center justify-center'>
-          <h2 className='flex text-2xl text-orange-300 font-semibold absolute z-10'>
+        <div className='flex w-full h-full items-center justify-center'
+        >
+          <h2 className='flex text-2xl text-orange-500 font-semibold absolute z-10'>
             Creator has not uploaded any images yet
           </h2>
-          <Skeleton
-            variant="rectangular"
-            className='w-full h-full rounded-lg bg-orange-200'
-          />                  
+          <span className=' flex w-full h-full bg-orange-200 rounded-xl animate-pulse duration-700'>
+            
+          </span>               
         </div>
       }
       {
         !props.isLoading && slides.length !== 0 &&
-          <div className="embla__viewport overflow-x-hidden h-[70vh]" ref={emblaRef}>
+          <div className="embla__viewport overflow-x-hidden h-full" ref={emblaRef}>
             <div className="embla__container h-full flex items-center">
               {slides.map((e) => (
                 <div className="embla__slide" key={e.id}>
