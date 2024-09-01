@@ -1,7 +1,7 @@
 "use client"
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import Buttonseemore from "src/components/account/project/ButtonSeeMore";
+import ButtonSeeMore from './ButtonSeeMore';
 import CarouselProductCard from 'src/components/NewProductCard/CarouselProduct/CarouselProductCard';
 import { pagePath } from 'src/constants/routePath';
 import { useAuth } from 'src/hooks/useAuth';
@@ -10,7 +10,7 @@ import { getSelf } from 'src/services/apiService/users/getSelf';
 
 type Props = {};
 
-export default function Myproject({}: Props) { // เปลี่ยนชื่อเป็น UserProfile
+export default function MyProject({}: Props) { // เปลี่ยนชื่อเป็น UserProfile
     const [user, setUser] = useState<UserData | null>();
     const [loading, setLoading] = useState<boolean>(false);
     const { user: authUser, authLoading } = useAuth();
@@ -62,8 +62,8 @@ export default function Myproject({}: Props) { // เปลี่ยนชื่
                 <h1 className="text-5xl text-black text-left mt-20 ml-40">project</h1>
             </div>
         </div>
-        <CarouselProductCard title = "" data = {user?.ownProjects}/>
-        <Buttonseemore/>
+        <CarouselProductCard title="" data={user?.ownProjects}/>
+        <ButtonSeeMore/>
    </section>
    
    

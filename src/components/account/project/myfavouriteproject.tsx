@@ -1,8 +1,8 @@
 import React from 'react';
 import CarouselProductCard from 'src/components/NewProductCard/CarouselProduct/CarouselProductCard';
-import Buttonseemore from "src/components/account/project/ButtonSeeMore";
+import ButtonSeeMore from './ButtonSeeMore';
 type Props = {};
-export default function Myfavouriteproject({}: Props) { 
+export default function MyFavouriteProject({}: Props) { 
     return (
     <section>
           <div className=" bg-[#E5D8CA] flex items-start">
@@ -10,8 +10,8 @@ export default function Myfavouriteproject({}: Props) {
                   <h1 className="text-5xl text-black text-left mt-20 ml-40">My Favourite Project</h1>
               </div>
           </div>
-          <CarouselProductCard/>
-          <Buttonseemore/>
+          {/* <CarouselProductCard/> */}
+          <ButtonSeeMore/>
      </section>
     );
   }
