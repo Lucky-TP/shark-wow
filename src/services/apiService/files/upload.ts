@@ -4,12 +4,9 @@ import { apiPath } from "src/constants/routePath";
 import { FileUploadPayload } from "src/interfaces/payload/filePayload";
 import { FileUploadResponse } from "src/interfaces/response/fileResponse";
 
-export async function upload(
-    payload: FileUploadPayload
-): Promise<FileUploadResponse[]> {
+export async function upload(payload: FileUploadPayload): Promise<FileUploadResponse[]> {
     try {
-        const formData = new FormData();
-        const { file } = payload;
+        const file = payload.file;
 
         let files: Blob[] = [];
         if (!Array.isArray(file)) {
@@ -18,25 +15,26 @@ export async function upload(
             files = [...file];
         }
 
-        const promiseArray = [];
-        for (let i = 0; i < files.length; i++) {
-            let fields = {
-                [FileUploadPayloadKeys.file]: files[i],
+        const promiseArray: Promise<AxiosResponse<any, any>>[] = [];
+        files.forEach((file) => {
+            const formData = new FormData();
+            const fields = {
+                [FileUploadPayloadKeys.file]: file,
                 [FileUploadPayloadKeys.fileType]: payload.fileType,
                 [FileUploadPayloadKeys.projectId]: payload.projectId,
             };
+            console.table(fields);
             Object.entries(fields).forEach(([key, value]) => {
                 if (value) {
                     formData.append(key, value);
                 }
             });
+            console.table(formData);
 
-            let promise = axios.post(apiPath.FILES.UPLOAD, formData);
+            const promise = axios.post(apiPath.FILES.UPLOAD, formData);
             promiseArray.push(promise);
-        }
-        const response: AxiosResponse<FileUploadResponse>[] = await Promise.all(
-            promiseArray
-        );
+        });
+        const response: AxiosResponse<FileUploadResponse>[] = await Promise.all(promiseArray);
 
         return response.map((response) => response.data);
     } catch (error: unknown) {
