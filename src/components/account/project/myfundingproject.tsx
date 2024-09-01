@@ -1,8 +1,8 @@
 import React from 'react';
-import CarouselProductCard from "src/components/Productcard/CarouselProductCard"
-import Buttonseemore from "src/components/account/project/buttonseemore";
+import CarouselProductCard from 'src/components/NewProductCard/CarouselProduct/CarouselProductCard';
+import Buttonseemore from "src/components/account/project/ButtonSeeMore";
 type Props = {};
-export default function Myproject({}: Props) { // เปลี่ยนชื่อเป็น UserProfile
+export default function MyFundingproject({}: Props) { // เปลี่ยนชื่อเป็น UserProfile
     return (
     <section>
           <div className=" bg-[#E5D8CA] flex items-start">

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShowProject } from 'src/interfaces/models/common';
+import { ShowProject } from 'src/interfaces/datas/project';
 
 interface ProductCardProps {
     product: ShowProject;

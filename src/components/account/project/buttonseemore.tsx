@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Buttonseemore({params} : any) {
+export default function ButtonSeeMore({params} : any) {
     // console.log('getting project ?Id ',params.projectID)
     return (
         <div className="flex justify-center items-center ">

@@ -1,6 +1,6 @@
 import React from 'react';
-import CarouselProductCard from "src/components/Productcard/CarouselProductCard"
-import Buttonseemore from "src/components/account/project/buttonseemore";
+import CarouselProductCard from 'src/components/NewProductCard/CarouselProduct/CarouselProductCard';
+import Buttonseemore from "src/components/account/project/ButtonSeeMore";
 type Props = {};
 export default function Myfavouriteproject({}: Props) { 
     return (
