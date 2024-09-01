@@ -1,28 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
-import { withAuthVerify } from "src/utils/auth";
+import { withAuthVerify } from "src/utils/api/auth";
 import { uploadFile } from "src/services/fileService";
 import { errorHandler } from "src/libs/errors/apiError";
 import { StatusCode } from "src/constants/statusCode";
 import { FileUploadPayload } from "src/interfaces/payload/filePayload";
-import {
-    FileTypeKeys,
-    FileUploadPayloadKeys,
-} from "src/constants/payloadKeys/file";
+import { FileTypeKeys, FileUploadPayloadKeys } from "src/constants/payloadKeys/file";
 import { getStoragePath } from "src/utils/getStoragePath";
 
 export async function POST(request: NextRequest) {
     try {
         const tokenData = await withAuthVerify(request);
-        const { uid } = tokenData;
+        const uid = tokenData.uid;
 
         const formData = await request.formData();
         const body: Omit<FileUploadPayload, "file"> & { file: Blob } = {
             file: formData.get(FileUploadPayloadKeys.file) as Blob,
-
-            fileType: formData.get(
-                FileUploadPayloadKeys.fileType
-            ) as FileTypeKeys,
-
+            fileType: formData.get(FileUploadPayloadKeys.fileType) as FileTypeKeys,
             projectId: formData.get(FileUploadPayloadKeys.projectId) as string,
         };
 

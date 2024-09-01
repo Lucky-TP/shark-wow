@@ -1,192 +1,160 @@
-"use client"
+"use client";
+
 import React, { useEffect, useState } from 'react';
-import { Form, InputNumber, Button, Typography, Input, DatePicker } from 'antd';
-// import { CKEditor } from '@ckeditor/ckeditor5-react';
-// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { useRouter } from 'next/navigation';
-import dayjs from 'dayjs';
+import { Form, InputNumber, Button, Typography } from 'antd';
+import { usePathname, useRouter } from 'next/navigation';
+import { getProjectById } from 'src/services/apiService/projects/getProjectById';
+import { editProjectById } from 'src/services/apiService/projects/editProjectById';
+import { ProjectModel, Stage } from 'src/interfaces/models/project';
+import { StageId } from 'src/interfaces/models/enums';
 
 const { Title } = Typography;
 
 export default function FormStages() {
-  const [quantity, setQuantity] = useState<number>(0);
-  const [price, setPrice] = useState<number>(0);
-  const [conceptDays, setConceptDays] = useState<number>(0);
-  const [conceptOwnership, setConceptOwnership] = useState<number>(0);
-  const [prototypeDays, setPrototypeDays] = useState<number>(0);
-  const [prototypeOwnership, setPrototypeOwnership] = useState<number>(0);
-  const [productionDays, setProductionDays] = useState<number>(0);
-  const [productionOwnership, setProductionOwnership] = useState<number>(0);
-
-  const [form] = Form.useForm();
-
-  const totalFunding = quantity * price;
   const router = useRouter();
-
+  const pathName = usePathname();
+  const projectIdMatch = pathName.match(/\/create-project\/([a-zA-Z0-9]+)/);
+  const projectId = projectIdMatch ? projectIdMatch[1] : "";
+  const [form] = Form.useForm();
+  const [projectData, setProjectData] = useState<ProjectModel | undefined>();
 
   useEffect(() => {
-    // Load form data from sessionStorage when component mounts
-    const storedValues = sessionStorage.getItem('formStagesValues');
-    if (storedValues) {
-        const parsedValues = JSON.parse(storedValues);
-        
-        // Convert date strings back to moment objects
-        if (parsedValues.startingDate) {
-            parsedValues.startingDate = dayjs(parsedValues.startingDate);
+    const fetchProjectData = async () => {
+      try {
+        const response = await getProjectById(projectId);
+        setProjectData(response.data);
+        if (response.data) {
+          const conceptStage = response.data.stages.find(stage => stage.stageId === StageId.CONCEPT);
+          const prototypeStage = response.data.stages.find(stage => stage.stageId === StageId.PROTOTYPE);
+          const productionStage = response.data.stages.find(stage => stage.stageId === StageId.PRODUCTION);
+
+          form.setFieldsValue({
+            conceptDays: conceptStage?.startDate || undefined,
+            conceptOwnership: conceptStage?.status || undefined,
+            prototypeDays: prototypeStage?.startDate || undefined,
+            prototypeOwnership: prototypeStage?.status || undefined,
+            productionDays: productionStage?.startDate || undefined,
+            productionOwnership: productionStage?.status || undefined,
+          });
         }
+      } catch (error) {
+        console.error('Failed to fetch project data', error);
+      }
+    };
 
-        form.setFieldsValue(parsedValues);
+    fetchProjectData();
+  }, [form, projectId]);
+
+  const handleSaveAndContinue = async (values: any) => {
+    const updatedStages: Stage[] = [
+      {
+        stageId: StageId.CONCEPT,
+        name: 'Concept',
+        startDate: values.conceptDays,
+        status: values.conceptOwnership || 2, // Default to 2 if not provided
+        detail: '', // Add other details as necessary
+        imageUrl: '',
+        fundingCost: 0,
+        currentFunding: 0,
+        goalFunding: 0,
+        totalSupporter: 0,
+      },
+      {
+        stageId: StageId.PROTOTYPE,
+        name: 'Prototype',
+        startDate: values.prototypeDays,
+        status: values.prototypeOwnership || 2, // Default to 2 if not provided
+        detail: '', // Add other details as necessary
+        imageUrl: '',
+        fundingCost: 0,
+        currentFunding: 0,
+        goalFunding: 0,
+        totalSupporter: 0,
+      },
+      {
+        stageId: StageId.PRODUCTION,
+        name: 'Production',
+        startDate: values.productionDays,
+        status: values.productionOwnership || 2, // Default to 2 if not provided
+        detail: '', // Add other details as necessary
+        imageUrl: '',
+        fundingCost: 0,
+        currentFunding: 0,
+        goalFunding: 0,
+        totalSupporter: 0,
+      },
+    ];
+
+    const updatedProjectData: Partial<ProjectModel> = {
+      stages: updatedStages,
+    };
+
+    try {
+      await editProjectById(projectId, updatedProjectData);
+      router.push(`/create-project/${projectId}/payment`);
+    } catch (error) {
+      console.error('Failed to update project', error);
     }
-  }, [form]);
-
-  const handleFormChange = (changedValues: any) => {
-    // Save form data to sessionStorage on form change
-    const currentValues = form.getFieldsValue();
-    sessionStorage.setItem('formStagesValues', JSON.stringify(currentValues));
-  };
-
-  const handleSaveAndContinue = () => {
-    router.push('/create-project/payment');
   };
 
   return (
     <div>
       <Title level={2}>Form Stages</Title>
-      <Form form={form} layout="vertical" onValuesChange={handleFormChange}>
+      <Form form={form} layout="vertical" onFinish={handleSaveAndContinue}>
         <Form.Item name="packages" label="Q1: How many packages do you want to sell for funding">
-            <InputNumber
-                min={0}
-                value={quantity}
-                onChange={(value) => setQuantity(value ?? 0)} // Handle null values
-                style={{ width: 'calc(100% - 150px)' }}
-            />
-            {/* <Input style={{ width: '150px' }} value="packages" readOnly /> */}
+          <InputNumber min={0} style={{ width: '100%' }} />
         </Form.Item>
-
         <Form.Item name="cpp" label="Q2: Cost per 1 package">
-            <InputNumber
-              min={0}
-              value={price}
-              onChange={(value) => setPrice(value ?? 0)} // Handle null values
-              style={{ width: 'calc(100% - 150px)' }}
-            />
-            {/* <Input style={{ width: '150px' }} value="baht per 1 package" readOnly /> */}
+          <InputNumber min={0} style={{ width: '100%' }} />
         </Form.Item>
 
-        <Typography.Paragraph>
-          Total funding: {totalFunding} baht
-        </Typography.Paragraph>
-
-        <Title level={3}>Stage 1 : Concept</Title>
-        <Form.Item name="TimeToUse" label="Time to use (days)">
-          <InputNumber
-            min={0}
-            value={conceptDays}
-            onChange={(value) => setConceptDays(value ?? 0)} // Handle null values
-            style={{ width: '100%' }}
-          />
+        <Title level={3}>Stage 1: Concept</Title>
+        <Form.Item name="conceptDays" label="Time to use (days)">
+          <InputNumber min={0} style={{ width: '100%' }} />
         </Form.Item>
-        <Form.Item label="Ownership (%)">
-          <InputNumber
-            min={0}
-            max={100}
-            value={conceptOwnership}
-            onChange={(value) => setConceptOwnership(value ?? 0)} // Handle null values
-            style={{ width: '100%' }}
-          />
-          <Typography.Paragraph>
-            ({totalFunding * (conceptOwnership / 100)} baht)
-          </Typography.Paragraph>
+        <Form.Item name="conceptOwnership" label="Ownership (%)">
+          <InputNumber min={0} max={100} style={{ width: '100%' }} />
+          {/* Add additional calculations or display based on the conceptOwnership */}
         </Form.Item>
         <Form.Item label="Discount for 1 product">
-          <Typography.Paragraph>
-            {conceptOwnership * price / 100} baht
-          </Typography.Paragraph>
+          {/* Replace with actual calculation based on conceptOwnership */}
         </Form.Item>
-        <Form.Item label="Stage Details">
-          {/* <CKEditor
-            editor={ClassicEditor}
-            data=""
-            onChange={(event, editor) => {
-              // Handle CKEditor data change if needed
-            }}
-          /> */}
+        <Form.Item name="conceptDetails" label="Stage Details">
+          {/* Optionally, add a text editor component if needed */}
         </Form.Item>
 
-        <Title level={3}>Stage 2 : Prototype</Title>
-        <Form.Item label="Time to use (days)">
-          <InputNumber
-            min={0}
-            value={prototypeDays}
-            onChange={(value) => setPrototypeDays(value ?? 0)} // Handle null values
-            style={{ width: '100%' }}
-          />
+        <Title level={3}>Stage 2: Prototype</Title>
+        <Form.Item name="prototypeDays" label="Time to use (days)">
+          <InputNumber min={0} style={{ width: '100%' }} />
         </Form.Item>
-        <Form.Item label="Ownership (%)">
-          <InputNumber
-            min={0}
-            max={100}
-            value={prototypeOwnership}
-            onChange={(value) => setPrototypeOwnership(value ?? 0)} // Handle null values
-            style={{ width: '100%' }}
-          />
-          <Typography.Paragraph>
-            ({totalFunding * (prototypeOwnership / 100)} baht)
-          </Typography.Paragraph>
+        <Form.Item name="prototypeOwnership" label="Ownership (%)">
+          <InputNumber min={0} max={100} style={{ width: '100%' }} />
+          {/* Add additional calculations or display based on the prototypeOwnership */}
         </Form.Item>
         <Form.Item label="Fund for this stage">
-          <Typography.Paragraph>
-            {prototypeOwnership * price / 100} baht
-          </Typography.Paragraph>
+          {/* Replace with actual calculation based on prototypeOwnership */}
         </Form.Item>
-        <Form.Item label="Stage Details">
-          {/* <CKEditor
-            editor={ClassicEditor}
-            data=""
-            onChange={(event, editor) => {
-              // Handle CKEditor data change if needed
-            }}
-          /> */}
+        <Form.Item name="prototypeDetails" label="Stage Details">
+          {/* Optionally, add a text editor component if needed */}
         </Form.Item>
 
-        <Title level={3}>Stage 3 : Production</Title>
-        <Form.Item label="Time to use (days)">
-          <InputNumber
-            min={0}
-            value={productionDays}
-            onChange={(value) => setProductionDays(value ?? 0)} // Handle null values
-            style={{ width: '100%' }}
-          />
+        <Title level={3}>Stage 3: Production</Title>
+        <Form.Item name="productionDays" label="Time to use (days)">
+          <InputNumber min={0} style={{ width: '100%' }} />
         </Form.Item>
-        <Form.Item label="Ownership (%)">
-          <InputNumber
-            min={0}
-            max={100}
-            value={productionOwnership}
-            onChange={(value) => setProductionOwnership(value ?? 0)} // Handle null values
-            style={{ width: '100%' }}
-          />
-          <Typography.Paragraph>
-            ({totalFunding * (productionOwnership / 100)} baht)
-          </Typography.Paragraph>
+        <Form.Item name="productionOwnership" label="Ownership (%)">
+          <InputNumber min={0} max={100} style={{ width: '100%' }} />
+          {/* Add additional calculations or display based on the productionOwnership */}
         </Form.Item>
         <Form.Item label="Fund for this stage">
-          <Typography.Paragraph>
-            {productionOwnership * price / 100} baht
-          </Typography.Paragraph>
+          {/* Replace with actual calculation based on productionOwnership */}
         </Form.Item>
-        <Form.Item label="Stage Details">
-          {/* <CKEditor
-            editor={ClassicEditor}
-            data=""
-            onChange={(event, editor) => {
-              // Handle CKEditor data change if needed
-            }}
-          /> */}
+        <Form.Item name="productionDetails" label="Stage Details">
+          {/* Optionally, add a text editor component if needed */}
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" onClick={handleSaveAndContinue}>
+          <Button type="primary" htmlType="submit">
             Save and Continue
           </Button>
         </Form.Item>

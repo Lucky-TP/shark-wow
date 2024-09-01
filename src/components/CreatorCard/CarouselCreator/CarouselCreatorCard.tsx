@@ -2,7 +2,7 @@
 
 import React, { useRef } from "react";
 import SingleCreatorCard from "../SingleCreator/SingleCreatorCard";
-import { PopularCreator } from "src/interfaces/models/common"; // Adjust the import path as needed
+import { PopularCreator } from "src/interfaces/datas/user";
 
 type Props = {
     data: PopularCreator[]; // Array of products passed as a prop

@@ -3,9 +3,10 @@ import { CollectionPath } from "src/constants/firestore";
 import { StatusCode } from "src/constants/statusCode";
 import { getUser } from "src/libs/databases/users";
 import { errorHandler } from "src/libs/errors/apiError";
-import { withAuthVerify } from "src/utils/auth";
+import { withAuthVerify } from "src/utils/api/auth";
 import { EditUserPayload } from "src/interfaces/payload/userPayload";
-import { CommentData, UserData } from "src/interfaces/models/common";
+import { CommentData } from "src/interfaces/datas/comment";
+import { UserData } from "src/interfaces/datas/user";
 import { getCollectionRef } from "src/libs/databases/firestore";
 import { ProjectModel } from "src/interfaces/models/project";
 import { updateUser } from "src/libs/databases/users/updateUser";
@@ -34,14 +35,14 @@ export async function GET(request: NextRequest) {
 
         const receivedComments: CommentData[] = await getComments(retrivedUser.receivedCommentIds);
         const { receivedCommentIds, ownProjectIds, ...extractedUser } = retrivedUser;
-        const dataUser: UserData = {
+        const userData: UserData = {
             ...extractedUser,
             ownProjects,
             receivedComments,
         };
 
         return NextResponse.json(
-            { message: "Retrived user successful", data: dataUser },
+            { message: "Retrived user successful", data: userData },
             { status: StatusCode.SUCCESS }
         );
     } catch (error: unknown) {

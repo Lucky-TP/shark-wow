@@ -17,7 +17,7 @@ export interface Stage {
     status: StageStatus;
     detail: string;
     imageUrl: string;
-    minimumFunding: number;
+    fundingCost: number;
     currentFunding: number;
     goalFunding: number;
     totalSupporter: number;
@@ -32,6 +32,8 @@ export interface ProjectModel {
     address: Address;
     totalSupporter: number;
     status: ProjectStatus;
+    totalQuantity: number;
+    costPerQuantity: number;
     category: string;
     stages: Stage[];
     story: string;

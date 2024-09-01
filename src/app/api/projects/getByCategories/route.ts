@@ -3,7 +3,7 @@ import { errorHandler } from "src/libs/errors/apiError";
 import { getCollectionRef } from "src/libs/databases/firestore";
 import { CollectionPath } from "src/constants/firestore";
 import { ProjectModel } from "src/interfaces/models/project";
-import { ShowProject } from "src/interfaces/models/common";
+import { ShowProject } from "src/interfaces/datas/project";
 import { StageId } from "src/interfaces/models/enums";
 import { StatusCode } from "src/constants/statusCode";
 
@@ -18,8 +18,8 @@ export async function GET(request: NextRequest) {
             );
         }
 
-        const allProjectData = getCollectionRef(CollectionPath.PROJECT);
-        const projectWithCategories = await allProjectData
+        const projectCollection = getCollectionRef(CollectionPath.PROJECT);
+        const projectWithCategories = await projectCollection
             .where("category", "in", categories)
             .select(
                 "projectId",
@@ -41,9 +41,9 @@ export async function GET(request: NextRequest) {
                 category: targetProject.category,
                 stages: [
                     {
-                        minimumFunding:
+                        fundingCost:
                             targetProject.stages[StageId.CONCEPT]
-                                .minimumFunding,
+                                .fundingCost,
                         currentFunding:
                             targetProject.stages[StageId.CONCEPT]
                                 .currentFunding,
@@ -51,9 +51,9 @@ export async function GET(request: NextRequest) {
                             targetProject.stages[StageId.CONCEPT].goalFunding,
                     },
                     {
-                        minimumFunding:
+                        fundingCost:
                             targetProject.stages[StageId.PROTOTYPE]
-                                .minimumFunding,
+                                .fundingCost,
                         currentFunding:
                             targetProject.stages[StageId.PROTOTYPE]
                                 .currentFunding,
@@ -61,9 +61,9 @@ export async function GET(request: NextRequest) {
                             targetProject.stages[StageId.PROTOTYPE].goalFunding,
                     },
                     {
-                        minimumFunding:
+                        fundingCost:
                             targetProject.stages[StageId.PRODUCTION]
-                                .minimumFunding,
+                                .fundingCost,
                         currentFunding:
                             targetProject.stages[StageId.PRODUCTION]
                                 .currentFunding,

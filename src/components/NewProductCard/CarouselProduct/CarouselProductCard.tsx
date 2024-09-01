@@ -2,7 +2,7 @@
 
 import React, { useRef } from "react";
 import SingleProductCard from "../SingleProduct/SingleProductCard";
-import { ShowProject } from "src/interfaces/models/common"; // Adjust the import path as needed
+import { ShowProject } from "src/interfaces/datas/project"; // Adjust the import path as needed
 
 type Props = {
     title: string; // Single category string
