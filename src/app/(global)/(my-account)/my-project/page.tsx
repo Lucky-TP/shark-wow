@@ -1,7 +1,7 @@
 import React from 'react'
 import Project from "src/components/account/project/MyProject";
-import MyFundingproject from 'src/components/account/project/MyFundingProject';
-import Myfavouriteproject from 'src/components/account/project/MyFavouriteProject';
+import MyFundingProject from 'src/components/account/project/MyFundingProject';
+import MyFavouriteProject from 'src/components/account/project/MyFavouriteProject';
 
 type Props = {}
 
@@ -10,8 +10,8 @@ export default function page({}: Props) {
     <section className="bg-[#E5D8CA]">
       <div className='p-8'>
           <Project/> 
-          <MyFundingproject/>
-          <Myfavouriteproject/>
+          <MyFundingProject/>
+          <MyFavouriteProject/>
       </div>
       </section>
   )
