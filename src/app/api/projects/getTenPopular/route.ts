@@ -5,20 +5,14 @@ import { CollectionPath } from "src/constants/firestore";
 import { getCollectionRef } from "src/libs/databases/firestore";
 import { ProjectModel } from "src/interfaces/models/project";
 import { ProjectStatus, StageId } from "src/interfaces/models/enums";
-import { ShowProject } from "src/interfaces/models/common";
+import { ShowProject } from "src/interfaces/datas/project";
 
 export async function GET(request: NextRequest) {
     try {
-        const allProjectData = getCollectionRef(CollectionPath.PROJECT);
-        const topTenProject = await allProjectData
+        const projectCollection = getCollectionRef(CollectionPath.PROJECT);
+        const topTenProject = await projectCollection
             .where("status", "==", ProjectStatus.RUNNING)
-            .select(
-                "projectId",
-                "name",
-                "carouselImageUrls",
-                "description",
-                "stages"
-            )
+            .select("projectId", "name", "carouselImageUrls", "description", "stages")
             .orderBy("totalSupporter", "desc")
             .limit(10)
             .get();
@@ -32,37 +26,22 @@ export async function GET(request: NextRequest) {
                 carouselImageUrls: targetProject.carouselImageUrls,
                 description: targetProject.description,
                 category: targetProject.category,
+                status: targetProject.status,
                 stages: [
                     {
-                        minimumFunding:
-                            targetProject.stages[StageId.CONCEPT]
-                                .minimumFunding,
-                        currentFunding:
-                            targetProject.stages[StageId.CONCEPT]
-                                .currentFunding,
-                        goalFunding:
-                            targetProject.stages[StageId.CONCEPT].goalFunding,
+                        fundingCost: targetProject.stages[StageId.CONCEPT].fundingCost,
+                        currentFunding: targetProject.stages[StageId.CONCEPT].currentFunding,
+                        goalFunding: targetProject.stages[StageId.CONCEPT].goalFunding,
                     },
                     {
-                        minimumFunding:
-                            targetProject.stages[StageId.PROTOTYPE]
-                                .minimumFunding,
-                        currentFunding:
-                            targetProject.stages[StageId.PROTOTYPE]
-                                .currentFunding,
-                        goalFunding:
-                            targetProject.stages[StageId.PROTOTYPE].goalFunding,
+                        fundingCost: targetProject.stages[StageId.PROTOTYPE].fundingCost,
+                        currentFunding: targetProject.stages[StageId.PROTOTYPE].currentFunding,
+                        goalFunding: targetProject.stages[StageId.PROTOTYPE].goalFunding,
                     },
                     {
-                        minimumFunding:
-                            targetProject.stages[StageId.PRODUCTION]
-                                .minimumFunding,
-                        currentFunding:
-                            targetProject.stages[StageId.PRODUCTION]
-                                .currentFunding,
-                        goalFunding:
-                            targetProject.stages[StageId.PRODUCTION]
-                                .goalFunding,
+                        fundingCost: targetProject.stages[StageId.PRODUCTION].fundingCost,
+                        currentFunding: targetProject.stages[StageId.PRODUCTION].currentFunding,
+                        goalFunding: targetProject.stages[StageId.PRODUCTION].goalFunding,
                     },
                 ],
             };

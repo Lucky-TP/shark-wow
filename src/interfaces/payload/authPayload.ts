@@ -1,3 +1,4 @@
+import { Timestamp } from "firebase/firestore";
 import { Address } from "../models/common";
 
 export interface EmailSignInPayload {
@@ -10,7 +11,7 @@ export interface EmailSignUpPayload {
     lastName: string;
     email: string;
     password: string;
-    birthDate: number;
+    birthDate: Timestamp;
     address: Address;
 }
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import CarouselTrendingProductCard from '../ProductCard/CarouselTrendingProduct'
+import CarouselTrendingProductCard from '../global/Explore/CarouselProductTopTen/CarouselTrendingProduct'
 
 type Props = {}
 
@@ -18,7 +18,7 @@ export default function PopularCreator({}: Props) {
             </span>
         </div>
         {/* mock ProductCard, TODO: implement CreatorCard */}
-        <CarouselTrendingProductCard showTopic={false}/>
+        <CarouselTrendingProductCard/>
     </section>
   )
 }

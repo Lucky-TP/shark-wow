@@ -1,23 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
-import { errorHandler } from "src/libs/errors/apiError";
-import { StatusCode } from "src/constants/statusCode";
-import { ProjectModel } from "src/interfaces/models/project";
 import { getDocRef } from "src/libs/databases/firestore";
+import { errorHandler } from "src/libs/errors/apiError";
+import { getComments } from "src/libs/databases/comments";
+import { updateProject } from "src/libs/databases/projects";
+import { withAuthVerify } from "src/utils/api/auth";
+import { StatusCode } from "src/constants/statusCode";
 import { CollectionPath } from "src/constants/firestore";
+import { ProjectModel } from "src/interfaces/models/project";
 import { ProjectStatus } from "src/interfaces/models/enums";
-import { withAuthVerify } from "src/utils/auth";
+import { CommentData } from "src/interfaces/datas/comment";
+import { ProjectData } from "src/interfaces/datas/project";
 import { EditProjectPayload } from "src/interfaces/payload/projectPayload";
-import { CommentProjectModel } from "src/interfaces/models/commentProject";
-import { getCollectionRef } from "src/libs/databases/firestore";
-import { CommentReplyModel } from "src/interfaces/models/commentReply";
-import { CommentReply , CommentProject } from "src/interfaces/models/common";
 
-export async function GET(request: NextRequest,{ params }: { params: { projectId: string } }){
+export async function GET(request: NextRequest, { params }: { params: { projectId: string } }) {
     try {
-        const projectDocRef = getDocRef(
-            CollectionPath.PROJECT,
-            params.projectId
-        );
+        const projectDocRef = getDocRef(CollectionPath.PROJECT, params.projectId);
         const projectSnapshot = await projectDocRef.get();
         if (!projectSnapshot.exists) {
             return NextResponse.json(
@@ -25,80 +22,52 @@ export async function GET(request: NextRequest,{ params }: { params: { projectId
                 { status: StatusCode.NOT_FOUND }
             );
         }
-        const projectData = projectSnapshot.data() as ProjectModel;
-
-        const commentData = getCollectionRef(CollectionPath.COMMENTPROJECT);
-        const allComment : CommentProject[] = [];
-
-        if(projectData.discussion.length !== 0){
-            const commentWithProjectId = await commentData
-                .where("commentId", "in", projectData.discussion)
-                .get();
-
-            await Promise.all(commentWithProjectId.docs.map(async (comment) => {
-                const projectComment = comment.data() as CommentProjectModel;
-                const replytData = getCollectionRef(CollectionPath.COMMENTREPLY);
-                const allReply: CommentReply[] = [];
-                if(projectComment.replyIds.length !== 0){
-                    const replyWithCommentId = await replytData
-                        .where("replyId", "in", projectComment.replyIds)
-                        .get();
-
-                    replyWithCommentId.forEach((reply) => {
-                        const commentReply = reply.data() as CommentReplyModel;
-                        allReply.push(commentReply);
-                    });
-                }
-                const tmp: CommentProject = {
-                    commentId: projectComment.commentId,
-                    projectId: projectComment.projectId,
-                    uid: projectComment.uid,
-                    replys: allReply,
-                    date: projectComment.date,
-                    detail: projectComment.detail,
-                };
-                allComment.push(tmp);
-            }));        
+        const projectModel = projectSnapshot.data() as ProjectModel;
+        if (projectModel.status === ProjectStatus.DRAFT) {
+            const projectOwner = await withAuthVerify(request);
+            if (projectModel.uid !== projectOwner.uid) {
+                return NextResponse.json(
+                    { message: "No permission to access draft project" },
+                    { status: StatusCode.UNAUTHORIZED }
+                );
+            }
         }
-        const projectWithAllCommentData = {
-            projectId: projectData.projectId,
-            uid: projectData.uid,
-            name: projectData.name,
-            carouselImageUrls: projectData.carouselImageUrls,
-            description: projectData.description,
-            address: projectData.address,
-            totalSupporter: projectData.totalSupporter,
-            status: projectData.status,
-            category: projectData.category,
-            stages: projectData.stages,
-            story: projectData.story,
-            discussion: allComment,
-            update: projectData.update,
-            website: projectData.website,
-            payment: projectData.payment,
+
+        const discussions: CommentData[] = await getComments(projectModel.discussionIds);
+        const projectData: ProjectData = {
+            projectId: projectModel.projectId,
+            uid: projectModel.uid,
+            name: projectModel.name,
+            carouselImageUrls: projectModel.carouselImageUrls,
+            description: projectModel.description,
+            address: projectModel.address,
+            totalSupporter: projectModel.totalSupporter,
+            status: projectModel.status,
+            category: projectModel.category,
+            totalQuantity: projectModel.totalQuantity,
+            costPerQuantity: projectModel.costPerQuantity,
+            stages: projectModel.stages,
+            story: projectModel.story,
+            discussion: discussions,
+            update: projectModel.update,
+            website: projectModel.website,
+            payment: projectModel.payment,
         };
         return NextResponse.json(
-            { message: "Get project data successful", data: projectWithAllCommentData },
+            { message: "Get project data successful", data: projectData },
             { status: StatusCode.SUCCESS }
         );
-    }
-    catch (error: unknown) {
+    } catch (error: unknown) {
         return errorHandler(error);
     }
 }
 
-export async function PUT(
-    request: NextRequest,
-    { params }: { params: { projectId: string } }
-) {
+export async function PUT(request: NextRequest, { params }: { params: { projectId: string } }) {
     try {
         const tokenData = await withAuthVerify(request);
-        const { uid } = tokenData;
+        const uid = tokenData.uid;
 
-        const projectDocRef = getDocRef(
-            CollectionPath.PROJECT,
-            params.projectId
-        );
+        const projectDocRef = getDocRef(CollectionPath.PROJECT, params.projectId);
         const projectSnapshot = await projectDocRef.get();
         if (!projectSnapshot.exists) {
             return NextResponse.json(
@@ -107,51 +76,48 @@ export async function PUT(
             );
         }
 
-        const projectData = projectSnapshot.data() as ProjectModel;
-        if (uid !== projectData.uid) {
+        const currentProjectModel = projectSnapshot.data() as ProjectModel;
+        const projectId = currentProjectModel.projectId;
+        if (uid !== currentProjectModel.uid) {
             return NextResponse.json(
-                { message: "you have no permission to edit this project" },
+                { message: "You have no permission to update this project" },
                 { status: StatusCode.UNAUTHORIZED }
             );
         }
 
         const body: Partial<EditProjectPayload> = await request.json();
-        if (projectData.status == ProjectStatus.DRAFT) {
-            await projectDocRef.update({
-                name: body.name || projectData.name,
-                carouselImageUrls:
-                    body.carouselImageUrls || projectData.carouselImageUrls,
-                description: body.description || projectData.description,
-                address: body.address || projectData.address,
-                status: body.status || projectData.status,
-                category: body.category || projectData.category,
-                stages: body.stages || projectData.stages,
-                story: body.story || projectData.story,
-                update: body.update || projectData.update,
-                website: body.website || projectData.website,
-                //payment: body.payment || projectData.payment
+        if (currentProjectModel.status === ProjectStatus.DRAFT) {
+            await updateProject(projectId, {
+                name: body.name,
+                carouselImageUrls: body.carouselImageUrls,
+                description: body.description,
+                address: body.address,
+                category: body.category,
+                stages: body.stages,
+                story: body.story,
+                update: body.update,
+                website: body.website,
             });
-        } else if (projectData.status == ProjectStatus.RUNNING) {
-            await projectDocRef.update({
-                description: body.description || projectData.description,
-                status: body.status || projectData.status,
-                story: body.story || projectData.story,
-                update: body.update || projectData.update,
-                website: body.website || projectData.website,
+        } else if (currentProjectModel.status === ProjectStatus.RUNNING) {
+            await updateProject(projectId, {
+                description: body.description,
+                story: body.story,
+                update: body.update,
+                website: body.website,
             });
         } else {
             //Success and Fail cant edit rn
             return NextResponse.json(
-                { message: "you can not edit this project" },
+                { message: "Project have no permission to update in this state" },
                 { status: StatusCode.BAD_REQUEST }
             );
         }
 
         return NextResponse.json(
-            { message: "Edit project data successful" },
+            { message: "Update project successful" },
             { status: StatusCode.SUCCESS }
         );
-    } catch (error: any) {
+    } catch (error: unknown) {
         return errorHandler(error);
     }
 }

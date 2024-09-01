@@ -22,14 +22,14 @@ export interface UserModel {
     aboutMe: string;
     email: string;
     profileImageUrl?: string;
-    ownProjectIds: number[];
-    favoriteProjectIds: number[];
+    ownProjectIds: string[];
+    favoriteProjectIds: string[];
     popularDetail: PopularDetail;
     receivedCommentIds: string[];
     interestCategories: string[];
     birthDate: Timestamp;
-    address: Address[];
-    contact: Contact;
+    address: Partial<Address>[];
+    contact: Partial<Contact>;
     cvUrl: string;
     agreement: boolean;
 }

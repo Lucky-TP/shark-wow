@@ -3,7 +3,7 @@ import { errorHandler } from "src/libs/errors/apiError";
 import { getCollectionRef } from "src/libs/databases/firestore";
 import { CollectionPath } from "src/constants/firestore";
 import { ProjectModel } from "src/interfaces/models/project";
-import { ShowProject } from "src/interfaces/models/common";
+import { ShowProject } from "src/interfaces/datas/project";
 import { StageId } from "src/interfaces/models/enums";
 import { StatusCode } from "src/constants/statusCode";
 
@@ -18,16 +18,10 @@ export async function GET(request: NextRequest) {
             );
         }
 
-        const allProjectData = getCollectionRef(CollectionPath.PROJECT);
-        const projectWithCategories = await allProjectData
+        const projectCollection = getCollectionRef(CollectionPath.PROJECT);
+        const projectWithCategories = await projectCollection
             .where("category", "in", categories)
-            .select(
-                "projectId",
-                "name",
-                "carouselImageUrls",
-                "description",
-                "stages"
-            )
+            .select("projectId", "name", "carouselImageUrls", "description", "stages")
             .get();
         const allProjectInCategories: ShowProject[] = [];
 
@@ -39,37 +33,22 @@ export async function GET(request: NextRequest) {
                 carouselImageUrls: targetProject.carouselImageUrls,
                 description: targetProject.description,
                 category: targetProject.category,
+                status: targetProject.status,
                 stages: [
                     {
-                        minimumFunding:
-                            targetProject.stages[StageId.CONCEPT]
-                                .minimumFunding,
-                        currentFunding:
-                            targetProject.stages[StageId.CONCEPT]
-                                .currentFunding,
-                        goalFunding:
-                            targetProject.stages[StageId.CONCEPT].goalFunding,
+                        fundingCost: targetProject.stages[StageId.CONCEPT].fundingCost,
+                        currentFunding: targetProject.stages[StageId.CONCEPT].currentFunding,
+                        goalFunding: targetProject.stages[StageId.CONCEPT].goalFunding,
                     },
                     {
-                        minimumFunding:
-                            targetProject.stages[StageId.PROTOTYPE]
-                                .minimumFunding,
-                        currentFunding:
-                            targetProject.stages[StageId.PROTOTYPE]
-                                .currentFunding,
-                        goalFunding:
-                            targetProject.stages[StageId.PROTOTYPE].goalFunding,
+                        fundingCost: targetProject.stages[StageId.PROTOTYPE].fundingCost,
+                        currentFunding: targetProject.stages[StageId.PROTOTYPE].currentFunding,
+                        goalFunding: targetProject.stages[StageId.PROTOTYPE].goalFunding,
                     },
                     {
-                        minimumFunding:
-                            targetProject.stages[StageId.PRODUCTION]
-                                .minimumFunding,
-                        currentFunding:
-                            targetProject.stages[StageId.PRODUCTION]
-                                .currentFunding,
-                        goalFunding:
-                            targetProject.stages[StageId.PRODUCTION]
-                                .goalFunding,
+                        fundingCost: targetProject.stages[StageId.PRODUCTION].fundingCost,
+                        currentFunding: targetProject.stages[StageId.PRODUCTION].currentFunding,
+                        goalFunding: targetProject.stages[StageId.PRODUCTION].goalFunding,
                     },
                 ],
             };
