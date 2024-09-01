@@ -129,7 +129,16 @@ export default function FormBasic({projectId}: Props) {
     setPreviewOpen(true);
   };
 
-  const handleChange = ({ fileList: newFileList }: any) => setFileList(newFileList);
+  const handleChange = ({ fileList: newFileList, file }: any) => {
+    // Check if the removed file was previously uploaded
+    if (file.status === 'removed') {
+      // Remove the file URL from carouselImageUrls
+      setInitialCarouselImageUrls(prev =>
+        prev.filter(url => url !== file.url)
+      );
+    }
+    setFileList(newFileList);
+  };
 
   const uploadButton = (
     <div>
