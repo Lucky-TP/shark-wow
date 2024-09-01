@@ -11,6 +11,7 @@ import { getCollectionRef } from "src/libs/databases/firestore";
 import { ProjectModel } from "src/interfaces/models/project";
 import { updateUser } from "src/libs/databases/users/updateUser";
 import { getComments } from "src/libs/databases/comments";
+import { ShowProject } from "src/interfaces/datas/project";
 
 export async function GET(request: NextRequest) {
     //get user info
@@ -19,7 +20,7 @@ export async function GET(request: NextRequest) {
         const retrivedUser = await getUser(tokenData.uid);
 
         // get own project datas
-        const ownProjects: ProjectModel[] = [];
+        const ownProjects: ShowProject[] = [];
         if (retrivedUser.ownProjectIds.length > 0) {
             const projectCollection = getCollectionRef(CollectionPath.PROJECT);
             const querySnapshot = await projectCollection
@@ -27,8 +28,17 @@ export async function GET(request: NextRequest) {
                 .get();
             querySnapshot.docs.forEach((doc) => {
                 if (doc.exists) {
-                    const project = doc.data() as ProjectModel;
-                    ownProjects.push(project);
+                    const projectModel = doc.data() as ProjectModel;
+                    const showProject: ShowProject = {
+                        projectId: projectModel.projectId,
+                        name: projectModel.name,
+                        carouselImageUrls: projectModel.carouselImageUrls,
+                        description: projectModel.description,
+                        stages: projectModel.stages,
+                        category: projectModel.category,
+                        status: projectModel.status,
+                    };
+                    ownProjects.push(showProject);
                 }
             });
         }
