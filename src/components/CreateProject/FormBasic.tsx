@@ -166,7 +166,7 @@ export default function FormBasic({projectId}: Props) {
           <Upload
             listType="picture-card"
             fileList={fileList}
-            beforeUpload={() => false}
+            multiple
             onPreview={handlePreview}
             onChange={handleChange}
           >
