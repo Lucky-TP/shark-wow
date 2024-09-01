@@ -1,4 +1,4 @@
-import { ShowProject } from "src/interfaces/models/common";
+import { ShowProject } from "src/interfaces/datas/project";
 export const productList: ShowProject[] = [
     {
         projectId: "1",
@@ -6,7 +6,7 @@ export const productList: ShowProject[] = [
         carouselImageUrls: ["/nuk.jpg"],
         description: "pom chob hee",
         stages: [{
-            minimumFunding: 20,
+            fundingCost: 20,
             currentFunding: 5000,
             goalFunding: 10000
         }],
@@ -18,7 +18,7 @@ export const productList: ShowProject[] = [
         carouselImageUrls: ["/assets/shark.png"],
         description: "pom gead hee",
         stages: [{
-            minimumFunding: 5,
+            fundingCost: 5,
             currentFunding: 2000,
             goalFunding: 10000
         }],
@@ -30,7 +30,7 @@ export const productList: ShowProject[] = [
         carouselImageUrls: ["/shark2.jpg"],
         description: "pom doo hee",
         stages: [{
-            minimumFunding: 15,
+            fundingCost: 15,
             currentFunding: 9000,
             goalFunding: 10000
         }],
@@ -42,7 +42,7 @@ export const productList: ShowProject[] = [
         carouselImageUrls: ["/heart.png"],
         description: "pom doo hee",
         stages: [{
-            minimumFunding: 10,
+            fundingCost: 10,
             currentFunding: 7000,
             goalFunding: 10000
         }],
@@ -53,7 +53,7 @@ export const productList: ShowProject[] = [
         carouselImageUrls: ["/nuk.jpg"],
         description: "pom chob hee",
         stages: [{
-            minimumFunding: 20,
+            fundingCost: 20,
             currentFunding: 5000,
             goalFunding: 10000
         }],
@@ -65,7 +65,7 @@ export const productList: ShowProject[] = [
         carouselImageUrls: ["/assets/shark.png"],
         description: "pom gead hee",
         stages: [{
-            minimumFunding: 5,
+            fundingCost: 5,
             currentFunding: 2000,
             goalFunding: 10000
         }],
@@ -77,7 +77,7 @@ export const productList: ShowProject[] = [
         carouselImageUrls: ["/shark2.jpg"],
         description: "pom doo hee",
         stages: [{
-            minimumFunding: 15,
+            fundingCost: 15,
             currentFunding: 9000,
             goalFunding: 10000
         }],
@@ -89,7 +89,7 @@ export const productList: ShowProject[] = [
         carouselImageUrls: ["/heart.png"],
         description: "pom doo hee",
         stages: [{
-            minimumFunding: 10,
+            fundingCost: 10,
             currentFunding: 7000,
             goalFunding: 10000
         }],
@@ -101,7 +101,7 @@ export const productList: ShowProject[] = [
         carouselImageUrls: ["/nuk.jpg"],
         description: "pom chob hee",
         stages: [{
-            minimumFunding: 20,
+            fundingCost: 20,
             currentFunding: 5000,
             goalFunding: 10000
         }],
@@ -113,7 +113,7 @@ export const productList: ShowProject[] = [
         carouselImageUrls: ["/assets/shark.png"],
         description: "pom gead hee",
         stages: [{
-            minimumFunding: 5,
+            fundingCost: 5,
             currentFunding: 2000,
             goalFunding: 10000
         }],
@@ -125,7 +125,7 @@ export const productList: ShowProject[] = [
         carouselImageUrls: ["/shark2.jpg"],
         description: "pom doo hee",
         stages: [{
-            minimumFunding: 15,
+            fundingCost: 15,
             currentFunding: 9000,
             goalFunding: 10000
         }],
@@ -137,7 +137,7 @@ export const productList: ShowProject[] = [
         carouselImageUrls: ["/heart.png"],
         description: "pom doo hee",
         stages: [{
-            minimumFunding: 10,
+            fundingCost: 10,
             currentFunding: 7000,
             goalFunding: 10000
         }],
@@ -148,7 +148,7 @@ export const productList: ShowProject[] = [
         carouselImageUrls: ["/nuk.jpg"],
         description: "pom chob hee",
         stages: [{
-            minimumFunding: 20,
+            fundingCost: 20,
             currentFunding: 5000,
             goalFunding: 10000
         }],
@@ -160,7 +160,7 @@ export const productList: ShowProject[] = [
         carouselImageUrls: ["/assets/shark.png"],
         description: "pom gead hee",
         stages: [{
-            minimumFunding: 5,
+            fundingCost: 5,
             currentFunding: 2000,
             goalFunding: 10000
         }],
@@ -172,7 +172,7 @@ export const productList: ShowProject[] = [
         carouselImageUrls: ["/shark2.jpg"],
         description: "pom doo hee",
         stages: [{
-            minimumFunding: 15,
+            fundingCost: 15,
             currentFunding: 9000,
             goalFunding: 10000
         }],
@@ -184,7 +184,7 @@ export const productList: ShowProject[] = [
         carouselImageUrls: ["/heart.png"],
         description: "pom doo hee",
         stages: [{
-            minimumFunding: 10,
+            fundingCost: 10,
             currentFunding: 7000,
             goalFunding: 10000
         }],

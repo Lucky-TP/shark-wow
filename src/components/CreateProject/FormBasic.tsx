@@ -1,97 +1,236 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Form, Input, Button, Select, DatePicker, Upload } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
-import dayjs from "dayjs";
-type Props = {}
+import { Form, Input, Button, Select, DatePicker, Upload, message, Image } from "antd";
+import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
+import { useRouter } from "next/navigation";
+import { upload } from "src/services/apiService/files/upload";
+import { editProjectById } from "src/services/apiService/projects/editProjectById";
+import { getProjectById } from "src/services/apiService/projects/getProjectById"; // Import the getProjectById function
+import { FileTypeKeys } from "src/constants/payloadKeys/file";
+import { EditProjectPayload } from "src/interfaces/payload/projectPayload";
 
-export default function FormBasic({}: Props) {
-    const [form] = Form.useForm();
-    const [imageUrl, setImageUrl] = useState<string | null>(null);
+type Props = {
+  projectId: string;
+};
 
-    useEffect(() => {
-        // Load form data from sessionStorage when component mounts
-        const storedValues = sessionStorage.getItem('formBasicValues');
-        if (storedValues) {
-            const parsedValues = JSON.parse(storedValues);
-            
-            // Convert date strings back to moment objects
-            if (parsedValues.startingDate) {
-                parsedValues.startingDate = dayjs(parsedValues.startingDate);
-            }
-    
-            form.setFieldsValue(parsedValues);
+const getBase64 = (file: File): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (error) => reject(error);
+  });
+
+export default function FormBasic({projectId}: Props) {
+  const router = useRouter();
+
+  const [form] = Form.useForm();
+  const [fileList, setFileList] = useState<any[]>([]);
+  const [previewOpen, setPreviewOpen] = useState<boolean>(false);
+  const [previewImage, setPreviewImage] = useState<string>("");
+  const [initialCarouselImageUrls, setInitialCarouselImageUrls] = useState<string[]>([]);
+
+  // Fetch project data and set initial form values
+  useEffect(() => {
+    const fetchProjectData = async () => {
+      if (projectId) {
+        try {
+          const projectData = await getProjectById(projectId);
+          form.setFieldsValue({
+            title: projectData.data?.name,
+            description: projectData.data?.description,
+            country: projectData.data?.address?.country,
+            city: projectData.data?.address?.city,
+            province: projectData.data?.address?.province,
+            postalCode: projectData.data?.address?.postalCode,
+            category: projectData.data?.category,
+            // Add any other fields that need to be set
+          });
+
+          // Set the initial file list if there are carousel images
+          if (projectData.data?.carouselImageUrls) {
+            setInitialCarouselImageUrls(projectData.data?.carouselImageUrls);
+            setFileList(
+              projectData.data?.carouselImageUrls.map((url) => ({
+                uid: url,
+                name: url.split("/").pop(),
+                status: "done",
+                url,
+              }))
+            );
+          }
+        } catch (error) {
+          message.error("Failed to load project data.");
+          console.error(error);
         }
-    }, [form]);
-
-    const onFinish = (values: any) => {
-        console.log('Form values:', values);
-        // Optionally, clear sessionStorage if the form is submitted
-        sessionStorage.removeItem('formBasicValues');
+      }
     };
 
-    const handleImageChange = (info: any) => {
-        if (info.file.status === 'done') {
-            setImageUrl(URL.createObjectURL(info.file.originFileObj));
+    fetchProjectData();
+  }, [projectId, form]);
+
+  const onFinish = async (values: any) => {
+    console.log("Form values:", values);
+
+    let carouselImageUrls: string[] = [...initialCarouselImageUrls];
+
+    if (fileList.length > 0) {
+      try {
+        // Only upload files if they are new
+        const newFiles = fileList.filter(file => !initialCarouselImageUrls.includes(file.url));
+        if (newFiles.length > 0) {
+          const payload = {
+            file: newFiles.map((file) => file.originFileObj), 
+            fileType: FileTypeKeys.CAROUSEL_IMAGE_FILES,
+            projectId: projectId,
+          };
+
+          const response = await upload(payload);
+          if (response && response.length > 0) {
+            carouselImageUrls = [...carouselImageUrls, ...response.map((img) => img.url ?? "")]; // Append new image URLs
+            message.success("Images uploaded successfully!");
+          }
         }
+      } catch (error) {
+        message.error("Image upload failed!");
+        console.error(error);
+      }
+    }
+
+    const projectPayload: Partial<EditProjectPayload> = {
+      name: values.title,
+      carouselImageUrls: carouselImageUrls,
+      description: values.description,
+      address: {
+        country: values.country,
+        city: values.city,
+        province: values.province,
+        postalCode: values.postalCode,
+      },
+      status: 0, // Update according to your needs
+      category: values.category,
     };
 
-    const handleFormChange = (changedValues: any) => {
-        // Save form data to sessionStorage on form change
-        const currentValues = form.getFieldsValue();
-        sessionStorage.setItem('formBasicValues', JSON.stringify(currentValues));
-    };
+    try {
+      await editProjectById(projectId, projectPayload);
+      message.success("Project updated successfully!");
+      router.push(`/create-project/${projectId}/story`);
+    } catch (error) {
+      message.error("Project update failed!");
+    }
+  };
 
-    return (
-        <>
-            <Form
-                form={form}
-                layout="vertical"
-                onFinish={onFinish}
-                onValuesChange={handleFormChange}
-            >
-                <h1>Basic Details</h1>
-                <p>Summarize your details for good impression</p>
-                <Form.Item name="title" label="Project Title" rules={[{ required: true, message: 'Please input your project title!' }]}>
-                    <Input />
-                </Form.Item>
-                <Form.Item name="description" label="Project Description" rules={[{ required: true, message: 'Please input your project description!' }]}>
-                    <Input />
-                </Form.Item>
-                <Form.Item name="image" label="Project Image">
-                    <Upload 
-                        name="image"
-                        listType="picture"
-                        showUploadList={false}
-                        beforeUpload={() => false}
-                        onChange={handleImageChange}
-                    >
-                        <Button icon={<UploadOutlined />}>Click to Upload</Button>
-                    </Upload>
-                    {imageUrl && <img src={imageUrl} alt="Project" style={{ marginTop: '10px', maxWidth: '100%' }} />}
-                </Form.Item>
-                <Form.Item name="location" label="Location" rules={[{ required: true, message: 'Please input the location!' }]}>
-                    <Input />
-                </Form.Item>
-                <Form.Item name="category" label="Category" rules={[{ required: true, message: 'Please select a category!' }]}>
-                    <Select>
-                        <Select.Option value="technology">Technology</Select.Option>
-                        <Select.Option value="food">Food</Select.Option>
-                        <Select.Option value="art">Art</Select.Option>
-                        <Select.Option value="health">Health</Select.Option>
-                    </Select>
-                </Form.Item>
-                <Form.Item name="startingDate" label="Starting Date" rules={[{ required: true, message: 'Please select the starting date!' }]}>
-                    <DatePicker />
-                </Form.Item>
-                <Form.Item name="duration" label="Project Duration (in days)" rules={[{ required: true, message: 'Please input the project duration!' }]}>
-                    <Input type="number" />
-                </Form.Item>
-                <Form.Item>
-                    <Button type="primary" htmlType="submit">Submit</Button>
-                </Form.Item>
-            </Form>
-        </>
-    );
+  const handlePreview = async (file: any) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+    setPreviewImage(file.url || file.preview);
+    setPreviewOpen(true);
+  };
+
+  const handleChange = ({ fileList: newFileList }: any) => setFileList(newFileList);
+
+  const uploadButton = (
+    <div>
+      <PlusOutlined />
+      <div className="mt-2">Upload</div>
+    </div>
+  );
+
+  return (
+    <>
+      <Form
+        form={form}
+        layout="vertical"
+        onFinish={onFinish}
+        className="max-w-[460px]"
+      >
+        <h1 className="text-4xl mb-1">Basic Details</h1>
+        <p className="mb-2">Summarize your details for a good impression</p>
+        <Form.Item
+          name="title"
+          label="Project Title"
+          rules={[{ required: true, message: "Please input your project title!" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="description"
+          label="Project Description"
+          rules={[{ required: true, message: "Please input your project description!" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item name="image" label="Project Image">
+          <Upload
+            listType="picture-card"
+            fileList={fileList}
+            beforeUpload={() => false}
+            onPreview={handlePreview}
+            onChange={handleChange}
+          >
+            {fileList.length >= 8 ? null : uploadButton}
+          </Upload>
+          {previewImage && (
+            <Image
+              alt={previewImage}
+              wrapperStyle={{ display: 'none' }}
+              preview={{
+                visible: previewOpen,
+                onVisibleChange: (visible) => setPreviewOpen(visible),
+                afterOpenChange: (visible) => !visible && setPreviewImage(''),
+              }}
+              src={previewImage}
+            />
+          )}
+        </Form.Item>
+        <Form.Item
+          name="country"
+          label="Country"
+          rules={[{ required: true, message: "Please input the country!" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="city"
+          label="City"
+          rules={[{ required: true, message: "Please input the city!" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="province"
+          label="Province"
+          rules={[{ required: true, message: "Please input the province!" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="postalCode"
+          label="Postal Code"
+          rules={[{ required: true, message: "Please input the postal code!" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="category"
+          label="Category"
+          rules={[{ required: true, message: "Please select a category!" }]}
+        >
+          <Select>
+            <Select.Option value="technology">Technology</Select.Option>
+            <Select.Option value="food">Food</Select.Option>
+            <Select.Option value="art">Art</Select.Option>
+            <Select.Option value="health">Health</Select.Option>
+          </Select>
+        </Form.Item>
+        <Form.Item>
+          <Button type="primary" htmlType="submit">
+            Save & continue
+          </Button>
+        </Form.Item>
+      </Form>
+    </>
+  );
 }
