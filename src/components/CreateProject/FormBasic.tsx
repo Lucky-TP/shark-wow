@@ -228,10 +228,15 @@ export default function FormBasic({projectId}: Props) {
           rules={[{ required: true, message: "Please select a category!" }]}
         >
           <Select>
-            <Select.Option value="technology">Technology</Select.Option>
-            <Select.Option value="food">Food</Select.Option>
-            <Select.Option value="art">Art</Select.Option>
-            <Select.Option value="health">Health</Select.Option>
+            <Select.Option value="TECHNOLOGY">Technology</Select.Option>
+            <Select.Option value="EDUCATION">Education</Select.Option>
+            <Select.Option value="ART">Art</Select.Option>
+            <Select.Option value="FILM">Film</Select.Option>
+            <Select.Option value="MUSIC">Music</Select.Option>
+            <Select.Option value="FOOD">Food</Select.Option>
+            <Select.Option value="TRANSPORTATION">Transportation</Select.Option>
+            <Select.Option value="HEALTH">Health</Select.Option>
+            <Select.Option value="GAME">Game</Select.Option>
           </Select>
         </Form.Item>
         <Form.Item>
