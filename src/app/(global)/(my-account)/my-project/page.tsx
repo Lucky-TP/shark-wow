@@ -1,7 +1,7 @@
 import React from 'react'
 import Project from "src/components/account/project/project";
-import Myfundingproject from "src/components/account/project/myfundingproject";
-import Myfavouriteproject from "src/components/account/project/myfavouriteproject";
+import Myfundingproject from "src/components/account/project/MyFundingProject";
+import Myfavouriteproject from "src/components/account/project/MyFavouriteProject";
 
 type Props = {}
 
