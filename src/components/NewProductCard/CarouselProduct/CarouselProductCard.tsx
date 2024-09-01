@@ -57,7 +57,8 @@ export default function CarouselProductCard({ title, data }: Props) {
                 </button>
                 <div className="pt-2 pb-4 overflow-x-hidden" ref={carouselRef}>
                     <ul className="flex space-x-8">
-                        {data.map((product) => (
+                        {data &&
+                         data.map((product) => (
                             <li
                                 key={product.projectId}
                                 className="flex-shrink-0"
