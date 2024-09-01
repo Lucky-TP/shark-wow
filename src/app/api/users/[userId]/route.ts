@@ -23,10 +23,11 @@ export async function GET(request: NextRequest, { params }: { params: { userId: 
                     description: projectModel.description,
                     stages: projectModel.stages,
                     category: projectModel.category,
+
                 };
             });
 
-        const publicUserData: PublicUserData = {
+        const publicUserData: PublicUserData  = {
             uid: userModel.uid,
             username: userModel.username,
             firstName: userModel.firstName,
@@ -38,6 +39,7 @@ export async function GET(request: NextRequest, { params }: { params: { userId: 
             contact: userModel.contact,
             cvUrl: userModel.cvUrl,
             projectSummarizes,
+            birdthDate : userModel.birthDate.toDate() ,
         };
         return NextResponse.json(
             { message: "Get user successful", data: publicUserData },

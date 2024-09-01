@@ -29,4 +29,5 @@ export type PublicUserData = Omit<
     | "ownProjectIds"
 > & {
     projectSummarizes: ShowProject[];
+    birdthDate: Date;
 };
