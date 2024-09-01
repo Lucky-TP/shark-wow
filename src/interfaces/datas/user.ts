@@ -1,6 +1,7 @@
 import { ProjectModel } from "../models/project";
 import { UserModel } from "../models/user";
 import { CommentData } from "./comment";
+import { ShowProject } from "./project";
 
 export type UserData = Omit<UserModel, "ownProjectIds" | "receivedCommentIds"> & {
     ownProjects: ProjectModel[];
@@ -16,3 +17,16 @@ export interface PopularCreator {
     totalProjectSuccess: number;
     totalSupporter: number;
 }
+
+export type PublicUserData = Omit<
+    UserModel,
+    | "email"
+    | "favoriteProjectIds"
+    | "interestCategories"
+    | "birthDate"
+    | "address"
+    | "agreement"
+    | "ownProjectIds"
+> & {
+    projectSummarizes: ShowProject[];
+};
