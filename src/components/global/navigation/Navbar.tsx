@@ -40,9 +40,10 @@ export default function Navbar({}: Props) {
             const result = await createProject();
             const projectId = result.data; // Get the project ID from response
             router.push(`/create-project/${projectId}/basic`); // Navigate to the project page
-            setLoading(false);
         } catch (error: any) {
+            setLoading(true);
             router.push(`/sign-in`)
+            setLoading(false);
             console.error("Error creating project:", error.message);
         }
     };
