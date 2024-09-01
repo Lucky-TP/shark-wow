@@ -4,6 +4,7 @@ import React, { useRef, useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import { ShowProject } from "src/interfaces/datas/project"; // Adjust the import path as needed
 import { getTenPopularProjects } from "src/services/apiService/projects/getTenPopularProjects"; // Adjust the import path as needed
+import LoadingSection from "../global/LoadingSection";
 
 interface CarouselTrendingProductCardProps {
     showTopic?: boolean;
@@ -51,7 +52,7 @@ export default function CarouselTrendingProductCard({
         }
     };
 
-    if (loading) return <p>Loading...</p>;
+    if (loading) return <LoadingSection/>;
     if (error) return <p>Error: {error}</p>;
 
     return (

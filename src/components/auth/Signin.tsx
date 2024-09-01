@@ -7,6 +7,8 @@ import {
 } from "src/services/authService";
 import Link from "next/link";
 import { EmailSignInPayload } from "src/interfaces/payload/authPayload";
+import LoadingPage from "../global/LoadingPage";
+import Image from "next/image";
 
 type Props = {};
 
@@ -31,10 +33,12 @@ export default function Signin({}: Props) {
     useEffect(() => {
         const handler = async () => {
             try {
+                setLoading(true);
                 const result = await getRedirectResult();
                 if (result) {
                     router.push("/profile");
                 }
+                setLoading(false);
             } catch (error: unknown) {
                 alert("Contact Nuk");
             }
@@ -53,7 +57,7 @@ export default function Signin({}: Props) {
     };
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <LoadingPage/>;
     }
 
     return (
@@ -61,10 +65,12 @@ export default function Signin({}: Props) {
             <div className="h-screen w-screen flex bg-orange-300 ">
                 <div className="w-3/6 flex flex-col justify-center items-start p-16 ">
                     <Link href="/">
-                        <img
-                            src="./assets/shark.png"
+                        <Image
+                            src="/assets/shark.png"
                             alt="shark wow img"
                             className="absolute top-10 left-14 w-14 h-14 rounded-full"
+                            width={56}
+                            height={56}
                         />
                     </Link>
                     <div className="fixed top-20">
@@ -160,13 +166,15 @@ export default function Signin({}: Props) {
                             <div className="w-full text-center mb-4">
                                 <button
                                     className="bg-orange-300  items-center px-3 py-1 my-0.5 rounded-full shadow-md hover:bg-orange-200 transition"
-                                    onClick={() => onSignInWithGoogle()}
+                                    onClick={onSignInWithGoogle}
                                 >
                                     <div className="flex">
-                                        <img
-                                            src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico"
+                                        <Image
+                                            src="/assets/gmail.svg"
                                             alt="Gmail logo"
                                             className="w-6 h-6 mr-2"
+                                            width={24}
+                                            height={24}
                                         />
                                         <span className="text-white">
                                             Sign in with gmail

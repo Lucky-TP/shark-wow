@@ -2,7 +2,7 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Dropdown } from "antd";
+import { Button, Dropdown } from "antd";
 import Image from "next/image";
 import { signOut } from "src/services/authService";
 import { getSelf } from "src/services/apiService/users/getSelf";
@@ -15,6 +15,7 @@ type Props = {};
 export default function Navbar({}: Props) {
     const router = useRouter();
     const [user, setUser] = useState<UserData | null>();
+    const [loading, setLoading] = useState(false);
     const { user: userHook } = useAuth();
 
     useEffect(() => {
@@ -35,13 +36,19 @@ export default function Navbar({}: Props) {
 
     const handleCreateProject = async () => {
         try {
+            setLoading(true);
             const result = await createProject();
             const projectId = result.data; // Get the project ID from response
             router.push(`/create-project/${projectId}/basic`); // Navigate to the project page
+            setLoading(false);
         } catch (error: any) {
-            router.push(`/404`)
+            router.push(`/sign-in`)
             console.error("Error creating project:", error.message);
         }
+    };
+
+    const handleProfile = async () => {
+        router.push("/profile")
     };
 
     const handleSignOut = async () => {
@@ -74,12 +81,15 @@ export default function Navbar({}: Props) {
                             </Link>
                         </li>
                         <li>
-                            <button
+                            <Button
+                                type="link"
                                 onClick={handleCreateProject}
-                                className="text-gray-800 hover:text-white"
+                                loading={loading}
                             >
-                                CREATE PROJECT
-                            </button>
+                                <span className="text-gray-800 hover:text-white">
+                                    CREATE PROJECT
+                                </span>
+                            </Button>
                         </li>
                         <li>
                             {!user && (
@@ -93,6 +103,10 @@ export default function Navbar({}: Props) {
                                         items: [
                                             {
                                                 key: "1",
+                                                label: <div onClick={handleProfile}>Profile</div>,
+                                            },
+                                            {
+                                                key: "2",
                                                 label: <div onClick={handleSignOut}>sign out</div>,
                                                 danger: true,
                                             },

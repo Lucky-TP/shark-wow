@@ -13,6 +13,7 @@ import { pagePath } from "src/constants/routePath";
 import { UserData } from "src/interfaces/datas/user";
 import FileUpload from "src/components/global/FileUpload";
 import { getSelf } from "src/services/apiService/users/getSelf";
+import LoadingPage from "src/components/global/LoadingPage";
 
 export default function ProfilePage() {
     const [user, setUser] = useState<UserData | null>();
@@ -50,7 +51,7 @@ export default function ProfilePage() {
     };
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <LoadingPage/>;
     }
 
     return (
@@ -84,8 +85,38 @@ export default function ProfilePage() {
                         {user.aboutMe}
                     </div>
                     <div className="mb-2">
-                        <strong>My Projects: </strong>
-                        {user.ownProjects.join(", ")}
+                        <strong>My Projects </strong>
+                        <ul>
+                            {/* query all projects or some projects*/}
+                            {user.ownProjects.map((project) => (
+                            // {user.ownProjects.filter((project) => project.name.trim() !== "").map((project) => (
+                                    <li key={project.projectId} className="mb-2 bg-white rounded-sm">
+                                        <strong>Project Name: </strong> {project.name} <br />
+                                        <strong>Description: </strong> {project.description} <br />
+                                        <strong>Status: </strong> {project.status == 0 ? "Draft" : "Funding"} <br />
+                                        <strong>Category: </strong> {project.category} <br />
+                                        <strong>Total Supporter: </strong> {project.totalSupporter} <br />
+                                        <strong>Total Quantity: </strong> {project.totalQuantity} <br />
+                                        <strong>Cost Per Quantity: </strong> {project.costPerQuantity} <br />
+                                        <strong>Website: </strong> {project.website} <br />
+                                        <div className="mt-2">
+                                            <strong>Images: </strong>
+                                            <div className="flex space-x-2 mt-2">
+                                                {project.carouselImageUrls.map((url, index) => (
+                                                    <Image
+                                                        key={index}
+                                                        src={url}
+                                                        alt={`Image ${index + 1}`}
+                                                        className="w-24 h-24 object-cover rounded"
+                                                        width={96}
+                                                        height={96}
+                                                    />
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </li>
+                                ))}
+                        </ul>
                     </div>
                     <div className="mb-2">
                         <strong>Recivied Comments: </strong>
