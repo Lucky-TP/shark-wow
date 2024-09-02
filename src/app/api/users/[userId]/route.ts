@@ -29,6 +29,7 @@ export async function GET(request: NextRequest, { params }: { params: { userId: 
                     stages: projectModel.stages,
                     category: projectModel.category,
 
+                    status: projectModel.status,
                 };
             });
 

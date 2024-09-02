@@ -6,7 +6,7 @@ import { ShowProject } from "src/interfaces/datas/project"; // Adjust the import
 
 type Props = {
     title: string; // Single category string
-    data: ShowProject[]; // Array of products passed as a prop
+    data?: ShowProject[]; // Array of products passed as a prop
 };
 
 export default function CarouselProductCard({ title, data }: Props) {
@@ -57,7 +57,8 @@ export default function CarouselProductCard({ title, data }: Props) {
                 </button>
                 <div className="pt-2 pb-4 overflow-x-hidden" ref={carouselRef}>
                     <ul className="flex space-x-8">
-                        {data.map((product) => (
+                        {data &&
+                         data.map((product) => (
                             <li
                                 key={product.projectId}
                                 className="flex-shrink-0"

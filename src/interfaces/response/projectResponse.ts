@@ -1,9 +1,8 @@
 import { DefaultResponse } from "./commonResponse";
-import { ShowProject } from "../datas/project";
-import { ProjectModel } from "../models/project";
+import { ProjectData, ShowProject } from "../datas/project";
 
 export interface GetProjectResponse extends DefaultResponse {
-    data?: ProjectModel;
+    data?: ProjectData;
 }
 
 export interface CreateProjectResponse extends DefaultResponse {

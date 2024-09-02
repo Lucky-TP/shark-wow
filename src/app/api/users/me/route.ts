@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { CollectionPath } from "src/constants/firestore";
 import { StatusCode } from "src/constants/statusCode";
 import { getUser } from "src/libs/databases/users";
 import { errorHandler } from "src/libs/errors/apiError";
@@ -7,10 +6,11 @@ import { withAuthVerify } from "src/utils/api/auth";
 import { EditUserPayload } from "src/interfaces/payload/userPayload";
 import { CommentData } from "src/interfaces/datas/comment";
 import { UserData } from "src/interfaces/datas/user";
-import { getCollectionRef } from "src/libs/databases/firestore";
-import { ProjectModel } from "src/interfaces/models/project";
 import { updateUser } from "src/libs/databases/users/updateUser";
 import { getComments } from "src/libs/databases/comments";
+import { ShowProject } from "src/interfaces/datas/project";
+import { chunkArray } from "src/utils/api/queries";
+import { getProjects } from "src/libs/databases/projects/getProjects";
 
 export async function GET(request: NextRequest) {
     //get user info
@@ -19,18 +19,24 @@ export async function GET(request: NextRequest) {
         const retrivedUser = await getUser(tokenData.uid);
 
         // get own project datas
-        const ownProjects: ProjectModel[] = [];
+        const ownProjects: ShowProject[] = [];
         if (retrivedUser.ownProjectIds.length > 0) {
-            const projectCollection = getCollectionRef(CollectionPath.PROJECT);
-            const querySnapshot = await projectCollection
-                .where("projectId", "in", retrivedUser.ownProjectIds)
-                .get();
-            querySnapshot.docs.forEach((doc) => {
-                if (doc.exists) {
-                    const project = doc.data() as ProjectModel;
-                    ownProjects.push(project);
-                }
-            });
+            const chunks = chunkArray(retrivedUser.ownProjectIds, 30);
+            for (const chunk of chunks) {
+                const showProjects = await getProjects(chunk, (projectModel) => {
+                    const showProject: ShowProject = {
+                        projectId: projectModel.projectId,
+                        name: projectModel.name,
+                        carouselImageUrls: projectModel.carouselImageUrls,
+                        description: projectModel.description,
+                        stages: projectModel.stages,
+                        category: projectModel.category,
+                        status: projectModel.status,
+                    };
+                    return showProject;
+                });
+                ownProjects.push(...showProjects);
+            }
         }
 
         const receivedComments: CommentData[] = await getComments(retrivedUser.receivedCommentIds);

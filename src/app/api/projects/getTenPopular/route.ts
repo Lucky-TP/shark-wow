@@ -26,23 +26,8 @@ export async function GET(request: NextRequest) {
                 carouselImageUrls: targetProject.carouselImageUrls,
                 description: targetProject.description,
                 category: targetProject.category,
-                stages: [
-                    {
-                        fundingCost: targetProject.stages[StageId.CONCEPT].fundingCost,
-                        currentFunding: targetProject.stages[StageId.CONCEPT].currentFunding,
-                        goalFunding: targetProject.stages[StageId.CONCEPT].goalFunding,
-                    },
-                    {
-                        fundingCost: targetProject.stages[StageId.PROTOTYPE].fundingCost,
-                        currentFunding: targetProject.stages[StageId.PROTOTYPE].currentFunding,
-                        goalFunding: targetProject.stages[StageId.PROTOTYPE].goalFunding,
-                    },
-                    {
-                        fundingCost: targetProject.stages[StageId.PRODUCTION].fundingCost,
-                        currentFunding: targetProject.stages[StageId.PRODUCTION].currentFunding,
-                        goalFunding: targetProject.stages[StageId.PRODUCTION].goalFunding,
-                    },
-                ],
+                status: targetProject.status,
+                stages: targetProject.stages,
             };
             topTen.push(tmp);
         });

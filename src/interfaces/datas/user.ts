@@ -6,7 +6,7 @@ import { ShowProject } from "./project";
 import { Timestamp } from "firebase/firestore";
 
 export type UserData = Omit<UserModel, "ownProjectIds" | "receivedCommentIds"> & {
-    ownProjects: ProjectModel[];
+    ownProjects: ShowProject[];
     receivedComments: CommentData[];
 };
 
