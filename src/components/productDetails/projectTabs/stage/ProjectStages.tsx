@@ -140,7 +140,7 @@ export default function ProjectStages() {
   }, []);
 
   return (
-    <section className="items-center w-screen pt-[5vh]">
+    <section className="items-center w-screen pt-[5vh] bg-orange-50">
       <ul
         className="flex flex-row items-center gap-8 overflow-x-scroll pt-[5vh] pb-[10vh] px-[5vw] active:cursor-grabbing h-full w-screen hide-scroll-bar"
         ref={StageList}

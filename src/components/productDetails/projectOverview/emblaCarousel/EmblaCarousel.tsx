@@ -78,12 +78,12 @@ const EmblaCarousel = (props: PropType) => {
       }
       {
         !props.isLoading && slides.length !== 0 &&
-          <div className="embla__viewport overflow-x-hidden h-full" ref={emblaRef}>
+          <div className="embla__viewport overflow-x-hidden h-full shadow-xl rounded-xl" ref={emblaRef}>
             <div className="embla__container h-full flex items-center">
               {slides.map((e) => (
                 <div className="embla__slide" key={e.id}>
                   <div className="embla__slide__number">
-                    <Image src={e.image} alt='' />
+                    <Image src={e.image} alt='' className=''/>
                   </div>
                 </div>
               ))}
