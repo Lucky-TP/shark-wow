@@ -7,7 +7,7 @@ export async function getProjectByCategories(
 ): Promise<GetProjectsByCategoriesResponse> {
     try {
         const queryParams = `${categories
-            .map((category) => `category=${category}`)
+            .map((category) => `category=${category.toUpperCase()}`)
             .join("&")}`;
         const queryUrl = `${apiPath.PROJECTS.GET_BY_CATEGORIES}?${queryParams}`;
         const result: AxiosResponse<GetProjectsByCategoriesResponse> =
