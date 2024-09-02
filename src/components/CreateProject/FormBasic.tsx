@@ -3,14 +3,16 @@
 import { useState, useEffect } from "react";
 import { Form, Input, Button, Select, DatePicker, Upload, message, Image } from "antd";
 import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { upload } from "src/services/apiService/files/upload";
 import { editProjectById } from "src/services/apiService/projects/editProjectById";
 import { getProjectById } from "src/services/apiService/projects/getProjectById"; // Import the getProjectById function
 import { FileTypeKeys } from "src/constants/payloadKeys/file";
 import { EditProjectPayload } from "src/interfaces/payload/projectPayload";
 
-type Props = {};
+type Props = {
+  projectId: string;
+};
 
 const getBase64 = (file: File): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -20,17 +22,15 @@ const getBase64 = (file: File): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
-export default function FormBasic({}: Props) {
-  const pathName = usePathname();
+export default function FormBasic({projectId}: Props) {
   const router = useRouter();
-  const projectIdMatch = pathName.match(/\/create-project\/([a-zA-Z0-9]+)/);
-  const projectId = projectIdMatch ? projectIdMatch[1] : "";
 
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState<any[]>([]);
   const [previewOpen, setPreviewOpen] = useState<boolean>(false);
   const [previewImage, setPreviewImage] = useState<string>("");
   const [initialCarouselImageUrls, setInitialCarouselImageUrls] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   // Fetch project data and set initial form values
   useEffect(() => {
@@ -72,7 +72,13 @@ export default function FormBasic({}: Props) {
   }, [projectId, form]);
 
   const onFinish = async (values: any) => {
-    console.log("Form values:", values);
+    setLoading(true);
+
+    if (fileList.length === 0) {
+      message.error("Please input your project images!");
+      setLoading(false);
+      return;
+    }
 
     let carouselImageUrls: string[] = [...initialCarouselImageUrls];
 
@@ -119,6 +125,8 @@ export default function FormBasic({}: Props) {
       router.push(`/create-project/${projectId}/story`);
     } catch (error) {
       message.error("Project update failed!");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -130,7 +138,16 @@ export default function FormBasic({}: Props) {
     setPreviewOpen(true);
   };
 
-  const handleChange = ({ fileList: newFileList }: any) => setFileList(newFileList);
+  const handleChange = ({ fileList: newFileList, file }: any) => {
+    // Check if the removed file was previously uploaded
+    if (file.status === 'removed') {
+      // Remove the file URL from carouselImageUrls
+      setInitialCarouselImageUrls(prev =>
+        prev.filter(url => url !== file.url)
+      );
+    }
+    setFileList(newFileList);
+  };
 
   const uploadButton = (
     <div>
@@ -145,7 +162,7 @@ export default function FormBasic({}: Props) {
         form={form}
         layout="vertical"
         onFinish={onFinish}
-        className="max-w-[460px]"
+        className="w-full"
       >
         <h1 className="text-4xl mb-1">Basic Details</h1>
         <p className="mb-2">Summarize your details for a good impression</p>
@@ -167,7 +184,7 @@ export default function FormBasic({}: Props) {
           <Upload
             listType="picture-card"
             fileList={fileList}
-            beforeUpload={() => false}
+            multiple
             onPreview={handlePreview}
             onChange={handleChange}
           >
@@ -220,14 +237,19 @@ export default function FormBasic({}: Props) {
           rules={[{ required: true, message: "Please select a category!" }]}
         >
           <Select>
-            <Select.Option value="technology">Technology</Select.Option>
-            <Select.Option value="food">Food</Select.Option>
-            <Select.Option value="art">Art</Select.Option>
-            <Select.Option value="health">Health</Select.Option>
+            <Select.Option value="TECHNOLOGY">Technology</Select.Option>
+            <Select.Option value="EDUCATION">Education</Select.Option>
+            <Select.Option value="ART">Art</Select.Option>
+            <Select.Option value="FILM">Film</Select.Option>
+            <Select.Option value="MUSIC">Music</Select.Option>
+            <Select.Option value="FOOD">Food</Select.Option>
+            <Select.Option value="TRANSPORTATION">Transportation</Select.Option>
+            <Select.Option value="HEALTH">Health</Select.Option>
+            <Select.Option value="GAME">Game</Select.Option>
           </Select>
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" loading={loading} disabled={loading} htmlType="submit">
             Save & continue
           </Button>
         </Form.Item>

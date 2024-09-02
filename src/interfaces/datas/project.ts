@@ -18,4 +18,5 @@ export interface ShowProject {
     description: string;
     stages: Stage[];
     category: string;
+    status: number;
 }

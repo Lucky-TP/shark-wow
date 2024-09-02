@@ -4,7 +4,7 @@ import { CommentData } from "./comment";
 import { ShowProject } from "./project";
 
 export type UserData = Omit<UserModel, "ownProjectIds" | "receivedCommentIds"> & {
-    ownProjects: ProjectModel[];
+    ownProjects: ShowProject[];
     receivedComments: CommentData[];
 };
 

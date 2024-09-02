@@ -1,11 +1,18 @@
 import React from 'react'
+import Project from "src/components/account/project/MyProject";
+import MyFundingProject from 'src/components/account/project/MyFundingProject';
+import MyFavouriteProject from 'src/components/account/project/MyFavouriteProject';
 
 type Props = {}
 
 export default function page({}: Props) {
   return (
-    <div>
-        page placholder showing all project  create by me 
-    </div>
+    <section className="bg-[#E5D8CA]">
+      <div className='p-8'>
+          <Project/> 
+          <MyFundingProject/>
+          <MyFavouriteProject/>
+      </div>
+      </section>
   )
 }

@@ -20,7 +20,7 @@ export default function Sidebar() {
     ]
 
     return (
-        <div className="flex flex-col p-4 bg-gray-100 rounded-md shadow-md h-fit">
+        <div className="flex flex-row md:flex-col items-center gap-1 p-4 bg-gray-100 rounded-md shadow-md h-fit justify-between">
             {links.map((link) => (
                 <Link
                     href={link.href}

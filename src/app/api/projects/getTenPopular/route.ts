@@ -26,6 +26,7 @@ export async function GET(request: NextRequest) {
                 carouselImageUrls: targetProject.carouselImageUrls,
                 description: targetProject.description,
                 category: targetProject.category,
+                status: targetProject.status,
                 stages: [
                     {
                         fundingCost: targetProject.stages[StageId.CONCEPT].fundingCost,

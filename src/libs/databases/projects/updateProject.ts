@@ -18,12 +18,14 @@ export async function updateProject(
             const currentProjectData = projectSnapshot.data() as ProjectModel;
             const updateData: Partial<ProjectModel> = {
                 name: newProjectData.name ?? currentProjectData.name,
-                carouselImageUrls: newProjectData.carouselImageUrls
-                    ? [...newProjectData.carouselImageUrls, ...currentProjectData.carouselImageUrls]
-                    : currentProjectData.carouselImageUrls,
+                carouselImageUrls:
+                    newProjectData.carouselImageUrls ?? currentProjectData.carouselImageUrls,
                 description: newProjectData.description ?? currentProjectData.description,
                 address: newProjectData.address ?? currentProjectData.address,
                 totalSupporter: newProjectData.totalSupporter ?? currentProjectData.totalSupporter,
+                totalQuantity: newProjectData.totalQuantity ?? currentProjectData.totalQuantity,
+                costPerQuantity:
+                    newProjectData.costPerQuantity ?? currentProjectData.costPerQuantity,
                 status: newProjectData.status ?? currentProjectData.status,
                 category: newProjectData.category ?? currentProjectData.category,
                 stages: newProjectData.stages ?? currentProjectData.stages,
