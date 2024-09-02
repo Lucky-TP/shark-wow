@@ -13,6 +13,7 @@ import { UserModel } from 'src/interfaces/models/user';
 
 import { message } from 'antd';
 
+import { dateToTimestamp } from 'src/utils/date/clientDateConversions';
 
 interface ProjectDetailPayloadInterface {
     ProjectInfo : Partial<ProjectModel>
@@ -75,7 +76,7 @@ export const ProjectDetailProvider = ({ projectId, children }: { projectId: stri
               uid: data.uid,
               username: data.username ,
               profileImageUrl : data.profileImageUrl,
-              birthDate: data.birdthDate
+              birthDate: dateToTimestamp(new Date(data.birdthDate))
             }
           })    
               
