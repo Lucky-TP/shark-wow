@@ -73,26 +73,10 @@ export default function ProjectStages() {
   const {
     ProjectInfo,
     isLoading,
-    error
+    error,
   } = useProjectDetails()
 
-  // const [StagesPayload, onSetCurrentStages] = useState<Stages>({
-  //   isLoading: true,
-  //   stages: [] ,
-  //   status: 200
-  // });
-
-  // // Fetching data
-  // async function onGettingStages() {
-  //   const response = await onGetStages();
-  //   sessionStorage.setItem('projectStages', JSON.stringify(response.payload.content));
-  //   const tempStages: Stage[] = response.payload.content;
-  //   onSetCurrentStages({
-  //     stages: tempStages,
-  //     status: response.status,
-  //     isLoading: false
-  //   });
-  // }
+  const [currentStage , setCurrentStage] = useState(ProjectInfo.currentStage);
 
   // Scrolling function
   const StageList = useRef<HTMLUListElement>(null);

@@ -69,7 +69,7 @@ export default function ProjectOverviewInfo() {
           <div>
               <div className='flex flex-row justify-between'>
                 <h3 className="text-lg font-semibold">Current Stage 1 :</h3>
-                <h3 className='text-lg font-medium'>Concept</h3>
+                <h3 className='text-lg font-medium'>{ProjectInfo.currentStage}</h3>
               </div>
               <h1 className="text-3xl font-bold">{ProjectInfo.name}</h1>
               <p className="text-gray-600 mb-4">{ProjectInfo.description}</p>
