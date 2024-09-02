@@ -1,3 +1,4 @@
+import { dateToTimestamp } from 'src/utils/date/adminDateConversion';
 import { NextRequest, NextResponse } from "next/server";
 
 import { StatusCode } from "src/constants/statusCode";
@@ -28,7 +29,6 @@ export async function GET(request: NextRequest, { params }: { params: { userId: 
                     description: projectModel.description,
                     stages: projectModel.stages,
                     category: projectModel.category,
-
                     status: projectModel.status,
                 };
             });
@@ -45,8 +45,7 @@ export async function GET(request: NextRequest, { params }: { params: { userId: 
             contact: userModel.contact,
             cvUrl: userModel.cvUrl,
             projectSummarizes,
-            birdthDate: userModel.birthDate.toDate().toISOString() // Convert to string
-             
+            birdthDate: userModel.birthDate.toDate().toISOString(),
         };
         return NextResponse.json(
             { message: "Get user successful", data: publicUserData },
