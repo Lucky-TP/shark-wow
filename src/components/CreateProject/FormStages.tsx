@@ -17,13 +17,13 @@ type Props = {
 export default function FormStages({projectId}: Props) {
   const router = useRouter();
   const [form] = Form.useForm();
-  const [projectData, setProjectData] = useState<ProjectModel | undefined>();
+  
 
   useEffect(() => {
     const fetchProjectData = async () => {
       try {
         const response = await getProjectById(projectId);
-        setProjectData(response.data);
+  
         if (response.data) {
           const conceptStage = response.data.stages.find(stage => stage.stageId === StageId.CONCEPT);
           const prototypeStage = response.data.stages.find(stage => stage.stageId === StageId.PROTOTYPE);
