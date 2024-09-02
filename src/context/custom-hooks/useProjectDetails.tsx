@@ -68,7 +68,6 @@ export const ProjectDetailProvider = ({ projectId, children }: { projectId: stri
       try{
         const response = await getUserById(uid)
         const data = response.data
-        console.log(data)
         if(data) { 
           SetProjectDetailsPayload({
             ...projectDetailPayload,
@@ -89,7 +88,6 @@ export const ProjectDetailProvider = ({ projectId, children }: { projectId: stri
     useEffect(() => {
       if(projectId){
         fetchProjectData();
-        console.log(projectId)        
       }
     }, [projectId]);
 
