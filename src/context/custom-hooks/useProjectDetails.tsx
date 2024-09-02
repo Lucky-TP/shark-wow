@@ -15,43 +15,21 @@ interface ProjectDetailPayloadInterface {
     error : boolean
 }
 
+const initializedProjectDetailPayload : ProjectDetailPayloadInterface = {
+  data : {}, // Initialize with an empty object instead of undefined
+  isLoading : true,
+  error : false
+}
 
 // Define the shape of your project data
-const ProjectDetailsContext = createContext<string | null>(null);
+const ProjectDetailsContext = createContext<ProjectDetailPayloadInterface>(initializedProjectDetailPayload);
 
 export const ProjectDetailProvider = ({ projectId, children }: { projectId: string, children: React.ReactNode }) => {
-    const [projectDetailPayload, SetProjectDetailsPayload] = useState<ProjectDetailPayloadInterface>({
-      data : {
-        projectId: '',
-        uid: '',
-        name: '',
-        carouselImageUrls: [],
-        description: '',
-        address: {
-          country: '',
-          province: '',
-          city: '',
-          postalCode: '',
-        },
-        totalSupporter: 0,
-        status: 0, // Assuming status is a number or enum type starting from 0
-        totalQuantity: 0,
-        costPerQuantity: 0,
-        category: '',
-        stages: [],
-        story: '',
-        discussionIds: [],
-        update: [],
-        website: '',
-        payment: undefined, // Optional, use undefined if it's not initialized      
-      },
-      isLoading : true,
-      error : false
-    })
+    const [projectDetailPayload, SetProjectDetailsPayload] = useState<ProjectDetailPayloadInterface>(initializedProjectDetailPayload)
+
     const fetchProjectData = async () => {
       if (projectId) {
         try {
-
           SetProjectDetailsPayload({
             ...projectDetailPayload,
             isLoading : true
@@ -64,7 +42,7 @@ export const ProjectDetailProvider = ({ projectId, children }: { projectId: stri
 
           SetProjectDetailsPayload({
             ...projectDetailPayload,
-            data: data || {},
+            data: data !== undefined ? data : projectDetailPayload.data,
             isLoading : false
           })
 
@@ -78,14 +56,24 @@ export const ProjectDetailProvider = ({ projectId, children }: { projectId: stri
     }
 
     useEffect(() => {
+      if(projectId){
         fetchProjectData();
-    }, []);
+        console.log(projectId)        
+      }
+    }, [projectId]);
+
 
     return (
-      <ProjectDetailsContext.Provider value={projectId}>
+      <ProjectDetailsContext.Provider value={projectDetailPayload}>
         {children}
       </ProjectDetailsContext.Provider>
     );
 }
 
-
+export const useProjectDetails = () => {
+  const context = useContext(ProjectDetailsContext);
+  if (context === null) {
+      throw new Error('useProjectDetails must be used within a ProjectDetailProvider');
+  }
+  return context;
+};
