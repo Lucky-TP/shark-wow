@@ -27,8 +27,6 @@ export default function QuillEditor({ value, onChange, projectId }: QuillEditorP
       const file = input.files?.[0];
       if (file && /^image\//.test(file.type)) {
         try {
-          const formData = new FormData();
-          formData.append('file', file);
           const payload = {
             file: file,
             fileType: FileTypeKeys.CAROUSEL_IMAGE_FILES,
