@@ -4,6 +4,15 @@ import { getCollectionRef } from "../firestore";
 import { CollectionPath } from "src/constants/firestore";
 import { ProjectModel } from "src/interfaces/models/project";
 
+export async function getProjects(
+    projectIds: string[]
+): Promise<ProjectModel[]>;
+
+export async function getProjects<T>(
+    projectIds: string[],
+    callback: (projectModel: ProjectModel) => T
+): Promise<T[]>;
+
 export async function getProjects<T>(
     projectIds: string[],
     callback?: (projectModel: ProjectModel) => T
