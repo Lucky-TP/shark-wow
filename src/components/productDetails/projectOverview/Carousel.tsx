@@ -20,7 +20,7 @@ export default function ProjectCarousel() {
     const [slides, setSlides] = useState<any[]>([])
 
     useEffect(() => {
-        const images : any[] = context.data.carouselImageUrls?.map((e,i)=>{
+        const images : any[] = context.ProjectInfo.carouselImageUrls?.map((e,i)=>{
             return {
                 id: i+1,
                 image: e
