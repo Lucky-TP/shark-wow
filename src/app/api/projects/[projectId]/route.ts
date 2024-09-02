@@ -6,11 +6,13 @@ import { updateProject } from "src/libs/databases/projects";
 import { withAuthVerify } from "src/utils/api/auth";
 import { StatusCode } from "src/constants/statusCode";
 import { CollectionPath } from "src/constants/firestore";
-import { ProjectModel } from "src/interfaces/models/project";
+import { ProjectModel, Stage } from "src/interfaces/models/project";
 import { ProjectStatus } from "src/interfaces/models/enums";
 import { CommentData } from "src/interfaces/datas/comment";
 import { ProjectData } from "src/interfaces/datas/project";
 import { EditProjectPayload } from "src/interfaces/payload/projectPayload";
+import { getCurrentStage } from "src/utils/api/projects/getCurrentStage";
+import { getStartAndExpireTime } from "src/utils/api/projects";
 
 export async function GET(request: NextRequest, { params }: { params: { projectId: string } }) {
     try {
@@ -33,6 +35,8 @@ export async function GET(request: NextRequest, { params }: { params: { projectI
             }
         }
 
+        const projectTime = getStartAndExpireTime(projectModel.stages);
+        const currentStage = getCurrentStage(projectModel.stages);
         const discussions: CommentData[] = await getComments(projectModel.discussionIds);
         const projectData: ProjectData = {
             projectId: projectModel.projectId,
@@ -52,6 +56,9 @@ export async function GET(request: NextRequest, { params }: { params: { projectI
             update: projectModel.update,
             website: projectModel.website,
             payment: projectModel.payment,
+            startDate: projectTime.startDate,
+            expireDate: projectTime.expireDate,
+            currentStage,
         };
         return NextResponse.json(
             { message: "Get project data successful", data: projectData },

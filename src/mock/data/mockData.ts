@@ -1,4 +1,5 @@
 import { ShowProject } from "src/interfaces/datas/project";
+import { StageId, StageStatus, } from "src/interfaces/models/enums";
 export const productList: ShowProject[] = [
     {
         projectId: "1",
@@ -7,6 +8,12 @@ export const productList: ShowProject[] = [
         description: "pom chob hee",
         stages: [
             {
+                stageId: StageId.CONCEPT,
+                name: "Concept",
+                status: StageStatus.CURRENT,
+                detail: "Ha",
+                imageUrl: "",
+                totalSupporter: 100,
                 fundingCost: 20,
                 currentFunding: 5000,
                 goalFunding: 10000,
@@ -22,6 +29,12 @@ export const productList: ShowProject[] = [
         description: "pom gead hee",
         stages: [
             {
+                stageId: StageId.CONCEPT,
+                name: "Concept",
+                status: StageStatus.CURRENT,
+                detail: "Ha",
+                imageUrl: "",
+                totalSupporter: 100,
                 fundingCost: 5,
                 currentFunding: 2000,
                 goalFunding: 10000,
@@ -37,6 +50,12 @@ export const productList: ShowProject[] = [
         description: "pom doo hee",
         stages: [
             {
+                stageId: StageId.CONCEPT,
+                name: "Concept",
+                status: StageStatus.CURRENT,
+                detail: "Ha",
+                imageUrl: "",
+                totalSupporter: 100,
                 fundingCost: 15,
                 currentFunding: 9000,
                 goalFunding: 10000,
@@ -52,6 +71,12 @@ export const productList: ShowProject[] = [
         description: "pom doo hee",
         stages: [
             {
+                stageId: StageId.CONCEPT,
+                name: "Concept",
+                status: StageStatus.CURRENT,
+                detail: "Ha",
+                imageUrl: "",
+                totalSupporter: 100,
                 fundingCost: 10,
                 currentFunding: 7000,
                 goalFunding: 10000,
@@ -67,6 +92,12 @@ export const productList: ShowProject[] = [
         description: "pom chob hee",
         stages: [
             {
+                stageId: StageId.CONCEPT,
+                name: "Concept",
+                status: StageStatus.CURRENT,
+                detail: "Ha",
+                imageUrl: "",
+                totalSupporter: 100,
                 fundingCost: 20,
                 currentFunding: 5000,
                 goalFunding: 10000,
@@ -82,6 +113,12 @@ export const productList: ShowProject[] = [
         description: "pom gead hee",
         stages: [
             {
+                stageId: StageId.CONCEPT,
+                name: "Concept",
+                status: StageStatus.CURRENT,
+                detail: "Ha",
+                imageUrl: "",
+                totalSupporter: 100,
                 fundingCost: 5,
                 currentFunding: 2000,
                 goalFunding: 10000,
@@ -97,6 +134,12 @@ export const productList: ShowProject[] = [
         description: "pom doo hee",
         stages: [
             {
+                stageId: StageId.CONCEPT,
+                name: "Concept",
+                status: StageStatus.CURRENT,
+                detail: "Ha",
+                imageUrl: "",
+                totalSupporter: 100,
                 fundingCost: 15,
                 currentFunding: 9000,
                 goalFunding: 10000,
@@ -112,6 +155,12 @@ export const productList: ShowProject[] = [
         description: "pom doo hee",
         stages: [
             {
+                stageId: StageId.CONCEPT,
+                name: "Concept",
+                status: StageStatus.CURRENT,
+                detail: "Ha",
+                imageUrl: "",
+                totalSupporter: 100,
                 fundingCost: 10,
                 currentFunding: 7000,
                 goalFunding: 10000,
@@ -127,6 +176,12 @@ export const productList: ShowProject[] = [
         description: "pom chob hee",
         stages: [
             {
+                stageId: StageId.CONCEPT,
+                name: "Concept",
+                status: StageStatus.CURRENT,
+                detail: "Ha",
+                imageUrl: "",
+                totalSupporter: 100,
                 fundingCost: 20,
                 currentFunding: 5000,
                 goalFunding: 10000,
@@ -142,6 +197,12 @@ export const productList: ShowProject[] = [
         description: "pom gead hee",
         stages: [
             {
+                stageId: StageId.CONCEPT,
+                name: "Concept",
+                status: StageStatus.CURRENT,
+                detail: "Ha",
+                imageUrl: "",
+                totalSupporter: 100,
                 fundingCost: 5,
                 currentFunding: 2000,
                 goalFunding: 10000,
@@ -157,6 +218,12 @@ export const productList: ShowProject[] = [
         description: "pom doo hee",
         stages: [
             {
+                stageId: StageId.CONCEPT,
+                name: "Concept",
+                status: StageStatus.CURRENT,
+                detail: "Ha",
+                imageUrl: "",
+                totalSupporter: 100,
                 fundingCost: 15,
                 currentFunding: 9000,
                 goalFunding: 10000,
@@ -172,6 +239,12 @@ export const productList: ShowProject[] = [
         description: "pom doo hee",
         stages: [
             {
+                stageId: StageId.CONCEPT,
+                name: "Concept",
+                status: StageStatus.CURRENT,
+                detail: "Ha",
+                imageUrl: "",
+                totalSupporter: 100,
                 fundingCost: 10,
                 currentFunding: 7000,
                 goalFunding: 10000,
@@ -187,6 +260,12 @@ export const productList: ShowProject[] = [
         description: "pom chob hee",
         stages: [
             {
+                stageId: StageId.CONCEPT,
+                name: "Concept",
+                status: StageStatus.CURRENT,
+                detail: "Ha",
+                imageUrl: "",
+                totalSupporter: 100,
                 fundingCost: 20,
                 currentFunding: 5000,
                 goalFunding: 10000,
@@ -202,6 +281,12 @@ export const productList: ShowProject[] = [
         description: "pom gead hee",
         stages: [
             {
+                stageId: StageId.CONCEPT,
+                name: "Concept",
+                status: StageStatus.CURRENT,
+                detail: "Ha",
+                imageUrl: "",
+                totalSupporter: 100,
                 fundingCost: 5,
                 currentFunding: 2000,
                 goalFunding: 10000,
@@ -217,6 +302,12 @@ export const productList: ShowProject[] = [
         description: "pom doo hee",
         stages: [
             {
+                stageId: StageId.CONCEPT,
+                name: "Concept",
+                status: StageStatus.CURRENT,
+                detail: "Ha",
+                imageUrl: "",
+                totalSupporter: 100,
                 fundingCost: 15,
                 currentFunding: 9000,
                 goalFunding: 10000,
@@ -232,6 +323,12 @@ export const productList: ShowProject[] = [
         description: "pom doo hee",
         stages: [
             {
+                stageId: StageId.CONCEPT,
+                name: "Concept",
+                status: StageStatus.CURRENT,
+                detail: "Ha",
+                imageUrl: "",
+                totalSupporter: 100,
                 fundingCost: 10,
                 currentFunding: 7000,
                 goalFunding: 10000,
