@@ -8,6 +8,8 @@ export interface EditProjectPayload {
     description: string;
     address: Address;
     status: ProjectStatus;
+    totalQuantity: number;
+    costPerQuantity: number;
     category: string;
     stages: Stage[];
     story: string;

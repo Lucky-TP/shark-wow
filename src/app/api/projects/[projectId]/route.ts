@@ -100,6 +100,8 @@ export async function PUT(request: NextRequest, { params }: { params: { projectI
                 description: body.description,
                 address: body.address,
                 category: body.category,
+                totalQuantity: body.totalQuantity,
+                costPerQuantity: body.costPerQuantity,
                 stages: body.stages,
                 story: body.story,
                 update: body.update,
