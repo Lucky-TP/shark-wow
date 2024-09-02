@@ -1,32 +1,23 @@
 "use client"
-import { message } from 'antd';
-import React, { useEffect } from 'react'
+
+import React, { useEffect, useState } from 'react'
 
 import MainProjectOverview from 'src/components/productDetails/projectOverview/MainProjectOverview'
 import MainProjectTabs from 'src/components/productDetails/projectTabs/MainProjectTabs'
-import { getProjectById } from 'src/services/apiService/projects/getProjectById'
 
-export default function Page({ params }: { params: { projectID: string } }) {
-    // console.log('getting project ?Id ',params.projectID)
-    const projectID = params.projectID
-    useEffect(() => {
-        const fetchProjectData = async () => {
-          if (projectID) {
-            try {
-              const project = await getProjectById(projectID);
-              const projectData = project.data;
-            } catch (error) {
-              message.error("Failed to load project data.");
-              console.error(error);
-            }
-          }
-        };
-        fetchProjectData();
-    }, [projectID]);
+import { ProjectDetailProvider } from 'src/context/custom-hooks/useProjectDetails'
+
+
+export default function Page({ params }: { params: { projectId: string } }) {
+    const projectId = params.projectId
     return (
+      <ProjectDetailProvider projectId={projectId}>
         <section className='flex flex-col w-screen'>
-            <MainProjectOverview/>
-            <MainProjectTabs/>
+          <>
+              <MainProjectOverview/>
+              <MainProjectTabs/>               
+          </>                   
         </section>
+      </ProjectDetailProvider>
     )
 }

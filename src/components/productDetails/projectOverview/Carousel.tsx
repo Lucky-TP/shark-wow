@@ -1,73 +1,36 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+
+import { useProjectDetails } from 'src/context/custom-hooks/useProjectDetails'
+
 
 import EmblaCarousel from './emblaCarousel/EmblaCarousel'
 import { EmblaOptionsType } from 'embla-carousel'
 
-type Props = {}
+
+type Props = {
+    images: string[] | undefined,
+    isLoading: boolean
+}
 
 const OPTIONS: EmblaOptionsType = { dragFree: true, loop: true }
 
-const SLIDES = [
-    {
-        id: 1,
-        title: 'Slide 1',
-        description: 'Slide 1 description',
-        image: '/nuk.jpg'
-    }, {
-        id: 2,
-        title: 'Slide 2',
-        description: 'Slide 2 description',
-        image: '/shark2.jpg'
-    }, {
-        id: 3,
-        title: 'Slide 3',
-        description: 'Slide 3 description',
-        image: '/assets/shark.png'
-    },     {
-        id: 4,
-        title: 'Slide 1',
-        description: 'Slide 1 description',
-        image: '/nuk.jpg'
-    }, {
-        id: 5,
-        title: 'Slide 2',
-        description: 'Slide 2 description',
-        image: '/shark2.jpg'
-    }, {
-        id: 6,
-        title: 'Slide 3',
-        description: 'Slide 3 description',
-        image: '/assets/shark.png'
-    },     {
-        id: 7,
-        title: 'Slide 1',
-        description: 'Slide 1 description',
-        image: '/nuk.jpg'
-    }, {
-        id: 8,
-        title: 'Slide 2',
-        description: 'Slide 2 description',
-        image: '/shark2.jpg'
-    }, {
-        id: 9,
-        title: 'Slide 3',
-        description: 'Slide 3 description',
-        image: '/assets/shark.png'
-    },     {
-        id: 10,
-        title: 'Slide 1',
-        description: 'Slide 1 description',
-        image: '/nuk.jpg'
-    }
-]
+export default function ProjectCarousel() {
+    const context = useProjectDetails();
+    const [slides, setSlides] = useState<any[]>([])
 
-
-export default function ProjectCarousel({}: Props) {
-    
+    useEffect(() => {
+        const images : any[] = context.ProjectInfo.carouselImageUrls?.map((e,i)=>{
+            return {
+                id: i+1,
+                image: e
+            }
+        }) || []
+        setSlides(images)
+    }, [context])
     return (
-        <section className='flex justify-center items-center h-full sm:px-[3vw] md:px-0'>
-            <EmblaCarousel slides={SLIDES} options={OPTIONS} />
+        <section className='flex w-full h-full sm:px-[3vw] md:px-[2vw]'>
+            <EmblaCarousel isLoading={context.isLoading} slides={slides} options={OPTIONS} />
         </section>
     )
 }

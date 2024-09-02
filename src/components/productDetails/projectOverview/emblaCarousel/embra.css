@@ -112,3 +112,16 @@
   }
   
   
+
+  @keyframes fade-in-out {
+    0%, 100% {
+      background-color: #fed7aa; /* Light orange color (same as bg-orange-200) */
+    }
+    50% {
+      background-color: #fdba74; /* Slightly darker shade for fading effect */
+    }
+  }
+  
+  .fade-in-out {
+    animation: fade-in-out 3s infinite;
+  }

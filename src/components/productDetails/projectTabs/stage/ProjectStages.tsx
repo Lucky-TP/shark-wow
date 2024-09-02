@@ -8,7 +8,9 @@ import { Stage } from 'src/interfaces/models/project';
 import TargetStage from './TargetStage';
 
 import { Skeleton } from 'antd';
+
 import { dateToTimestamp } from 'src/utils/date/clientDateConversions'
+import { useProjectDetails } from 'src/context/custom-hooks/useProjectDetails';
 
 interface Stages {
     stages: Stage[];
@@ -68,42 +70,13 @@ async function onGetStages(): Promise<{ status: number, payload: { content: Stag
 }
 
 export default function ProjectStages() {
-  const [StagesPayload, onSetCurrentStages] = useState<Stages>({
-    isLoading: true,
-    stages: [] ,
-    status: 200
-  });
+  const {
+    ProjectInfo,
+    isLoading,
+    error,
+  } = useProjectDetails()
 
-  // Fetching data
-  async function onGettingStages() {
-    const response = await onGetStages();
-    sessionStorage.setItem('projectStages', JSON.stringify(response.payload.content));
-    const tempStages: Stage[] = response.payload.content;
-    onSetCurrentStages({
-      stages: tempStages,
-      status: response.status,
-      isLoading: false
-    });
-  }
-
-  useEffect(() => {
-    onGettingStages();
-    onSetCurrentStages({
-      ...StagesPayload,
-      isLoading: true
-    });
-    if (sessionStorage.getItem('projectStages')) {
-      const tempStages: Stage[] = (JSON.parse(sessionStorage.getItem('projectStages') as string));
-      onSetCurrentStages({
-        ...StagesPayload,
-        stages: tempStages,
-        status: 200,
-        isLoading: false
-      });
-    } else if (!sessionStorage.getItem('projectStages')) {
-      onGettingStages();
-    }
-  }, []);
+  const [currentStage , setCurrentStage] = useState(ProjectInfo.currentStage);
 
   // Scrolling function
   const StageList = useRef<HTMLUListElement>(null);
@@ -151,17 +124,17 @@ export default function ProjectStages() {
   }, []);
 
   return (
-    <section className="items-center w-screen pt-[5vh]">
+    <section className="items-center w-screen pt-[5vh] bg-orange-50">
       <ul
         className="flex flex-row items-center gap-8 overflow-x-scroll pt-[5vh] pb-[10vh] px-[5vw] active:cursor-grabbing h-full w-screen hide-scroll-bar"
         ref={StageList}
       >
         {
-          StagesPayload.stages?.map((stage: Stage, key) => (
+          ProjectInfo.stages?.map((stage: Stage, key) => (
             <TargetStage key={key} stage={stage}/>
           ))
         }
-        {(StagesPayload.isLoading || StagesPayload.stages === null) &&
+        {(isLoading || ProjectInfo.stages === null) &&
           <li>
             <Skeleton active />
           </li>

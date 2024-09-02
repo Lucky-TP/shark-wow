@@ -1,11 +1,17 @@
+import { dateToTimestamp } from 'src/utils/date/adminDateConversion';
 import { NextRequest, NextResponse } from "next/server";
+
 import { StatusCode } from "src/constants/statusCode";
+import { getProjects } from "src/libs/databases/projects/getProjects";
+import { getUser } from "src/libs/databases/users";
+
+import { errorHandler } from "src/libs/errors/apiError";
+
 import { ShowProject } from "src/interfaces/datas/project";
 import { PublicUserData } from "src/interfaces/datas/user";
 import { ProjectStatus } from "src/interfaces/models/enums";
-import { getProjects } from "src/libs/databases/projects/getProjects";
-import { getUser } from "src/libs/databases/users";
-import { errorHandler } from "src/libs/errors/apiError";
+
+import { Timestamp } from "firebase/firestore";
 
 export async function GET(request: NextRequest, { params }: { params: { userId: string } }) {
     try {
@@ -27,7 +33,7 @@ export async function GET(request: NextRequest, { params }: { params: { userId: 
                 };
             });
 
-        const publicUserData: PublicUserData = {
+        const publicUserData: PublicUserData  = {
             uid: userModel.uid,
             username: userModel.username,
             firstName: userModel.firstName,
@@ -39,6 +45,7 @@ export async function GET(request: NextRequest, { params }: { params: { userId: 
             contact: userModel.contact,
             cvUrl: userModel.cvUrl,
             projectSummarizes,
+            birdthDate: userModel.birthDate.toDate().toISOString(),
         };
         return NextResponse.json(
             { message: "Get user successful", data: publicUserData },
