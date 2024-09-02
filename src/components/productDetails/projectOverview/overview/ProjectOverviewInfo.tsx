@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
+
 import { useProjectDetails } from 'src/context/custom-hooks/useProjectDetails'
+
+import { timestampToDate } from 'src/utils/date/clientDateConversions'
+import { Timestamp } from 'firebase/firestore'
 
 import { message, Skeleton } from 'antd'
 
-function formatDate(date: string): string {
-  if (!date) return ''; // Handle undefined, null, or empty string
 
-  const dateO = new Date(date);
 
+function formatDate(date: Timestamp): string {
+  const dateO = timestampToDate(date)
   const day = String(dateO.getDate()).padStart(2, '0');
   const month = String(dateO.getMonth() + 1).padStart(2, '0'); // Months are zero-based
   const year = dateO.getFullYear();
@@ -22,7 +25,7 @@ export default function ProjectOverviewInfo() {
     UserInfo,
     error,
     OnGettingUserDetails
-  } = useProjectDetails()
+  } = useProjectDetails() as any
 
   const [isFirstTime, setFirstTime ] = useState(true)
 
@@ -58,7 +61,9 @@ export default function ProjectOverviewInfo() {
             </div>
             <div className="ml-4">
               <h2 className="text-2xl font-bold">{UserInfo.username}</h2>
-              <p className="text-gray-600">Created at {UserInfo.birthDate !== undefined ? formatDate(UserInfo.birthDate) : ""}</p>
+              <p className="text-gray-600">
+                Created at {UserInfo.birthDate ? formatDate(UserInfo.birthDate) : ''}
+              </p>
             </div>
           </div>
           <div>
@@ -70,6 +75,9 @@ export default function ProjectOverviewInfo() {
               <p className="text-gray-600 mb-4">{ProjectInfo.description}</p>
           </div> 
         </>       
+      }
+      {
+        error && message.error("User details")      
       }
     </>
   )

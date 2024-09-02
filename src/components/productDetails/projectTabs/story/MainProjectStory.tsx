@@ -16,7 +16,7 @@ export default function MainProjectStory({}: Props) {
             <div
               className={`flex flex-col items-center text-center bg-orange-100 w-10/12 h-[60vh] px-[5vw] py-[3vh]
               rounded-lg  hover:shadow-xl hover:scale-[1.02] hover:bg-orange-200 border border-orange-200 shadow-xl
-              transition-all duration-500 hover:translate-y-[-1vh] cursor-pointer ${isLoading && 'animate-pulse'}`}
+              transition-all duration-700 hover:translate-y-[-1vh] cursor-pointer ${isLoading && 'animate-pulse'}`}
             >
                 { !isLoading && 
                   <>
