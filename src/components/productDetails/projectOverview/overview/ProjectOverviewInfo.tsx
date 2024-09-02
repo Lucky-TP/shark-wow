@@ -1,78 +1,37 @@
 import React, { useEffect, useState } from 'react'
-
-import { getUserById } from 'src/services/apiService/users/getUserById'
-
-import { ProjectModel } from 'src/interfaces/models/project'
-
+import { useProjectDetails } from 'src/context/custom-hooks/useProjectDetails'
 
 import { message, Skeleton } from 'antd'
 
+function formatDate(date: string): string {
+  if (!date) return ''; // Handle undefined, null, or empty string
 
-type Props = Partial<ProjectModel> &  {
-  isLoading?: boolean
-  uid?: string
-  stageId?: number 
-  name?: string 
-  description?: string
-}
+  const dateO = new Date(date);
 
-function formatDate(date : string )  {
-  if(date === '') return ''
-  const dateO = new Date(date); // Convert to Date object
   const day = String(dateO.getDate()).padStart(2, '0');
   const month = String(dateO.getMonth() + 1).padStart(2, '0'); // Months are zero-based
   const year = dateO.getFullYear();
 
-  return `${day}/${month}/${year}` ;
+  return `${day}/${month}/${year}`;
 }
 
-
-export default function ProjectOverviewInfo({
-  isLoading,
-  uid,
-  stageId,
-  name,
-  description
-  // current stage 
-}: Props) {
-
-  const [userInfomation, setUserDetails] = useState({
-    uid: uid,
-    name: '' as string | undefined,
-    imageUrl : '' as string | undefined,
-    date: '' as string | undefined,
-  })
+export default function ProjectOverviewInfo() {
+  const {
+    isLoading,
+    ProjectInfo ,
+    UserInfo,
+    error,
+    OnGettingUserDetails
+  } = useProjectDetails()
 
   const [isFirstTime, setFirstTime ] = useState(true)
 
-  const OnGettingUserDetails = async ()=>{
-    try{
-      const response = await getUserById(uid as string)
-      const data = response.data
-      console.log(data)
-
-      setUserDetails({
-        ...userInfomation,
-        name: data?.username ,
-        imageUrl: data?.profileImageUrl,
-        date: data?.birdthDate
-      })
-    }catch(error){
-      message.error("User data not found!");
-    }
-  }
-
-  
-
   useEffect(()=>{
-    //isLoading goes to false 
-    
-    if(!isLoading){
-      OnGettingUserDetails()
+    if (ProjectInfo.uid && OnGettingUserDetails){
+      OnGettingUserDetails(ProjectInfo.uid)
       setFirstTime(false)
     }
-
-  },[isLoading])
+  },[ProjectInfo.uid])
 
   return (
     <>
@@ -94,12 +53,12 @@ export default function ProjectOverviewInfo({
           <div className='flex flex-row items-center gap-x-[2vw] '>
             <div className="rounded-full">
               <img
-                src={userInfomation.imageUrl}
+                src={UserInfo.profileImageUrl}
                 className="rounded-full max-w-[5vw]"/>
             </div>
             <div className="ml-4">
-              <h2 className="text-2xl font-bold">{userInfomation.name}</h2>
-              <p className="text-gray-600">Created at {userInfomation.date !==undefined ? formatDate(userInfomation.date) : ""}</p>
+              <h2 className="text-2xl font-bold">{UserInfo.username}</h2>
+              <p className="text-gray-600">Created at {UserInfo.birthDate !== undefined ? formatDate(UserInfo.birthDate) : ""}</p>
             </div>
           </div>
           <div>
@@ -107,12 +66,11 @@ export default function ProjectOverviewInfo({
                 <h3 className="text-lg font-semibold">Current Stage 1 :</h3>
                 <h3 className='text-lg font-medium'>Concept</h3>
               </div>
-              <h1 className="text-3xl font-bold">{name}</h1>
-              <p className="text-gray-600 mb-4">{description}</p>
+              <h1 className="text-3xl font-bold">{ProjectInfo.name}</h1>
+              <p className="text-gray-600 mb-4">{ProjectInfo.description}</p>
           </div> 
         </>       
       }
-
     </>
   )
 }
