@@ -59,9 +59,9 @@ const EmblaCarousel = (props: PropType) => {
       {
         (props.isLoading ) &&
         <div className='flex w-full h-full items-center justify-center'>
-        <span className=' flex w-full h-full bg-orange-200 rounded-xl animate-pulse duration-700'>
-            
-        </span>  
+          <span className=' flex w-full h-full bg-orange-200 rounded-xl animate-pulse duration-700'>
+              
+          </span>  
         </div>
       }
       {

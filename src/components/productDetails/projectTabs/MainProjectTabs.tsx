@@ -8,17 +8,7 @@ import MainProjectUpdates from './updates/MainProjectUpdates'
 import MainProjectDiscussion from './discussion/MainProjectDiscussion'
 import MainProjectToCreator from './toCreator/MainProjectToCreator'
 
-import { ProjectDetialResponse } from 'src/interfaces/datas/projectDetailStatus'
-
-type Props = {}
-
-export default function MainProjectTabs(
-        { 
-        projectData,
-        isLoading,
-        error
-        }: ProjectDetialResponse
-    ){
+export default function MainProjectTabs(){
     const [activeTab, setActiveTab] = useState('story')
 
     return (
