@@ -91,6 +91,8 @@ export default function ProfilePage() {
                             {user.ownProjects.map((project) => (
                             // {user.ownProjects.filter((project) => project.name.trim() !== "").map((project) => (
                                     <li key={project.projectId} className="mb-2 bg-white rounded-sm">
+                                        <Button type="primary" href={`create-project/${project.projectId}/basic`}>Edit projects</Button><br />
+                                        <strong>Project ID: </strong> {project.projectId} <br />
                                         <strong>Project Name: </strong> {project.name} <br />
                                         <strong>Description: </strong> {project.description} <br />
                                         <strong>Status: </strong> {project.status == 0 ? "Draft" : "Funding"} <br />

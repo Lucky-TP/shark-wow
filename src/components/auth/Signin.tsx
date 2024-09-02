@@ -19,8 +19,8 @@ export default function Signin({}: Props) {
     const [loading, setLoading] = useState<boolean>(false);
 
     const onSignInWithGoogle = async () => {
+        setLoading(true);
         try {
-            setLoading(true);
             await signInWithGoogle();
             // router.push("/redirect-handler");
         } catch (error: any) {
