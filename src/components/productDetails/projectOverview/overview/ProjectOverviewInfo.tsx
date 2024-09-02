@@ -43,6 +43,8 @@ export default function ProjectOverviewInfo({
     date: '' as string | undefined,
   })
 
+  const [isFirstTime, setFirstTime ] = useState(true)
+
   const OnGettingUserDetails = async ()=>{
     try{
       const response = await getUserById(uid as string)
@@ -67,6 +69,7 @@ export default function ProjectOverviewInfo({
     
     if(!isLoading){
       OnGettingUserDetails()
+      setFirstTime(false)
     }
 
   },[isLoading])
@@ -74,7 +77,7 @@ export default function ProjectOverviewInfo({
   return (
     <>
       {
-        isLoading && 
+        (isLoading || isFirstTime) && 
         <>
           <Skeleton
             avatar
