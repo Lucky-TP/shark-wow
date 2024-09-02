@@ -40,7 +40,7 @@ export default function MainProjectUpdates() {
                                   hover:bg-orange-300 hover:scale-[1.02] duration-500 transition-all cursor-pointer '
                       >
                           <p className='text-lg text-gray-700 font-medium text-center'>
-                            There're no currently updated yet.
+                            There are no updates currently.
                           </p>
                       </li>
                     }
