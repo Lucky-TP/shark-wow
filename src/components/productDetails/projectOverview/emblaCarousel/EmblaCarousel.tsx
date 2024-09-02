@@ -22,7 +22,7 @@ import Skeleton from '@mui/material/Skeleton';
 type PropType = {
   slides: any[]
   options?: EmblaOptionsType
-  isLoading: boolean
+  isLoading?: boolean
 }
 
 const EmblaCarousel = (props: PropType) => {
