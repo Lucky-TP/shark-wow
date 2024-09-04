@@ -6,11 +6,10 @@ import { useRouter } from 'next/navigation';
 import { getProjectById } from 'src/services/apiService/projects/getProjectById';
 import { editProjectById } from 'src/services/apiService/projects/editProjectById';
 import { ProjectModel, Stage } from 'src/interfaces/models/project';
-import { StageId } from 'src/interfaces/models/enums';
+import { StageId, StageStatus } from 'src/interfaces/models/enums';
 import QuillEditor from '../global/QuillEditor'; // Adjust the path if necessary
 import { dateToTimestamp, timestampToDate } from 'src/utils/date/clientDateConversions';
 import dayjs from 'dayjs';
-import LoadingPage from '../global/LoadingPage';
 
 const { Title } = Typography;
 const { RangePicker } = DatePicker;
@@ -37,7 +36,6 @@ export default function FormStages({ projectId }: Props) {
   useEffect(() => {
     const fetchProjectData = async () => {
       try {
-        setLoading(true)
         const response = await getProjectById(projectId);
         if (response.data) {
           const conceptStage = response.data.stages[StageId.CONCEPT];
@@ -69,8 +67,6 @@ export default function FormStages({ projectId }: Props) {
         }
       } catch (error) {
         console.error('Failed to fetch project data', error);
-      } finally {
-        setLoading(false)
       }
     };
 
@@ -129,13 +125,14 @@ export default function FormStages({ projectId }: Props) {
   
 
   const onFinish = async (values: any) => {
+    setLoading(true);
     const updatedStages: Stage[] = [
       {
         stageId: StageId.CONCEPT,
         name: 'Concept',
         startDate: dateToTimestamp(conceptStartDate!),
         expireDate: dateToTimestamp(conceptExpireDate!),
-        status: 2,
+        status: StageStatus.CURRENT,
         detail: conceptDetail,
         imageUrl: '',
         fundingCost: 0,
@@ -148,7 +145,7 @@ export default function FormStages({ projectId }: Props) {
         name: 'Prototype',
         startDate: dateToTimestamp(prototypeStartDate!),
         expireDate: dateToTimestamp(prototypeExpireDate!),
-        status: 1,
+        status: StageStatus.INCOMING,
         detail: prototypeDetail,
         imageUrl: '',
         fundingCost: 0,
@@ -161,7 +158,7 @@ export default function FormStages({ projectId }: Props) {
         name: 'Production',
         startDate: dateToTimestamp(productionStartDate!),
         expireDate: dateToTimestamp(productionExpireDate!),
-        status: 1,
+        status: StageStatus.INCOMING,
         detail: productionDetail,
         imageUrl: '',
         fundingCost: 0,
@@ -187,11 +184,9 @@ export default function FormStages({ projectId }: Props) {
     } else {
       message.error("Please input project detail!");
     }
+    setLoading(false);
   };
 
-  if (loading) {
-    return <LoadingPage/>
-  }
 
   return (
     <Form form={form} layout="vertical" onFinish={onFinish} className='w-full'>
@@ -214,9 +209,6 @@ export default function FormStages({ projectId }: Props) {
           onChange={value => handleOwnershipChange('conceptOwnership', value)}
         />
       </Form.Item>
-      <Form.Item label="Discount for 1 product">
-        {/* Replace with actual calculation based on conceptOwnership */}
-      </Form.Item>
       <QuillEditor value={conceptDetail} onChange={setConceptDetail} projectId={projectId} />
 
       <Title level={3}>Stage 2: Prototype</Title>
@@ -229,9 +221,6 @@ export default function FormStages({ projectId }: Props) {
           max={100}
           onChange={value => handleOwnershipChange('prototypeOwnership', value)}
         />
-      </Form.Item>
-      <Form.Item label="Fund for this stage">
-        {/* Replace with actual calculation based on prototypeOwnership */}
       </Form.Item>
       <QuillEditor value={prototypeDetail} onChange={setPrototypeDetail} projectId={projectId} />
 
@@ -246,13 +235,10 @@ export default function FormStages({ projectId }: Props) {
           onChange={value => handleOwnershipChange('productionOwnership', value)}
         />
       </Form.Item>
-      <Form.Item label="Fund for this stage">
-        {/* Replace with actual calculation based on productionOwnership */}
-      </Form.Item>
       <QuillEditor value={productionDetail} onChange={setProductionDetail} projectId={projectId} />
 
       <Form.Item>
-        <Button className="mt-10" type="primary" htmlType="submit">
+        <Button className="mt-10" loading={loading} disabled={loading} type="primary" htmlType="submit">
           Save and Continue
         </Button>
       </Form.Item>

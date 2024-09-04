@@ -1,9 +1,12 @@
 "use client";
 
-import { useEffect } from "react";
-import { Form, Input, Button, Select, DatePicker, Upload } from "antd";
-import dayjs from "dayjs";
+import { Form, Input, Button, Select, message, Modal } from "antd";
 import Title from "antd/es/typography/Title";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { ProjectStatus } from "src/interfaces/models/enums";
+import { EditProjectPayload } from "src/interfaces/payload/projectPayload";
+import { editProjectById } from "src/services/apiService/projects/editProjectById";
 
 type Props = {
     projectId: string;
@@ -11,41 +14,45 @@ type Props = {
 
 export default function FormPayment({projectId}: Props) {
     const [form] = Form.useForm();
+    const router = useRouter()
+    const [loading, setLoading] = useState<boolean>(false);
 
-    useEffect(() => {
-        // Load form data from sessionStorage when component mounts
-        const storedValues = sessionStorage.getItem('formPaymentValues');
-        if (storedValues) {
-            const parsedValues = JSON.parse(storedValues);
-            
-            // Convert date strings back to moment objects
-            if (parsedValues.startingDate) {
-                parsedValues.startingDate = dayjs(parsedValues.startingDate);
-            }
-    
-            form.setFieldsValue(parsedValues);
+    const showConfirmModal = () => {
+        Modal.confirm({
+          title: "Confirm to Launch Your Project's Funding Campaign.",
+          content: "Are you sure you want to launch your project's funding campaign?",
+          okText: "Yes",
+          cancelText: "No",
+          centered: true,
+          onOk: () => {
+            form.submit();
+          },
+        });
+    };
+
+    const onFinish = async (values: any) => {
+        setLoading(true);
+        const projectPayload: Partial<EditProjectPayload> = {
+            status: ProjectStatus.RUNNING
+        };
+        console.log(projectPayload);
+        try {
+            await editProjectById(projectId, projectPayload);
+            message.success("Project updated successfully!");
+            router.push(`/explore/${projectId}`);
+        } catch (error) {
+            message.error("Go funding project failed!");
+        } finally {
+            setLoading(false);
         }
-    }, [form]);
-
-    const onFinish = (values: any) => {
-        console.log('Form values:', values);
-        // Optionally, clear sessionStorage if the form is submitted
-        sessionStorage.removeItem('formValues');
     };
 
-    const handleFormChange = (changedValues: any) => {
-        // Save form data to sessionStorage on form change
-        const currentValues = form.getFieldsValue();
-        currentValues.bankAccountLocation = "Thailand";
-        sessionStorage.setItem('formPaymentValues', JSON.stringify(currentValues));
-    };
 
     return (
         <Form
             form={form}
             layout="vertical"
             onFinish={onFinish}
-            onValuesChange={handleFormChange}
             className="w-full"
         >
             <h1>Bank account location</h1>
@@ -67,7 +74,14 @@ export default function FormPayment({projectId}: Props) {
                 <Input />
             </Form.Item>
             <Form.Item>
-                <Button type="primary" htmlType="submit">Submit</Button>
+                <Button
+                type="primary"
+                loading={loading}
+                disabled={loading}
+                onClick={showConfirmModal}
+                >
+                    Launch Your Project
+                </Button>
             </Form.Item>
         </Form>
     );
