@@ -10,12 +10,13 @@ type Props = {
 };
 
 export default function TargetStage({ stage }: Props) {
+    console.log("checking stage" , stage)
     return (
         <li
             key={stage.stageId}
             className="flex flex-col items-center justify-between bg-orange-100 md:min-w-[50vw] max-w-[50vw] h-[60vh] px-[2vw] py-[3vh]
-        rounded-lg  hover:shadow-xl hover:scale-[1.02] hover:bg-orange-200 border border-orange-200 shadow-xl
-        transition-all duration-700 hover:translate-y-[-1vh] cursor-pointer"
+            rounded-lg  hover:shadow-xl hover:scale-[1.02] hover:bg-orange-200 border border-orange-200 shadow-xl
+            transition-all duration-700 hover:translate-y-[-1vh] cursor-pointer"
         >
             {
                 stage.imageUrl !== "" && 

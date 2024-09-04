@@ -9,7 +9,7 @@ import { message, Skeleton } from 'antd'
 
 
 
-function formatDate(date: Timestamp): string {
+function formatDate(date: Timestamp ): string {
   const dateO = timestampToDate(date)
   const day = String(dateO.getDate()).padStart(2, '0');
   const month = String(dateO.getMonth() + 1).padStart(2, '0'); // Months are zero-based
@@ -68,8 +68,8 @@ export default function ProjectOverviewInfo() {
           </div>
           <div>
               <div className='flex flex-row justify-between'>
-                <h3 className="text-lg font-semibold">Current Stage 1 :</h3>
-                <h3 className='text-lg font-medium'>{ProjectInfo.currentStage}</h3>
+                <h3 className="text-lg font-semibold">Current Stage :</h3>
+                <h3 className='text-lg font-medium'>{ProjectInfo.stages[1].name}</h3>
               </div>
               <h1 className="text-3xl font-bold">{ProjectInfo.name}</h1>
               <p className="text-gray-600 mb-4">{ProjectInfo.description}</p>

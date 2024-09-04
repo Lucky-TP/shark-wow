@@ -78,8 +78,7 @@ export const ProjectDetailProvider = ({ projectId, children }: { projectId: stri
               profileImageUrl : data.profileImageUrl,
               birthDate: dateToTimestamp(new Date(data.birdthDate))
             }
-          })    
-              
+          })         
         }
       }catch(error){
         message.error("User data not found!");
