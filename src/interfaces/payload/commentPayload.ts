@@ -5,3 +5,8 @@ export interface CreateCommentPayload {
 export interface EditCommentPayload {
     detail: string;
 }
+
+export interface DeleteCommentPayload {
+    type: string,
+    id: string
+}
