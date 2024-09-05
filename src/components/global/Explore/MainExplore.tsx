@@ -115,15 +115,15 @@ export default function MainExplore() {
           {!selectedCategory && (
             <>
               <CarouselTrendingProductCard />
-              <CarouselProductCard title="Technology" data={data.Technology} />
-              <CarouselProductCard title="Education" data={data.Education} />
-              <CarouselProductCard title="Art" data={data.Art} />
-              <CarouselProductCard title="Film" data={data.Film} />
-              <CarouselProductCard title="Music" data={data.Music} />
-              <CarouselProductCard title="Food" data={data.Food} />
-              <CarouselProductCard title="Transportation" data={data.Transportation} />
-              <CarouselProductCard title="Health" data={data.Health} />
-              <CarouselProductCard title="Game" data={data.Game} />
+              {data.Technology.length!=0 && <CarouselProductCard title="Technology" data={data.Technology} />}
+              {data.Education.length!=0 && <CarouselProductCard title="Education" data={data.Education} />}
+              {data.Art.length!=0 && <CarouselProductCard title="Art" data={data.Art} />}
+              {data.Film.length!=0 && <CarouselProductCard title="Film" data={data.Film} />}
+              {data.Music.length!=0 && <CarouselProductCard title="Music" data={data.Music} />}
+              {data.Food.length!=0 && <CarouselProductCard title="Food" data={data.Food} />}
+              {data.Transportation.length!=0 && <CarouselProductCard title="Transportation" data={data.Transportation} />}
+              {data.Health.length!=0 && <CarouselProductCard title="Health" data={data.Health} />}
+              {data.Game.length!=0 && <CarouselProductCard title="Game" data={data.Game} />}
             </>
           )}
           {selectedCategory && (
