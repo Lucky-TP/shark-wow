@@ -197,7 +197,7 @@ export default function FormStages({ projectId }: Props) {
       <Form.Item name="cpp" label="Cost per 1 package">
         <InputNumber min={0} onChange={handleValueChange}/>
       </Form.Item>
-      <Title level={4}>Total Funding: {totalValue} baht</Title>
+      <Title level={4}>Total Funding: {totalValue.toLocaleString()} baht</Title>
       <Title level={3}>Stage 1: Concept</Title>
       <Form.Item name="conceptDates" label="Start and End Dates">
         <RangePicker name="conceptDates" format="DD-MM-YYYY" defaultValue={[dayjs(dayjs(conceptStartDate).format("DD-MM-YYYY"), "DD-MM-YYYY"), dayjs(dayjs(conceptExpireDate).format("DD-MM-YYYY"), "DD-MM-YYYY")]}/>
@@ -211,7 +211,7 @@ export default function FormStages({ projectId }: Props) {
       </Form.Item>
       <QuillEditor value={conceptDetail} onChange={setConceptDetail} projectId={projectId} />
 
-      <Title level={3}>Stage 2: Prototype</Title>
+      <Title level={3} className="mt-12">Stage 2: Prototype</Title>
       <Form.Item name="prototypeDates" label="Start and End Dates">
         <RangePicker name="prototypeDates" format="DD-MM-YYYY" defaultValue={[dayjs(dayjs(prototypeStartDate).format("DD-MM-YYYY"), "DD-MM-YYYY"), dayjs(dayjs(prototypeExpireDate).format("DD-MM-YYYY"), "DD-MM-YYYY")]} />
       </Form.Item>
@@ -224,7 +224,7 @@ export default function FormStages({ projectId }: Props) {
       </Form.Item>
       <QuillEditor value={prototypeDetail} onChange={setPrototypeDetail} projectId={projectId} />
 
-      <Title level={3}>Stage 3: Production</Title>
+      <Title level={3} className="mt-12">Stage 3: Production</Title>
       <Form.Item name="productionDates" label="Start and End Dates">
         <RangePicker name="productionDates" format="DD-MM-YYYY" defaultValue={[dayjs(dayjs(productionStartDate).format("DD-MM-YYYY"), "DD-MM-YYYY"), dayjs(dayjs(productionExpireDate).format("DD-MM-YYYY"), "DD-MM-YYYY")]} />
       </Form.Item>
