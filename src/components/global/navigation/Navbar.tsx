@@ -108,7 +108,7 @@ export default function Navbar({}: Props) {
                                             },
                                             {
                                                 key: "2",
-                                                label: <div onClick={handleSignOut}>sign out</div>,
+                                                label: <div onClick={handleSignOut}>Sign Out</div>,
                                                 danger: true,
                                             },
                                         ],
