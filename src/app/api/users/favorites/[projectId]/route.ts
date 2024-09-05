@@ -11,14 +11,13 @@ export async function PUT(request: NextRequest, { params }: { params: { projectI
         const tokenData = await withAuthVerify(request);
         const retrivedUser = await getUser(tokenData.uid);
 
-        let newFavoriteProjectIds: string[] = [];
-        const favoriteProjectIds = retrivedUser.favoriteProjectIds;
-        if (favoriteProjectIds.includes(newProjectId)) {
-            newFavoriteProjectIds = favoriteProjectIds.filter(
+        let newFavoriteProjectIds = [...retrivedUser.favoriteProjectIds];
+        if (newFavoriteProjectIds.includes(newProjectId)) {
+            newFavoriteProjectIds = newFavoriteProjectIds.filter(
                 (existedProjectId) => existedProjectId !== newProjectId
             );
         } else {
-            newFavoriteProjectIds = [...newFavoriteProjectIds, newProjectId];
+            newFavoriteProjectIds.push(newProjectId);
         }
         await updateUser(tokenData.uid, { favoriteProjectIds: newFavoriteProjectIds });
         return NextResponse.json(
