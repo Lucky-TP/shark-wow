@@ -35,7 +35,7 @@ export default function CarouselTrendingProductCard({}: Props) {
 
   
 
-  if (loading) return <p><LoadingSection/></p>;
+  if (loading) return <LoadingSection/>;
   if (error) return <p>Error: {error}</p>;
 
  

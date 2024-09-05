@@ -1,6 +1,7 @@
 import { Timestamp } from "firebase/firestore";
 import { ProjectModel, Stage } from "../models/project";
 import { CommentData } from "./comment";
+import { ProjectStatus } from "../models/enums";
 
 export type ProjectData = Omit<ProjectModel, "discussionIds"> & {
     discussion: CommentData[];
@@ -9,9 +10,6 @@ export type ProjectData = Omit<ProjectModel, "discussionIds"> & {
     expireDate?: Timestamp;
 };
 
-
-
-
 export interface ShowProject {
     projectId: string;
     name: string;
@@ -19,5 +17,5 @@ export interface ShowProject {
     description: string;
     stages: Stage[];
     category: string;
-    status: number;
+    status: ProjectStatus;
 }

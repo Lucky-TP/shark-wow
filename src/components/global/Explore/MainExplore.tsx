@@ -60,7 +60,7 @@ export default function MainExplore() {
     fetchData();
   }, []);
 
-  if (loading) return <p><LoadingPage/></p>;
+  if (loading) return <LoadingPage/>;
   if (error) return <p>Error: {error}</p>;
 
   const handleCategoryClick = (category: string | null) => {
