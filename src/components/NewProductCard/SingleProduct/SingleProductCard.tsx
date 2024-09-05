@@ -13,6 +13,7 @@ interface ProjectCardProps {
 const SingleprojectCard = ({ project, showEditProject }: ProjectCardProps) => {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
+    const [isFavorited, setIsFavorited] = useState(false); // State for favorite status
 
     const percentageFunded = Math.round(
         (project.stages[0].currentFunding / project.stages[0].goalFunding) * 100
@@ -23,14 +24,17 @@ const SingleprojectCard = ({ project, showEditProject }: ProjectCardProps) => {
         router.push(`/explore/${project.projectId}`);
         setIsLoading(false);
     };
+
     const handleEditProject = () => {
         setIsLoading(true);
         router.push(`/create-project/${project.projectId}/basic`);
         setIsLoading(false);
     };
+
     const handleFavoriteProject = async () => {
         await toggleFavoriteProject(project.projectId);
-    }
+        setIsFavorited(!isFavorited); // Toggle the favorite status
+    };
 
     return (
         <section>
@@ -67,10 +71,13 @@ const SingleprojectCard = ({ project, showEditProject }: ProjectCardProps) => {
                             }
                         </div>
                         <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <button className="bg-orange-600 text-white p-2 rounded-full" onClick={handleFavoriteProject}>
+                            <button
+                                className="bg-orange-600 text-white p-2 rounded-full"
+                                onClick={handleFavoriteProject}
+                            >
                                 <svg
                                     className="w-5 h-5"
-                                    fill="currentColor"
+                                    fill={isFavorited ? "white" : "yellow"} // Change color based on state
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24"
                                 >
