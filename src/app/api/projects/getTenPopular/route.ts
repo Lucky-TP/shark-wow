@@ -3,8 +3,7 @@ import { errorHandler } from "src/libs/errors/apiError";
 import { StatusCode } from "src/constants/statusCode";
 import { CollectionPath } from "src/constants/firestore";
 import { getCollectionRef } from "src/libs/databases/firestore";
-import { ProjectModel } from "src/interfaces/models/project";
-import { ProjectStatus, StageId } from "src/interfaces/models/enums";
+import { ProjectStatus } from "src/interfaces/models/enums";
 import { ShowProject } from "src/interfaces/datas/project";
 
 export async function GET(request: NextRequest) {
