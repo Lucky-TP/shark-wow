@@ -1,4 +1,5 @@
 "use client"
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { FaFacebook, FaTwitter, FaYoutube } from 'react-icons/fa';
@@ -6,11 +7,12 @@ import { pagePath } from 'src/constants/routePath';
 import { useAuth } from 'src/hooks/useAuth';
 import { UserData } from 'src/interfaces/datas/user';
 import { getSelf } from 'src/services/apiService/users/getSelf';
+import { UserInfo } from '../UserInfo';
 
 type Props = {};
 
 export default function UserProfile({}: Props) { // เปลี่ยนชื่อเป็น UserProfile
-  const [user, setUser] = useState<UserData | null>();
+  const [user, setUser] = useState<UserData>();
   const [loading, setLoading] = useState<boolean>(false);
   const { user: authUser, authLoading } = useAuth();
   const router = useRouter();
@@ -23,7 +25,7 @@ export default function UserProfile({}: Props) { // เปลี่ยนชื�
                   return;
               }
               const result = await getSelf();
-              setUser(result.data || null);
+              setUser(result.data);
           } catch (error) {
               console.error("Error fetching user profile:", error);
           } finally {
@@ -37,34 +39,21 @@ export default function UserProfile({}: Props) { // เปลี่ยนชื�
   console.log(user)
   return (
     <div>
-      <section>
-        <div className="min-h-screen bg-[#E5D8CA] flex items-start">
-          <div className="w-full">
-            <h1 className="text-7xl  text-black text-left ml-40 mt-20">{user?.username}</h1>
-          <div className="flex items-start ml-72 space-x-10 mt-20">
-              <button className="bg-[#D2825E] text-white font-semibold py-2 px-16 rounded-xl text-xl"  onClick={() => router.push('/profiletoy')}>
-                Profile
-              </button>
-              <button className="bg-[#D2825E] text-white font-semibold py-2 px-16 rounded-xl text-xl"  onClick={() => router.push('/my-project')}>
-                Projects
-              </button>
-              <button className="bg-[#D2825E] text-white font-semibold py-2 px-16 rounded-xl text-xl" onClick={() => router.push('/contribution')}>
-                Contribution
-              </button>
-              <button className="bg-[#D2825E] text-white font-semibold py-2 px-16 rounded-xl text-xl">
-                Setting
-              </button>
-            </div>
-            <hr className="border-t-4 border-black w-4/5 my-8 ml-40" />
-            <div className="bg-[#E5D8CA] flex items-center justify-normal">
-              <div className="flex items-start mt-10 ml-60">
-                <img
-                  src="./nuk.jpg"  // Replace with your image path
+
+      <div className="bg-[#E5D8CA] flex items-start">
+        <div className="w-full">
+            <UserInfo user={user}/>
+            <div className="bg-[#E5D8CA] flex items-center justify-center">
+              <div className="flex items-start mt-10">
+                <Image
+                  src={user?.profileImageUrl || ""} // Replace with your image path
                   alt="Profile"
                   className="rounded-full w-64 h-64 object-cover"
+                  width={256}
+                  height={256}
                 />
               </div>
-              <div className="text-black  text-3xl mb-6 ml-20 ">
+              <div className="text-black text-3xl mb-6 ml-20 ">
                 <p>{user?.address[0]?.country}</p>
                 <p>
                   Website:{" "}
@@ -85,18 +74,18 @@ export default function UserProfile({}: Props) { // เปลี่ยนชื�
                 </a>
               </div>
             </div>
+            <div className="bg-[#E5D8CA] flex flex-col justify-center">
+              <h2 className="text-3xl font-bold text-black mb-8 mx-auto">About me</h2>
+                <div className="bg-white w-[80dvh] mx-auto h-80 rounded-lg shadow-lg px-6">
+                  {/* เนื้อหาภายในกล่อง */}
+                </div>
+              <h2 className="text-3xl font-bold text-black mt-10 mb-8 mx-auto">Resume / CV</h2>
+                <div className="bg-white w-[80dvh] mx-auto h-80 rounded-lg shadow-lg px-6 mb-8">
+                  {/* เนื้อหาภายในกล่อง */}
+                </div>
             </div>
-        </div> 
-      </section>
-      <section>
-        <div className="min-h-screen bg-[#E5D8CA] flex flex-col items-start p-10">
-          <h2 className="text-3xl font-bold text-black mb-8 ml-20">About me</h2>
-            <div className="bg-white w-full max-w-7xl h-80 rounded-lg shadow-lg p-6 ml-20">
-              {/* เนื้อหาภายในกล่อง */}
-            </div>
-          <h2 className="text-3xl font-bold text-black mt-10 ml-20">Resume / CV</h2>
-        </div>
-      </section>
+          </div>
+      </div> 
     </div>
    
   );

@@ -7,11 +7,11 @@ type Props = {}
 
 export default function page({}: Props) {
   return (
-    <section className="bg-[#E5D8CA]">
+    <section className="bg-[#E5D8CA] min-h-screen">
       <div className='p-8'>
           <Project/> 
-          <MyFundingProject/>
-          <MyFavouriteProject/>
+          {/* <MyFundingProject/> */}
+          {/* <MyFavouriteProject/> */}
       </div>
       </section>
   )
