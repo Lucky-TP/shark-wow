@@ -68,16 +68,16 @@ export default function Navbar({}: Props) {
                     <div className="flex items-center">
                         <Link href="/">
                             <Image
-                                src="/assets/NavbarIcon.svg"
+                                src="/assets/FooterIcon.svg"
                                 alt="SharkWow Logo"
-                                width={150}
-                                height={150}
+                                width={200}
+                                height={200}
                             />
                         </Link>
                     </div>
                     <ul className="flex flex-row gap-x-[3vw] items-center">
                         <li>
-                            <Link href="/explore" className="text-gray-800 hover:text-white">
+                            <Link href="/explore" className="text-gray-800 text-lg hover:text-white">
                                 EXPLORE
                             </Link>
                         </li>
@@ -87,14 +87,14 @@ export default function Navbar({}: Props) {
                                 onClick={handleCreateProject}
                                 loading={loading}
                             >
-                                <span className="text-gray-800 hover:text-white">
+                                <span className="text-gray-800 text-lg hover:text-white">
                                     CREATE PROJECT
                                 </span>
                             </Button>
                         </li>
                         <li>
                             {!user && (
-                                <Link href="/sign-in" className="text-gray-800 hover:text-white">
+                                <Link href="/sign-in" className="text-gray-800 text-lg hover:text-white">
                                     SIGN IN / SIGN UP
                                 </Link>
                             )}
