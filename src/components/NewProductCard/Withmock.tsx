@@ -49,7 +49,7 @@ export default function Withmock({ category }: Props) {
           <ul className='flex space-x-8'> 
           {filteredProductList.map(product => (
               <li key={product.projectId} className='flex-shrink-0' style={{ width: 'calc(25% - 32px)' }}>
-                <SingleProductCard product={product}/>
+                <SingleProductCard project={product}/>
               </li>
             ))}
           </ul>

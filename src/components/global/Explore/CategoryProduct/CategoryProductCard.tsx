@@ -54,7 +54,7 @@ export default function CategoryProductCard({ category }: Props) {
                 <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {products.map((product) => (
                         <li key={product.projectId} className="flex-shrink-0">
-                            <SingleProductCard product={product} />
+                            <SingleProductCard project={product} />
                         </li>
                     ))}
                 </ul>

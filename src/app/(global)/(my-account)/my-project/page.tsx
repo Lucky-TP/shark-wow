@@ -11,7 +11,7 @@ export default function page({}: Props) {
       <div className='p-8'>
           <Project/> 
           {/* <MyFundingProject/> */}
-          {/* <MyFavouriteProject/> */}
+          <MyFavouriteProject/>
       </div>
       </section>
   )
