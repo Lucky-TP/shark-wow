@@ -5,8 +5,8 @@ export interface EditUserPayload {
     firstName: string;
     lastName: string;
     aboutMe: string;
-    address: Partial<Address>[];
-    contact: Partial<Contact>;
+    address: Address[];
+    contact: Contact;
     profileImageUrl: string;
     cvUrl: string;
 }
