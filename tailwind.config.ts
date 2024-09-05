@@ -10,7 +10,7 @@ const config: Config = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: "#C54F1F",            // Default primary color
+          DEFAULT: "rgb(229, 106, 45)",   // Default primary color
           50: "rgba(197, 79, 31, 0.05)",  // 5% opacity
           100: "rgba(197, 79, 31, 0.1)",  // 10% opacity
           200: "rgba(197, 79, 31, 0.2)",  // 20% opacity
