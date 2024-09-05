@@ -77,7 +77,7 @@ const SingleprojectCard = ({ project, showEditProject }: ProjectCardProps) => {
                             >
                                 <svg
                                     className="w-5 h-5"
-                                    fill={isFavorited ? "white" : "yellow"} // Change color based on state
+                                    fill={isFavorited ? "yellow" : "white"} // Change color based on state
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24"
                                 >
