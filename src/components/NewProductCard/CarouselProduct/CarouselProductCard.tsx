@@ -7,11 +7,11 @@ import { ShowProject } from "src/interfaces/datas/project"; // Adjust the import
 type Props = {
     title: string; // Single category string
     data?: ShowProject[]; // Array of products passed as a prop
+    showEditProject?: boolean;
 };
 
-export default function CarouselProductCard({ title, data }: Props) {
+export default function CarouselProductCard({ title, data, showEditProject }: Props) {
     const carouselRef = useRef<HTMLDivElement>(null);
-    console.log(data)
     const scrollLeft = () => {
         if (carouselRef.current) {
             carouselRef.current.scrollBy({
@@ -64,7 +64,7 @@ export default function CarouselProductCard({ title, data }: Props) {
                                 className="flex-shrink-0"
                                 style={{ width: "calc(25% - 32px)" }}
                             >
-                                <SingleProductCard product={product} />
+                                <SingleProductCard project={product} showEditProject={showEditProject} />
                             </li>
                         ))}
                     </ul>

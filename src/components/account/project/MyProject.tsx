@@ -48,7 +48,7 @@ export default function MyProject({}: Props) { // เปลี่ยนชื่
                 <h1 className="text-5xl text-black text-left mt-20 ml-40">My Project</h1>
             </div>
         </div>
-        <CarouselProductCard title="" data={user?.ownProjects}/>
+        <CarouselProductCard title="" data={user?.ownProjects} showEditProject/>
         {/* <ButtonSeeMore/> */}
    </section>
    

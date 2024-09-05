@@ -8,6 +8,7 @@ import { useAuth } from 'src/hooks/useAuth';
 import { UserData } from 'src/interfaces/datas/user';
 import { getSelf } from 'src/services/apiService/users/getSelf';
 import { UserInfo } from '../UserInfo';
+import LoadingPage from 'src/components/global/LoadingPage';
 
 type Props = {};
 
@@ -36,7 +37,9 @@ export default function UserProfile({}: Props) { // เปลี่ยนชื�
           fetchUserProfile();
       }
   }, [authUser]);
-  console.log(user)
+  if (loading) {
+    return <LoadingPage/>
+  }
   return (
     <div>
 

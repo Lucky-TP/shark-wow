@@ -3,22 +3,37 @@ import { ShowProject } from "src/interfaces/datas/project";
 import Image from 'next/image';
 import { useRouter } from "next/navigation";
 import LoadingSection from 'src/components/global/LoadingSection';
+import { toggleFavoriteProject } from 'src/services/apiService/users/toggleFavoriteProject';
 
-interface ProductCardProps {
-    product: ShowProject;
+interface ProjectCardProps {
+    project: ShowProject;
+    showEditProject?: boolean;
 }
 
-const SingleProductCard = ({ product }: ProductCardProps) => {
+const SingleprojectCard = ({ project, showEditProject }: ProjectCardProps) => {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
+    const [isFavorited, setIsFavorited] = useState(false); // State for favorite status
 
     const percentageFunded = Math.round(
-        (product.stages[0].currentFunding / product.stages[0].goalFunding) * 100
+        (project.stages[0].currentFunding / project.stages[0].goalFunding) * 100
     );
 
     const handleViewProject = () => {
         setIsLoading(true);
-        router.push(`/explore/${product.projectId}`);
+        router.push(`/explore/${project.projectId}`);
+        setIsLoading(false);
+    };
+
+    const handleEditProject = () => {
+        setIsLoading(true);
+        router.push(`/create-project/${project.projectId}/basic`);
+        setIsLoading(false);
+    };
+
+    const handleFavoriteProject = async () => {
+        await toggleFavoriteProject(project.projectId);
+        setIsFavorited(!isFavorited); // Toggle the favorite status
     };
 
     return (
@@ -33,25 +48,36 @@ const SingleProductCard = ({ product }: ProductCardProps) => {
                         )}
                         <Image
                             className="w-full h-full object-contain"
-                            src={product.carouselImageUrls[0]}
-                            alt={product.projectId}
+                            src={project.carouselImageUrls[0]}
+                            alt={project.projectId}
                             width={400}
                             height={400}
                         />
                         {/* Hover elements */}
                         <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
                             <button 
-                                className="absolute bottom-2 bg-orange-600 text-white font-semibold py-2 px-4 rounded-full"
+                                className="bg-orange-600 text-white font-semibold py-2 px-4 rounded-full"
                                 onClick={handleViewProject}
                             >
                                 View Project
                             </button>
+                            {showEditProject && 
+                                <button 
+                                    className="bg-orange-600 text-white ml-4 font-semibold py-2 px-4 rounded-full"
+                                    onClick={handleEditProject}
+                                >
+                                    Edit Project
+                                </button>
+                            }
                         </div>
                         <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <button className="bg-orange-600 text-white p-2 rounded-full">
+                            <button
+                                className="bg-orange-600 text-white p-2 rounded-full"
+                                onClick={handleFavoriteProject}
+                            >
                                 <svg
                                     className="w-5 h-5"
-                                    fill="currentColor"
+                                    fill={isFavorited ? "white" : "yellow"} // Change color based on state
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24"
                                 >
@@ -61,9 +87,9 @@ const SingleProductCard = ({ product }: ProductCardProps) => {
                         </div>
                     </div>
                     <div className="pt-3 py-1">
-                        <h2 className="text-xl font-semibold text-gray-800">{product.name}</h2>
+                        <h2 className="text-xl font-semibold text-gray-800">{project.name}</h2>
                         <p className="text-sm text-gray-600 mt-1">
-                            Fund at ${product.stages[0].fundingCost}
+                            Fund at ${project.stages[0].fundingCost}
                         </p>
                     </div>
                     <div>
@@ -75,7 +101,7 @@ const SingleProductCard = ({ product }: ProductCardProps) => {
                         </div>
                         <div className="flex justify-left">
                             <span className="text-sm text-gray-600">
-                                ${product.stages[0].currentFunding} raised |
+                                ${project.stages[0].currentFunding} raised |
                             </span>
                             <span className="text-sm text-gray-600 ml-1">
                                 {percentageFunded}% funded
@@ -88,4 +114,4 @@ const SingleProductCard = ({ product }: ProductCardProps) => {
     );
 };
 
-export default SingleProductCard;
+export default SingleprojectCard;
