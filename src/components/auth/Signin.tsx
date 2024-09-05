@@ -51,6 +51,7 @@ export default function Signin({}: Props) {
         try {
             const payload: EmailSignInPayload = { email, password };
             await signInWithEmail(payload);
+            router.push("/profile");
         } catch (error: any) {
             console.log(error);
         }
