@@ -17,9 +17,10 @@ export async function addNewProject(projectData: ProjectModel): Promise<string> 
         await projectDoc.set(projectData);
         return newProjectId;
     } catch (error: unknown) {
+        console.log(error)
         if (error instanceof CustomError) {
             throw error;
         }
-        throw new CustomError("Add new user failed", StatusCode.INTERNAL_SERVER_ERROR);
+        throw new CustomError("Add new project failed", StatusCode.INTERNAL_SERVER_ERROR);
     }
 }

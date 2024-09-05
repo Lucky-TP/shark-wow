@@ -10,46 +10,26 @@ import { ShowProject } from "src/interfaces/datas/project";
 export async function GET(request: NextRequest) {
     try {
         const projectCollection = getCollectionRef(CollectionPath.PROJECT);
-        const topTenProject = await projectCollection
+        const querySnapshot = await projectCollection
             .where("status", "==", ProjectStatus.RUNNING)
-            .select("projectId", "name", "carouselImageUrls", "description", "stages")
+            .select(
+                "projectId",
+                "name",
+                "carouselImageUrls",
+                "description",
+                "stages",
+                "status",
+                "category"
+            )
             .orderBy("totalSupporter", "desc")
             .limit(10)
             .get();
-        const topTen: ShowProject[] = [];
-
-        topTenProject.forEach((project) => {
-            const targetProject = project.data() as ProjectModel;
-            const tmp: ShowProject = {
-                projectId: targetProject.projectId,
-                name: targetProject.name,
-                carouselImageUrls: targetProject.carouselImageUrls,
-                description: targetProject.description,
-                category: targetProject.category,
-                status: targetProject.status,
-                stages: [
-                    {
-                        fundingCost: targetProject.stages[StageId.CONCEPT].fundingCost,
-                        currentFunding: targetProject.stages[StageId.CONCEPT].currentFunding,
-                        goalFunding: targetProject.stages[StageId.CONCEPT].goalFunding,
-                    },
-                    {
-                        fundingCost: targetProject.stages[StageId.PROTOTYPE].fundingCost,
-                        currentFunding: targetProject.stages[StageId.PROTOTYPE].currentFunding,
-                        goalFunding: targetProject.stages[StageId.PROTOTYPE].goalFunding,
-                    },
-                    {
-                        fundingCost: targetProject.stages[StageId.PRODUCTION].fundingCost,
-                        currentFunding: targetProject.stages[StageId.PRODUCTION].currentFunding,
-                        goalFunding: targetProject.stages[StageId.PRODUCTION].goalFunding,
-                    },
-                ],
-            };
-            topTen.push(tmp);
-        });
+        const topTenProjects: ShowProject[] = querySnapshot.docs.map(
+            (project) => project.data() as ShowProject
+        );
 
         return NextResponse.json(
-            { message: "retrieve 10 popular project successful", data: topTen },
+            { message: "retrieve 10 popular project successful", data: topTenProjects },
             { status: StatusCode.SUCCESS }
         );
     } catch (error: any) {

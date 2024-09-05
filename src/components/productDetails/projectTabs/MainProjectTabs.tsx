@@ -8,9 +8,7 @@ import MainProjectUpdates from './updates/MainProjectUpdates'
 import MainProjectDiscussion from './discussion/MainProjectDiscussion'
 import MainProjectToCreator from './toCreator/MainProjectToCreator'
 
-type Props = {}
-
-export default function MainProjectTabs({}: Props) {
+export default function MainProjectTabs(){
     const [activeTab, setActiveTab] = useState('story')
 
     return (

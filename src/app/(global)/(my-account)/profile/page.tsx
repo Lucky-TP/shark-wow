@@ -14,6 +14,7 @@ import { UserData } from "src/interfaces/datas/user";
 import FileUpload from "src/components/global/FileUpload";
 import { getSelf } from "src/services/apiService/users/getSelf";
 import LoadingPage from "src/components/global/LoadingPage";
+import { ProjectStatus } from "src/interfaces/models/enums";
 
 export default function ProfilePage() {
     const [user, setUser] = useState<UserData | null>();
@@ -95,7 +96,7 @@ export default function ProfilePage() {
                                         <strong>Project ID: </strong> {project.projectId} <br />
                                         <strong>Project Name: </strong> {project.name} <br />
                                         <strong>Description: </strong> {project.description} <br />
-                                        <strong>Status: </strong> {project.status == 0 ? "Draft" : "Funding"} <br />
+                                        <strong>Status: </strong> {project.status == ProjectStatus.DRAFT ? "Draft" : "Funding"} <br />
                                         <strong>Category: </strong> {project.category} <br />
                                         <div className="mt-2">
                                             <strong>Images: </strong>

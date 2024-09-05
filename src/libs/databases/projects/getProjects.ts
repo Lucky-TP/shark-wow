@@ -4,13 +4,29 @@ import { getCollectionRef } from "../firestore";
 import { CollectionPath } from "src/constants/firestore";
 import { ProjectModel } from "src/interfaces/models/project";
 
-export async function getProjects(projectIds: string[]) {
+export async function getProjects(
+    projectIds: string[]
+): Promise<ProjectModel[]>;
+
+export async function getProjects<T>(
+    projectIds: string[],
+    callback: (projectModel: ProjectModel) => T
+): Promise<T[]>;
+
+export async function getProjects<T>(
+    projectIds: string[],
+    callback?: (projectModel: ProjectModel) => T
+): Promise<T[]> {
     try {
         const projectCollection = getCollectionRef(CollectionPath.PROJECT);
         const querySnapshot = await projectCollection.where("projectId", "in", projectIds).get();
-        const retrievedProjects = querySnapshot.docs.map(
-            (projectSnapshot) => projectSnapshot.data() as ProjectModel
-        );
+        const retrievedProjects = querySnapshot.docs.map((projectSnapshot) => {
+            const projectModel = projectSnapshot.data() as ProjectModel;
+            if (callback) {
+                return callback(projectModel);
+            }
+            return projectModel as T;
+        });
         return retrievedProjects;
     } catch (error: unknown) {
         if (error instanceof CustomError) {

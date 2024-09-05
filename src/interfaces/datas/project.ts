@@ -1,15 +1,14 @@
-import { ProjectModel } from "../models/project";
+import { Timestamp } from "firebase/firestore";
+import { ProjectModel, Stage } from "../models/project";
 import { CommentData } from "./comment";
+import { ProjectStatus } from "../models/enums";
 
 export type ProjectData = Omit<ProjectModel, "discussionIds"> & {
     discussion: CommentData[];
+    currentStage?: Stage;
+    startDate?: Timestamp;
+    expireDate?: Timestamp;
 };
-
-interface Stage {
-    fundingCost: number;
-    currentFunding: number;
-    goalFunding: number;
-}
 
 export interface ShowProject {
     projectId: string;
@@ -18,5 +17,5 @@ export interface ShowProject {
     description: string;
     stages: Stage[];
     category: string;
-    status: number;
+    status: ProjectStatus;
 }

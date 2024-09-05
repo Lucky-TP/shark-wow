@@ -1,29 +1,84 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
-type Props = {}
+import { useProjectDetails } from 'src/context/custom-hooks/useProjectDetails'
 
-export default function ProjectOverviewInfo({}: Props) {
+import { timestampToDate } from 'src/utils/date/clientDateConversions'
+import { Timestamp } from 'firebase/firestore'
+
+import { message, Skeleton } from 'antd'
+
+
+
+function formatDate(date: Timestamp ): string {
+  const dateO = timestampToDate(date)
+  const day = String(dateO.getDate()).padStart(2, '0');
+  const month = String(dateO.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+  const year = dateO.getFullYear();
+
+  return `${day}/${month}/${year}`;
+}
+
+export default function ProjectOverviewInfo() {
+  const {
+    isLoading,
+    ProjectInfo ,
+    UserInfo,
+    error,
+    OnGettingUserDetails
+  } = useProjectDetails() as any
+
+  const [isFirstTime, setFirstTime ] = useState(true)
+
+  useEffect(()=>{
+    if (ProjectInfo.uid && OnGettingUserDetails){
+      OnGettingUserDetails(ProjectInfo.uid)
+      setFirstTime(false)
+    }
+  },[ProjectInfo.uid])
+
   return (
     <>
-        <div className='flex flex-row'>
-          <div className="w-16 h-16 rounded-full">
-            <img
-              src='/nuk.jpg'
-              className="w-16 h-16 rounded-full"/>
-          </div>
-          <div className="ml-4">
-            <h2 className="text-2xl font-bold">Nukkie Kayieju</h2>
-            <p className="text-gray-600">Created at 01/03/2024</p>
-          </div>
-        </div>
-        <div>
-            <div className='flex flex-row justify-between'>
-              <h3 className="text-lg font-semibold">Current Stage 1 :</h3>
-              <h3 className='text-lg font-medium'>Concept</h3>
+      {
+        (isLoading || isFirstTime) && 
+        <>
+          <Skeleton
+            avatar
+            paragraph={{ rows: 0 }}
+          />
+          <Skeleton
+            paragraph={{ rows: 3 }}
+          />        
+        </>
+      }
+      {
+        !isLoading && 
+        <>
+          <div className='flex flex-row items-center gap-x-[2vw] '>
+            <div className="rounded-full">
+              <img
+                src={UserInfo.profileImageUrl}
+                className="rounded-full max-w-[5vw]"/>
             </div>
-            <h1 className="text-3xl font-bold">Project Name</h1>
-            <p className="text-gray-600 mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur aliquam porro suscipit asperiores magnam animi delectus, inventore sequi natus corporis, numquam esse quam, voluptate excepturi perferendis voluptatum quas totam. Est!</p>
-        </div>
+            <div className="ml-4">
+              <h2 className="text-2xl font-bold">{UserInfo.username}</h2>
+              <p className="text-gray-600">
+                Created at {UserInfo.birthDate ? formatDate(UserInfo.birthDate) : ''}
+              </p>
+            </div>
+          </div>
+          <div>
+              <div className='flex flex-row justify-between'>
+                <h3 className="text-lg font-semibold">Current Stage :</h3>
+                <h3 className='text-lg font-medium'>{ProjectInfo.stages[1].name}</h3>
+              </div>
+              <h1 className="text-3xl font-bold">{ProjectInfo.name}</h1>
+              <p className="text-gray-600 mb-4">{ProjectInfo.description}</p>
+          </div> 
+        </>       
+      }
+      {
+        error && message.error("User details")      
+      }
     </>
   )
 }
