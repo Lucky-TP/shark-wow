@@ -30,7 +30,7 @@ const Layout: NextPage<Props> = ({children}) => {
             }
             }}>
                 {!hideNavbarAndFooter && (<Navbar/>)}
-                <main className="min-h-screen">{children}</main>
+                <main className="min-h-screen bg-orange-50">{children}</main>
                 {!hideNavbarAndFooter && (<Footer/>)}
             </ConfigProvider>
         </AntdLayout>
