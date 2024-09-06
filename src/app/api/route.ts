@@ -25,7 +25,10 @@ export async function PUT(request: NextRequest) {
         }
         const promises = projectModels.map((projectModel) => {
             return updateProject(projectModel.projectId, {
-                carouselImageUrls: [],
+                carouselImageUrls: [
+                    ...projectModel.carouselImageUrls,
+                    "https://firebasestorage.googleapis.com/v0/b/shark-wow.appspot.com/o/projects%2FafsBkloNg7ZsrHWfwANlQmnWFh32%2FwhLQIea368sS6PBkBwrz%2F1725593728505?alt=media&token=f7dbc917-33a3-46af-bd08-643d0cddc88e",
+                ],
             });
         });
         await Promise.all(promises);
