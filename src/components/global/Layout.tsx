@@ -14,7 +14,7 @@ const Layout: NextPage<Props> = ({children}) => {
     const hideNavbarAndFooter = hiddenPaths.includes(currentPath);
 
     return (
-        <AntdLayout className="min-h-screen w-screen">
+        <AntdLayout className="min-h-screen w-screen bg-primary-50">
             <ConfigProvider theme={{
             token: {
                 colorPrimary: '#C54F1F',
