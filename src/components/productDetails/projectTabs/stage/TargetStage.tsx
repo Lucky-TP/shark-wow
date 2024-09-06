@@ -3,7 +3,6 @@ import React from "react";
 import { Stage } from "src/interfaces/models/project";
 
 import { FaLocationDot } from "react-icons/fa6";
-import { timestampToDate } from "src/utils/date/clientDateConversions";
 
 type Props = {
     stage: Stage;
@@ -33,13 +32,13 @@ export default function TargetStage({ stage }: Props) {
                 <span className="flex items-center text-gray-600 ml-[0.5vw]">
                     <FaLocationDot className="text-base mr-2" />
                     <p className="text-base">
-                        Start: {stage.startDate && timestampToDate(stage.startDate).toDateString()}
+                        Start: {stage.startDate}
                     </p>
                 </span>
                 <span className="flex items-center text-gray-600 ml-[0.5vw]">
                     <FaLocationDot className="text-base mr-2" />
                     <p className="text-base">
-                        End: {stage.expireDate && timestampToDate(stage.expireDate).toDateString()}
+                        End: {stage.expireDate}
                     </p>
                 </span>
             </div>

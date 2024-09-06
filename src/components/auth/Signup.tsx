@@ -3,7 +3,7 @@ import Link from "next/link";
 import { EmailSignUpPayload } from "src/interfaces/payload/authPayload";
 import { useRouter } from "next/navigation";
 import { signUpWithEmail } from "src/services/authService";
-import { milliToTimestamp } from "src/utils/date/clientDateConversions";
+import { dateToString } from "src/utils/date";
 
 type Props = {};
 
@@ -34,7 +34,7 @@ export default function Signup({}: Props) {
                 lastName,
                 email,
                 password,
-                birthDate: milliToTimestamp(birthDate.getTime()),
+                birthDate: dateToString(birthDate),
                 address: {
                     country,
                     city,

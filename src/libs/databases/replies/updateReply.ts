@@ -3,7 +3,7 @@ import { CollectionPath } from "src/constants/firestore";
 import { StatusCode } from "src/constants/statusCode";
 import { CustomError } from "src/libs/errors/apiError";
 import { ReplyModel } from "src/interfaces/models/reply";
-import { dateToTimestamp } from "src/utils/date/adminDateConversion";
+import { dateToString } from "src/utils/date";
 
 export async function updateReply(
     replyId: string,
@@ -19,7 +19,7 @@ export async function updateReply(
             const currentreplyData = replySnapshot.data() as ReplyModel;
             const updateData: Partial<ReplyModel> = {
                 detail: newReplyData.detail || currentreplyData.detail,
-                updateAt: dateToTimestamp(new Date()),
+                updateAt: dateToString(new Date()),
             };
             transaction.update(replyDocRef, updateData);
         });

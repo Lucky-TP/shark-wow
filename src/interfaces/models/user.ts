@@ -1,4 +1,3 @@
-import { Timestamp } from "firebase-admin/firestore";
 import { Address } from "./common";
 
 export interface PopularDetail {
@@ -26,7 +25,7 @@ export interface UserModel {
     popularDetail: PopularDetail;
     receivedCommentIds: string[];
     interestCategories: string[];
-    birthDate: Timestamp ;
+    birthDate: string ;
     address: Address[];
     contact: Contact;
     cvUrl: string;

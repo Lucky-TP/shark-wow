@@ -9,6 +9,7 @@ import { UserModel } from "src/interfaces/models/user";
 import { ProjectModel } from "src/interfaces/models/project";
 import { addNewProject } from "src/libs/databases/projects";
 import { updateUser } from "src/libs/databases/users";
+import { dateToString } from "src/utils/date";
 
 export async function POST(request: NextRequest) {
     try {
@@ -44,8 +45,10 @@ export async function POST(request: NextRequest) {
                     imageUrl: "",
                     fundingCost: 0,
                     currentFunding: 0,
-                    goalFunding: -1,
+                    goalFunding: 1,
                     totalSupporter: 0,
+                    startDate: dateToString(new Date()),
+                    expireDate: dateToString(new Date()),
                 },
                 {
                     stageId: StageId.PROTOTYPE,
@@ -55,8 +58,10 @@ export async function POST(request: NextRequest) {
                     imageUrl: "",
                     fundingCost: 0,
                     currentFunding: 0,
-                    goalFunding: -1,
+                    goalFunding: 1,
                     totalSupporter: 0,
+                    startDate: dateToString(new Date()),
+                    expireDate: dateToString(new Date()),
                 },
                 {
                     stageId: StageId.PRODUCTION,
@@ -66,8 +71,10 @@ export async function POST(request: NextRequest) {
                     imageUrl: "",
                     fundingCost: 0,
                     currentFunding: 0,
-                    goalFunding: -1,
+                    goalFunding: 1,
                     totalSupporter: 0,
+                    startDate: dateToString(new Date()),
+                    expireDate: dateToString(new Date()),
                 },
             ],
             story: "",

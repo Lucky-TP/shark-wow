@@ -45,7 +45,7 @@ export async function GET(request: NextRequest, { params }: { params: { userId: 
             contact: userModel.contact,
             cvUrl: userModel.cvUrl,
             projectSummarizes,
-            birdthDate: userModel.birthDate.toDate().toISOString(),
+            birthDate: userModel.birthDate,
         };
         return NextResponse.json(
             { message: "Get user successful", data: publicUserData },

@@ -1,12 +1,10 @@
 import { addNewUser } from "./addNewUser";
 import { UserModel } from "src/interfaces/models/user";
 import { StatusCode } from "src/constants/statusCode";
-import { dateToTimestamp } from "src/utils/date/adminDateConversion";
 import { CustomError } from "src/libs/errors/apiError";
+import { dateToString } from "src/utils/date/dateConversion";
 
-export async function createUser(
-    userData?: Partial<UserModel>
-): Promise<void> {
+export async function createUser(userData?: Partial<UserModel>): Promise<void> {
     try {
         const uid = userData?.uid;
         if (!uid) {
@@ -26,7 +24,7 @@ export async function createUser(
             aboutMe: userData?.aboutMe || "",
             email,
             profileImageUrl: userData?.profileImageUrl || "",
-            birthDate: userData?.birthDate || dateToTimestamp(new Date()),
+            birthDate: userData?.birthDate || dateToString(new Date()),
             ownProjectIds: [],
             favoriteProjectIds: [],
             popularDetail: {
@@ -51,9 +49,6 @@ export async function createUser(
         if (error instanceof CustomError) {
             throw error;
         }
-        throw new CustomError(
-            "Create user failed",
-            StatusCode.INTERNAL_SERVER_ERROR
-        );
+        throw new CustomError("Create user failed", StatusCode.INTERNAL_SERVER_ERROR);
     }
 }

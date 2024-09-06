@@ -1,10 +1,10 @@
 import { newDocRef, runTransaction } from "../firestore";
 import { CustomError } from "src/libs/errors/apiError";
-import { dateToTimestamp } from "src/utils/date/adminDateConversion";
 import { CollectionPath } from "src/constants/firestore";
 import { StatusCode } from "src/constants/statusCode";
 import { CreateCommentPayload } from "src/interfaces/payload/commentPayload";
 import { CommentModel } from "src/interfaces/models/comment";
+import { dateToString } from "src/utils/date";
 
 export async function createComment(
     authorId: string,
@@ -17,8 +17,8 @@ export async function createComment(
                 commentId: docRef.id,
                 authorId,
                 detail: commentPayload.detail,
-                createAt: dateToTimestamp(new Date()),
-                updateAt: dateToTimestamp(new Date()),
+                createAt: dateToString(new Date()),
+                updateAt: dateToString(new Date()),
                 replyIds: [],
             };
             transaction.set(docRef, commentModel);
@@ -26,7 +26,7 @@ export async function createComment(
         });
         return commentId;
     } catch (error: unknown) {
-        console.log(error)
+        console.log(error);
         throw new CustomError("Create new comment failed", StatusCode.INTERNAL_SERVER_ERROR);
     }
 }

@@ -8,8 +8,8 @@ import { editProjectById } from 'src/services/apiService/projects/editProjectByI
 import { ProjectModel, Stage } from 'src/interfaces/models/project';
 import { StageId, StageStatus } from 'src/interfaces/models/enums';
 import QuillEditor from '../global/QuillEditor'; // Adjust the path if necessary
-import { dateToTimestamp, timestampToDate } from 'src/utils/date/clientDateConversions';
 import dayjs from 'dayjs';
+import { dateToString, stringToDate } from 'src/utils/date/dateConversion';
 
 const { Title } = Typography;
 const { RangePicker } = DatePicker;
@@ -41,12 +41,12 @@ export default function FormStages({ projectId }: Props) {
           const conceptStage = response.data.stages[StageId.CONCEPT];
           const prototypeStage = response.data.stages[StageId.PROTOTYPE];
           const productionStage = response.data.stages[StageId.PRODUCTION];
-          setConceptStartDate(timestampToDate(conceptStage?.startDate!))
-          setConceptExpireDate(timestampToDate(conceptStage?.expireDate!))
-          setPrototypeStartDate(timestampToDate(prototypeStage?.startDate!))
-          setPrototypeExpireDate(timestampToDate(prototypeStage?.expireDate!))
-          setProductionStartDate(timestampToDate(productionStage?.startDate!))
-          setProductionExpireDate(timestampToDate(productionStage?.expireDate!))
+          setConceptStartDate(stringToDate(conceptStage?.startDate!))
+          setConceptExpireDate(stringToDate(conceptStage?.expireDate!))
+          setPrototypeStartDate(stringToDate(prototypeStage?.startDate!))
+          setPrototypeExpireDate(stringToDate(prototypeStage?.expireDate!))
+          setProductionStartDate(stringToDate(productionStage?.startDate!))
+          setProductionExpireDate(stringToDate(productionStage?.expireDate!))
 
           form.setFieldsValue({
             packages: response.data.totalQuantity || undefined,
@@ -130,8 +130,8 @@ export default function FormStages({ projectId }: Props) {
       {
         stageId: StageId.CONCEPT,
         name: 'Concept',
-        startDate: dateToTimestamp(conceptStartDate!),
-        expireDate: dateToTimestamp(conceptExpireDate!),
+        startDate: dateToString(conceptStartDate!),
+        expireDate: dateToString(conceptExpireDate!),
         status: StageStatus.CURRENT,
         detail: conceptDetail,
         imageUrl: '',
@@ -143,8 +143,8 @@ export default function FormStages({ projectId }: Props) {
       {
         stageId: StageId.PROTOTYPE,
         name: 'Prototype',
-        startDate: dateToTimestamp(prototypeStartDate!),
-        expireDate: dateToTimestamp(prototypeExpireDate!),
+        startDate: dateToString(prototypeStartDate!),
+        expireDate: dateToString(prototypeExpireDate!),
         status: StageStatus.INCOMING,
         detail: prototypeDetail,
         imageUrl: '',
@@ -156,8 +156,8 @@ export default function FormStages({ projectId }: Props) {
       {
         stageId: StageId.PRODUCTION,
         name: 'Production',
-        startDate: dateToTimestamp(productionStartDate!),
-        expireDate: dateToTimestamp(productionExpireDate!),
+        startDate: dateToString(productionStartDate!),
+        expireDate: dateToString(productionExpireDate!),
         status: StageStatus.INCOMING,
         detail: productionDetail,
         imageUrl: '',
