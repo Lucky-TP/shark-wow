@@ -18,14 +18,14 @@ interface AllData {
   Music: ShowProject[],
   Transportation: ShowProject[],
   Health: ShowProject[],
-  Game: ShowProject[],  // Fixed the type here
+  Game: ShowProject[],  
 }
 
 export default function MainExplore() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const category = ['Technology', 'Education', 'Art', 'Film', 'Music','Food','Transportation','Health','Game'];
+  const category = ['Technology', 'Education', 'Art', 'Film', 'Music', 'Food', 'Transportation', 'Health', 'Game'];
   const [data, setData] = useState<AllData>({
-    categories: ['Technology', 'Education', 'Art', 'Film', 'Music','Food','Transportation','Health','Game'],
+    categories: category,
     Technology: [],
     Education: [],
     Art: [],
@@ -43,27 +43,29 @@ export default function MainExplore() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const foodResponse = await getProjectByCategories(['Food']);
-        const technologyResponse = await getProjectByCategories(['Technology']);
-        const artResponse = await getProjectByCategories(['Art']);
-        const filmResponse = await getProjectByCategories(['Film']);
-        const educationResponse = await getProjectByCategories(['Education']);
-        const musicResponse = await getProjectByCategories(['Music']);
-        const gameResponse = await getProjectByCategories(['Game']);
-        const healthResponse = await getProjectByCategories(['Health']);
-        const transportationResponse = await getProjectByCategories(['Transportation']);
         
+        const categoriesToFetch = [
+          'Food', 'Technology', 'Art', 'Film', 
+          'Education', 'Music', 'Game', 'Health', 'Transportation'
+        ];
+
+        // Fetch all categories concurrently
+        const responses = await Promise.all(
+          categoriesToFetch.map(category => getProjectByCategories([category]))
+        );
+
+        // Map responses to their respective categories
         setData(prevData => ({
           ...prevData,
-          Food: foodResponse.data,
-          Technology: technologyResponse.data,
-          Art: artResponse.data,
-          Film: filmResponse.data,
-          Education: educationResponse.data,
-          Music: musicResponse.data,
-          Game: gameResponse.data,
-          Health: healthResponse.data,
-          Transportation: transportationResponse.data
+          Food: responses[0].data,
+          Technology: responses[1].data,
+          Art: responses[2].data,
+          Film: responses[3].data,
+          Education: responses[4].data,
+          Music: responses[5].data,
+          Game: responses[6].data,
+          Health: responses[7].data,
+          Transportation: responses[8].data,
         }));
       } catch (error) {
         setError('An error occurred while fetching data.');
@@ -86,9 +88,8 @@ export default function MainExplore() {
   return (
     <section className='flex flex-col justify-between py-[3vh] h-full w-full bg-orange-50'>
       <div className='flex'>
-        <div style={{ width: `21%` }}>
-        </div>
-        <div className='pb-[3vh]' style={{ width: `73%` }}> 
+        <div style={{ width: `21%` }}></div>
+        <div className='pb-[3vh]' style={{ width: `73%` }}>
           <SearchBar />
         </div>
       </div>
@@ -115,21 +116,20 @@ export default function MainExplore() {
           {!selectedCategory && (
             <>
               <CarouselTrendingProductCard />
-              {data.Technology.length!=0 && <CarouselProductCard title="Technology" data={data.Technology} />}
-              {data.Education.length!=0 && <CarouselProductCard title="Education" data={data.Education} />}
-              {data.Art.length!=0 && <CarouselProductCard title="Art" data={data.Art} />}
-              {data.Film.length!=0 && <CarouselProductCard title="Film" data={data.Film} />}
-              {data.Music.length!=0 && <CarouselProductCard title="Music" data={data.Music} />}
-              {data.Food.length!=0 && <CarouselProductCard title="Food" data={data.Food} />}
-              {data.Transportation.length!=0 && <CarouselProductCard title="Transportation" data={data.Transportation} />}
-              {data.Health.length!=0 && <CarouselProductCard title="Health" data={data.Health} />}
-              {data.Game.length!=0 && <CarouselProductCard title="Game" data={data.Game} />}
+              {data.Technology.length !== 0 && <CarouselProductCard title="Technology" data={data.Technology} />}
+              {data.Education.length !== 0 && <CarouselProductCard title="Education" data={data.Education} />}
+              {data.Art.length !== 0 && <CarouselProductCard title="Art" data={data.Art} />}
+              {data.Film.length !== 0 && <CarouselProductCard title="Film" data={data.Film} />}
+              {data.Music.length !== 0 && <CarouselProductCard title="Music" data={data.Music} />}
+              {data.Food.length !== 0 && <CarouselProductCard title="Food" data={data.Food} />}
+              {data.Transportation.length !== 0 && <CarouselProductCard title="Transportation" data={data.Transportation} />}
+              {data.Health.length !== 0 && <CarouselProductCard title="Health" data={data.Health} />}
+              {data.Game.length !== 0 && <CarouselProductCard title="Game" data={data.Game} />}
             </>
           )}
           {selectedCategory && (
             <CategoryProductCard category={selectedCategory} />
           )}
-          
         </div>
       </div>
     </section>
