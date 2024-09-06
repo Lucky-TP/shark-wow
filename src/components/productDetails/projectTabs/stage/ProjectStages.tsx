@@ -9,8 +9,8 @@ import TargetStage from './TargetStage';
 
 import { Skeleton } from 'antd';
 
-import { dateToTimestamp } from 'src/utils/date/clientDateConversions'
 import { useProjectDetails } from 'src/context/custom-hooks/useProjectDetails';
+import { dateToString } from 'src/utils/date';
 
 interface Stages {
     stages: Stage[];
@@ -29,8 +29,8 @@ async function onGetStages(): Promise<{ status: number, payload: { content: Stag
           fundingCost: 0,
           stageId: 0,
           name: "Planning Phase",
-          startDate: dateToTimestamp(new Date('2023-01-01')),
-          expireDate: dateToTimestamp(new Date('2023-02-01')),
+          startDate: dateToString(new Date('2023-01-01')),
+          expireDate: dateToString(new Date('2023-02-01')),
           status: 0 ,
           detail: "This stage focuses on planning and initial groundwork for the project.",
           imageUrl: "https://example.com/images/planning_phase.jpg",
@@ -42,8 +42,8 @@ async function onGetStages(): Promise<{ status: number, payload: { content: Stag
           fundingCost: 0,
           stageId: 1,
           name: "Development Phase",
-          startDate: dateToTimestamp(new Date('2023-03-01')),
-          expireDate: dateToTimestamp(new Date('2023-05-01')),
+          startDate: dateToString(new Date('2023-03-01')),
+          expireDate: dateToString(new Date('2023-05-01')),
           status: 1,
           detail: "This stage covers the development and implementation of the project.",
           imageUrl: "https://example.com/images/development_phase.jpg",
@@ -55,8 +55,8 @@ async function onGetStages(): Promise<{ status: number, payload: { content: Stag
           fundingCost: 0,
           stageId: 2,
           name: "Launch Phase",
-          startDate: dateToTimestamp(new Date('2023-06-01')),
-          expireDate: dateToTimestamp(new Date('2023-07-01')),
+          startDate: dateToString(new Date('2023-06-01')),
+          expireDate: dateToString(new Date('2023-07-01')),
           status: 2,
           detail: "This stage aims to prepare the project for public launch and marketing.",
           imageUrl: "https://example.com/images/launch_phase.jpg",

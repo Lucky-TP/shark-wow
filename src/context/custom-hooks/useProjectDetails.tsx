@@ -8,15 +8,13 @@ import {
 import { getProjectById } from 'src/services/apiService/projects/getProjectById';
 import { getUserById } from 'src/services/apiService/users/getUserById';
 
-import { ProjectModel } from 'src/interfaces/models/project';
 import { ProjectData } from 'src/interfaces/datas/project';
 import { UserModel } from 'src/interfaces/models/user';
 
 import { message } from 'antd';
+import { dateToString } from 'src/utils/date';
 
-import { dateToTimestamp } from 'src/utils/date/clientDateConversions';
-
-interface ProjectDetailPayloadInterface {
+export interface ProjectDetailPayloadInterface {
     ProjectInfo : Partial<ProjectData>
     UserInfo : Partial<UserModel>
     isLoading : boolean
@@ -76,7 +74,7 @@ export const ProjectDetailProvider = ({ projectId, children }: { projectId: stri
               uid: data.uid,
               username: data.username ,
               profileImageUrl : data.profileImageUrl,
-              birthDate: dateToTimestamp(new Date(data.birdthDate))
+              birthDate: dateToString(new Date(data.birthDate))
             }
           })         
         }

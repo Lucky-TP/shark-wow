@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from 'react'
 
-import { useProjectDetails } from 'src/context/custom-hooks/useProjectDetails'
-
-import { timestampToDate } from 'src/utils/date/clientDateConversions'
-import { Timestamp } from 'firebase/firestore'
+import { ProjectDetailPayloadInterface, useProjectDetails } from 'src/context/custom-hooks/useProjectDetails'
 
 import { message, Skeleton } from 'antd'
 
 
 
-function formatDate(date: Timestamp ): string {
-  const dateO = timestampToDate(date)
-  const day = String(dateO.getDate()).padStart(2, '0');
-  const month = String(dateO.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-  const year = dateO.getFullYear();
+// function formatDate(date: Timestamp ): string {
+//   const dateO = timestampToDate(date)
+//   const day = String(dateO.getDate()).padStart(2, '0');
+//   const month = String(dateO.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+//   const year = dateO.getFullYear();
 
-  return `${day}/${month}/${year}`;
-}
+//   return `${day}/${month}/${year}`;
+// }
 
 export default function ProjectOverviewInfo() {
   const {
@@ -25,7 +22,7 @@ export default function ProjectOverviewInfo() {
     UserInfo,
     error,
     OnGettingUserDetails
-  } = useProjectDetails() as any
+  } = useProjectDetails() as ProjectDetailPayloadInterface
 
   const [isFirstTime, setFirstTime ] = useState(true)
 
@@ -62,14 +59,14 @@ export default function ProjectOverviewInfo() {
             <div className="ml-4">
               <h2 className="text-2xl font-bold">{UserInfo.username}</h2>
               <p className="text-gray-600">
-                Created at {UserInfo.birthDate ? formatDate(UserInfo.birthDate) : ''}
+                Created at {UserInfo.birthDate ? UserInfo.birthDate : ''}
               </p>
             </div>
           </div>
           <div>
               <div className='flex flex-row justify-between'>
                 <h3 className="text-lg font-semibold">Current Stage :</h3>
-                <h3 className='text-lg font-medium'>{ProjectInfo.stages[1].name}</h3>
+                <h3 className='text-lg font-medium'>{ProjectInfo.stages && ProjectInfo.stages[1].name}</h3>
               </div>
               <h1 className="text-3xl font-bold">{ProjectInfo.name}</h1>
               <p className="text-gray-600 mb-4">{ProjectInfo.description}</p>

@@ -3,7 +3,7 @@ import { CollectionPath } from "src/constants/firestore";
 import { StatusCode } from "src/constants/statusCode";
 import { CustomError } from "src/libs/errors/apiError";
 import { CommentModel } from "src/interfaces/models/comment";
-import { dateToTimestamp } from "src/utils/date/adminDateConversion";
+import { dateToString } from "src/utils/date";
 
 export async function updateComment(
     commentId: string,
@@ -20,7 +20,7 @@ export async function updateComment(
             const updateData: Partial<CommentModel> = {
                 detail: newCommentData.detail || currentCommentData.detail,
                 replyIds: newCommentData.replyIds || currentCommentData.replyIds,
-                updateAt: dateToTimestamp(new Date()),
+                updateAt: dateToString(new Date()),
             };
             transaction.update(commentDocRef, updateData);
         });

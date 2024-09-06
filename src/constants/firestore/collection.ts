@@ -3,6 +3,6 @@ export enum CollectionPath {
     USER = "/users",
     PROJECT = "/projects",
     TRANSACTION = "/transactions",
-    COMMENT = "/comment",
-    REPLY = "/reply",
+    COMMENT = "/comments",
+    REPLY = "/replies",
 }
