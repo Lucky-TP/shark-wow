@@ -1,137 +1,208 @@
 "use client";
-import React, { useEffect, useState } from 'react';
-import CarouselProductCard from 'src/components/NewProductCard/CarouselProduct/CarouselProductCard';
-import CarouselTrendingProductCard from './CarouselProductTopTen/CarouselTrendingProduct';
-import CategoryProductCard from './CategoryProduct/CategoryProductCard';
-import SearchBar from '../SearchBar';
-import { ShowProject } from 'src/interfaces/datas/project';
-import { getProjectByCategories } from 'src/services/apiService/projects/getProjectByCategories';
-import LoadingPage from '../LoadingPage';
+import React, { useEffect, useMemo, useState } from "react";
+import CarouselProductCard from "src/components/NewProductCard/CarouselProduct/CarouselProductCard";
+import CarouselTrendingProductCard from "./CarouselProductTopTen/CarouselTrendingProduct";
+import CategoryProductCard from "./CategoryProduct/CategoryProductCard";
+import SearchBar from "../SearchBar";
+import { ShowProject } from "src/interfaces/datas/project";
+import { getProjectByCategories } from "src/services/apiService/projects/getProjectByCategories";
+import LoadingPage from "../LoadingPage";
+import { ProjectCategories } from "src/constants/projectCategoriesEnum";
 
-interface AllData {
-  categories: string[],
-  Food: ShowProject[],
-  Technology: ShowProject[],
-  Art: ShowProject[],
-  Film: ShowProject[],
-  Education: ShowProject[],
-  Music: ShowProject[],
-  Transportation: ShowProject[],
-  Health: ShowProject[],
-  Game: ShowProject[],  // Fixed the type here
+interface CategoryProjects {
+    food: ShowProject[];
+    technology: ShowProject[];
+    art: ShowProject[];
+    film: ShowProject[];
+    education: ShowProject[];
+    music: ShowProject[];
+    transportation: ShowProject[];
+    health: ShowProject[];
+    game: ShowProject[];
 }
 
 export default function MainExplore() {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const category = ['Technology', 'Education', 'Art', 'Film', 'Music','Food','Transportation','Health','Game'];
-  const [data, setData] = useState<AllData>({
-    categories: ['Technology', 'Education', 'Art', 'Film', 'Music','Food','Transportation','Health','Game'],
-    Technology: [],
-    Education: [],
-    Art: [],
-    Film: [],
-    Music: [],
-    Food: [],
-    Transportation: [],
-    Health: [],
-    Game: [],
-  });
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+    const categories: ProjectCategories[] = useMemo(
+        () => [
+            ProjectCategories.ART,
+            ProjectCategories.TECHNOLOGY,
+            ProjectCategories.EDUCATION,
+            ProjectCategories.ART,
+            ProjectCategories.FILM,
+            ProjectCategories.MUSIC,
+            ProjectCategories.FOOD,
+            ProjectCategories.TRANSPORTATION,
+            ProjectCategories.HEALTH,
+            ProjectCategories.GAME,
+        ],
+        []
+    );
+    const [categoryProjects, setCategoryProjects] = useState<CategoryProjects>({
+        technology: [],
+        education: [],
+        art: [],
+        film: [],
+        music: [],
+        food: [],
+        transportation: [],
+        health: [],
+        game: [],
+    });
+    const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const foodResponse = await getProjectByCategories(['Food']);
-        const technologyResponse = await getProjectByCategories(['Technology']);
-        const artResponse = await getProjectByCategories(['Art']);
-        const filmResponse = await getProjectByCategories(['Film']);
-        const educationResponse = await getProjectByCategories(['Education']);
-        const musicResponse = await getProjectByCategories(['Music']);
-        const gameResponse = await getProjectByCategories(['Game']);
-        const healthResponse = await getProjectByCategories(['Health']);
-        const transportationResponse = await getProjectByCategories(['Transportation']);
-        
-        setData(prevData => ({
-          ...prevData,
-          Food: foodResponse.data,
-          Technology: technologyResponse.data,
-          Art: artResponse.data,
-          Film: filmResponse.data,
-          Education: educationResponse.data,
-          Music: musicResponse.data,
-          Game: gameResponse.data,
-          Health: healthResponse.data,
-          Transportation: transportationResponse.data
-        }));
-      } catch (error) {
-        setError('An error occurred while fetching data.');
-        console.error('An error occurred while fetching data:', error);
-      } finally {
-        setLoading(false);
-      }
+    useEffect(() => {
+        const groupingCategoryShowProjects = (showProjects: ShowProject[]): CategoryProjects => {
+            const categoryProjects: CategoryProjects = {
+                food: [],
+                technology: [],
+                art: [],
+                film: [],
+                education: [],
+                music: [],
+                transportation: [],
+                health: [],
+                game: [],
+            };
+
+            showProjects.forEach((showProject) => {
+                switch (showProject.category) {
+                    case ProjectCategories.FOOD:
+                        categoryProjects.food.push(showProject);
+                        break;
+                    case ProjectCategories.TECHNOLOGY:
+                        categoryProjects.technology.push(showProject);
+                        break;
+                    case ProjectCategories.ART:
+                        categoryProjects.art.push(showProject);
+                        break;
+                    case ProjectCategories.FILM:
+                        categoryProjects.film.push(showProject);
+                        break;
+                    case ProjectCategories.EDUCATION:
+                        categoryProjects.education.push(showProject);
+                        break;
+                    case ProjectCategories.MUSIC:
+                        categoryProjects.music.push(showProject);
+                        break;
+                    case ProjectCategories.TRANSPORTATION:
+                        categoryProjects.transportation.push(showProject);
+                        break;
+                    case ProjectCategories.HEALTH:
+                        categoryProjects.health.push(showProject);
+                        break;
+                    case ProjectCategories.GAME:
+                        categoryProjects.game.push(showProject);
+                        break;
+                    default:
+                        break;
+                }
+            });
+            return categoryProjects;
+        };
+
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                const response = await getProjectByCategories(categories);
+                const groupedProjects = groupingCategoryShowProjects(response.data);
+                setCategoryProjects(groupedProjects);
+            } catch (error) {
+                setError("An error occurred while fetching data.");
+                console.error("An error occurred while fetching data:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [categories]);
+
+    if (loading) return <LoadingPage />;
+    if (error) return <p>Error: {error}</p>;
+
+    const handleCategoryClick = (category: string | null) => {
+        setSelectedCategory(category);
     };
 
-    fetchData();
-  }, []);
+    return (
+        <section className="flex flex-col justify-between py-[3vh] h-full w-full bg-orange-50">
+            <div className="flex">
+                <div style={{ width: `21%` }}></div>
+                <div className="pb-[3vh]" style={{ width: `73%` }}>
+                    <SearchBar />
+                </div>
+            </div>
+            <div className="flex">
+                <div className="flex flex-col" style={{ width: `21%` }}>
+                    <p
+                        className="text-xl font-bold text-left ml-12 mb-4 cursor-pointer"
+                        onClick={() => handleCategoryClick(null)}
+                    >
+                        Category
+                    </p>
+                    {categories.map((category, i) => (
+                        <button
+                            key={i}
+                            className={`ml-12 mb-2 text-left ${
+                                selectedCategory === category ? "font-bold" : ""
+                            }`}
+                            onClick={() => handleCategoryClick(category)}
+                        >
+                            {category}
+                        </button>
+                    ))}
+                </div>
 
-  if (loading) return <LoadingPage />;
-  if (error) return <p>Error: {error}</p>;
-
-  const handleCategoryClick = (category: string | null) => {
-    setSelectedCategory(category);
-  };
-
-  return (
-    <section className='flex flex-col justify-between py-[3vh] h-full w-full bg-orange-50'>
-      <div className='flex'>
-        <div style={{ width: `21%` }}>
-        </div>
-        <div className='pb-[3vh]' style={{ width: `73%` }}> 
-          <SearchBar />
-        </div>
-      </div>
-      <div className='flex'>
-        <div className="flex flex-col" style={{ width: `21%` }}>
-          <p 
-            className='text-xl font-bold text-left ml-12 mb-4 cursor-pointer' 
-            onClick={() => handleCategoryClick(null)}
-          >
-            Category
-          </p>
-          {category.map((category, i) => (
-            <button 
-              key={i} 
-              className={`ml-12 mb-2 text-left ${selectedCategory === category ? 'font-bold' : ''}`}
-              onClick={() => handleCategoryClick(category)}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-
-        <div className='text-xl flex flex-col' style={{ width: `73%` }}>
-          {!selectedCategory && (
-            <>
-              <CarouselTrendingProductCard />
-              {data.Technology.length!=0 && <CarouselProductCard title="Technology" data={data.Technology} />}
-              {data.Education.length!=0 && <CarouselProductCard title="Education" data={data.Education} />}
-              {data.Art.length!=0 && <CarouselProductCard title="Art" data={data.Art} />}
-              {data.Film.length!=0 && <CarouselProductCard title="Film" data={data.Film} />}
-              {data.Music.length!=0 && <CarouselProductCard title="Music" data={data.Music} />}
-              {data.Food.length!=0 && <CarouselProductCard title="Food" data={data.Food} />}
-              {data.Transportation.length!=0 && <CarouselProductCard title="Transportation" data={data.Transportation} />}
-              {data.Health.length!=0 && <CarouselProductCard title="Health" data={data.Health} />}
-              {data.Game.length!=0 && <CarouselProductCard title="Game" data={data.Game} />}
-            </>
-          )}
-          {selectedCategory && (
-            <CategoryProductCard category={selectedCategory} />
-          )}
-          
-        </div>
-      </div>
-    </section>
-  );
+                <div className="text-xl flex flex-col" style={{ width: `73%` }}>
+                    {!selectedCategory && (
+                        <>
+                            <CarouselTrendingProductCard />
+                            {categoryProjects.technology.length != 0 && (
+                                <CarouselProductCard
+                                    title="Technology"
+                                    data={categoryProjects.technology}
+                                />
+                            )}
+                            {categoryProjects.education.length != 0 && (
+                                <CarouselProductCard
+                                    title="Education"
+                                    data={categoryProjects.education}
+                                />
+                            )}
+                            {categoryProjects.art.length != 0 && (
+                                <CarouselProductCard title="Art" data={categoryProjects.art} />
+                            )}
+                            {categoryProjects.film.length != 0 && (
+                                <CarouselProductCard title="Film" data={categoryProjects.film} />
+                            )}
+                            {categoryProjects.music.length != 0 && (
+                                <CarouselProductCard title="Music" data={categoryProjects.music} />
+                            )}
+                            {categoryProjects.food.length != 0 && (
+                                <CarouselProductCard title="Food" data={categoryProjects.food} />
+                            )}
+                            {categoryProjects.transportation.length != 0 && (
+                                <CarouselProductCard
+                                    title="Transportation"
+                                    data={categoryProjects.transportation}
+                                />
+                            )}
+                            {categoryProjects.health.length != 0 && (
+                                <CarouselProductCard
+                                    title="Health"
+                                    data={categoryProjects.health}
+                                />
+                            )}
+                            {categoryProjects.game.length != 0 && (
+                                <CarouselProductCard title="Game" data={categoryProjects.game} />
+                            )}
+                        </>
+                    )}
+                    {selectedCategory && <CategoryProductCard category={selectedCategory} />}
+                </div>
+            </div>
+        </section>
+    );
 }
