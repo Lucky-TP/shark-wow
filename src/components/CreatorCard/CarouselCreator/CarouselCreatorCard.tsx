@@ -10,7 +10,7 @@ type Props = {
 
 export default function CarouselCreatorCard({ data }: Props) {
     const carouselRef = useRef<HTMLDivElement>(null);
-    
+
     const scrollLeft = () => {
         if (carouselRef.current) {
             carouselRef.current.scrollBy({

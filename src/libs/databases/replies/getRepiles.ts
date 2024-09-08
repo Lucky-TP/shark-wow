@@ -9,7 +9,9 @@ export async function getReplies(replyIds: string[]): Promise<ReplyModel[]> {
         const retrivedReplies: ReplyModel[] = [];
         if (replyIds.length > 0) {
             const replyCollection = getCollectionRef(CollectionPath.REPLY);
-            const querySnapshot = await replyCollection.where("replyId", "in", replyIds).get();
+            const querySnapshot = await replyCollection
+                .where("replyId", "in", replyIds)
+                .get();
             querySnapshot.docs.forEach((replyRef) => {
                 const replyModel = replyRef.data() as ReplyModel;
                 retrivedReplies.push(replyModel);
@@ -17,6 +19,9 @@ export async function getReplies(replyIds: string[]): Promise<ReplyModel[]> {
         }
         return retrivedReplies;
     } catch (error: unknown) {
-        throw new CustomError("Retrive replies failed", StatusCode.INTERNAL_SERVER_ERROR);
+        throw new CustomError(
+            "Retrive replies failed",
+            StatusCode.INTERNAL_SERVER_ERROR
+        );
     }
 }

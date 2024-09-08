@@ -5,7 +5,11 @@ import LoadingPage from "src/components/global/LoadingPage";
 import { StatusCode } from "src/constants/statusCode";
 import { pollingPayment } from "src/services/apiService/payments/pollingPayment";
 
-export default function PaymentCheckingPage({ params }: { params: { orderId: string } }) {
+export default function PaymentCheckingPage({
+    params,
+}: {
+    params: { orderId: string };
+}) {
     const [loading, setLoading] = useState<boolean>(true);
     const [slipUrl, setSlipUrl] = useState<string | null>(null);
 

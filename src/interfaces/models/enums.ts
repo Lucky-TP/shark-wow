@@ -1,6 +1,6 @@
 export enum TransactionType {
-    DONATE = 'donate',
-    FUNDING = 'funding',
+    DONATE = "donate",
+    FUNDING = "funding",
 }
 
 export enum ProjectStatus {

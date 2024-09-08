@@ -6,7 +6,10 @@ import { getTransactionLog } from "src/libs/databases/transactionLogs/getTransac
 import { errorHandler } from "src/libs/errors/apiError";
 import { withAuthVerify } from "src/utils/api/auth";
 
-export async function GET(request: NextRequest, { params }: { params: { orderId: string } }) {
+export async function GET(
+    request: NextRequest,
+    { params }: { params: { orderId: string } }
+) {
     try {
         await withAuthVerify(request);
         const orderModel = await getOrder(params.orderId);
@@ -16,7 +19,9 @@ export async function GET(request: NextRequest, { params }: { params: { orderId:
                 { status: StatusCode.BAD_REQUEST }
             );
         }
-        const transactionLog = await getTransactionLog(orderModel.transactionId);
+        const transactionLog = await getTransactionLog(
+            orderModel.transactionId
+        );
         if (orderModel.status !== OrderStatus.COMPLETED) {
             return NextResponse.json(
                 { message: "Payment not received" },

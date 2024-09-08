@@ -30,7 +30,10 @@ export async function POST(request: NextRequest) {
         await createUser(userModel);
         await signUserSession(decodedToken);
 
-        return NextResponse.json({ message: "Sign-in successful" }, { status: StatusCode.SUCCESS });
+        return NextResponse.json(
+            { message: "Sign-in successful" },
+            { status: StatusCode.SUCCESS }
+        );
     } catch (error: unknown) {
         if (error instanceof Error || error instanceof CustomError) {
             if (decodedToken) {

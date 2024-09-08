@@ -1,18 +1,14 @@
-import React from 'react'
-import { useProjectDetails } from 'src/context/custom-hooks/useProjectDetails'
+import React from "react";
+import { useProjectDetails } from "src/context/custom-hooks/useProjectDetails";
 
-type Props = {}
-
-
+type Props = {};
 
 export default function MainProjectDiscussion({}: Props) {
-    const {
-      ProjectInfo
-    } = useProjectDetails()
+    const { ProjectInfo } = useProjectDetails();
 
     return (
-      <section className='w-full bg-slate-200 h-[50vh]'>
-          {/* {ProjectInfo.discussion} */}
-      </section>
-    )
+        <section className="w-full bg-slate-200 h-[50vh]">
+            {/* {ProjectInfo.discussion} */}
+        </section>
+    );
 }

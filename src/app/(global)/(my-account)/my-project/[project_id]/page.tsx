@@ -1,11 +1,12 @@
-import React from 'react'
+import React from "react";
 
-type Props = {}
+type Props = {};
 
 export default function page({}: Props) {
-  return (
-    <div>
-        Seeing current project stage and details process current information about project updated by creators 
-    </div>
-  )
+    return (
+        <div>
+            Seeing current project stage and details process current information
+            about project updated by creators
+        </div>
+    );
 }

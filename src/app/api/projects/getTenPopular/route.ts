@@ -28,7 +28,10 @@ export async function GET(request: NextRequest) {
         );
 
         return NextResponse.json(
-            { message: "retrieve 10 popular project successful", data: topTenProjects },
+            {
+                message: "retrieve 10 popular project successful",
+                data: topTenProjects,
+            },
             { status: StatusCode.SUCCESS }
         );
     } catch (error: any) {

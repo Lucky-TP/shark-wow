@@ -39,6 +39,9 @@ export async function createOrder(orderData: InitialOrderData) {
         return orderId;
     } catch (error: unknown) {
         console.log(error);
-        throw new CustomError("Create order failed", StatusCode.INTERNAL_SERVER_ERROR);
+        throw new CustomError(
+            "Create order failed",
+            StatusCode.INTERNAL_SERVER_ERROR
+        );
     }
 }

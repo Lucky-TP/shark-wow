@@ -3,7 +3,11 @@ import { DecodedIdToken } from "firebase-admin/auth";
 import { auth } from "src/libs/firebase/firebaseAdmin";
 import { createUser, deleteUser } from "src/libs/databases/users";
 import { getDocRef } from "src/libs/databases/firestore";
-import { clearUserSession, extractBearerToken, signUserSession } from "src/utils/api/auth";
+import {
+    clearUserSession,
+    extractBearerToken,
+    signUserSession,
+} from "src/utils/api/auth";
 import { UserModel } from "src/interfaces/models/user";
 import { StatusCode } from "src/constants/statusCode";
 import { CollectionPath } from "src/constants/firestore";
@@ -14,7 +18,7 @@ export async function POST(request: NextRequest) {
     try {
         const userIdToken = extractBearerToken(request);
         decodedToken = await auth.verifyIdToken(userIdToken);
-        
+
         const userDocRef = getDocRef(CollectionPath.USER, decodedToken.uid);
         const userSnapshot = await userDocRef.get();
         if (!userSnapshot.exists) {
@@ -45,7 +49,7 @@ export async function POST(request: NextRequest) {
                 await auth.deleteUser(decodedToken.uid);
                 await deleteUser(decodedToken.uid);
             }
-            await clearUserSession()
+            await clearUserSession();
         }
         return errorHandler(error);
     }

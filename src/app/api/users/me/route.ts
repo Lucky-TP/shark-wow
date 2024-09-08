@@ -20,23 +20,29 @@ export async function GET(request: NextRequest) {
         // get own project datas
         const ownProjects: ShowProject[] = [];
         if (retrivedUser.ownProjectIds.length > 0) {
-            const showProjects = await getProjects(retrivedUser.ownProjectIds, (projectModel) => {
-                const showProject: ShowProject = {
-                    projectId: projectModel.projectId,
-                    name: projectModel.name,
-                    carouselImageUrls: projectModel.carouselImageUrls,
-                    description: projectModel.description,
-                    stages: projectModel.stages,
-                    category: projectModel.category,
-                    status: projectModel.status,
-                };
-                return showProject;
-            });
+            const showProjects = await getProjects(
+                retrivedUser.ownProjectIds,
+                (projectModel) => {
+                    const showProject: ShowProject = {
+                        projectId: projectModel.projectId,
+                        name: projectModel.name,
+                        carouselImageUrls: projectModel.carouselImageUrls,
+                        description: projectModel.description,
+                        stages: projectModel.stages,
+                        category: projectModel.category,
+                        status: projectModel.status,
+                    };
+                    return showProject;
+                }
+            );
             ownProjects.push(...showProjects);
         }
 
-        const receivedComments: CommentData[] = await getComments(retrivedUser.receivedCommentIds);
-        const { receivedCommentIds, ownProjectIds, ...extractedUser } = retrivedUser;
+        const receivedComments: CommentData[] = await getComments(
+            retrivedUser.receivedCommentIds
+        );
+        const { receivedCommentIds, ownProjectIds, ...extractedUser } =
+            retrivedUser;
         const userData: UserData = {
             ...extractedUser,
             ownProjects,

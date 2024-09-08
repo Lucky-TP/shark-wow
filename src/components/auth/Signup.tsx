@@ -62,8 +62,12 @@ export default function Signup({}: Props) {
                         />
                     </Link>
                     <div className="fixed top-20">
-                        <p className="text-white mb-5 mt-20">Welcome to Shark Wow</p>
-                        <h1 className="text-white text-4xl font-medium">Sign up to Shark Wow</h1>
+                        <p className="text-white mb-5 mt-20">
+                            Welcome to Shark Wow
+                        </p>
+                        <h1 className="text-white text-4xl font-medium">
+                            Sign up to Shark Wow
+                        </h1>
                     </div>
                 </div>
                 <div className="w-full flex flex-col justify-center items-center bg-white p-16 rounded-tl-4xl">
@@ -80,9 +84,15 @@ export default function Signup({}: Props) {
                             </p>
                         </div>
                         <div className="flex flex-col mt-24">
-                            <p className="font-medium text-gray-700 mb-4">Your account details</p>
+                            <p className="font-medium text-gray-700 mb-4">
+                                Your account details
+                            </p>
                             <form onSubmit={onSignUp}>
-                                {error && <div className="text-red-500 mb-4">{error}</div>}
+                                {error && (
+                                    <div className="text-red-500 mb-4">
+                                        {error}
+                                    </div>
+                                )}
                                 <div className="flex flex-row">
                                     <div className="w-full mb-4">
                                         <label>First Name</label>
@@ -92,7 +102,9 @@ export default function Signup({}: Props) {
                                             id="firstname"
                                             placeholder="First Name"
                                             required
-                                            onChange={(e) => setFirstName(e.target.value)}
+                                            onChange={(e) =>
+                                                setFirstName(e.target.value)
+                                            }
                                         />
                                     </div>
                                     <div className="w-full mb-4">
@@ -103,7 +115,9 @@ export default function Signup({}: Props) {
                                             id="lastname"
                                             placeholder="Last Name"
                                             required
-                                            onChange={(e) => setLastName(e.target.value)}
+                                            onChange={(e) =>
+                                                setLastName(e.target.value)
+                                            }
                                         />
                                     </div>
                                 </div>
@@ -115,7 +129,9 @@ export default function Signup({}: Props) {
                                         id="email"
                                         placeholder="Email Address"
                                         required
-                                        onChange={(e) => setEmail(e.target.value)}
+                                        onChange={(e) =>
+                                            setEmail(e.target.value)
+                                        }
                                     />
                                 </div>
                                 <div className="w-full mb-4">
@@ -126,7 +142,9 @@ export default function Signup({}: Props) {
                                         id="password"
                                         placeholder="Password"
                                         required
-                                        onChange={(e) => setPassword(e.target.value)}
+                                        onChange={(e) =>
+                                            setPassword(e.target.value)
+                                        }
                                     />
                                 </div>
 
@@ -139,7 +157,11 @@ export default function Signup({}: Props) {
                                             id="dateofbirth"
                                             placeholder="Date of Birth"
                                             required
-                                            onChange={(e) => setBirthDate(new Date(e.target.value))}
+                                            onChange={(e) =>
+                                                setBirthDate(
+                                                    new Date(e.target.value)
+                                                )
+                                            }
                                         />
                                     </div>
                                     <div className="w-full mb-4">
@@ -150,7 +172,9 @@ export default function Signup({}: Props) {
                                             id="country"
                                             placeholder="Country"
                                             required
-                                            onChange={(e) => setCountry(e.target.value)}
+                                            onChange={(e) =>
+                                                setCountry(e.target.value)
+                                            }
                                         />
                                     </div>
                                 </div>
@@ -163,7 +187,9 @@ export default function Signup({}: Props) {
                                             id="city"
                                             placeholder="City"
                                             required
-                                            onChange={(e) => setCity(e.target.value)}
+                                            onChange={(e) =>
+                                                setCity(e.target.value)
+                                            }
                                         />
                                     </div>
                                     <div className="w-full mb-4">
@@ -174,7 +200,9 @@ export default function Signup({}: Props) {
                                             id="postal-code"
                                             placeholder="Postal Code"
                                             required
-                                            onChange={(e) => setPostalCode(e.target.value)}
+                                            onChange={(e) =>
+                                                setPostalCode(e.target.value)
+                                            }
                                         />
                                     </div>
                                 </div>
@@ -183,7 +211,9 @@ export default function Signup({}: Props) {
                                         type="submit"
                                         className="bg-orange-300  items-center px-3 py-1.5 rounded-full shadow-md hover:bg-orange-200 transition"
                                     >
-                                        <span className="text-white mx-12 my-">Sign up</span>
+                                        <span className="text-white mx-12 my-">
+                                            Sign up
+                                        </span>
                                     </button>
                                 </div>
                             </form>

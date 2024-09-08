@@ -6,7 +6,9 @@ import { ProjectModel } from "src/interfaces/models/project";
 import { chunkArray } from "src/utils/api/queries";
 import { DEFAULT_IN_QUERY_VALUE } from "src/constants/firestore/query/value";
 
-export async function getProjects(projectIds: string[]): Promise<ProjectModel[]>;
+export async function getProjects(
+    projectIds: string[]
+): Promise<ProjectModel[]>;
 
 export async function getProjects<T>(
     projectIds: string[],
@@ -22,14 +24,18 @@ export async function getProjects<T>(
         const chunks = chunkArray<string>(projectIds, DEFAULT_IN_QUERY_VALUE);
         const retrievedProjects: T[] = [];
         for (const chunk of chunks) {
-            const querySnapshot = await projectCollection.where("projectId", "in", chunk).get();
-            const retrievedProjectChunk = querySnapshot.docs.map((projectSnapshot) => {
-                const projectModel = projectSnapshot.data() as ProjectModel;
-                if (callback) {
-                    return callback(projectModel);
+            const querySnapshot = await projectCollection
+                .where("projectId", "in", chunk)
+                .get();
+            const retrievedProjectChunk = querySnapshot.docs.map(
+                (projectSnapshot) => {
+                    const projectModel = projectSnapshot.data() as ProjectModel;
+                    if (callback) {
+                        return callback(projectModel);
+                    }
+                    return projectModel as T;
                 }
-                return projectModel as T;
-            });
+            );
             retrievedProjects.push(...retrievedProjectChunk);
         }
         return retrievedProjects;
@@ -38,6 +44,9 @@ export async function getProjects<T>(
         if (error instanceof CustomError) {
             throw error;
         }
-        throw new CustomError("Retrive projects failed", StatusCode.INTERNAL_SERVER_ERROR);
+        throw new CustomError(
+            "Retrive projects failed",
+            StatusCode.INTERNAL_SERVER_ERROR
+        );
     }
 }

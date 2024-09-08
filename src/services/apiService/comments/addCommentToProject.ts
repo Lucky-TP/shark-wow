@@ -3,7 +3,10 @@ import { apiPath } from "src/constants/routePath";
 import { CreateCommentPayload } from "src/interfaces/payload/commentPayload";
 import { DefaultResponse } from "src/interfaces/response/commonResponse";
 
-export async function addCommentToProject(projectId: string, payload: CreateCommentPayload) {
+export async function addCommentToProject(
+    projectId: string,
+    payload: CreateCommentPayload
+) {
     try {
         const result: AxiosResponse<DefaultResponse> = await axios.post(
             apiPath.COMMENTS.PROJECT.CREATE(projectId),
