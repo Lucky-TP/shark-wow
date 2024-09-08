@@ -21,7 +21,11 @@ export async function POST(request: NextRequest) {
         const signature = request.headers.get("stripe-signature") as string;
         let event: Stripe.Event;
         try {
-            event = stripe.webhooks.constructEvent(rawBody, signature, webhookSecret);
+            event = stripe.webhooks.constructEvent(
+                rawBody,
+                signature,
+                webhookSecret
+            );
         } catch (err: any) {
             console.error(`❌ Error message: ${err.message}`);
             return NextResponse.json(
@@ -41,7 +45,7 @@ export async function POST(request: NextRequest) {
                     status: OrderStatus.PROCESSING,
                     paymentIntentId: paymentIntent.id as string,
                 });
-                break
+                break;
             }
             case "payment_intent.succeeded": {
                 const paymentIntent = event.data.object as Stripe.PaymentIntent;
@@ -77,7 +81,8 @@ export async function POST(request: NextRequest) {
                 });
                 await updateOrder(metadata.orderId, {
                     paymentIntentId: charge.id as string,
-                    paymentMethod: (charge.payment_method as string | null) ?? "",
+                    paymentMethod:
+                        (charge.payment_method as string | null) ?? "",
                     transactionId: transactionId,
                     status: OrderStatus.COMPLETED,
                 });

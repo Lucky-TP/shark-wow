@@ -49,6 +49,9 @@ export async function createUser(userData?: Partial<UserModel>): Promise<void> {
         if (error instanceof CustomError) {
             throw error;
         }
-        throw new CustomError("Create user failed", StatusCode.INTERNAL_SERVER_ERROR);
+        throw new CustomError(
+            "Create user failed",
+            StatusCode.INTERNAL_SERVER_ERROR
+        );
     }
 }

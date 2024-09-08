@@ -10,6 +10,9 @@ export async function deleteUser(uid: string) {
             transaction.delete(userDocRef);
         });
     } catch (error: unknown) {
-        throw new CustomError("Delete user failed", StatusCode.INTERNAL_SERVER_ERROR);
+        throw new CustomError(
+            "Delete user failed",
+            StatusCode.INTERNAL_SERVER_ERROR
+        );
     }
 }

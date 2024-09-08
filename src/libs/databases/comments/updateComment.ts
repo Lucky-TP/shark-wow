@@ -14,17 +14,24 @@ export async function updateComment(
             const commentDocRef = getDocRef(CollectionPath.COMMENT, commentId);
             const commentSnapshot = await transaction.get(commentDocRef);
             if (!commentSnapshot.exists) {
-                throw new CustomError("User does not exist", StatusCode.NOT_FOUND);
+                throw new CustomError(
+                    "User does not exist",
+                    StatusCode.NOT_FOUND
+                );
             }
             const currentCommentData = commentSnapshot.data() as CommentModel;
             const updateData: Partial<CommentModel> = {
                 detail: newCommentData.detail || currentCommentData.detail,
-                replyIds: newCommentData.replyIds || currentCommentData.replyIds,
+                replyIds:
+                    newCommentData.replyIds || currentCommentData.replyIds,
                 updateAt: dateToString(new Date()),
             };
             transaction.update(commentDocRef, updateData);
         });
     } catch (error: unknown) {
-        throw new CustomError("Update comment failed", StatusCode.INTERNAL_SERVER_ERROR);
+        throw new CustomError(
+            "Update comment failed",
+            StatusCode.INTERNAL_SERVER_ERROR
+        );
     }
 }

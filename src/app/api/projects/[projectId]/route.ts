@@ -14,9 +14,15 @@ import { EditProjectPayload } from "src/interfaces/payload/projectPayload";
 import { getCurrentStage } from "src/utils/api/projects/getCurrentStage";
 import { getStartAndExpireTime } from "src/utils/api/projects";
 
-export async function GET(request: NextRequest, { params }: { params: { projectId: string } }) {
+export async function GET(
+    request: NextRequest,
+    { params }: { params: { projectId: string } }
+) {
     try {
-        const projectDocRef = getDocRef(CollectionPath.PROJECT, params.projectId);
+        const projectDocRef = getDocRef(
+            CollectionPath.PROJECT,
+            params.projectId
+        );
         const projectSnapshot = await projectDocRef.get();
         if (!projectSnapshot.exists) {
             return NextResponse.json(
@@ -37,7 +43,9 @@ export async function GET(request: NextRequest, { params }: { params: { projectI
 
         const projectTime = getStartAndExpireTime(projectModel.stages);
         const currentStage = getCurrentStage(projectModel.stages);
-        const discussions: CommentData[] = await getComments(projectModel.discussionIds);
+        const discussions: CommentData[] = await getComments(
+            projectModel.discussionIds
+        );
         const projectData: ProjectData = {
             projectId: projectModel.projectId,
             uid: projectModel.uid,
@@ -69,12 +77,18 @@ export async function GET(request: NextRequest, { params }: { params: { projectI
     }
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { projectId: string } }) {
+export async function PUT(
+    request: NextRequest,
+    { params }: { params: { projectId: string } }
+) {
     try {
         const tokenData = await withAuthVerify(request);
         const uid = tokenData.uid;
 
-        const projectDocRef = getDocRef(CollectionPath.PROJECT, params.projectId);
+        const projectDocRef = getDocRef(
+            CollectionPath.PROJECT,
+            params.projectId
+        );
         const projectSnapshot = await projectDocRef.get();
         if (!projectSnapshot.exists) {
             return NextResponse.json(
@@ -118,7 +132,10 @@ export async function PUT(request: NextRequest, { params }: { params: { projectI
         } else {
             //Success and Fail cant edit rn
             return NextResponse.json(
-                { message: "Project have no permission to update in this state" },
+                {
+                    message:
+                        "Project have no permission to update in this state",
+                },
                 { status: StatusCode.BAD_REQUEST }
             );
         }

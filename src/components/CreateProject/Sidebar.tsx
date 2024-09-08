@@ -1,12 +1,12 @@
-"use client"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import React from "react"
+"use client";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import React from "react";
 
-type Props = {}
+type Props = {};
 
 export default function Sidebar() {
-    const pathName = usePathname()
+    const pathName = usePathname();
 
     // Extract project ID from the current pathname
     const projectIdMatch = pathName.match(/\/create-project\/([a-zA-Z0-9]+)/);
@@ -17,7 +17,7 @@ export default function Sidebar() {
         { href: `/create-project/${projectId}/story`, label: "Story" },
         { href: `/create-project/${projectId}/stages`, label: "Stages" },
         { href: `/create-project/${projectId}/payment`, label: "Payment" },
-    ]
+    ];
 
     return (
         <div className="flex flex-row md:flex-col items-center gap-1 p-4 bg-gray-100 rounded-md shadow-md h-fit justify-between">
@@ -35,5 +35,5 @@ export default function Sidebar() {
                 </Link>
             ))}
         </div>
-    )
+    );
 }

@@ -4,13 +4,19 @@ import { CollectionPath } from "src/constants/firestore";
 import { StatusCode } from "src/constants/statusCode";
 import { CustomError } from "src/libs/errors/apiError";
 
-export async function updateUser(uid: string, newUserData: Partial<UserModel>): Promise<void> {
+export async function updateUser(
+    uid: string,
+    newUserData: Partial<UserModel>
+): Promise<void> {
     try {
         await runTransaction(async (transaction) => {
             const userDocRef = getDocRef(CollectionPath.USER, uid);
             const userSnapshot = await transaction.get(userDocRef);
             if (!userSnapshot.exists) {
-                throw new CustomError("User does not exist", StatusCode.NOT_FOUND);
+                throw new CustomError(
+                    "User does not exist",
+                    StatusCode.NOT_FOUND
+                );
             }
             const currentUserData = userSnapshot.data() as UserModel;
             const updateData: Partial<UserModel> = {
@@ -18,16 +24,23 @@ export async function updateUser(uid: string, newUserData: Partial<UserModel>): 
                 firstName: newUserData.firstName || currentUserData.firstName,
                 lastName: newUserData.lastName || currentUserData.lastName,
                 aboutMe: newUserData.aboutMe || currentUserData.aboutMe,
-                profileImageUrl: newUserData.profileImageUrl || currentUserData.profileImageUrl,
+                profileImageUrl:
+                    newUserData.profileImageUrl ||
+                    currentUserData.profileImageUrl,
                 birthDate: newUserData.birthDate || currentUserData.birthDate,
-                ownProjectIds: newUserData.ownProjectIds || currentUserData.ownProjectIds,
+                ownProjectIds:
+                    newUserData.ownProjectIds || currentUserData.ownProjectIds,
                 favoriteProjectIds:
-                    newUserData.favoriteProjectIds || currentUserData.favoriteProjectIds,
-                popularDetail: newUserData.popularDetail || currentUserData.popularDetail,
+                    newUserData.favoriteProjectIds ||
+                    currentUserData.favoriteProjectIds,
+                popularDetail:
+                    newUserData.popularDetail || currentUserData.popularDetail,
                 receivedCommentIds:
-                    newUserData.receivedCommentIds || currentUserData.receivedCommentIds,
+                    newUserData.receivedCommentIds ||
+                    currentUserData.receivedCommentIds,
                 interestCategories:
-                    newUserData.interestCategories || currentUserData.interestCategories,
+                    newUserData.interestCategories ||
+                    currentUserData.interestCategories,
                 address: newUserData.address || currentUserData.address,
                 contact: newUserData.contact || currentUserData.contact,
                 cvUrl: newUserData.cvUrl || currentUserData.cvUrl,
@@ -36,6 +49,9 @@ export async function updateUser(uid: string, newUserData: Partial<UserModel>): 
             transaction.update(userDocRef, updateData);
         });
     } catch (error: unknown) {
-        throw new CustomError("Update user failed", StatusCode.INTERNAL_SERVER_ERROR);
+        throw new CustomError(
+            "Update user failed",
+            StatusCode.INTERNAL_SERVER_ERROR
+        );
     }
 }

@@ -21,6 +21,9 @@ export async function getOrder(orderId: string) {
         if (error instanceof CustomError) {
             throw error;
         }
-        throw new CustomError("Get order failed", StatusCode.INTERNAL_SERVER_ERROR);
+        throw new CustomError(
+            "Get order failed",
+            StatusCode.INTERNAL_SERVER_ERROR
+        );
     }
 }

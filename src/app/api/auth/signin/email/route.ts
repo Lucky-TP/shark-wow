@@ -9,7 +9,10 @@ export async function POST(request: NextRequest) {
         const decodedToken = await auth.verifyIdToken(userIdToken);
         await signUserSession(decodedToken);
 
-        return NextResponse.json({ message: "Authentication successful" }, { status: 200 });
+        return NextResponse.json(
+            { message: "Authentication successful" },
+            { status: 200 }
+        );
     } catch (error: unknown) {
         return errorHandler(error);
     }

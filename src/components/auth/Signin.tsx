@@ -58,7 +58,7 @@ export default function Signin({}: Props) {
     };
 
     if (loading) {
-        return <LoadingPage/>;
+        return <LoadingPage />;
     }
 
     return (

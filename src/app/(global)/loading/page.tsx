@@ -4,8 +4,8 @@ import LoadingSection from "src/components/global/LoadingSection";
 export default function LoadingPageTest() {
     return (
         <>
-            <LoadingPage/>
+            <LoadingPage />
             {/* <LoadingSection/> */}
         </>
-    )
+    );
 }

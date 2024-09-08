@@ -5,7 +5,10 @@ import { errorHandler } from "src/libs/errors/apiError";
 import { withAuthVerify } from "src/utils/api/auth";
 import { StatusCode } from "src/constants/statusCode";
 
-export async function PUT(request: NextRequest, { params }: { params: { projectId: string } }) {
+export async function PUT(
+    request: NextRequest,
+    { params }: { params: { projectId: string } }
+) {
     const newProjectId = params.projectId;
     try {
         const tokenData = await withAuthVerify(request);
@@ -19,7 +22,9 @@ export async function PUT(request: NextRequest, { params }: { params: { projectI
         } else {
             newFavoriteProjectIds.push(newProjectId);
         }
-        await updateUser(tokenData.uid, { favoriteProjectIds: newFavoriteProjectIds });
+        await updateUser(tokenData.uid, {
+            favoriteProjectIds: newFavoriteProjectIds,
+        });
         return NextResponse.json(
             { message: "Update favorite project successful" },
             { status: StatusCode.SUCCESS }

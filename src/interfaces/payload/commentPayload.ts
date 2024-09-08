@@ -7,6 +7,6 @@ export interface EditCommentPayload {
 }
 
 export interface DeleteCommentPayload {
-    type: string,
-    id: string
+    type: string;
+    id: string;
 }

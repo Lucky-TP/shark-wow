@@ -10,7 +10,11 @@ type Props = {
     showEditProject?: boolean;
 };
 
-export default function CarouselProductCard({ title, data, showEditProject }: Props) {
+export default function CarouselProductCard({
+    title,
+    data,
+    showEditProject,
+}: Props) {
     const carouselRef = useRef<HTMLDivElement>(null);
     const scrollLeft = () => {
         if (carouselRef.current) {
@@ -58,15 +62,18 @@ export default function CarouselProductCard({ title, data, showEditProject }: Pr
                 <div className="pt-2 pb-4 overflow-x-hidden" ref={carouselRef}>
                     <ul className="flex space-x-8">
                         {data &&
-                         data.map((product) => (
-                            <li
-                                key={product.projectId}
-                                className="flex-shrink-0"
-                                style={{ width: "calc(25% - 32px)" }}
-                            >
-                                <SingleProductCard project={product} showEditProject={showEditProject} />
-                            </li>
-                        ))}
+                            data.map((product) => (
+                                <li
+                                    key={product.projectId}
+                                    className="flex-shrink-0"
+                                    style={{ width: "calc(25% - 32px)" }}
+                                >
+                                    <SingleProductCard
+                                        project={product}
+                                        showEditProject={showEditProject}
+                                    />
+                                </li>
+                            ))}
                     </ul>
                 </div>
                 <button

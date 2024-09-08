@@ -4,7 +4,10 @@ import { errorHandler } from "src/libs/errors/apiError";
 import { withAuthVerify } from "src/utils/api/auth";
 import { StatusCode } from "src/constants/statusCode";
 
-export async function GET(request: NextRequest, { params }: { params: { orderId: string } }) {
+export async function GET(
+    request: NextRequest,
+    { params }: { params: { orderId: string } }
+) {
     try {
         await withAuthVerify(request);
         const orderId = params.orderId;

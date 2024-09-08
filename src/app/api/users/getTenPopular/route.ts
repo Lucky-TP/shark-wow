@@ -24,7 +24,8 @@ export async function GET(request: NextRequest) {
                 lastName: targetUser.lastName,
                 profileImageUrl: targetUser.profileImageUrl,
                 email: targetUser.email,
-                totalProjectSuccess: targetUser.popularDetail.totalProjectSuccess,
+                totalProjectSuccess:
+                    targetUser.popularDetail.totalProjectSuccess,
                 totalSupporter: targetUser.popularDetail.totalSupporter,
             };
             topTen.push(tmp);

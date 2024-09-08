@@ -9,7 +9,7 @@ type Props = {
 };
 
 export default function TargetStage({ stage }: Props) {
-    console.log("checking stage" , stage)
+    console.log("checking stage", stage);
     return (
         <li
             key={stage.stageId}
@@ -17,34 +17,34 @@ export default function TargetStage({ stage }: Props) {
             rounded-lg  hover:shadow-xl hover:scale-[1.02] hover:bg-orange-200 border border-orange-200 shadow-xl
             transition-all duration-700 hover:translate-y-[-1vh] cursor-pointer"
         >
-            {
-                stage.imageUrl !== "" && 
+            {stage.imageUrl !== "" && (
                 <img
                     src={stage.imageUrl}
                     className="w-full rounded-t-lg cursor-pointer"
                     draggable={false}
-                />                
-            }
+                />
+            )}
 
             <div className="flex flex-col justify-between px-[1.5vw] my-[1.5vh] gap-y-[1vh] w-full">
                 <p className="text-red-500 text-sm font-normal">{stage.name}</p>
-                <h3 className="text-xl font-semibold text-gray-800">{stage.name}</h3>
+                <h3 className="text-xl font-semibold text-gray-800">
+                    {stage.name}
+                </h3>
                 <span className="flex items-center text-gray-600 ml-[0.5vw]">
                     <FaLocationDot className="text-base mr-2" />
-                    <p className="text-base">
-                        Start: {stage.startDate}
-                    </p>
+                    <p className="text-base">Start: {stage.startDate}</p>
                 </span>
                 <span className="flex items-center text-gray-600 ml-[0.5vw]">
                     <FaLocationDot className="text-base mr-2" />
-                    <p className="text-base">
-                        End: {stage.expireDate}
-                    </p>
+                    <p className="text-base">End: {stage.expireDate}</p>
                 </span>
             </div>
             <div className="flex flex-col w-full text-center">
-                <p>{stage.detail === "" ? "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi, quas, hic laborum harum in nobis quaerat aliquam fugiat placeat est pariatur sed esse provident ea soluta? Explicabo ut quisquam debitis."
-                : "" }</p>
+                <p>
+                    {stage.detail === ""
+                        ? "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi, quas, hic laborum harum in nobis quaerat aliquam fugiat placeat est pariatur sed esse provident ea soluta? Explicabo ut quisquam debitis."
+                        : ""}
+                </p>
                 <p>Current Funding {stage.currentFunding}</p>
                 <p>Goal funding this stage {stage.goalFunding}</p>
                 <p>Backers {stage.totalSupporter}</p>

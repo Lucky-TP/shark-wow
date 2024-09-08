@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
-type Props = {}
+type Props = {};
 
 export default function page({}: Props) {
-  return (
-    <section>
-        exploring specific creator profiles
-    </section>
-  )
+    return <section>exploring specific creator profiles</section>;
 }
