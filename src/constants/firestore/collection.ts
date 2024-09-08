@@ -5,4 +5,5 @@ export enum CollectionPath {
     TRANSACTION = "/transactions",
     COMMENT = "/comments",
     REPLY = "/replies",
+    ORDER = "/orders",
 }
