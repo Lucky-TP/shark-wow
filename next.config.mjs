@@ -21,6 +21,12 @@ const nextConfig = {
                 port: "",
                 pathname: "/**", // Match all paths under storage.googleapis.com
             },
+            {
+                protocol: "https",
+                hostname: "pay.stripe.com",
+                port: "",
+                pathname: "/receipts/payment/**",
+            },
         ],
     },
     async rewrites() {
