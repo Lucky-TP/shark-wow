@@ -29,11 +29,7 @@ export default function ProjectCarousel() {
     }, [context]);
     return (
         <section className="flex w-full h-full sm:px-[3vw] md:px-[2vw]">
-            <EmblaCarousel
-                isLoading={context.isLoading}
-                slides={slides}
-                options={OPTIONS}
-            />
+            <EmblaCarousel isLoading={context.isLoading} slides={slides} options={OPTIONS} />
         </section>
     );
 }

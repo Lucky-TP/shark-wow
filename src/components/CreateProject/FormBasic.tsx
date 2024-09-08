@@ -1,16 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import {
-    Form,
-    Input,
-    Button,
-    Select,
-    DatePicker,
-    Upload,
-    message,
-    Image,
-} from "antd";
+import { Form, Input, Button, Select, DatePicker, Upload, message, Image } from "antd";
 import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 import { upload } from "src/services/apiService/files/upload";
@@ -38,9 +29,7 @@ export default function FormBasic({ projectId }: Props) {
     const [fileList, setFileList] = useState<any[]>([]);
     const [previewOpen, setPreviewOpen] = useState<boolean>(false);
     const [previewImage, setPreviewImage] = useState<string>("");
-    const [initialCarouselImageUrls, setInitialCarouselImageUrls] = useState<
-        string[]
-    >([]);
+    const [initialCarouselImageUrls, setInitialCarouselImageUrls] = useState<string[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
 
     // Fetch project data and set initial form values
@@ -62,9 +51,7 @@ export default function FormBasic({ projectId }: Props) {
 
                     // Set the initial file list if there are carousel images
                     if (projectData.data?.carouselImageUrls) {
-                        setInitialCarouselImageUrls(
-                            projectData.data?.carouselImageUrls
-                        );
+                        setInitialCarouselImageUrls(projectData.data?.carouselImageUrls);
                         setFileList(
                             projectData.data?.carouselImageUrls.map((url) => ({
                                 uid: url,
@@ -160,9 +147,7 @@ export default function FormBasic({ projectId }: Props) {
         // Check if the removed file was previously uploaded
         if (file.status === "removed") {
             // Remove the file URL from carouselImageUrls
-            setInitialCarouselImageUrls((prev) =>
-                prev.filter((url) => url !== file.url)
-            );
+            setInitialCarouselImageUrls((prev) => prev.filter((url) => url !== file.url));
         }
         setFileList(newFileList);
     };
@@ -176,16 +161,9 @@ export default function FormBasic({ projectId }: Props) {
 
     return (
         <>
-            <Form
-                form={form}
-                layout="vertical"
-                onFinish={onFinish}
-                className="w-full"
-            >
+            <Form form={form} layout="vertical" onFinish={onFinish} className="w-full">
                 <h1 className="text-4xl mb-1">Basic Details</h1>
-                <p className="mb-2">
-                    Summarize your details for a good impression
-                </p>
+                <p className="mb-2">Summarize your details for a good impression</p>
                 <Form.Item
                     name="title"
                     label="Project Title"
@@ -226,10 +204,8 @@ export default function FormBasic({ projectId }: Props) {
                             wrapperStyle={{ display: "none" }}
                             preview={{
                                 visible: previewOpen,
-                                onVisibleChange: (visible) =>
-                                    setPreviewOpen(visible),
-                                afterOpenChange: (visible) =>
-                                    !visible && setPreviewImage(""),
+                                onVisibleChange: (visible) => setPreviewOpen(visible),
+                                afterOpenChange: (visible) => !visible && setPreviewImage(""),
                             }}
                             src={previewImage}
                         />
@@ -250,9 +226,7 @@ export default function FormBasic({ projectId }: Props) {
                 <Form.Item
                     name="city"
                     label="City"
-                    rules={[
-                        { required: true, message: "Please input the city!" },
-                    ]}
+                    rules={[{ required: true, message: "Please input the city!" }]}
                 >
                     <Input />
                 </Form.Item>
@@ -291,30 +265,19 @@ export default function FormBasic({ projectId }: Props) {
                     ]}
                 >
                     <Select>
-                        <Select.Option value="TECHNOLOGY">
-                            Technology
-                        </Select.Option>
-                        <Select.Option value="EDUCATION">
-                            Education
-                        </Select.Option>
+                        <Select.Option value="TECHNOLOGY">Technology</Select.Option>
+                        <Select.Option value="EDUCATION">Education</Select.Option>
                         <Select.Option value="ART">Art</Select.Option>
                         <Select.Option value="FILM">Film</Select.Option>
                         <Select.Option value="MUSIC">Music</Select.Option>
                         <Select.Option value="FOOD">Food</Select.Option>
-                        <Select.Option value="TRANSPORTATION">
-                            Transportation
-                        </Select.Option>
+                        <Select.Option value="TRANSPORTATION">Transportation</Select.Option>
                         <Select.Option value="HEALTH">Health</Select.Option>
                         <Select.Option value="GAME">Game</Select.Option>
                     </Select>
                 </Form.Item>
                 <Form.Item>
-                    <Button
-                        type="primary"
-                        loading={loading}
-                        disabled={loading}
-                        htmlType="submit"
-                    >
+                    <Button type="primary" loading={loading} disabled={loading} htmlType="submit">
                         Save & continue
                     </Button>
                 </Form.Item>

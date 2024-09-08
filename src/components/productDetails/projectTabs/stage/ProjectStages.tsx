@@ -48,8 +48,7 @@ async function onGetStages(): Promise<{
                     expireDate: dateToString(new Date("2023-05-01")),
                     status: 1,
                     detail: "This stage covers the development and implementation of the project.",
-                    imageUrl:
-                        "https://example.com/images/development_phase.jpg",
+                    imageUrl: "https://example.com/images/development_phase.jpg",
                     currentFunding: 15000,
                     goalFunding: 20000,
                     totalSupporter: 500,
@@ -114,19 +113,10 @@ export default function ProjectStages() {
             listElement.addEventListener("pointerleave", handlePointerUp);
 
             return () => {
-                listElement.removeEventListener(
-                    "pointerdown",
-                    handlePointerDown
-                );
-                listElement.removeEventListener(
-                    "pointermove",
-                    handlePointerMove
-                );
+                listElement.removeEventListener("pointerdown", handlePointerDown);
+                listElement.removeEventListener("pointermove", handlePointerMove);
                 listElement.removeEventListener("pointerup", handlePointerUp);
-                listElement.removeEventListener(
-                    "pointerleave",
-                    handlePointerUp
-                );
+                listElement.removeEventListener("pointerleave", handlePointerUp);
             };
         }
     }, []);

@@ -9,9 +9,7 @@ export const metadata: Metadata = {
     description: "Funding for Startup and SMEs",
 };
 
-export default function RootLayout({
-    children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
         <html lang="en">
             <body className="overflow-x-hidden">

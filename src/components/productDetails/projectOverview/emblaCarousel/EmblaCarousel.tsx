@@ -2,11 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 
 import { EmblaOptionsType, EmblaCarouselType } from "embla-carousel";
 import { DotButton, useDotButton } from "./EmblaCarouselDotButton";
-import {
-    PrevButton,
-    NextButton,
-    usePrevNextButtons,
-} from "./EmblaCarouselArrowButtons";
+import { PrevButton, NextButton, usePrevNextButtons } from "./EmblaCarouselArrowButtons";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 
@@ -31,9 +27,7 @@ const EmblaCarousel = (props: PropType) => {
         if (!autoplay) return;
 
         const resetOrStop =
-            autoplay.options.stopOnInteraction === false
-                ? autoplay.reset
-                : autoplay.stop;
+            autoplay.options.stopOnInteraction === false ? autoplay.reset : autoplay.stop;
 
         resetOrStop();
     }, []);
@@ -43,12 +37,8 @@ const EmblaCarousel = (props: PropType) => {
         onNavButtonClick
     );
 
-    const {
-        prevBtnDisabled,
-        nextBtnDisabled,
-        onPrevButtonClick,
-        onNextButtonClick,
-    } = usePrevNextButtons(emblaApi, onNavButtonClick);
+    const { prevBtnDisabled, nextBtnDisabled, onPrevButtonClick, onNextButtonClick } =
+        usePrevNextButtons(emblaApi, onNavButtonClick);
 
     return (
         <section className="flex flex-col items-center justify-between embla w-full h-full gap-y-[2vh]">
@@ -66,19 +56,12 @@ const EmblaCarousel = (props: PropType) => {
                 </div>
             )}
             {!props.isLoading && slides.length !== 0 && (
-                <div
-                    className="embla__viewport overflow-x-hidden h-full"
-                    ref={emblaRef}
-                >
+                <div className="embla__viewport overflow-x-hidden h-full" ref={emblaRef}>
                     <div className="embla__container h-full flex items-center">
                         {slides.map((e) => (
                             <div className="embla__slide" key={e.id}>
                                 <div className="embla__slide__number">
-                                    <Image
-                                        src={e.image}
-                                        alt=""
-                                        className="rounded-2xl shadow-sm"
-                                    />
+                                    <Image src={e.image} alt="" className="rounded-2xl shadow-sm" />
                                 </div>
                             </div>
                         ))}
@@ -86,10 +69,7 @@ const EmblaCarousel = (props: PropType) => {
                 </div>
             )}
             <div className="flex flex-row justify-between px-[1vw] w-full">
-                <PrevButton
-                    onClick={onPrevButtonClick}
-                    disabled={prevBtnDisabled}
-                />
+                <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
                 <div className="flex flex-row items-center justify-center gap-x-[0.5vw] overflow-x-auto max-w-[30vw] px-[3vw]">
                     {slides.map((slide, index) => (
                         <DotButton
@@ -99,10 +79,7 @@ const EmblaCarousel = (props: PropType) => {
                         />
                     ))}
                 </div>
-                <NextButton
-                    onClick={onNextButtonClick}
-                    disabled={nextBtnDisabled}
-                />
+                <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
             </div>
         </section>
     );

@@ -3,10 +3,7 @@ import { apiPath } from "src/constants/routePath";
 import { CreateReplyPayload } from "src/interfaces/payload/replyPayload";
 import { DefaultResponse } from "src/interfaces/response/commonResponse";
 
-export async function addReplyToComment(
-    parentCommentId: string,
-    payload: CreateReplyPayload
-) {
+export async function addReplyToComment(parentCommentId: string, payload: CreateReplyPayload) {
     try {
         const result: AxiosResponse<DefaultResponse> = await axios.post(
             apiPath.REPLIES.CREATE(parentCommentId),

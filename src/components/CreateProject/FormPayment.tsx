@@ -20,8 +20,7 @@ export default function FormPayment({ projectId }: Props) {
     const showConfirmModal = () => {
         Modal.confirm({
             title: "Confirm to Launch Your Project's Funding Campaign.",
-            content:
-                "Are you sure you want to launch your project's funding campaign?",
+            content: "Are you sure you want to launch your project's funding campaign?",
             okText: "Yes",
             cancelText: "No",
             centered: true,
@@ -49,12 +48,7 @@ export default function FormPayment({ projectId }: Props) {
     };
 
     return (
-        <Form
-            form={form}
-            layout="vertical"
-            onFinish={onFinish}
-            className="w-full"
-        >
+        <Form form={form} layout="vertical" onFinish={onFinish} className="w-full">
             <h1>Bank account location</h1>
             <Form.Item name="bankAccountLocation">
                 <Select defaultValue="Thailand" disabled />
@@ -63,9 +57,7 @@ export default function FormPayment({ projectId }: Props) {
             <Form.Item
                 name="bankName"
                 label="Select bank name"
-                rules={[
-                    { required: true, message: "Please input your bank name" },
-                ]}
+                rules={[{ required: true, message: "Please input your bank name" }]}
             >
                 <Select>
                     <Select.Option value="SCB">SCB</Select.Option>

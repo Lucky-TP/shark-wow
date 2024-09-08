@@ -18,10 +18,9 @@ export default function UpdateBlog({ data }: Props) {
                 </div>
                 <div className="text-sm">
                     {data.detail}
-                    Long text Lorem ipsum dolor sit amet consectetur adipisicing
-                    elit. Ipsa earum fugiat ipsum beatae, quis, voluptates
-                    voluptatum, dignissimos aliquid eligendi odit illum quam
-                    tempora expedita aut facilis quae sequi doloremque nam.
+                    Long text Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa earum
+                    fugiat ipsum beatae, quis, voluptates voluptatum, dignissimos aliquid eligendi
+                    odit illum quam tempora expedita aut facilis quae sequi doloremque nam.
                 </div>
             </div>
         </section>

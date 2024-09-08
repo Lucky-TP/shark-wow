@@ -61,17 +61,10 @@ export default function FileUpload() {
 
     return (
         <div className="my-4 flex items-center justify-center">
-            <Form
-                onFinish={handleSubmit}
-                className="bg-white p-6 rounded shadow-md"
-            >
+            <Form onFinish={handleSubmit} className="bg-white p-6 rounded shadow-md">
                 <h1 className="text-2xl mb-4">Upload File</h1>
                 <Form.Item>
-                    <Upload
-                        beforeUpload={() => false}
-                        onChange={handleFileChange}
-                        maxCount={1}
-                    >
+                    <Upload beforeUpload={() => false} onChange={handleFileChange} maxCount={1}>
                         <Button icon={<UploadOutlined />}>Select File</Button>
                     </Upload>
                 </Form.Item>

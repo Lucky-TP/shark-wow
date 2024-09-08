@@ -14,10 +14,7 @@ export async function updateReply(
             const replyDocRef = getDocRef(CollectionPath.REPLY, replyId);
             const replySnapshot = await transaction.get(replyDocRef);
             if (!replySnapshot.exists) {
-                throw new CustomError(
-                    "Reply does not exist",
-                    StatusCode.NOT_FOUND
-                );
+                throw new CustomError("Reply does not exist", StatusCode.NOT_FOUND);
             }
             const currentreplyData = replySnapshot.data() as ReplyModel;
             const updateData: Partial<ReplyModel> = {
@@ -27,9 +24,6 @@ export async function updateReply(
             transaction.update(replyDocRef, updateData);
         });
     } catch (error: unknown) {
-        throw new CustomError(
-            "Update reply failed",
-            StatusCode.INTERNAL_SERVER_ERROR
-        );
+        throw new CustomError("Update reply failed", StatusCode.INTERNAL_SERVER_ERROR);
     }
 }

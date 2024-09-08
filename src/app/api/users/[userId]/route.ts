@@ -7,10 +7,7 @@ import { ShowProject } from "src/interfaces/datas/project";
 import { PublicUserData } from "src/interfaces/datas/user";
 import { ProjectStatus } from "src/interfaces/models/enums";
 
-export async function GET(
-    request: NextRequest,
-    { params }: { params: { userId: string } }
-) {
+export async function GET(request: NextRequest, { params }: { params: { userId: string } }) {
     try {
         const uid = params.userId;
         const userModel = await getUser(uid);
@@ -32,10 +29,9 @@ export async function GET(
                 return undefined;
             }
         );
-        const projectSummarizes: ShowProject[] =
-            showProjectsWithUndefined.filter(
-                (project) => project !== undefined
-            );
+        const projectSummarizes: ShowProject[] = showProjectsWithUndefined.filter(
+            (project) => project !== undefined
+        );
 
         const publicUserData: PublicUserData = {
             uid: userModel.uid,

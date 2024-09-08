@@ -10,10 +10,7 @@ import { ReplyModel } from "src/interfaces/models/reply";
 import { CommentModel } from "src/interfaces/models/comment";
 import { updateComment } from "src/libs/databases/comments";
 
-export async function PUT(
-    request: NextRequest,
-    { params }: { params: { replyId: string } }
-) {
+export async function PUT(request: NextRequest, { params }: { params: { replyId: string } }) {
     try {
         const author = await withAuthVerify(request);
         const replyId = params.replyId;
@@ -29,10 +26,7 @@ export async function PUT(
     }
 }
 
-export async function DELETE(
-    request: NextRequest,
-    { params }: { params: { replyId: string } }
-) {
+export async function DELETE(request: NextRequest, { params }: { params: { replyId: string } }) {
     try {
         const userToken = await withAuthVerify(request);
         const replyId = params.replyId;

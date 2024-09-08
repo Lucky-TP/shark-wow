@@ -10,11 +10,7 @@ type Props = {
     showEditProject?: boolean;
 };
 
-export default function CarouselProductCard({
-    title,
-    data,
-    showEditProject,
-}: Props) {
+export default function CarouselProductCard({ title, data, showEditProject }: Props) {
     const carouselRef = useRef<HTMLDivElement>(null);
     const scrollLeft = () => {
         if (carouselRef.current) {

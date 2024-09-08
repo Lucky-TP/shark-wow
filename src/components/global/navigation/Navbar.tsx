@@ -85,11 +85,7 @@ export default function Navbar({}: Props) {
                             </Link>
                         </li>
                         <li>
-                            <Button
-                                type="link"
-                                onClick={handleCreateProject}
-                                loading={loading}
-                            >
+                            <Button type="link" onClick={handleCreateProject} loading={loading}>
                                 <span className="text-gray-800 text-lg hover:text-white">
                                     CREATE PROJECT
                                 </span>
@@ -110,23 +106,11 @@ export default function Navbar({}: Props) {
                                         items: [
                                             {
                                                 key: "1",
-                                                label: (
-                                                    <div
-                                                        onClick={handleProfile}
-                                                    >
-                                                        Profile
-                                                    </div>
-                                                ),
+                                                label: <div onClick={handleProfile}>Profile</div>,
                                             },
                                             {
                                                 key: "2",
-                                                label: (
-                                                    <div
-                                                        onClick={handleSignOut}
-                                                    >
-                                                        Sign Out
-                                                    </div>
-                                                ),
+                                                label: <div onClick={handleSignOut}>Sign Out</div>,
                                                 danger: true,
                                             },
                                         ],

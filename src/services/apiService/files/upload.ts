@@ -4,9 +4,7 @@ import { apiPath } from "src/constants/routePath";
 import { FileUploadPayload } from "src/interfaces/payload/filePayload";
 import { FileUploadResponse } from "src/interfaces/response/fileResponse";
 
-export async function upload(
-    payload: FileUploadPayload
-): Promise<FileUploadResponse[]> {
+export async function upload(payload: FileUploadPayload): Promise<FileUploadResponse[]> {
     try {
         const file = payload.file;
 
@@ -36,8 +34,7 @@ export async function upload(
             const promise = axios.post(apiPath.FILES.UPLOAD, formData);
             promiseArray.push(promise);
         });
-        const response: AxiosResponse<FileUploadResponse>[] =
-            await Promise.all(promiseArray);
+        const response: AxiosResponse<FileUploadResponse>[] = await Promise.all(promiseArray);
 
         return response.map((response) => response.data);
     } catch (error: unknown) {

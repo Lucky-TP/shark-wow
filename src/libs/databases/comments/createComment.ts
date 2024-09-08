@@ -27,9 +27,6 @@ export async function createComment(
         return commentId;
     } catch (error: unknown) {
         console.log(error);
-        throw new CustomError(
-            "Create new comment failed",
-            StatusCode.INTERNAL_SERVER_ERROR
-        );
+        throw new CustomError("Create new comment failed", StatusCode.INTERNAL_SERVER_ERROR);
     }
 }

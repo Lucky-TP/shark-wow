@@ -1,15 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import {
-    Form,
-    InputNumber,
-    Button,
-    Typography,
-    message,
-    Input,
-    DatePicker,
-} from "antd";
+import { Form, InputNumber, Button, Typography, message, Input, DatePicker } from "antd";
 import { useRouter } from "next/navigation";
 import { getProjectById } from "src/services/apiService/projects/getProjectById";
 import { editProjectById } from "src/services/apiService/projects/editProjectById";
@@ -33,23 +25,12 @@ export default function FormStages({ projectId }: Props) {
     const [prototypeDetail, setPrototypeDetail] = useState<string>("");
     const [productionDetail, setProductionDetail] = useState<string>("");
     const [totalValue, setTotalValue] = useState<number>(0);
-    const [conceptStartDate, setConceptStartDate] = useState<Date | null>(
-        new Date()
-    );
-    const [conceptExpireDate, setConceptExpireDate] = useState<Date | null>(
-        new Date()
-    );
-    const [prototypeStartDate, setPrototypeStartDate] = useState<Date | null>(
-        new Date()
-    );
-    const [prototypeExpireDate, setPrototypeExpireDate] = useState<Date | null>(
-        new Date()
-    );
-    const [productionStartDate, setProductionStartDate] = useState<Date | null>(
-        new Date()
-    );
-    const [productionExpireDate, setProductionExpireDate] =
-        useState<Date | null>(new Date());
+    const [conceptStartDate, setConceptStartDate] = useState<Date | null>(new Date());
+    const [conceptExpireDate, setConceptExpireDate] = useState<Date | null>(new Date());
+    const [prototypeStartDate, setPrototypeStartDate] = useState<Date | null>(new Date());
+    const [prototypeExpireDate, setPrototypeExpireDate] = useState<Date | null>(new Date());
+    const [productionStartDate, setProductionStartDate] = useState<Date | null>(new Date());
+    const [productionExpireDate, setProductionExpireDate] = useState<Date | null>(new Date());
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -58,42 +39,30 @@ export default function FormStages({ projectId }: Props) {
                 const response = await getProjectById(projectId);
                 if (response.data) {
                     const conceptStage = response.data.stages[StageId.CONCEPT];
-                    const prototypeStage =
-                        response.data.stages[StageId.PROTOTYPE];
-                    const productionStage =
-                        response.data.stages[StageId.PRODUCTION];
+                    const prototypeStage = response.data.stages[StageId.PROTOTYPE];
+                    const productionStage = response.data.stages[StageId.PRODUCTION];
                     setConceptStartDate(stringToDate(conceptStage?.startDate!));
-                    setConceptExpireDate(
-                        stringToDate(conceptStage?.expireDate!)
-                    );
-                    setPrototypeStartDate(
-                        stringToDate(prototypeStage?.startDate!)
-                    );
-                    setPrototypeExpireDate(
-                        stringToDate(prototypeStage?.expireDate!)
-                    );
-                    setProductionStartDate(
-                        stringToDate(productionStage?.startDate!)
-                    );
-                    setProductionExpireDate(
-                        stringToDate(productionStage?.expireDate!)
-                    );
+                    setConceptExpireDate(stringToDate(conceptStage?.expireDate!));
+                    setPrototypeStartDate(stringToDate(prototypeStage?.startDate!));
+                    setPrototypeExpireDate(stringToDate(prototypeStage?.expireDate!));
+                    setProductionStartDate(stringToDate(productionStage?.startDate!));
+                    setProductionExpireDate(stringToDate(productionStage?.expireDate!));
 
                     form.setFieldsValue({
                         packages: response.data.totalQuantity || undefined,
                         cpp: response.data.costPerQuantity || undefined,
                         conceptOwnership:
                             (conceptStage.goalFunding * 100) /
-                                (response.data.totalQuantity *
-                                    response.data.costPerQuantity) || undefined,
+                                (response.data.totalQuantity * response.data.costPerQuantity) ||
+                            undefined,
                         prototypeOwnership:
                             (prototypeStage.goalFunding * 100) /
-                                (response.data.totalQuantity *
-                                    response.data.costPerQuantity) || undefined,
+                                (response.data.totalQuantity * response.data.costPerQuantity) ||
+                            undefined,
                         productionOwnership:
                             (productionStage.goalFunding * 100) /
-                                (response.data.totalQuantity *
-                                    response.data.costPerQuantity) || undefined,
+                                (response.data.totalQuantity * response.data.costPerQuantity) ||
+                            undefined,
                         // conceptStartDate: timestampToDate(conceptStage?.startDate!),
                         // conceptExpireDate: timestampToDate(conceptStage?.expireDate!),
                         // prototypeStartDate: timestampToDate(prototypeStage?.startDate!),
@@ -130,35 +99,19 @@ export default function FormStages({ projectId }: Props) {
 
     const calculateMaxOwnership = () => {
         const conceptOwnership = form.getFieldValue("conceptOwnership") || 0;
-        const prototypeOwnership =
-            form.getFieldValue("prototypeOwnership") || 0;
-        const productionOwnership =
-            form.getFieldValue("productionOwnership") || 0;
-        const totalOwnership =
-            conceptOwnership + prototypeOwnership + productionOwnership;
+        const prototypeOwnership = form.getFieldValue("prototypeOwnership") || 0;
+        const productionOwnership = form.getFieldValue("productionOwnership") || 0;
+        const totalOwnership = conceptOwnership + prototypeOwnership + productionOwnership;
 
         return {
-            conceptMax: Math.max(
-                0,
-                100 - (prototypeOwnership + productionOwnership)
-            ),
-            prototypeMax: Math.max(
-                0,
-                100 - (conceptOwnership + productionOwnership)
-            ),
-            productionMax: Math.max(
-                0,
-                100 - (conceptOwnership + prototypeOwnership)
-            ),
+            conceptMax: Math.max(0, 100 - (prototypeOwnership + productionOwnership)),
+            prototypeMax: Math.max(0, 100 - (conceptOwnership + productionOwnership)),
+            productionMax: Math.max(0, 100 - (conceptOwnership + prototypeOwnership)),
         };
     };
 
-    const handleOwnershipChange = (
-        changedField: string,
-        value: number | null
-    ) => {
-        const { conceptMax, prototypeMax, productionMax } =
-            calculateMaxOwnership();
+    const handleOwnershipChange = (changedField: string, value: number | null) => {
+        const { conceptMax, prototypeMax, productionMax } = calculateMaxOwnership();
 
         if (value === null) {
             return;
@@ -243,39 +196,23 @@ export default function FormStages({ projectId }: Props) {
     };
 
     return (
-        <Form
-            form={form}
-            layout="vertical"
-            onFinish={onFinish}
-            className="w-full"
-        >
+        <Form form={form} layout="vertical" onFinish={onFinish} className="w-full">
             <Title level={2}>Form Stages</Title>
-            <Form.Item
-                name="packages"
-                label="How many packages do you want to sell for funding"
-            >
+            <Form.Item name="packages" label="How many packages do you want to sell for funding">
                 <InputNumber min={0} onChange={handleValueChange} />
             </Form.Item>
             <Form.Item name="cpp" label="Cost per 1 package">
                 <InputNumber min={0} onChange={handleValueChange} />
             </Form.Item>
-            <Title level={4}>
-                Total Funding: {totalValue.toLocaleString()} baht
-            </Title>
+            <Title level={4}>Total Funding: {totalValue.toLocaleString()} baht</Title>
             <Title level={3}>Stage 1: Concept</Title>
             <Form.Item name="conceptDates" label="Start and End Dates">
                 <RangePicker
                     name="conceptDates"
                     format="DD-MM-YYYY"
                     defaultValue={[
-                        dayjs(
-                            dayjs(conceptStartDate).format("DD-MM-YYYY"),
-                            "DD-MM-YYYY"
-                        ),
-                        dayjs(
-                            dayjs(conceptExpireDate).format("DD-MM-YYYY"),
-                            "DD-MM-YYYY"
-                        ),
+                        dayjs(dayjs(conceptStartDate).format("DD-MM-YYYY"), "DD-MM-YYYY"),
+                        dayjs(dayjs(conceptExpireDate).format("DD-MM-YYYY"), "DD-MM-YYYY"),
                     ]}
                 />
             </Form.Item>
@@ -283,16 +220,10 @@ export default function FormStages({ projectId }: Props) {
                 <InputNumber
                     min={0}
                     max={100}
-                    onChange={(value) =>
-                        handleOwnershipChange("conceptOwnership", value)
-                    }
+                    onChange={(value) => handleOwnershipChange("conceptOwnership", value)}
                 />
             </Form.Item>
-            <QuillEditor
-                value={conceptDetail}
-                onChange={setConceptDetail}
-                projectId={projectId}
-            />
+            <QuillEditor value={conceptDetail} onChange={setConceptDetail} projectId={projectId} />
 
             <Title level={3} className="mt-12">
                 Stage 2: Prototype
@@ -302,14 +233,8 @@ export default function FormStages({ projectId }: Props) {
                     name="prototypeDates"
                     format="DD-MM-YYYY"
                     defaultValue={[
-                        dayjs(
-                            dayjs(prototypeStartDate).format("DD-MM-YYYY"),
-                            "DD-MM-YYYY"
-                        ),
-                        dayjs(
-                            dayjs(prototypeExpireDate).format("DD-MM-YYYY"),
-                            "DD-MM-YYYY"
-                        ),
+                        dayjs(dayjs(prototypeStartDate).format("DD-MM-YYYY"), "DD-MM-YYYY"),
+                        dayjs(dayjs(prototypeExpireDate).format("DD-MM-YYYY"), "DD-MM-YYYY"),
                     ]}
                 />
             </Form.Item>
@@ -317,9 +242,7 @@ export default function FormStages({ projectId }: Props) {
                 <InputNumber
                     min={0}
                     max={100}
-                    onChange={(value) =>
-                        handleOwnershipChange("prototypeOwnership", value)
-                    }
+                    onChange={(value) => handleOwnershipChange("prototypeOwnership", value)}
                 />
             </Form.Item>
             <QuillEditor
@@ -336,14 +259,8 @@ export default function FormStages({ projectId }: Props) {
                     name="productionDates"
                     format="DD-MM-YYYY"
                     defaultValue={[
-                        dayjs(
-                            dayjs(productionStartDate).format("DD-MM-YYYY"),
-                            "DD-MM-YYYY"
-                        ),
-                        dayjs(
-                            dayjs(productionExpireDate).format("DD-MM-YYYY"),
-                            "DD-MM-YYYY"
-                        ),
+                        dayjs(dayjs(productionStartDate).format("DD-MM-YYYY"), "DD-MM-YYYY"),
+                        dayjs(dayjs(productionExpireDate).format("DD-MM-YYYY"), "DD-MM-YYYY"),
                     ]}
                 />
             </Form.Item>
@@ -351,9 +268,7 @@ export default function FormStages({ projectId }: Props) {
                 <InputNumber
                     min={0}
                     max={100}
-                    onChange={(value) =>
-                        handleOwnershipChange("productionOwnership", value)
-                    }
+                    onChange={(value) => handleOwnershipChange("productionOwnership", value)}
                 />
             </Form.Item>
             <QuillEditor

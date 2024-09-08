@@ -37,9 +37,7 @@ export const ProjectDetailProvider = ({
     children: React.ReactNode;
 }) => {
     const [projectDetailPayload, SetProjectDetailsPayload] =
-        useState<ProjectDetailPayloadInterface>(
-            initializedProjectDetailPayload
-        );
+        useState<ProjectDetailPayloadInterface>(initializedProjectDetailPayload);
 
     const fetchProjectData = async () => {
         if (projectId) {
@@ -56,10 +54,7 @@ export const ProjectDetailProvider = ({
 
                 SetProjectDetailsPayload({
                     ...projectDetailPayload,
-                    ProjectInfo:
-                        data !== undefined
-                            ? data
-                            : projectDetailPayload.ProjectInfo,
+                    ProjectInfo: data !== undefined ? data : projectDetailPayload.ProjectInfo,
                     isLoading: false,
                 });
             } catch (error) {
@@ -98,9 +93,7 @@ export const ProjectDetailProvider = ({
     }, [projectId]);
 
     return (
-        <ProjectDetailsContext.Provider
-            value={{ ...projectDetailPayload, OnGettingUserDetails }}
-        >
+        <ProjectDetailsContext.Provider value={{ ...projectDetailPayload, OnGettingUserDetails }}>
             {children}
         </ProjectDetailsContext.Provider>
     );
@@ -109,9 +102,7 @@ export const ProjectDetailProvider = ({
 export const useProjectDetails = () => {
     const context = useContext(ProjectDetailsContext);
     if (context === null) {
-        throw new Error(
-            "useProjectDetails must be used within a ProjectDetailProvider"
-        );
+        throw new Error("useProjectDetails must be used within a ProjectDetailProvider");
     }
     return context;
 };

@@ -5,14 +5,9 @@ import { TransactionLog } from "src/interfaces/models/transaction";
 import { CustomError } from "src/libs/errors/apiError";
 import { dateToString } from "src/utils/date";
 
-type InitialTransactionLog = Omit<
-    TransactionLog,
-    "transactionId" | "createAt" | "updateAt"
->;
+type InitialTransactionLog = Omit<TransactionLog, "transactionId" | "createAt" | "updateAt">;
 
-export async function createTransactionLog(
-    transactionLogData: InitialTransactionLog
-) {
+export async function createTransactionLog(transactionLogData: InitialTransactionLog) {
     try {
         const transactionLogId = await runTransaction(async (transaction) => {
             const docRef = newDocRef(CollectionPath.TRANSACTION);
@@ -35,9 +30,6 @@ export async function createTransactionLog(
         return transactionLogId;
     } catch (error: unknown) {
         console.log(error);
-        throw new CustomError(
-            "Create transactionLog failed",
-            StatusCode.INTERNAL_SERVER_ERROR
-        );
+        throw new CustomError("Create transactionLog failed", StatusCode.INTERNAL_SERVER_ERROR);
     }
 }

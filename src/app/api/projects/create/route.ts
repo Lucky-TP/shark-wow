@@ -2,11 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { errorHandler } from "src/libs/errors/apiError";
 import { CollectionPath } from "src/constants/firestore";
 import { withAuthVerify } from "src/utils/api/auth";
-import {
-    ProjectStatus,
-    StageId,
-    StageStatus,
-} from "src/interfaces/models/enums";
+import { ProjectStatus, StageId, StageStatus } from "src/interfaces/models/enums";
 import { StatusCode } from "src/constants/statusCode";
 import { getDocRef } from "src/libs/databases/firestore";
 import { UserModel } from "src/interfaces/models/user";
@@ -94,8 +90,7 @@ export async function POST(request: NextRequest) {
         });
         return NextResponse.json(
             {
-                message:
-                    "Create draft project and update user's project successful",
+                message: "Create draft project and update user's project successful",
                 data: newProjectId,
             },
             { status: StatusCode.CREATED }

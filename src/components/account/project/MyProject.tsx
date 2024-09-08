@@ -46,16 +46,10 @@ export default function MyProject({}: Props) {
             </div>
             <div className=" bg-[#E5D8CA] flex items-start">
                 <div className="w-full">
-                    <h1 className="text-5xl text-black text-left mt-20 ml-40">
-                        My Project
-                    </h1>
+                    <h1 className="text-5xl text-black text-left mt-20 ml-40">My Project</h1>
                 </div>
             </div>
-            <CarouselProductCard
-                title=""
-                data={user?.ownProjects}
-                showEditProject
-            />
+            <CarouselProductCard title="" data={user?.ownProjects} showEditProject />
             {/* <ButtonSeeMore/> */}
         </section>
     );

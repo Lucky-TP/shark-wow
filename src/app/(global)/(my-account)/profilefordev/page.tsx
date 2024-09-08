@@ -91,10 +91,7 @@ export default function ProfilePage() {
                             {/* query all projects or some projects*/}
                             {user.ownProjects.map((project) => (
                                 // {user.ownProjects.filter((project) => project.name.trim() !== "").map((project) => (
-                                <li
-                                    key={project.projectId}
-                                    className="mb-2 bg-white rounded-sm"
-                                >
+                                <li key={project.projectId} className="mb-2 bg-white rounded-sm">
                                     <Button
                                         type="primary"
                                         href={`create-project/${project.projectId}/basic`}
@@ -102,34 +99,26 @@ export default function ProfilePage() {
                                         Edit projects
                                     </Button>
                                     <br />
-                                    <strong>Project ID: </strong>{" "}
-                                    {project.projectId} <br />
-                                    <strong>Project Name: </strong>{" "}
-                                    {project.name} <br />
-                                    <strong>Description: </strong>{" "}
-                                    {project.description} <br />
+                                    <strong>Project ID: </strong> {project.projectId} <br />
+                                    <strong>Project Name: </strong> {project.name} <br />
+                                    <strong>Description: </strong> {project.description} <br />
                                     <strong>Status: </strong>{" "}
-                                    {project.status == ProjectStatus.DRAFT
-                                        ? "Draft"
-                                        : "Funding"}{" "}
+                                    {project.status == ProjectStatus.DRAFT ? "Draft" : "Funding"}{" "}
                                     <br />
-                                    <strong>Category: </strong>{" "}
-                                    {project.category} <br />
+                                    <strong>Category: </strong> {project.category} <br />
                                     <div className="mt-2">
                                         <strong>Images: </strong>
                                         <div className="flex space-x-2 mt-2">
-                                            {project.carouselImageUrls.map(
-                                                (url, index) => (
-                                                    <Image
-                                                        key={index}
-                                                        src={url}
-                                                        alt={`Image ${index + 1}`}
-                                                        className="w-24 h-24 object-cover rounded"
-                                                        width={96}
-                                                        height={96}
-                                                    />
-                                                )
-                                            )}
+                                            {project.carouselImageUrls.map((url, index) => (
+                                                <Image
+                                                    key={index}
+                                                    src={url}
+                                                    alt={`Image ${index + 1}`}
+                                                    className="w-24 h-24 object-cover rounded"
+                                                    width={96}
+                                                    height={96}
+                                                />
+                                            ))}
                                         </div>
                                     </div>
                                 </li>
@@ -146,17 +135,14 @@ export default function ProfilePage() {
                     </div>
                     <div className="mb-2">
                         <strong>Popular Detail: </strong>
-                        Total Project Success:{" "}
-                        {user.popularDetail.totalProjectSuccess}, Total
+                        Total Project Success: {user.popularDetail.totalProjectSuccess}, Total
                         Supporter: {user.popularDetail.totalSupporter}
                     </div>
                     <div className="mb-2">
                         <strong>Comments Received: </strong>
                         <ul>
                             {user.receivedComments.map((comment) => (
-                                <li key={comment.commentId}>
-                                    {comment.detail}
-                                </li>
+                                <li key={comment.commentId}>{comment.detail}</li>
                             ))}
                         </ul>
                     </div>
@@ -171,9 +157,8 @@ export default function ProfilePage() {
                     </div>
                     <div className="mb-2">
                         <strong>Contact: </strong>
-                        Facebook: {user.contact.facebook}, Twitter:{" "}
-                        {user.contact.X}, YouTube: {user.contact.youtube},
-                        Phone: {user.contact.phone}
+                        Facebook: {user.contact.facebook}, Twitter: {user.contact.X}, YouTube:{" "}
+                        {user.contact.youtube}, Phone: {user.contact.phone}
                     </div>
                     <div className="mb-2">
                         <strong>CV URL: </strong>

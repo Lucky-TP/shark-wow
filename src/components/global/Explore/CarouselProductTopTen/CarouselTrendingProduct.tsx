@@ -21,10 +21,7 @@ export default function CarouselTrendingProductCard({}: Props) {
                 setTopProducts(data.data);
             } catch (error) {
                 setError("An error occurred while fetching products.");
-                console.error(
-                    "An error occurred while fetching products:",
-                    error
-                );
+                console.error("An error occurred while fetching products:", error);
             } finally {
                 setLoading(false);
             }
@@ -38,10 +35,7 @@ export default function CarouselTrendingProductCard({}: Props) {
 
     return (
         <section className="flex flex-col justify-between py-[3vh] h-full w-full ">
-            <CarouselProductCard
-                title="Top 10 Popular Projects"
-                data={topproducts}
-            />
+            <CarouselProductCard title="Top 10 Popular Projects" data={topproducts} />
         </section>
     );
 }

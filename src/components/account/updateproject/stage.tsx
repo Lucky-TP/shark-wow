@@ -19,9 +19,7 @@ export default function Projecttitle({}: Props) {
                 <div className="flex items-center mb-6">
                     <AiOutlineCheckCircle className="text-green-600 h-8 w-8" />{" "}
                     {/* ใช้ไอคอนจาก react-icons */}
-                    <p className="text-lg ml-3">
-                        Project progress has been updated by creator
-                    </p>
+                    <p className="text-lg ml-3">Project progress has been updated by creator</p>
                 </div>
 
                 <button className="mt-6 bg-gray-200 text-black font-semibold py-3 px-6 rounded-full text-lg">

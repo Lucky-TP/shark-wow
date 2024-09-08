@@ -2,10 +2,7 @@ import { UserModel } from "../models/user";
 import { CommentData } from "./comment";
 import { ShowProject } from "./project";
 
-export type UserData = Omit<
-    UserModel,
-    "ownProjectIds" | "receivedCommentIds"
-> & {
+export type UserData = Omit<UserModel, "ownProjectIds" | "receivedCommentIds"> & {
     ownProjects: ShowProject[];
     receivedComments: CommentData[];
 };

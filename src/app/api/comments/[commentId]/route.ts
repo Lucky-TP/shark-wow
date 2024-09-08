@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { errorHandler } from "src/libs/errors/apiError";
-import {
-    EditCommentPayload,
-    DeleteCommentPayload,
-} from "src/interfaces/payload/commentPayload";
+import { EditCommentPayload, DeleteCommentPayload } from "src/interfaces/payload/commentPayload";
 import { StatusCode } from "src/constants/statusCode";
 import { withAuthVerify } from "src/utils/api/auth";
 import { updateComment } from "src/libs/databases/comments";
@@ -15,10 +12,7 @@ import { UserModel } from "src/interfaces/models/user";
 import { ProjectModel } from "src/interfaces/models/project";
 import { CommentModel } from "src/interfaces/models/comment";
 
-export async function PUT(
-    request: NextRequest,
-    { params }: { params: { commentId: string } }
-) {
+export async function PUT(request: NextRequest, { params }: { params: { commentId: string } }) {
     try {
         await withAuthVerify(request);
         const commentId = params.commentId;
@@ -34,10 +28,7 @@ export async function PUT(
     }
 }
 
-export async function DELETE(
-    request: NextRequest,
-    { params }: { params: { commentId: string } }
-) {
+export async function DELETE(request: NextRequest, { params }: { params: { commentId: string } }) {
     try {
         const userToken = await withAuthVerify(request);
         const commentId = params.commentId;
@@ -57,18 +48,14 @@ export async function DELETE(
             const userDocs = (await userDoc.get()).data() as UserModel;
             const receivedComment = userDocs.receivedCommentIds;
             await updateUser(body.id, {
-                receivedCommentIds: receivedComment.filter(
-                    (comment) => comment != commentId
-                ),
+                receivedCommentIds: receivedComment.filter((comment) => comment != commentId),
             });
         } else if (body.type === "project") {
             const projDoc = getDocRef(CollectionPath.PROJECT, body.id);
             const projDocs = (await projDoc.get()).data() as ProjectModel;
             const receivedComment = projDocs.discussionIds;
             await updateProject(body.id, {
-                discussionIds: receivedComment.filter(
-                    (comment) => comment != commentId
-                ),
+                discussionIds: receivedComment.filter((comment) => comment != commentId),
             });
         }
 

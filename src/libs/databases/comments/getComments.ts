@@ -6,9 +6,7 @@ import { CommentModel } from "src/interfaces/models/comment";
 import { StatusCode } from "src/constants/statusCode";
 import { CollectionPath } from "src/constants/firestore";
 
-export async function getComments(
-    commentIds: string[]
-): Promise<CommentData[]> {
+export async function getComments(commentIds: string[]): Promise<CommentData[]> {
     try {
         const retrivedCommentsDatas: CommentData[] = [];
         const replyIds: string[] = [];
@@ -30,11 +28,9 @@ export async function getComments(
             const retrivedReplies = await getReplies(replyIds);
             console.log(retrivedReplies);
             retrivedCommentsModels.forEach((commentModel) => {
-                const filteredReplies = retrivedReplies.filter(
-                    ({ replyId }) => {
-                        return commentModel.replyIds.includes(replyId);
-                    }
-                );
+                const filteredReplies = retrivedReplies.filter(({ replyId }) => {
+                    return commentModel.replyIds.includes(replyId);
+                });
                 const commentData: CommentData = {
                     commentId: commentModel.commentId,
                     authorId: commentModel.authorId,
@@ -51,9 +47,6 @@ export async function getComments(
         if (error instanceof CustomError) {
             throw error;
         }
-        throw new CustomError(
-            "Retrive comments failed",
-            StatusCode.INTERNAL_SERVER_ERROR
-        );
+        throw new CustomError("Retrive comments failed", StatusCode.INTERNAL_SERVER_ERROR);
     }
 }
