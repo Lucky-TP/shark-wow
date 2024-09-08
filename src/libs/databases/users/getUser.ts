@@ -18,9 +18,6 @@ export async function getUser(uid: string) {
         if (error instanceof CustomError) {
             throw error;
         }
-        throw new CustomError(
-            "Get user failed",
-            StatusCode.INTERNAL_SERVER_ERROR
-        );
+        throw new CustomError("Get user failed", StatusCode.INTERNAL_SERVER_ERROR);
     }
 }

@@ -14,9 +14,7 @@ export default function MainProjectUpdates() {
     return (
         <section className="flex flex-row w-full gap-x-[2vw] px-[5vw]">
             <nav className="flex flex-col  min-w-fit items-center">
-                <h1 className="text-2xl font-semibold  mb-[3vh]">
-                    Progression
-                </h1>
+                <h1 className="text-2xl font-semibold  mb-[3vh]">Progression</h1>
                 <ul className="flex flex-col gap-y-[3vh] max-w-[27vw]">
                     {ProjectInfo.update &&
                         ProjectInfo.update.map((update, index) => (
@@ -45,16 +43,11 @@ export default function MainProjectUpdates() {
                     )}
                 </ul>
             </nav>
-            <Divider
-                type="vertical"
-                className="h-full flex mx-[2vw] bg-gray-700"
-            />
+            <Divider type="vertical" className="h-full flex mx-[2vw] bg-gray-700" />
             <div className="w-full">
-                {!isLoading &&
-                    ProjectInfo.update &&
-                    ProjectInfo.update.length > 0 && (
-                        <UpdateBlog data={ProjectInfo?.update[currentUpdate]} />
-                    )}
+                {!isLoading && ProjectInfo.update && ProjectInfo.update.length > 0 && (
+                    <UpdateBlog data={ProjectInfo?.update[currentUpdate]} />
+                )}
                 {!isLoading && ProjectInfo.update?.length === 0 && (
                     <section className="w-full">
                         <div

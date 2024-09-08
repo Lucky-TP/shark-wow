@@ -27,9 +27,6 @@ export async function createReply(
         });
         return replyId;
     } catch (error: unknown) {
-        throw new CustomError(
-            "Create new comment failed",
-            StatusCode.INTERNAL_SERVER_ERROR
-        );
+        throw new CustomError("Create new comment failed", StatusCode.INTERNAL_SERVER_ERROR);
     }
 }

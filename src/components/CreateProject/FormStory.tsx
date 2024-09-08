@@ -58,11 +58,7 @@ export default function FormStory({ projectId }: FormStoryProps) {
 
     return (
         <>
-            <QuillEditor
-                value={content}
-                onChange={handleEditorChange}
-                projectId={projectId}
-            />
+            <QuillEditor value={content} onChange={handleEditorChange} projectId={projectId} />
             <Button
                 className="w-fit mt-20"
                 type="primary"

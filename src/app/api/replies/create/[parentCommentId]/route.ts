@@ -22,10 +22,7 @@ export async function POST(
                 { status: StatusCode.NOT_FOUND }
             );
         }
-        const newReplyIds = [
-            ...parentComment.replys.map(({ replyId }) => replyId),
-            replyId,
-        ];
+        const newReplyIds = [...parentComment.replys.map(({ replyId }) => replyId), replyId];
         await updateComment(parentCommentId, { replyIds: newReplyIds });
         return NextResponse.json(
             { message: "Create reply successful" },

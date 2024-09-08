@@ -41,9 +41,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                         </div>
                     </div>
                     <div className="pt-3 py-1">
-                        <h2 className="text-xl font-semibold text-gray-800">
-                            {product.name}
-                        </h2>
+                        <h2 className="text-xl font-semibold text-gray-800">{product.name}</h2>
                         <p className="text-sm text-gray-600 mt-1">
                             Fund at ${product.stages[0].fundingCost}
                         </p>

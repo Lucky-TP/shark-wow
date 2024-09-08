@@ -11,9 +11,7 @@ export default function Ckeditor({}: Props) {
                     <div className="w-16 h-16 bg-black rounded-full"></div>
                     <div className="ml-4">
                         <div className="font-semibold">Creator Name</div>
-                        <div className="text-gray-500">
-                            YYYY/MM/DD (Current Date)
-                        </div>
+                        <div className="text-gray-500">YYYY/MM/DD (Current Date)</div>
                     </div>
                 </div>
                 <div className="bg-gray-200 rounded-lg h-64 mt-20  flex items-center justify-center min-h-[300px]">

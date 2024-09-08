@@ -5,10 +5,7 @@ import { errorHandler } from "src/libs/errors/apiError";
 import { withAuthVerify } from "src/utils/api/auth";
 import { StatusCode } from "src/constants/statusCode";
 
-export async function PUT(
-    request: NextRequest,
-    { params }: { params: { projectId: string } }
-) {
+export async function PUT(request: NextRequest, { params }: { params: { projectId: string } }) {
     const newProjectId = params.projectId;
     try {
         const tokenData = await withAuthVerify(request);

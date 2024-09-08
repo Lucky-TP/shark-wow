@@ -1,9 +1,4 @@
-import React, {
-    ComponentPropsWithRef,
-    useCallback,
-    useEffect,
-    useState,
-} from "react";
+import React, { ComponentPropsWithRef, useCallback, useEffect, useState } from "react";
 
 import { EmblaCarouselType } from "embla-carousel";
 
@@ -64,11 +59,7 @@ export const PrevButton: React.FC<PropType> = (props) => {
     const { children, ...restProps } = props;
 
     return (
-        <button
-            className=" flex items-center justify-center "
-            type="button"
-            {...restProps}
-        >
+        <button className=" flex items-center justify-center " type="button" {...restProps}>
             <div className="hover:bg-gray-200 rounded-full p-2 cursor-pointer">
                 <GrFormPrevious className="text-gray-400 text-3xl" />
             </div>
@@ -81,11 +72,7 @@ export const NextButton: React.FC<PropType> = (props) => {
     const { children, ...restProps } = props;
 
     return (
-        <button
-            className=" flex items-center justify-center "
-            type="button"
-            {...restProps}
-        >
+        <button className=" flex items-center justify-center " type="button" {...restProps}>
             <div className="hover:bg-gray-200 rounded-full p-2 cursor-pointer">
                 <GrFormNext className="text-gray-400 text-3xl" />
             </div>

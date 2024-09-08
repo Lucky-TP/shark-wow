@@ -13,20 +13,12 @@ export async function addNewUser(userData: UserModel) {
             const userDocRef = userCollection.doc(uid);
             const userSnapshot = await transaction.get(userDocRef);
             if (userSnapshot.exists) {
-                throw new CustomError(
-                    "User aleready exists",
-                    StatusCode.ALREADY_EXISTS
-                );
+                throw new CustomError("User aleready exists", StatusCode.ALREADY_EXISTS);
             }
 
-            const querySnapshot = await transaction.get(
-                userCollection.where("email", "==", email)
-            );
+            const querySnapshot = await transaction.get(userCollection.where("email", "==", email));
             if (!querySnapshot.empty) {
-                throw new CustomError(
-                    "Email aleready used",
-                    StatusCode.ALREADY_EXISTS
-                );
+                throw new CustomError("Email aleready used", StatusCode.ALREADY_EXISTS);
             }
 
             transaction.set(userDocRef, userData);
@@ -35,9 +27,6 @@ export async function addNewUser(userData: UserModel) {
         if (error instanceof CustomError) {
             throw error;
         }
-        throw new CustomError(
-            "Add new user failed",
-            StatusCode.INTERNAL_SERVER_ERROR
-        );
+        throw new CustomError("Add new user failed", StatusCode.INTERNAL_SERVER_ERROR);
     }
 }

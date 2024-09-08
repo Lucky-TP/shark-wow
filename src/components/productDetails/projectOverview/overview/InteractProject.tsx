@@ -11,9 +11,7 @@ export default function InteractProject({}: Props) {
         <>
             <div>
                 <div className="mb-6 p-4 bg-white rounded-lg shadow-md">
-                    <h3 className="text-xl font-semibold mb-2">
-                        Loves Creator
-                    </h3>
+                    <h3 className="text-xl font-semibold mb-2">Loves Creator</h3>
                     <label className="block text-gray-600 mb-2">Amount</label>
                     <div className="relative mb-4">
                         <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">

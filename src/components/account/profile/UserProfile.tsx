@@ -60,10 +60,7 @@ export default function UserProfile({}: Props) {
                             <p>{user?.address[0]?.country}</p>
                             <p>
                                 Website:{" "}
-                                <a
-                                    href="https://wtchai.com"
-                                    className="text-blue-600"
-                                >
+                                <a href="https://wtchai.com" className="text-blue-600">
                                     https://wtchai.com
                                 </a>
                             </p>
@@ -96,9 +93,7 @@ export default function UserProfile({}: Props) {
                         </div>
                     </div>
                     <div className="bg-[#E5D8CA] flex flex-col justify-center">
-                        <h2 className="text-3xl font-bold text-black mb-8 mx-auto">
-                            About me
-                        </h2>
+                        <h2 className="text-3xl font-bold text-black mb-8 mx-auto">About me</h2>
                         <div className="bg-white w-[80dvh] mx-auto h-80 rounded-lg shadow-lg px-6">
                             {/* เนื้อหาภายในกล่อง */}
                         </div>

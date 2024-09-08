@@ -87,9 +87,7 @@ const SingleprojectCard = ({ project, showEditProject }: ProjectCardProps) => {
                         </div>
                     </div>
                     <div className="pt-3 py-1">
-                        <h2 className="text-xl font-semibold text-gray-800">
-                            {project.name}
-                        </h2>
+                        <h2 className="text-xl font-semibold text-gray-800">{project.name}</h2>
                         <p className="text-sm text-gray-600 mt-1">
                             Fund at ${project.stages[0].fundingCost}
                         </p>

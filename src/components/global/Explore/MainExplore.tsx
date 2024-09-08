@@ -22,9 +22,7 @@ interface CategoryProjects {
 }
 
 export default function MainExplore() {
-    const [selectedCategory, setSelectedCategory] = useState<string | null>(
-        null
-    );
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
     const categories: ProjectCategories[] = useMemo(
         () => [
             ProjectCategories.ART,
@@ -55,9 +53,7 @@ export default function MainExplore() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const groupingCategoryShowProjects = (
-            showProjects: ShowProject[]
-        ): CategoryProjects => {
+        const groupingCategoryShowProjects = (showProjects: ShowProject[]): CategoryProjects => {
             const categoryProjects: CategoryProjects = {
                 food: [],
                 technology: [],
@@ -110,9 +106,7 @@ export default function MainExplore() {
             try {
                 setLoading(true);
                 const response = await getProjectByCategories(categories);
-                const groupedProjects = groupingCategoryShowProjects(
-                    response.data
-                );
+                const groupedProjects = groupingCategoryShowProjects(response.data);
                 setCategoryProjects(groupedProjects);
             } catch (error) {
                 setError("An error occurred while fetching data.");
@@ -178,28 +172,16 @@ export default function MainExplore() {
                                 />
                             )}
                             {categoryProjects.art.length != 0 && (
-                                <CarouselProductCard
-                                    title="Art"
-                                    data={categoryProjects.art}
-                                />
+                                <CarouselProductCard title="Art" data={categoryProjects.art} />
                             )}
                             {categoryProjects.film.length != 0 && (
-                                <CarouselProductCard
-                                    title="Film"
-                                    data={categoryProjects.film}
-                                />
+                                <CarouselProductCard title="Film" data={categoryProjects.film} />
                             )}
                             {categoryProjects.music.length != 0 && (
-                                <CarouselProductCard
-                                    title="Music"
-                                    data={categoryProjects.music}
-                                />
+                                <CarouselProductCard title="Music" data={categoryProjects.music} />
                             )}
                             {categoryProjects.food.length != 0 && (
-                                <CarouselProductCard
-                                    title="Food"
-                                    data={categoryProjects.food}
-                                />
+                                <CarouselProductCard title="Food" data={categoryProjects.food} />
                             )}
                             {categoryProjects.transportation.length != 0 && (
                                 <CarouselProductCard
@@ -214,16 +196,11 @@ export default function MainExplore() {
                                 />
                             )}
                             {categoryProjects.game.length != 0 && (
-                                <CarouselProductCard
-                                    title="Game"
-                                    data={categoryProjects.game}
-                                />
+                                <CarouselProductCard title="Game" data={categoryProjects.game} />
                             )}
                         </>
                     )}
-                    {selectedCategory && (
-                        <CategoryProductCard category={selectedCategory} />
-                    )}
+                    {selectedCategory && <CategoryProductCard category={selectedCategory} />}
                 </div>
             </div>
         </section>

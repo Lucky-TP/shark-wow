@@ -4,9 +4,7 @@ import { GetUserResponse } from "src/interfaces/response/userResponse";
 
 export async function getSelf(): Promise<GetUserResponse> {
     try {
-        const result: AxiosResponse<GetUserResponse> = await axios.get(
-            apiPath.USERS.GET_SELF
-        );
+        const result: AxiosResponse<GetUserResponse> = await axios.get(apiPath.USERS.GET_SELF);
         result.data.status = result.status;
         return result.data;
     } catch (error: unknown) {

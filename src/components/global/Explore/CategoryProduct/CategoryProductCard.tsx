@@ -26,9 +26,7 @@ export default function CategoryProductCard({ category }: Props) {
 
             try {
                 setLoading(true);
-                const response = await getProjectByCategories([
-                    encodeURI(category),
-                ]);
+                const response = await getProjectByCategories([encodeURI(category)]);
                 console.log(response.status);
                 if (response.status === StatusCode.SUCCESS) {
                     setProducts(response.data);
@@ -37,10 +35,7 @@ export default function CategoryProductCard({ category }: Props) {
                 }
             } catch (error) {
                 setError("An error occurred while fetching products.");
-                console.error(
-                    "An error occurred while fetching products:",
-                    error
-                );
+                console.error("An error occurred while fetching products:", error);
             } finally {
                 setLoading(false);
             }

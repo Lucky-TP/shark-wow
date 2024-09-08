@@ -3,10 +3,7 @@ import { apiPath } from "src/constants/routePath";
 import { EditCommentPayload } from "src/interfaces/payload/commentPayload";
 import { DefaultResponse } from "src/interfaces/response/commonResponse";
 
-export async function editCommentById(
-    commentId: string,
-    payload: EditCommentPayload
-) {
+export async function editCommentById(commentId: string, payload: EditCommentPayload) {
     try {
         const result: AxiosResponse<DefaultResponse> = await axios.put(
             apiPath.COMMENTS.UPDATE(commentId),

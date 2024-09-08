@@ -19,14 +19,8 @@ export async function generateJWT(payload: object): Promise<string> {
 
 export async function verifyJWT(token: string): Promise<UserToken | null> {
     try {
-        const publicKey = await importSPKI(
-            process.env.JWT_PUBLIC_KEY!,
-            "RS256"
-        );
-        const { payload }: { payload: JWTUserTokenPayload } = await jwtVerify(
-            token,
-            publicKey
-        );
+        const publicKey = await importSPKI(process.env.JWT_PUBLIC_KEY!, "RS256");
+        const { payload }: { payload: JWTUserTokenPayload } = await jwtVerify(token, publicKey);
         const { payload: userToken } = payload;
         return userToken;
     } catch (error: unknown) {

@@ -13,35 +13,20 @@ interface NewOrderData {
     status: OrderStatus;
 }
 
-export async function updateOrder(
-    orderId: string,
-    newOrderData: Partial<NewOrderData>
-) {
+export async function updateOrder(orderId: string, newOrderData: Partial<NewOrderData>) {
     try {
         await runTransaction(async (transaction) => {
             const docRef = getDocRef(CollectionPath.ORDER, orderId);
             const retrivedOrderSnapshot = await transaction.get(docRef);
             if (!retrivedOrderSnapshot.exists) {
-                throw new CustomError(
-                    "Order does not exists",
-                    StatusCode.NOT_FOUND
-                );
+                throw new CustomError("Order does not exists", StatusCode.NOT_FOUND);
             }
-            const retrivedOrderModel =
-                retrivedOrderSnapshot.data() as OrderModel;
+            const retrivedOrderModel = retrivedOrderSnapshot.data() as OrderModel;
             const orderModel: Partial<OrderModel> = {
-                transactionId:
-                    newOrderData.transactionId ||
-                    retrivedOrderModel.transactionId ||
-                    "",
+                transactionId: newOrderData.transactionId || retrivedOrderModel.transactionId || "",
                 paymentIntentId:
-                    newOrderData.paymentIntentId ||
-                    retrivedOrderModel.paymentIntentId ||
-                    "",
-                paymentMethod:
-                    newOrderData.paymentMethod ||
-                    retrivedOrderModel.paymentMethod ||
-                    "",
+                    newOrderData.paymentIntentId || retrivedOrderModel.paymentIntentId || "",
+                paymentMethod: newOrderData.paymentMethod || retrivedOrderModel.paymentMethod || "",
                 status: newOrderData.status || retrivedOrderModel.status,
                 updateAt: dateToString(new Date()),
             };
@@ -49,9 +34,6 @@ export async function updateOrder(
         });
     } catch (error: unknown) {
         console.log(error);
-        throw new CustomError(
-            "Update order failed",
-            StatusCode.INTERNAL_SERVER_ERROR
-        );
+        throw new CustomError("Update order failed", StatusCode.INTERNAL_SERVER_ERROR);
     }
 }

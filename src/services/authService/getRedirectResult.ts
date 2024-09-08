@@ -1,8 +1,5 @@
 import axios from "axios";
-import {
-    UserCredential,
-    getRedirectResult as _getRedirectResult,
-} from "firebase/auth";
+import { UserCredential, getRedirectResult as _getRedirectResult } from "firebase/auth";
 import { signOut } from "./signOut";
 import { auth } from "src/libs/firebase/firebaseClient";
 import { apiPath } from "src/constants/routePath";

@@ -42,13 +42,9 @@ export default function MyFavouriteProject({}: Props) {
             if (user?.favoriteProjectIds?.length) {
                 try {
                     setLoading(true);
-                    const projectPromises = user.favoriteProjectIds.map((id) =>
-                        getProjectById(id)
-                    );
+                    const projectPromises = user.favoriteProjectIds.map((id) => getProjectById(id));
                     const projectResults = await Promise.all(projectPromises);
-                    setFavoriteProjects(
-                        projectResults.map((result) => result.data)
-                    );
+                    setFavoriteProjects(projectResults.map((result) => result.data));
                 } catch (error) {
                     console.error("Error fetching favorite projects:", error);
                 } finally {

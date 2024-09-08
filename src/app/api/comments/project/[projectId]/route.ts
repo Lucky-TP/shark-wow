@@ -6,10 +6,7 @@ import { CreateCommentPayload } from "src/interfaces/payload/commentPayload";
 import { StatusCode } from "src/constants/statusCode";
 import { withAuthVerify } from "src/utils/api/auth";
 
-export async function POST(
-    request: NextRequest,
-    { params }: { params: { projectId: string } }
-) {
+export async function POST(request: NextRequest, { params }: { params: { projectId: string } }) {
     try {
         const author = await withAuthVerify(request);
         const projectId = params.projectId;

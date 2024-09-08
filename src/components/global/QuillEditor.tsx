@@ -13,11 +13,7 @@ type QuillEditorProps = {
     projectId: string;
 };
 
-export default function QuillEditor({
-    value,
-    onChange,
-    projectId,
-}: QuillEditorProps) {
+export default function QuillEditor({ value, onChange, projectId }: QuillEditorProps) {
     const quillRef = useRef<any>(null);
 
     const imageHandler = async () => {
@@ -40,11 +36,7 @@ export default function QuillEditor({
                     const url = response[0]?.url;
 
                     if (url) {
-                        editor.insertEmbed(
-                            editor.getSelection()?.index || 0,
-                            "image",
-                            url
-                        );
+                        editor.insertEmbed(editor.getSelection()?.index || 0, "image", url);
                     } else {
                         message.error("Failed to upload image.");
                     }
@@ -63,12 +55,7 @@ export default function QuillEditor({
                 container: [
                     [{ header: [1, 2, 3, 4, 5, 6, false] }],
                     ["bold", "italic", "underline", "strike"],
-                    [
-                        { list: "ordered" },
-                        { list: "bullet" },
-                        { indent: "-1" },
-                        { indent: "+1" },
-                    ],
+                    [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
                     ["image", "link"],
                     [
                         {

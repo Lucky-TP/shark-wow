@@ -27,9 +27,7 @@ export default function TargetStage({ stage }: Props) {
 
             <div className="flex flex-col justify-between px-[1.5vw] my-[1.5vh] gap-y-[1vh] w-full">
                 <p className="text-red-500 text-sm font-normal">{stage.name}</p>
-                <h3 className="text-xl font-semibold text-gray-800">
-                    {stage.name}
-                </h3>
+                <h3 className="text-xl font-semibold text-gray-800">{stage.name}</h3>
                 <span className="flex items-center text-gray-600 ml-[0.5vw]">
                     <FaLocationDot className="text-base mr-2" />
                     <p className="text-base">Start: {stage.startDate}</p>

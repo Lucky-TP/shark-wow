@@ -31,10 +31,7 @@ export async function getNextId(metadataId: MetadataId): Promise<number> {
         if (error instanceof CustomError) {
             throw error;
         }
-        throw new CustomError(
-            "Failed to get next ID",
-            StatusCode.INTERNAL_SERVER_ERROR
-        );
+        throw new CustomError("Failed to get next ID", StatusCode.INTERNAL_SERVER_ERROR);
     }
 
     return nextId;
