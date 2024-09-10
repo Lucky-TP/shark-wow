@@ -11,6 +11,17 @@ import { getComments } from "src/libs/databases/comments";
 import { ShowProject } from "src/interfaces/datas/project";
 import { getProjects } from "src/libs/databases/projects/getProjects";
 
+/**
+ * @swagger
+ * /api/users/me:
+ *   get:
+ *     description: Return user self data
+ *     responses:
+ *       200:
+ *         description: Fetch user self data successful!
+ *       401:
+ *         description: Unauthorized
+ */
 export async function GET(request: NextRequest) {
     //get user info
     try {
