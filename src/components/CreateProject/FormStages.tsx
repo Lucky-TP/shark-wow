@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import React, { useEffect, useState } from "react";
 import { Form, InputNumber, Button, Typography, message, Input, DatePicker } from "antd";
 import { useRouter } from "next/navigation";
@@ -6,12 +6,10 @@ import { getProjectById } from "src/services/apiService/projects/getProjectById"
 import { editProjectById } from "src/services/apiService/projects/editProjectById";
 import { ProjectModel, Stage } from "src/interfaces/models/project";
 import { StageId, StageStatus } from "src/interfaces/models/enums";
-import QuillEditor from "../global/QuillEditor"; // Adjust the path if necessary
-import {
-    dayjsToString,
-    stringToDayjs,
-} from "src/utils/date/dateConversion";
+import QuillEditor from "../global/QuillEditor";
+import { dayjsToString, stringToDayjs } from "src/utils/date/dateConversion";
 import LoadingPage from "../global/LoadingPage";
+import { Dayjs } from "dayjs";
 
 const { Title } = Typography;
 const { RangePicker } = DatePicker;
@@ -124,6 +122,65 @@ export default function FormStages({ projectId }: Props) {
         }
     };
 
+    const dateValidator = (value: [Dayjs, Dayjs] | null, key: string) => {
+        if (!value || !stages) return Promise.resolve();
+    
+        const [startDate, endDate] = value;
+        const stageId = StageId[key as keyof typeof StageId];
+        
+        if (key === "productionDates") {
+            const prototypeDates = form.getFieldValue("prototypeDates") || [];
+            const [prototypeStart, prototypeEnd] = prototypeDates;
+            if (startDate.isBefore(prototypeEnd)) {
+                return Promise.reject(new Error("Production start date must be after Prototype end date"));
+            }
+        }
+    
+        if (key === "prototypeDates") {
+            const conceptDates = form.getFieldValue("conceptDates") || [];
+            const [conceptStart, conceptEnd] = conceptDates;
+            if (startDate.isBefore(conceptEnd)) {
+                return Promise.reject(new Error("Prototype start date must be after Concept end date"));
+            }
+        }
+    
+        return Promise.resolve();
+    };
+
+    const disabledDate = (current: Dayjs) => {
+        if (!stages) return false;
+        
+        const conceptDates = form.getFieldValue("conceptDates") || [];
+        const prototypeDates = form.getFieldValue("prototypeDates") || [];
+        const productionDates = form.getFieldValue("productionDates") || [];
+        
+        const [conceptStart, conceptEnd] = conceptDates;
+        const [prototypeStart, prototypeEnd] = prototypeDates;
+        const [productionStart, productionEnd] = productionDates;
+        
+        // Disable dates before concept start date
+        if (conceptStart && current.isBefore(conceptStart, 'day')) {
+            return true;
+        }
+        
+        // Disable dates before prototype start date if concept end date exists
+        if (conceptEnd && current.isBefore(conceptEnd.add(1, 'day'), 'day') && (!prototypeStart || current.isAfter(prototypeStart, 'day'))) {
+            return true;
+        }
+    
+        // Disable dates before production start date if prototype end date exists
+        if (prototypeEnd && current.isBefore(prototypeEnd.add(1, 'day'), 'day') && (!productionStart || current.isAfter(productionStart, 'day'))) {
+            return true;
+        }
+    
+        // Disable dates after production end date if production end date exists
+        if (productionEnd && current.isAfter(productionEnd, 'day')) {
+            return true;
+        }
+        
+        return false;
+    };
+
     const onFinish = async (values: any) => {
         setLoading(true);
         if (!stages) {
@@ -218,7 +275,7 @@ export default function FormStages({ projectId }: Props) {
             </Form.Item>
             <Title level={4}>Total Funding: {totalValue.toLocaleString()} baht</Title>
             <Title level={3}>Stage 1: Concept</Title>
-            <Form.Item name="conceptDates" label="Start and End Dates">
+            <Form.Item name="conceptDates" label="Start and End Dates" rules={[{ validator: (rule, value) => dateValidator(value, "conceptDates") }]} >
                 <RangePicker
                     name="conceptDates"
                     format="DD-MM-YYYY"
@@ -226,6 +283,7 @@ export default function FormStages({ projectId }: Props) {
                         stages ? stringToDayjs(stages[StageId.CONCEPT].startDate) : null,
                         stages ? stringToDayjs(stages[StageId.CONCEPT].expireDate) : null,
                     ]}
+                    disabledDate={disabledDate}
                 />
             </Form.Item>
             <Form.Item name="conceptOwnership" label="Ownership (%)">
@@ -237,10 +295,8 @@ export default function FormStages({ projectId }: Props) {
             </Form.Item>
             <QuillEditor value={conceptDetail} onChange={setConceptDetail} projectId={projectId} />
 
-            <Title level={3} className="mt-12">
-                Stage 2: Prototype
-            </Title>
-            <Form.Item name="prototypeDates" label="Start and End Dates">
+            <Title level={3} className="mt-12">Stage 2: Prototype</Title>
+            <Form.Item name="prototypeDates" label="Start and End Dates" rules={[{ validator: (rule, value) => dateValidator(value, "prototypeDates") }]} >
                 <RangePicker
                     name="prototypeDates"
                     format="DD-MM-YYYY"
@@ -248,6 +304,7 @@ export default function FormStages({ projectId }: Props) {
                         stages ? stringToDayjs(stages[StageId.PROTOTYPE].startDate) : null,
                         stages ? stringToDayjs(stages[StageId.PROTOTYPE].expireDate) : null,
                     ]}
+                    disabledDate={disabledDate}
                 />
             </Form.Item>
             <Form.Item name="prototypeOwnership" label="Ownership (%)">
@@ -257,16 +314,10 @@ export default function FormStages({ projectId }: Props) {
                     onChange={(value) => handleOwnershipChange("prototypeOwnership", value)}
                 />
             </Form.Item>
-            <QuillEditor
-                value={prototypeDetail}
-                onChange={setPrototypeDetail}
-                projectId={projectId}
-            />
+            <QuillEditor value={prototypeDetail} onChange={setPrototypeDetail} projectId={projectId} />
 
-            <Title level={3} className="mt-12">
-                Stage 3: Production
-            </Title>
-            <Form.Item name="productionDates" label="Start and End Dates">
+            <Title level={3} className="mt-12">Stage 3: Production</Title>
+            <Form.Item name="productionDates" label="Start and End Dates" rules={[{ validator: (rule, value) => dateValidator(value, "productionDates") }]} >
                 <RangePicker
                     name="productionDates"
                     format="DD-MM-YYYY"
@@ -274,6 +325,7 @@ export default function FormStages({ projectId }: Props) {
                         stages ? stringToDayjs(stages[StageId.PRODUCTION].startDate) : null,
                         stages ? stringToDayjs(stages[StageId.PRODUCTION].expireDate) : null,
                     ]}
+                    disabledDate={disabledDate}
                 />
             </Form.Item>
             <Form.Item name="productionOwnership" label="Ownership (%)">
@@ -283,11 +335,7 @@ export default function FormStages({ projectId }: Props) {
                     onChange={(value) => handleOwnershipChange("productionOwnership", value)}
                 />
             </Form.Item>
-            <QuillEditor
-                value={productionDetail}
-                onChange={setProductionDetail}
-                projectId={projectId}
-            />
+            <QuillEditor value={productionDetail} onChange={setProductionDetail} projectId={projectId} />
 
             <Form.Item>
                 <Button
