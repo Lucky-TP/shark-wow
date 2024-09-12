@@ -43,7 +43,7 @@ export default function PaymentCheckingPage({ params }: { params: { orderId: str
         <div className="flex flex-col items-center justify-center h-screen p-4 bg-gray-100">
             <h1 className="text-2xl font-semibold mb-4">Payment Successful</h1>
             <div className="bg-white p-4 rounded shadow-lg">
-                {slipUrl && <Link href={slipUrl}>Go to slip!</Link>}
+                {slipUrl && <Link href={slipUrl} target="_blank">Go to slip!</Link>}
             </div>
         </div>
     );
