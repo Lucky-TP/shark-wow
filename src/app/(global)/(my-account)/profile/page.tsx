@@ -3,7 +3,7 @@ import UserProfile from "src/components/account/profile/UserProfile"; // Profile
 export default function page() {
     return (
         <section>
-            <UserProfile/>
+            <UserProfile />
         </section>
     );
 }

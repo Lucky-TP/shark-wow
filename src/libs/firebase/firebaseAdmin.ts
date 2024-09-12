@@ -5,9 +5,7 @@ import { getStorage } from "firebase-admin/storage";
 import { BUCKET_NAME } from "src/constants/firestore/storage";
 
 const serviceAccount = JSON.parse(
-    Buffer.from(process.env.FIREBASE_SERVICE_ACCOUNT!, "base64").toString(
-        "ascii"
-    )
+    Buffer.from(process.env.FIREBASE_SERVICE_ACCOUNT!, "base64").toString("ascii")
 );
 
 const adminApp = getApps().length

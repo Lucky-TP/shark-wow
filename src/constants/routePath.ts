@@ -41,13 +41,23 @@ export const apiPath = {
         },
         UPDATE: (commentId: string) => `${API_BASE_URL}/api/comments/${commentId}`,
         DELETE: (commentId: string) => `${API_BASE_URL}/api/comments/${commentId}`,
-    
     },
     REPLIES: {
         CREATE: (parentCommentId: string) =>
             `${API_BASE_URL}/api/replies/create/${parentCommentId}`,
         UPDATE: (replyId: string) => `${API_BASE_URL}/api/replies/${replyId}`,
         DELETE: (replyId: string) => `${API_BASE_URL}/api/replies/${replyId}`,
+    },
+    ORDERS: {
+        GET: (orderId: string) => `${API_BASE_URL}/api/orders/${orderId}`,
+    },
+    PAYMENTS: {
+        CHECKOUT: {
+            CREATE: `${API_BASE_URL}/api/payments/checkout`,
+        },
+        POLLING: {
+            GET: (orderId: string) => `${API_BASE_URL}/api/payments/polling/${orderId}`,
+        },
     },
 };
 

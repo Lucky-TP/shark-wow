@@ -8,4 +8,4 @@ export interface Product {
     productImageUrl: string;
     daysLeft: number;
     fundedPercentage: number;
-  }
+}

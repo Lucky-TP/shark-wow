@@ -4,8 +4,9 @@ import { GetPopularProjectsResponse } from "src/interfaces/response/projectRespo
 
 export async function getTenPopularProjects(): Promise<GetPopularProjectsResponse> {
     try {
-        const result: AxiosResponse<GetPopularProjectsResponse> =
-            await axios.get(apiPath.PROJECTS.GET_TEN_POPULAR);
+        const result: AxiosResponse<GetPopularProjectsResponse> = await axios.get(
+            apiPath.PROJECTS.GET_TEN_POPULAR
+        );
         result.data.status = result.status;
         return result.data;
     } catch (error: unknown) {

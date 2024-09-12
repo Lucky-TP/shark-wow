@@ -1,7 +1,5 @@
 const authDomain =
-    process.env.NODE_ENV === "production"
-        ? "shark-wow.vercel.app"
-        : "localhost:3000";
+    process.env.NODE_ENV === "production" ? "shark-wow.vercel.app" : "localhost:3000";
 
 export const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,

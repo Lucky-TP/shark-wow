@@ -18,19 +18,21 @@ export async function getProjects<T>(
     callback?: (projectModel: ProjectModel) => T
 ): Promise<T[]> {
     try {
-        const projectCollection = getCollectionRef(CollectionPath.PROJECT);
-        const chunks = chunkArray<string>(projectIds, DEFAULT_IN_QUERY_VALUE);
         const retrievedProjects: T[] = [];
-        for (const chunk of chunks) {
-            const querySnapshot = await projectCollection.where("projectId", "in", chunk).get();
-            const retrievedProjectChunk = querySnapshot.docs.map((projectSnapshot) => {
-                const projectModel = projectSnapshot.data() as ProjectModel;
-                if (callback) {
-                    return callback(projectModel);
-                }
-                return projectModel as T;
-            });
-            retrievedProjects.push(...retrievedProjectChunk);
+        if (projectIds.length > 0) {
+            const projectCollection = getCollectionRef(CollectionPath.PROJECT);
+            const chunks = chunkArray<string>(projectIds, DEFAULT_IN_QUERY_VALUE);
+            for (const chunk of chunks) {
+                const querySnapshot = await projectCollection.where("projectId", "in", chunk).get();
+                const retrievedProjectChunk = querySnapshot.docs.map((projectSnapshot) => {
+                    const projectModel = projectSnapshot.data() as ProjectModel;
+                    if (callback) {
+                        return callback(projectModel);
+                    }
+                    return projectModel as T;
+                });
+                retrievedProjects.push(...retrievedProjectChunk);
+            }
         }
         return retrievedProjects;
     } catch (error: unknown) {

@@ -4,7 +4,7 @@ import Signin from "src/components/auth/Signin";
 export default function SigninPage() {
     return (
         <>
-            <Signin/>
+            <Signin />
             {/* <SignInWithGoogle /> */}
         </>
     );

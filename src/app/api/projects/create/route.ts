@@ -11,6 +11,23 @@ import { addNewProject } from "src/libs/databases/projects";
 import { updateUser } from "src/libs/databases/users";
 import { dateToString } from "src/utils/date";
 
+/**
+ * @swagger
+ * /api/projects/create:
+ *   post:
+ *     tags:
+ *       - projects
+ *     description: Create project
+ *     security:
+ *       - CookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Create draft project and update user's project successful
+ *       401:
+ *         description: Unauthorized - Missing or invalid token
+ *
+ */
+
 export async function POST(request: NextRequest) {
     try {
         const tokenData = await withAuthVerify(request);
@@ -85,11 +102,13 @@ export async function POST(request: NextRequest) {
 
         const newProjectId = await addNewProject(newProjectModel);
         const currentUserModel = userSnapshot.data() as UserModel;
-        await updateUser(uid, { ownProjectIds: [...currentUserModel.ownProjectIds, newProjectId] });
+        await updateUser(uid, {
+            ownProjectIds: [...currentUserModel.ownProjectIds, newProjectId],
+        });
         return NextResponse.json(
             {
                 message: "Create draft project and update user's project successful",
-                data: newProjectId,
+                data: { projectId: newProjectId },
             },
             { status: StatusCode.CREATED }
         );

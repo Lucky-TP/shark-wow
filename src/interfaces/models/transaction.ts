@@ -1,12 +1,15 @@
-import { TransactionType } from "./enums";
+import { StageId, TransactionType } from "./enums";
 
 export interface TransactionLog {
-    transactionId: number;
-    uid: number;
-    projectId: number;
-    stageId: number;
-    date: Date;
+    transactionId: string;
+    orderId: string;
+    uid: string;
+    projectId: string;
+    stageId: StageId;
+    stageName: string;
     amount: number;
     slipUrl: string;
-    type: TransactionType;
+    transactionType: TransactionType;
+    createAt: string;
+    updateAt: string;
 }

@@ -1,10 +1,6 @@
 import { useRouter } from "next/navigation";
 import { useState, FormEvent, useEffect } from "react";
-import {
-    getRedirectResult,
-    signInWithEmail,
-    signInWithGoogle,
-} from "src/services/authService";
+import { getRedirectResult, signInWithEmail, signInWithGoogle } from "src/services/authService";
 import Link from "next/link";
 import { EmailSignInPayload } from "src/interfaces/payload/authPayload";
 import LoadingPage from "../global/LoadingPage";
@@ -58,7 +54,7 @@ export default function Signin({}: Props) {
     };
 
     if (loading) {
-        return <LoadingPage/>;
+        return <LoadingPage />;
     }
 
     return (
@@ -76,17 +72,13 @@ export default function Signin({}: Props) {
                     </Link>
                     <div className="fixed top-20">
                         <p className="text-white mb-5 mt-20">Welcome back</p>
-                        <h1 className="text-white text-4xl font-medium">
-                            Sign in to Shark Wow
-                        </h1>
+                        <h1 className="text-white text-4xl font-medium">Sign in to Shark Wow</h1>
                     </div>
                 </div>
                 <div className="w-full flex flex-col justify-center items-center bg-white p-16 rounded-tl-4xl">
                     <div className="w-full pl-20">
                         <div className="flex flex-col mt-24">
-                            <p className="font-medium text-gray-700 mb-4">
-                                Your account details
-                            </p>
+                            <p className="font-medium text-gray-700 mb-4">Your account details</p>
                             <form onSubmit={onSignInWithEmail}>
                                 <div className="w-full mb-4">
                                     <input
@@ -94,9 +86,7 @@ export default function Signin({}: Props) {
                                         type="email"
                                         id="email"
                                         placeholder="Email Address"
-                                        onChange={(e) =>
-                                            setEmail(e.target.value)
-                                        }
+                                        onChange={(e) => setEmail(e.target.value)}
                                     />
                                 </div>
                                 <div className="w-full mb-4">
@@ -105,9 +95,7 @@ export default function Signin({}: Props) {
                                         type="password"
                                         id="password"
                                         placeholder="Password"
-                                        onChange={(e) =>
-                                            setPassword(e.target.value)
-                                        }
+                                        onChange={(e) => setPassword(e.target.value)}
                                     />
                                 </div>
                                 <div className="flex flex-row justify-between w-full text-left mb-4">
@@ -153,9 +141,7 @@ export default function Signin({}: Props) {
                                 </div> */}
                                 <div className="w-full text-center mb-4">
                                     <button className="bg-orange-300  items-center px-3 py-1.5 rounded-full shadow-md hover:bg-orange-200 transition">
-                                        <span className="text-white mx-12 my-">
-                                            Sign in
-                                        </span>
+                                        <span className="text-white mx-12 my-">Sign in</span>
                                     </button>
                                 </div>
                             </form>
@@ -177,9 +163,7 @@ export default function Signin({}: Props) {
                                             width={24}
                                             height={24}
                                         />
-                                        <span className="text-white">
-                                            Sign in with gmail
-                                        </span>
+                                        <span className="text-white">Sign in with gmail</span>
                                     </div>
                                 </button>
                             </div>

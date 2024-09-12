@@ -38,10 +38,10 @@ export default function Navbar({}: Props) {
         setLoading(true);
         try {
             const result = await createProject();
-            const projectId = result.data; // Get the project ID from response
+            const projectId = result.data?.projectId; // Get the project ID from response
             router.push(`/create-project/${projectId}/basic`); // Navigate to the project page
         } catch (error: any) {
-            router.push(`/sign-in`)
+            router.push(`/sign-in`);
             console.error("Error creating project:", error.message);
         } finally {
             setLoading(false);
@@ -49,7 +49,7 @@ export default function Navbar({}: Props) {
     };
 
     const handleProfile = async () => {
-        router.push("/profile")
+        router.push("/profile");
     };
 
     const handleSignOut = async () => {
@@ -77,16 +77,15 @@ export default function Navbar({}: Props) {
                     </div>
                     <ul className="flex flex-row gap-x-[3vw] items-center">
                         <li>
-                            <Link href="/explore" className="text-gray-800 text-lg hover:text-white">
+                            <Link
+                                href="/explore"
+                                className="text-gray-800 text-lg hover:text-white"
+                            >
                                 EXPLORE
                             </Link>
                         </li>
                         <li>
-                            <Button
-                                type="link"
-                                onClick={handleCreateProject}
-                                loading={loading}
-                            >
+                            <Button type="link" onClick={handleCreateProject} loading={loading}>
                                 <span className="text-gray-800 text-lg hover:text-white">
                                     CREATE PROJECT
                                 </span>
@@ -94,7 +93,10 @@ export default function Navbar({}: Props) {
                         </li>
                         <li>
                             {!user && (
-                                <Link href="/sign-in" className="text-gray-800 text-lg hover:text-white">
+                                <Link
+                                    href="/sign-in"
+                                    className="text-gray-800 text-lg hover:text-white"
+                                >
                                     SIGN IN / SIGN UP
                                 </Link>
                             )}

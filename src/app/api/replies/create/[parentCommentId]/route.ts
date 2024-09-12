@@ -6,6 +6,25 @@ import { createReply } from "src/libs/databases/replies";
 import { errorHandler } from "src/libs/errors/apiError";
 import { withAuthVerify } from "src/utils/api/auth";
 
+/**
+ * @swagger
+ * /api/replies/create/[parentCommentId]:
+ *   post:
+ *     tags:
+ *       - replies
+ *     description: Create replies to comment
+ *     parameters:
+ *       - name: parentCommentId
+ *     security:
+ *       - CookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Create reply successful
+ *       401:
+ *         description: Unauthorized - Missing or invalid token
+ *
+ */
+
 export async function POST(
     request: NextRequest,
     { params }: { params: { parentCommentId: string } }

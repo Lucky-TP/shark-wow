@@ -44,7 +44,7 @@ export default function CategoryProductCard({ category }: Props) {
         fetchProducts();
     }, [category]);
 
-    if (loading) return <LoadingSection/>;
+    if (loading) return <LoadingSection />;
     if (error) return <p>Error: {error}</p>;
 
     return (

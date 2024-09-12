@@ -2,10 +2,7 @@
 import { bucket } from "src/libs/firebase/firebaseAdmin";
 import { getDownloadURL } from "firebase-admin/storage";
 
-export async function uploadFile(
-    file: Blob,
-    pathName: string
-): Promise<string> {
+export async function uploadFile(file: Blob, pathName: string): Promise<string> {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 

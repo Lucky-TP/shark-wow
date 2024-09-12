@@ -17,7 +17,7 @@ export async function addNewProject(projectData: ProjectModel): Promise<string> 
         await projectDoc.set(projectData);
         return newProjectId;
     } catch (error: unknown) {
-        console.log(error)
+        console.log(error);
         if (error instanceof CustomError) {
             throw error;
         }

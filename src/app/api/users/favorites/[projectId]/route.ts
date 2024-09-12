@@ -5,6 +5,25 @@ import { errorHandler } from "src/libs/errors/apiError";
 import { withAuthVerify } from "src/utils/api/auth";
 import { StatusCode } from "src/constants/statusCode";
 
+/**
+ * @swagger
+ * /api/users/favorites/[projectId]:
+ *
+ *   put:
+ *     tags:
+ *       - users
+ *     description: Update user favorite project
+ *     parameters:
+ *       - name: projectId
+ *     security:
+ *       - CookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Update favorite project successful
+ *       401:
+ *         description: Unauthorized - Missing or invalid token
+ */
+
 export async function PUT(request: NextRequest, { params }: { params: { projectId: string } }) {
     const newProjectId = params.projectId;
     try {
@@ -19,7 +38,9 @@ export async function PUT(request: NextRequest, { params }: { params: { projectI
         } else {
             newFavoriteProjectIds.push(newProjectId);
         }
-        await updateUser(tokenData.uid, { favoriteProjectIds: newFavoriteProjectIds });
+        await updateUser(tokenData.uid, {
+            favoriteProjectIds: newFavoriteProjectIds,
+        });
         return NextResponse.json(
             { message: "Update favorite project successful" },
             { status: StatusCode.SUCCESS }

@@ -1,17 +1,18 @@
-"use client"
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-import ButtonSeeMore from './ButtonSeeMore';
-import CarouselProductCard from 'src/components/NewProductCard/CarouselProduct/CarouselProductCard';
-import { pagePath } from 'src/constants/routePath';
-import { useAuth } from 'src/hooks/useAuth';
-import { UserData } from 'src/interfaces/datas/user';
-import { getSelf } from 'src/services/apiService/users/getSelf';
-import { UserInfo } from '../UserInfo';
+"use client";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import ButtonSeeMore from "./ButtonSeeMore";
+import CarouselProductCard from "src/components/NewProductCard/CarouselProduct/CarouselProductCard";
+import { pagePath } from "src/constants/routePath";
+import { useAuth } from "src/hooks/useAuth";
+import { UserData } from "src/interfaces/datas/user";
+import { getSelf } from "src/services/apiService/users/getSelf";
+import { UserInfo } from "../UserInfo";
 
 type Props = {};
 
-export default function MyProject({}: Props) { // เปลี่ยนชื่อเป็น UserProfile
+export default function MyProject({}: Props) {
+    // เปลี่ยนชื่อเป็น UserProfile
     const [user, setUser] = useState<UserData>();
     const [loading, setLoading] = useState<boolean>(false);
     const { user: authUser, authLoading } = useAuth();
@@ -36,24 +37,20 @@ export default function MyProject({}: Props) { // เปลี่ยนชื่
             fetchUserProfile();
         }
     }, [authUser]);
-  return (
-      <section>
-        <div className=" bg-[#E5D8CA] flex items-start">
-          <div className="w-full">
-              <UserInfo user={user}/>
-          </div>
-        </div>
-        <div className=" bg-[#E5D8CA] flex items-start">
-             <div className="w-full">
-                <h1 className="text-5xl text-black text-left mt-20 ml-40">My Project</h1>
+    return (
+        <section>
+            <div className=" bg-[#E5D8CA] flex items-start">
+                <div className="w-full">
+                    <UserInfo user={user} />
+                </div>
             </div>
-        </div>
-        <CarouselProductCard title="" data={user?.ownProjects} showEditProject/>
-        {/* <ButtonSeeMore/> */}
-   </section>
-   
-   
-   
-
-  );
+            <div className=" bg-[#E5D8CA] flex items-start">
+                <div className="w-full">
+                    <h1 className="text-5xl text-black text-left mt-20 ml-40">My Project</h1>
+                </div>
+            </div>
+            <CarouselProductCard title="" data={user?.ownProjects} showEditProject />
+            {/* <ButtonSeeMore/> */}
+        </section>
+    );
 }

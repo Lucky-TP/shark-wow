@@ -9,11 +9,7 @@ import { IS_COOKIE_SET } from "src/constants/sessionStorageKeyName";
 export async function signInWithEmail(payload: EmailSignInPayload) {
     try {
         const { email, password } = payload;
-        const userCredential = await signInWithEmailAndPassword(
-            auth,
-            email,
-            password
-        );
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const userIdToken = await userCredential.user.getIdToken();
         await axios.post(apiPath.AUTH.EMAIL_SIGNIN, payload, {
             headers: { Authorization: `Bearer ${userIdToken}` },

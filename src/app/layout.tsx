@@ -5,18 +5,16 @@ import "./globals.css";
 import Layout from "src/components/global/Layout";
 
 export const metadata: Metadata = {
-  title: "Shark WoW",
-  description: "Funding for Startup and SMEs",
+    title: "Shark WoW",
+    description: "Funding for Startup and SMEs",
 };
 
-export default function RootLayout({children,}: Readonly<{children: React.ReactNode;}>) {
-  return (
-    <html lang="en">
-      <body className='overflow-x-hidden'>
-        <Layout>
-          {children}
-        </Layout>
-      </body>
-    </html>
-  );
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+    return (
+        <html lang="en">
+            <body className="overflow-x-hidden">
+                <Layout>{children}</Layout>
+            </body>
+        </html>
+    );
 }
