@@ -1,31 +1,25 @@
 import React from "react";
 
+import { useRouter } from "next/navigation";
+
 import { useProjectDetails } from "src/context/custom-hooks/useProjectDetails";
 
 import { checkout } from "src/services/apiService/payments/checkout";
 
-import { StageId } from "src/interfaces/models/enums";
 import { CheckoutPayload } from "src/interfaces/payload/paymentPayload";
 import { StripePaymentMethod } from "src/constants/paymentMethod";
 import { TransactionType } from "src/interfaces/models/enums";
 
 type Props = {};
 
-// export interface CheckoutPayload {
-//     projectId: string;
-//     stageId: StageId;
-//     stageName: string;
-//     fundingCost: number;
-//     paymentMethod: StripePaymentMethod;
-//     transactionType: TransactionType;
-// }
 
 export default function InteractProject({}: Props) {
     const {
         ProjectInfo,
         isLoading
     } = useProjectDetails();
-    // Adding function support & donate handler payload having project id uid amount current stage price of the project sending to backend migrate payment
+
+    const router = useRouter()
     return (
         <>
             <div>
@@ -49,16 +43,19 @@ export default function InteractProject({}: Props) {
 
                 { !isLoading && <div className="space-y-4">
                     <button 
-                        onClick={()=>{
+                        onClick={async ()=>{
                             const payload : CheckoutPayload = {
                                 projectId : ProjectInfo.projectId ?? "",
-                                fundingCost : 100,
+                                fundingCost : 1000,
                                 paymentMethod : StripePaymentMethod.Bitcoin, 
                                 stageId : ProjectInfo.currentStage?.stageId!,
                                 stageName : ProjectInfo.name ?? "", 
                                 transactionType : TransactionType.FUNDING
                             }
-                            checkout(payload)
+                            const response = await checkout(payload)
+                            if (response.status === 201 ){
+                                router.push(response.redirectUrl)
+                            }
                         }}
                         className="w-full py-2 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600"
                     >
