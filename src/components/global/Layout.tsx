@@ -32,7 +32,7 @@ const Layout: NextPage<Props> = ({ children }) => {
                 }}
             >
 
-                <main className="min-h-screen bg-orange-50 py-[10vh]">
+                <main className="min-h-screen bg-orange-50 pt-[10vh]">
                     {!hideNavbarAndFooter && <Navbar />}
                         {children}
                     {!hideNavbarAndFooter && <Footer />}
