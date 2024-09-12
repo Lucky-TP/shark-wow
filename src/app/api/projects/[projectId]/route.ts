@@ -14,6 +14,38 @@ import { EditProjectPayload } from "src/interfaces/payload/projectPayload";
 import { getCurrentStage } from "src/utils/api/projects/getCurrentStage";
 import { getStartAndExpireTime } from "src/utils/api/projects";
 
+/**
+ * @swagger
+ * /api/projects/[projectId]:
+ *   get:
+ *     tags:
+ *       - projects
+ *     description: Get project information by ID
+ *     parameters:
+ *       - name: projectId
+ *     security:
+ *       - CookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Create reply successful
+ *       401:
+ *         description: Unauthorized - Missing or invalid token
+ * 
+ *   put:
+ *     tags:
+ *       - projects
+ *     description: Delete replies by ID
+ *     parameters:
+ *       - name: replyId
+ *     security:
+ *       - CookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Get project data successful
+ *       401:
+ *         description: Unauthorized - Missing or invalid token
+ */
+
 export async function GET(request: NextRequest, { params }: { params: { projectId: string } }) {
     try {
         const projectDocRef = getDocRef(CollectionPath.PROJECT, params.projectId);

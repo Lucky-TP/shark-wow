@@ -6,6 +6,23 @@ import { ShowProject } from "src/interfaces/datas/project";
 import { StatusCode } from "src/constants/statusCode";
 import { ProjectStatus } from "src/interfaces/models/enums";
 
+/**
+ * @swagger
+ * /api/projects/getByCategories:
+ *   get:
+ *     tags:
+ *       - projects
+ *     description: Return project information by categories
+ *     parameters:
+ *       - name: category
+ *     responses:
+ *       200:
+ *         description: Retrieved all project by categories successful
+ *       500:
+ *         description: Request failed
+ *
+ */
+
 export async function GET(request: NextRequest) {
     try {
         const categories = request.nextUrl.searchParams.getAll("category");

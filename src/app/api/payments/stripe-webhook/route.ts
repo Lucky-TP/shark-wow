@@ -7,6 +7,24 @@ import { OrderStatus } from "src/interfaces/models/enums";
 import { getOrder } from "src/libs/databases/orders/getOrder";
 import { createTransactionLog } from "src/libs/databases/transactionLogs/createTransactionLog";
 
+/**
+ * @swagger
+ * /api/payments/stripe-webhook:
+ *   post:
+ *     tags:
+ *       - payments
+ *     description: Get order information by order ID
+ *     security:
+ *       - CookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Get order successful
+ *       401:
+ *         description: Unauthorized - Missing or invalid token
+ *
+ */
+
+
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
 // export const config = {
