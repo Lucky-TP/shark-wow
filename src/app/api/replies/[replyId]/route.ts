@@ -12,18 +12,35 @@ import { updateComment } from "src/libs/databases/comments";
 
 /**
  * @swagger
- * /api/replies/[replyId]:
+ * /api/replies/{replyId}:
  *   put:
  *     tags:
  *       - replies
- *     description: Update replies by ID
+ *     description: Update a reply by its ID. This endpoint allows updating specific fields of a reply, such as its content.
  *     parameters:
- *       - name: replyId
+ *       - in: path
+ *         name: replyId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The unique identifier for the reply to be updated.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               detail:
+ *                 type: string
+ *                 description: The updated content of the reply.
+ *             required:
+ *               - detail
  *     security:
  *       - CookieAuth: []
  *     responses:
  *       200:
- *         description: Create reply successful
+ *         description: Update reply successful
  *       401:
  *         description: Unauthorized - Missing or invalid token
  * 
@@ -32,12 +49,17 @@ import { updateComment } from "src/libs/databases/comments";
  *       - replies
  *     description: Delete replies by ID
  *     parameters:
- *       - name: replyId
+ *       - in: path
+ *         name: replyId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Reply ID
  *     security:
  *       - CookieAuth: []
  *     responses:
  *       200:
- *         description: Create reply successful
+ *         description: Delete reply successful
  *       401:
  *         description: Unauthorized - Missing or invalid token
  */

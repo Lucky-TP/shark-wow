@@ -14,15 +14,51 @@ import { OrderStatus } from "src/interfaces/models/enums";
  *   post:
  *     tags:
  *       - payments
- *     description: Create checkout
+ *     description: Create a checkout session for payment processing
  *     security:
  *       - CookieAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               projectId:
+ *                 type: string
+ *                 description: The ID of the project being funded
+ *               stageId:
+ *                 type: string
+ *                 description: The ID of the stage within the project
+ *               stageName:
+ *                 type: string
+ *                 description: The name of the stage
+ *               fundingCost:
+ *                 type: number
+ *                 format: float
+ *                 description: The cost of funding the stage
+ *               paymentMethod:
+ *                 type: string
+ *                 description: The payment method to be used (e.g., 'card', 'paypal')
+ *               transactionType:
+ *                 type: string
+ *                 description: The type of transaction (e.g., 'donation', 'investment')
+ *             required:
+ *               - projectId
+ *               - stageId
+ *               - stageName
+ *               - fundingCost
+ *               - paymentMethod
+ *               - transactionType
  *     responses:
  *       200:
  *         description: Create checkout successful
  *       401:
  *         description: Unauthorized - Missing or invalid token
- *
+ *       400:
+ *         description: Bad request - Invalid request data
+ *       500:
+ *         description: Internal server error - Something went wrong
  */
 
 export async function POST(request: NextRequest) {

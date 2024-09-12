@@ -6,18 +6,34 @@ import { extractBearerToken, signUserSession } from "src/utils/api/auth";
 /**
  * @swagger
  * /api/auth/signin/email:
- *   get:
+ *   post:
  *     tags:
  *       - auth
- *     description: Sign in by email
+ *     description: Sign in using an email address with Bearer token authentication in the Authorization header.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: The email address of the user.
+ *               password:
+ *                 type: string
+ *                 description: The password of the user.
+ *             required:
+ *               - email
+ *               - password
  *     security:
- *       - CookieAuth: []
+ *       - BearerAuth: []  # Requires Bearer token for authentication
  *     responses:
  *       200:
- *         description: Authentication successful
- *       401:
- *         description: Unauthorized - Missing or invalid token
- *
+ *         description: Authentication successful. User is signed in and receives a token.
+ *       500:
+ *         description: Internal server error - Something went wrong during authentication.
  */
 
 export async function POST(request: NextRequest) {

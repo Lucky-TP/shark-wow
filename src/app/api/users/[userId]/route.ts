@@ -9,19 +9,25 @@ import { ProjectStatus } from "src/interfaces/models/enums";
 
 /**
  * @swagger
- * /api/users/[userId]:
+ * /api/users/{userId}:
  *   get:
  *     tags:
  *       - users
- *     description: Return user information
+ *     description: Retrieve user information by user ID, including project summaries and profile details.
  *     parameters:
- *       - name: userId
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The unique identifier of the user whose information is to be retrieved.
  *     responses:
  *       200:
- *         description: Get user successful
+ *         description: Successfully retrieved user information
+ *       404:
+ *         description: User with the specified ID does not exist
  *       500:
- *         description: Request failed
- *
+ *         description: Internal server error
  */
 
 export async function GET(request: NextRequest, { params }: { params: { userId: string } }) {

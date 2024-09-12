@@ -12,14 +12,14 @@ import { errorHandler } from "src/libs/errors/apiError";
  *   get:
  *     tags:
  *       - users
- *     description: Return top ten creators
+ *     description: Retrieve the top ten creators based on popularity metrics.
  *     responses:
  *       200:
- *         description: Retrieve 10 popular user successful
+ *         description: Successfully retrieved the top ten popular users
  *       500:
- *         description: Request failed
- *
+ *         description: Internal server error
  */
+
 export async function GET(request: NextRequest) {
     try {
         const userCollection = getCollectionRef(CollectionPath.USER);

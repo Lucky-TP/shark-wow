@@ -9,7 +9,6 @@ export interface EmailSignUpPayload {
     firstName: string;
     lastName: string;
     email: string;
-    password: string;
     birthDate: string;
     address: Address;
 }
