@@ -2,10 +2,29 @@ import React from "react";
 
 import { useProjectDetails } from "src/context/custom-hooks/useProjectDetails";
 
+import { checkout } from "src/services/apiService/payments/checkout";
+
+import { StageId } from "src/interfaces/models/enums";
+import { CheckoutPayload } from "src/interfaces/payload/paymentPayload";
+import { StripePaymentMethod } from "src/constants/paymentMethod";
+import { TransactionType } from "src/interfaces/models/enums";
+
 type Props = {};
 
+// export interface CheckoutPayload {
+//     projectId: string;
+//     stageId: StageId;
+//     stageName: string;
+//     fundingCost: number;
+//     paymentMethod: StripePaymentMethod;
+//     transactionType: TransactionType;
+// }
+
 export default function InteractProject({}: Props) {
-    const context = useProjectDetails();
+    const {
+        ProjectInfo,
+        isLoading
+    } = useProjectDetails();
     // Adding function support & donate handler payload having project id uid amount current stage price of the project sending to backend migrate payment
     return (
         <>
@@ -28,14 +47,27 @@ export default function InteractProject({}: Props) {
                     </button>
                 </div>
 
-                <div className="space-y-4">
-                    <button className="w-full py-2 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600">
+                { !isLoading && <div className="space-y-4">
+                    <button 
+                        onClick={()=>{
+                            const payload : CheckoutPayload = {
+                                projectId : ProjectInfo.projectId ?? "",
+                                fundingCost : 100,
+                                paymentMethod : StripePaymentMethod.Bitcoin, 
+                                stageId : ProjectInfo.currentStage?.stageId!,
+                                stageName : ProjectInfo.name ?? "", 
+                                transactionType : TransactionType.FUNDING
+                            }
+                            checkout(payload)
+                        }}
+                        className="w-full py-2 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600"
+                    >
                         Support this Project
                     </button>
                     <button className="w-full py-2 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600">
                         Add to favorite
                     </button>
-                </div>
+                </div>}
             </div>
         </>
     );
