@@ -63,12 +63,12 @@ export default function Navbar({}: Props) {
 
     return (
         <section>
-            <nav className="px-[3vw] bg-primary shadow-md py-[2vh]">
+            <nav className="px-[3vw] bg-orange-50 shadow-md py-[2vh]">
                 <div className="flex flex-row justify-between items-center">
-                    <div className="flex items-center">
+                    <div className="flex items-center justify-center">
                         <Link href="/">
                             <Image
-                                src="/assets/FooterIcon.svg"
+                                src="/assets/SharkwowLogo.png"
                                 alt="SharkWow Logo"
                                 width={200}
                                 height={200}
@@ -79,15 +79,21 @@ export default function Navbar({}: Props) {
                         <li>
                             <Link
                                 href="/explore"
-                                className="text-gray-800 text-lg hover:text-white"
-                            >
-                                EXPLORE
+                            >   
+                                <h1
+                                    className="text-orange-600 text-2xl font-semibold hover:text-orange-400 duration-700"
+                                >
+                                    EXPLORE
+                                </h1>
+                                
                             </Link>
                         </li>
                         <li>
                             <Button type="link" onClick={handleCreateProject} loading={loading}>
-                                <span className="text-gray-800 text-lg hover:text-white">
-                                    CREATE PROJECT
+                                <span >
+                                    <h1 className="text-orange-600 text-2xl font-semibold hover:text-orange-400 duration-700"> 
+                                        CREATE PROJECT
+                                    </h1>
                                 </span>
                             </Button>
                         </li>
@@ -95,13 +101,15 @@ export default function Navbar({}: Props) {
                             {!user && (
                                 <Link
                                     href="/sign-in"
-                                    className="text-gray-800 text-lg hover:text-white"
                                 >
-                                    SIGN IN / SIGN UP
+                                    <h1 className="text-orange-600 text-2xl font-semibold hover:text-orange-400 duration-700"> 
+                                        SIGN IN / SIGN UP       
+                                    </h1>
                                 </Link>
                             )}
                             {user && (
                                 <Dropdown
+                                className="flex items-center"
                                     menu={{
                                         items: [
                                             {
@@ -119,9 +127,9 @@ export default function Navbar({}: Props) {
                                     <Image
                                         src={user.profileImageUrl || ""}
                                         alt={`${user.firstName} ${user.lastName}`}
-                                        className="rounded-full w-12 h-12"
-                                        width={150}
-                                        height={150}
+                                        className="rounded-full w-10 h-10"
+                                        width={120}
+                                        height={120}
                                     />
                                 </Dropdown>
                             )}
