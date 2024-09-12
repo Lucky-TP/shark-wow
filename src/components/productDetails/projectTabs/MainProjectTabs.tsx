@@ -49,7 +49,7 @@ export default function MainProjectTabs() {
                     <h2 className="text-xl text-gray-700 font-bold">To Creator</h2>
                 </li>
             </ul>
-            <section className="py-[5vh] bg-orange-50 max-h-[120vh] w-[50vw] overflow-y-auto">
+            <section className="py-[5vh] bg-orange-50 max-h-[120vh] overflow-y-auto">
                 {activeTab === "story" && <MainProjectStory key={0} />}
                 {activeTab === "stage" && <MainProjectStage key={1} />}
                 {activeTab === "update" && <MainProjectUpdates key={2} />}
