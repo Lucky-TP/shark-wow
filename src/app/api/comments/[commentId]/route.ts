@@ -57,6 +57,22 @@ import { CommentModel } from "src/interfaces/models/comment";
  *           type: string
  *         required: true
  *         description: The unique identifier of the comment to be deleted.
+ *     requestBody:
+ *       description: Payload containing the type and ID required for the deletion.
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               type:
+ *                 type: string
+ *                 description: Type of the entity associated with the comment. Can be 'user' or 'project'.
+ *               id:
+ *                 type: string
+ *                 description: ID of the user or project associated with the comment.
+ *             required:
+ *               - type
+ *               - id
  *     security:
  *       - CookieAuth: []
  *     responses:
