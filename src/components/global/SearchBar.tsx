@@ -3,13 +3,13 @@ import React from "react";
 
 export default function SearchBar() {
     return (
-        <div className="flex items-center bg-orange-200 rounded-full px-4 py-3 shadow-lg">
+        <div className="flex items-center  rounded-3xl px-4 py-3 shadow-lg hover:border-orange-400 border-orange-300 border-2 duration-700 transition-colors">
             <form action="" className="flex items-center justify-center w-full">
-                <FaSearch className="text-gray-600 text-xl ml-2 mr-5" />
+                <FaSearch className="text-orange-500 text-xl ml-2 mr-5" />
                 <input
                     type="text"
                     placeholder="Explore projects"
-                    className="text-lg bg-transparent text-gray-600 placeholder-gray-600 focus:outline-none w-full"
+                    className="text-lg bg-transparent text-orange-500 placeholder-orange-300 focus:outline-none w-full"
                 />
             </form>
         </div>
