@@ -15,15 +15,30 @@ import { getProjects } from "src/libs/databases/projects/getProjects";
  * @swagger
  * /api/users/me:
  *   get:
+ *     tags:
+ *       - users
  *     description: Return user self data
+ *     security:
+ *       - CookieAuth: []
  *     responses:
  *       200:
  *         description: Fetch user self data successful!
  *       401:
- *         description: Unauthorized
+ *         description: Unauthorized - Missing or invalid token
+ *
+ *   put:
+ *     tags:
+ *       - users
+ *     description: Update user self data
+ *     security:
+ *       - CookieAuth: []
+ *     responses:
+ *       200:
+ *         description: User updated successfully
+ *       401:
+ *         description: Unauthorized - Missing or invalid token
  */
 export async function GET(request: NextRequest) {
-    //get user info
     try {
         const tokenData = await withAuthVerify(request);
         const retrivedUser = await getUser(tokenData.uid);
@@ -64,7 +79,6 @@ export async function GET(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
-    //edit user info
     try {
         const tokenData = await withAuthVerify(request);
         const uid = tokenData.uid;
