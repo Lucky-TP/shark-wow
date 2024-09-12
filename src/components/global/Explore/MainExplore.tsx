@@ -137,7 +137,7 @@ export default function MainExplore() {
             <div className="flex">
                 <div className="flex flex-col" style={{ width: `21%` }}>
                     <h3
-                        className="text-4xl text-orange-600 font-bold text-left ml-12 mb-4 cursor-pointer"
+                        className="sm:text-xl lg:text-2xl text-orange-600 font-bold text-left ml-12 mb-4 cursor-pointer"
                         onClick={() => handleCategoryClick(null)}
                     >
                         Category
@@ -148,7 +148,7 @@ export default function MainExplore() {
                         {categories.map((category, i) => (
                             <li
                                 key={i}
-                                className={`cursor-pointer pl-[2vw]  w-full text-left text-3xl font-medium   hover:text-orange-600 
+                                className={`cursor-pointer pl-[2vw]  w-full text-left sm:text-lg lg:text-xl font-medium   hover:text-orange-600 
                                     rounded-xl hover:bg-orange-200 transition-colors duration-500 py-[0.5vh]
                                     ${selectedCategory === category ? "text-orange-600 bg-orange-200" : "text-orange-400"} 
                                 `}

@@ -3,7 +3,7 @@ import React from "react";
 
 export default function SearchBar() {
     return (
-        <div className="flex items-center  rounded-3xl px-4 py-3 shadow-lg hover:border-orange-400 border-orange-300 border-2 duration-700 transition-colors">
+        <div className="flex items-center  rounded-3xl px-4 py-3 shadow-lg hover:border-orange-400 border-orange-300 border-2 duration-700 transition-colors backdrop-blur-sm">
             <form action="" className="flex items-center justify-center w-full">
                 <FaSearch className="text-orange-500 text-xl ml-2 mr-5" />
                 <input
