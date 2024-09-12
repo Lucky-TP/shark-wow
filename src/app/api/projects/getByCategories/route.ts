@@ -12,15 +12,22 @@ import { ProjectStatus } from "src/interfaces/models/enums";
  *   get:
  *     tags:
  *       - projects
- *     description: Return project information by categories
+ *     description: Retrieve projects filtered by specified categories.
  *     parameters:
- *       - name: category
+ *       - in: query
+ *         name: category
+ *         schema:
+ *           type: array
+ *           items:
+ *             type: string
+ *         description: List of categories to filter projects by. Multiple values can be provided.
  *     responses:
  *       200:
- *         description: Retrieved all project by categories successful
+ *         description: Successfully retrieved projects filtered by categories
+ *       400:
+ *         description: Bad request - Categories parameter is missing or empty
  *       500:
- *         description: Request failed
- *
+ *         description: Failed to retrieve projects
  */
 
 export async function GET(request: NextRequest) {

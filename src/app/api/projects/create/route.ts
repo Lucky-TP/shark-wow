@@ -17,15 +17,14 @@ import { dateToString } from "src/utils/date";
  *   post:
  *     tags:
  *       - projects
- *     description: Create project
+ *     description: Create a new project.
  *     security:
  *       - CookieAuth: []
  *     responses:
  *       200:
- *         description: Create draft project and update user's project successful
+ *         description: Successfully created a draft project and updated the user's project list
  *       401:
  *         description: Unauthorized - Missing or invalid token
- *
  */
 
 export async function POST(request: NextRequest) {

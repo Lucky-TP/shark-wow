@@ -14,36 +14,58 @@ import { CommentModel } from "src/interfaces/models/comment";
 
 /**
  * @swagger
- * /api/comments/[commentId]:
+ * /api/comments/{commentId}:
  *   put:
  *     tags:
  *       - comments
- *     description: Edit comment by comment ID
+ *     description: Update a comment based on its ID.
  *     parameters:
- *       - name: commentId
+ *       - in: path
+ *         name: commentId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The unique identifier of the comment to be updated.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               detail:
+ *                 type: string
+ *                 description: The new content of the comment.
+ *             required:
+ *               - detail
  *     security:
  *       - CookieAuth: []
  *     responses:
  *       200:
- *         description: Update comment successful
+ *         description: Comment successfully updated.
  *       401:
- *         description: Unauthorized - Missing or invalid token
- * 
+ *         description: Unauthorized - Missing or invalid token.
+ *
  *   delete:
  *     tags:
  *       - comments
- *     description: Delete comment by comment ID
+ *     description: Delete a comment based on its ID.
  *     parameters:
- *       - name: commentId
+ *       - in: path
+ *         name: commentId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The unique identifier of the comment to be deleted.
  *     security:
  *       - CookieAuth: []
  *     responses:
  *       200:
- *         description: Delete comment successful.
+ *         description: Comment successfully deleted.
  *       400:
- *         description: You have no permission.
+ *         description: Bad request - No permission to delete this comment.
  *       401:
- *         description: Unauthorized - Missing or invalid token 
+ *         description: Unauthorized - Missing or invalid token.
  */
 
 export async function PUT(request: NextRequest, { params }: { params: { commentId: string } }) {
