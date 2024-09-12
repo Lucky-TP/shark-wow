@@ -61,10 +61,36 @@ export default function Navbar({}: Props) {
         }
     };
 
+    const [showNavbar, setShowNavbar] = useState(true);
+    const [lastScrollY, setLastScrollY] = useState(0);
+
+    const controlNavbar = () => {
+        if (window.scrollY > lastScrollY) {
+            // If we are scrolling down, hide the navbar
+            setShowNavbar(false);
+        } else {
+            // If we are scrolling up, show the navbar
+            setShowNavbar(true);
+        }
+        setLastScrollY(window.scrollY);
+    };
+
+    useEffect(() => {
+        window.addEventListener("scroll", controlNavbar);
+        return () => {
+            window.removeEventListener("scroll", controlNavbar);
+        };
+    }, [lastScrollY]);
+
+
     return (
-        <section>
-            <nav className="px-[3vw] bg-orange-50 shadow-md py-[2vh]">
-                <div className="flex flex-row justify-between items-center">
+        <section            
+            className={`fixed top-0 w-[100vw] z-50 transition-transform duration-500 ease-in-out ${
+                showNavbar ? "translate-y-0" : "-translate-y-full"
+            }`}
+        >
+            <nav className="px-[3vw] bg-transparent py-[2vh] backdrop-blur-sm">
+                <div className="flex flex-row justify-between items-center px-[3vw]">
                     <div className="flex items-center justify-center">
                         <Link href="/">
                             <Image
@@ -81,7 +107,7 @@ export default function Navbar({}: Props) {
                                 href="/explore"
                             >   
                                 <h1
-                                    className="text-orange-600 text-2xl font-semibold hover:text-orange-400 duration-700"
+                                    className="text-orange-600 sm:text-lg lg:text-xl font-semibold hover:text-orange-400 duration-700"
                                 >
                                     EXPLORE
                                 </h1>
@@ -91,7 +117,7 @@ export default function Navbar({}: Props) {
                         <li>
                             <Button type="link" onClick={handleCreateProject} loading={loading}>
                                 <span >
-                                    <h1 className="text-orange-600 text-2xl font-semibold hover:text-orange-400 duration-700"> 
+                                    <h1 className="text-orange-600 sm:text-lg lg:text-xl font-semibold hover:text-orange-400 duration-700"> 
                                         CREATE PROJECT
                                     </h1>
                                 </span>
@@ -102,7 +128,7 @@ export default function Navbar({}: Props) {
                                 <Link
                                     href="/sign-in"
                                 >
-                                    <h1 className="text-orange-600 text-2xl font-semibold hover:text-orange-400 duration-700"> 
+                                    <h1 className="text-orange-600 sm:text-lg lg:text-xl font-semibold hover:text-orange-400 duration-700"> 
                                         SIGN IN / SIGN UP       
                                     </h1>
                                 </Link>
