@@ -28,7 +28,6 @@ export default function MainExplore() {
             ProjectCategories.ART,
             ProjectCategories.TECHNOLOGY,
             ProjectCategories.EDUCATION,
-            ProjectCategories.ART,
             ProjectCategories.FILM,
             ProjectCategories.MUSIC,
             ProjectCategories.FOOD,
