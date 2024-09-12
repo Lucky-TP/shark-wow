@@ -9,6 +9,7 @@ import { StageId, StageStatus } from "src/interfaces/models/enums";
 import QuillEditor from "../global/QuillEditor";
 import { dayjsToString, stringToDayjs } from "src/utils/date/dateConversion";
 import { Dayjs } from "dayjs";
+import LoadingSection from "../global/LoadingSection";
 
 const { Title } = Typography;
 const { RangePicker } = DatePicker;
@@ -37,6 +38,7 @@ export default function FormStages({ projectId }: Props) {
                     const retrivedConceptStage = response.data.stages[StageId.CONCEPT];
                     const retrivedPrototypeStage = response.data.stages[StageId.PROTOTYPE];
                     const retrivedProductionStage = response.data.stages[StageId.PRODUCTION];
+                    const projectStatus = response.data.status;
                     const { totalQuantity, costPerQuantity } = response.data;
                     const combinedValue = totalQuantity * costPerQuantity;
     
@@ -262,6 +264,9 @@ export default function FormStages({ projectId }: Props) {
         setLoading(false);
     };
 
+    if (loading) {
+        return <LoadingSection />
+    }
 
     return (
         <Form form={form} layout="vertical" onFinish={onFinish} className="w-full">
