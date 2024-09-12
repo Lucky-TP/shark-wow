@@ -9,6 +9,23 @@ import { StatusCode } from "src/constants/statusCode";
 import { CollectionPath } from "src/constants/firestore";
 import { errorHandler, CustomError } from "src/libs/errors/apiError";
 
+/**
+ * @swagger
+ * /api/auth/signin/google:
+ *   get:
+ *     tags:
+ *       - auth
+ *     description: Sign in by google
+ *     security:
+ *       - CookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Authentication successful
+ *       401:
+ *         description: Unauthorized - Missing or invalid token
+ *
+ */
+
 export async function POST(request: NextRequest) {
     let decodedToken: DecodedIdToken | null = null;
     try {

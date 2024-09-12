@@ -6,6 +6,28 @@ import { getTransactionLog } from "src/libs/databases/transactionLogs/getTransac
 import { errorHandler } from "src/libs/errors/apiError";
 import { withAuthVerify } from "src/utils/api/auth";
 
+/**
+ * @swagger
+ * /api/payments/polling/[orderId]:
+ *   get:
+ *     tags:
+ *       - payments
+ *     description: Get order information by order ID
+ *     parameters:
+ *         name: orderId
+ *     security:
+ *       - CookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Payment succeed
+ *       400:
+ *         description: Unauthorized - Payment not received
+ *       401:
+ *         description: Unauthorized - Missing or invalid token
+ *
+ */
+
+
 export async function GET(request: NextRequest, { params }: { params: { orderId: string } }) {
     try {
         await withAuthVerify(request);

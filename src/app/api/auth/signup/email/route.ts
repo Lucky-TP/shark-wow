@@ -8,6 +8,21 @@ import { EmailSignUpPayload } from "src/interfaces/payload/authPayload";
 import { extractBearerToken, signUserSession } from "src/utils/api/auth";
 import { CustomError, errorHandler } from "src/libs/errors/apiError";
 
+/**
+ * @swagger
+ * /api/auth/signup/email:
+ *   post:
+ *     tags:
+ *       - auth
+ *     description: Sign up by email 
+ *     security:
+ *       - CookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Sign-in successful
+ *
+ */
+
 export async function POST(request: NextRequest) {
     let decodedToken: DecodedIdToken | null = null;
     try {

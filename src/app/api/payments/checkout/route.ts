@@ -8,6 +8,23 @@ import { createOrder } from "src/libs/databases/orders/createOrder";
 import { updateOrder } from "src/libs/databases/orders/updateOrder";
 import { OrderStatus } from "src/interfaces/models/enums";
 
+/**
+ * @swagger
+ * /api/payments/checkout:
+ *   post:
+ *     tags:
+ *       - payments
+ *     description: Create checkout
+ *     security:
+ *       - CookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Create checkout successful
+ *       401:
+ *         description: Unauthorized - Missing or invalid token
+ *
+ */
+
 export async function POST(request: NextRequest) {
     let orderId: string | undefined = undefined;
     try {
