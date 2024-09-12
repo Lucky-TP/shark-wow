@@ -8,7 +8,6 @@ import { ProjectModel, Stage } from "src/interfaces/models/project";
 import { StageId, StageStatus } from "src/interfaces/models/enums";
 import QuillEditor from "../global/QuillEditor";
 import { dayjsToString, stringToDayjs } from "src/utils/date/dateConversion";
-import LoadingPage from "../global/LoadingPage";
 import { Dayjs } from "dayjs";
 
 const { Title } = Typography;
@@ -263,9 +262,6 @@ export default function FormStages({ projectId }: Props) {
         setLoading(false);
     };
 
-    if (loading) {
-        return <LoadingPage />;
-    }
 
     return (
         <Form form={form} layout="vertical" onFinish={onFinish} className="w-full">
