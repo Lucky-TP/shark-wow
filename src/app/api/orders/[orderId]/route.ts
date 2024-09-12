@@ -6,13 +6,18 @@ import { StatusCode } from "src/constants/statusCode";
 
 /**
  * @swagger
- * /api/orders/[orderId]:
+ * /api/orders/{orderId}:
  *   get:
  *     tags:
  *       - orders
  *     description: Get order information by order ID
  *     parameters:
+ *       - in: path
  *         name: orderId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Order ID
  *     security:
  *       - CookieAuth: []
  *     responses:

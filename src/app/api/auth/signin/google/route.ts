@@ -12,18 +12,17 @@ import { errorHandler, CustomError } from "src/libs/errors/apiError";
 /**
  * @swagger
  * /api/auth/signin/google:
- *   get:
+ *   post:
  *     tags:
  *       - auth
- *     description: Sign in by google
+ *     description: Sign in using Google OAuth with Bearer token authentication in the Authorization header.
  *     security:
- *       - CookieAuth: []
+ *       - BearerAuth: []  # Requires Bearer token for authentication
  *     responses:
  *       200:
- *         description: Authentication successful
- *       401:
- *         description: Unauthorized - Missing or invalid token
- *
+ *         description: Authentication successful. User is signed in and receives a token.
+ *       500:
+ *         description: Internal server error - Something went wrong during authentication.
  */
 
 export async function POST(request: NextRequest) {

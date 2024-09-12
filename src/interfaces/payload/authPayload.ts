@@ -8,8 +8,8 @@ export interface EmailSignInPayload {
 export interface EmailSignUpPayload {
     firstName: string;
     lastName: string;
-    email: string;
     password: string;
+    email: string;
     birthDate: string;
     address: Address;
 }
