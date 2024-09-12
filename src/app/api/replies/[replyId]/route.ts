@@ -10,6 +10,38 @@ import { ReplyModel } from "src/interfaces/models/reply";
 import { CommentModel } from "src/interfaces/models/comment";
 import { updateComment } from "src/libs/databases/comments";
 
+/**
+ * @swagger
+ * /api/replies/[replyId]:
+ *   put:
+ *     tags:
+ *       - replies
+ *     description: Update replies by ID
+ *     parameters:
+ *       - name: replyId
+ *     security:
+ *       - CookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Create reply successful
+ *       401:
+ *         description: Unauthorized - Missing or invalid token
+ * 
+ *   delete:
+ *     tags:
+ *       - replies
+ *     description: Delete replies by ID
+ *     parameters:
+ *       - name: replyId
+ *     security:
+ *       - CookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Create reply successful
+ *       401:
+ *         description: Unauthorized - Missing or invalid token
+ */
+
 export async function PUT(request: NextRequest, { params }: { params: { replyId: string } }) {
     try {
         const author = await withAuthVerify(request);

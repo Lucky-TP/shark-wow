@@ -6,6 +6,25 @@ import { CreateCommentPayload } from "src/interfaces/payload/commentPayload";
 import { StatusCode } from "src/constants/statusCode";
 import { withAuthVerify } from "src/utils/api/auth";
 
+/**
+ * @swagger
+ * /api/comments/project/[projectId]:
+ *   post:
+ *     tags:
+ *       - comments
+ *     description: Comment to project
+ *     parameters:
+ *       - name: projectId
+ *     security:
+ *       - CookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Create comment to project successful
+ *       401:
+ *         description: Unauthorized - Missing or invalid token
+ *
+ */
+
 export async function POST(request: NextRequest, { params }: { params: { projectId: string } }) {
     try {
         const author = await withAuthVerify(request);

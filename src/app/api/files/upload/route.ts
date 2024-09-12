@@ -7,6 +7,25 @@ import { FileUploadPayload } from "src/interfaces/payload/filePayload";
 import { FileTypeKeys, FileUploadPayloadKeys } from "src/constants/payloadKeys/file";
 import { getStoragePath } from "src/utils/getStoragePath";
 
+/**
+ * @swagger
+ * /api/files/upload:
+ *   post:
+ *     tags:
+ *       - files
+ *     description: Upload files
+ *     security:
+ *       - CookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Upload file successful
+ *       400:
+ *         description: Unauthorized - Upload file failed
+ *       401:
+ *         description: Unauthorized - Missing or invalid token
+ *
+ */
+
 export async function POST(request: NextRequest) {
     try {
         const tokenData = await withAuthVerify(request);

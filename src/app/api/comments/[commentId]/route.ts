@@ -12,6 +12,40 @@ import { UserModel } from "src/interfaces/models/user";
 import { ProjectModel } from "src/interfaces/models/project";
 import { CommentModel } from "src/interfaces/models/comment";
 
+/**
+ * @swagger
+ * /api/comments/[commentId]:
+ *   put:
+ *     tags:
+ *       - comments
+ *     description: Edit comment by comment ID
+ *     parameters:
+ *       - name: commentId
+ *     security:
+ *       - CookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Update comment successful
+ *       401:
+ *         description: Unauthorized - Missing or invalid token
+ * 
+ *   delete:
+ *     tags:
+ *       - comments
+ *     description: Delete comment by comment ID
+ *     parameters:
+ *       - name: commentId
+ *     security:
+ *       - CookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Delete comment successful.
+ *       400:
+ *         description: You have no permission.
+ *       401:
+ *         description: Unauthorized - Missing or invalid token 
+ */
+
 export async function PUT(request: NextRequest, { params }: { params: { commentId: string } }) {
     try {
         await withAuthVerify(request);
