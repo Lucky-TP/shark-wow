@@ -22,6 +22,9 @@ export async function updateOrder(orderId: string, newOrderData: Partial<NewOrde
                 throw new CustomError("Order does not exists", StatusCode.NOT_FOUND);
             }
             const retrivedOrderModel = retrivedOrderSnapshot.data() as OrderModel;
+            if (retrivedOrderModel.status === OrderStatus.COMPLETED) {
+                return;
+            }
             const orderModel: Partial<OrderModel> = {
                 transactionId: newOrderData.transactionId || retrivedOrderModel.transactionId || "",
                 paymentIntentId:
