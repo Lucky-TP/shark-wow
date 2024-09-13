@@ -23,7 +23,7 @@ export default function ProjectStat() {
                 <>
                     <div className="flex justify-between items-center mb-2">
                         {/* implement project info current stage later */}
-                        <span className="text-2xl font-bold">$ {(Number(ProjectInfo.costPerQuantity) * Number(ProjectInfo.totalQuantity)).toLocaleString()} THB</span>
+                        <span className="text-2xl font-bold">฿ {(Number(ProjectInfo.costPerQuantity) * Number(ProjectInfo.totalQuantity)).toLocaleString()} THB</span>
                         <span className="text-gray-600">{ProjectInfo.totalSupporter} backers</span>
                     </div>
                     <div className="w-full bg-gray-300 h-1 rounded-full mb-2">
