@@ -7,14 +7,15 @@ import {
 
 import { message, Skeleton } from "antd";
 
-// function formatDate(date: Timestamp ): string {
-//   const dateO = timestampToDate(date)
-//   const day = String(dateO.getDate()).padStart(2, '0');
-//   const month = String(dateO.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-//   const year = dateO.getFullYear();
+function formatDate(date: string ): string {
+    const DateO = new Date(date)
+    const day = String(DateO.getDate()).padStart(2, '0');
+    const month = String(DateO.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const year = DateO.getFullYear();
 
-//   return `${day}/${month}/${year}`;
-// }
+    return `${day}/${month}/${year}`;
+}
+
 
 export default function ProjectOverviewInfo() {
     const { isLoading, ProjectInfo, UserInfo, error, OnGettingUserDetails } =
@@ -43,24 +44,24 @@ export default function ProjectOverviewInfo() {
                         <div className="rounded-full">
                             <img
                                 src={UserInfo.profileImageUrl}
-                                className="rounded-full max-w-[5vw]"
+                                className="rounded-full max-w-[3vw]"
                             />
                         </div>
                         <div className="ml-4">
-                            <h2 className="text-2xl font-bold">{UserInfo.username}</h2>
-                            <p className="text-gray-600">
-                                Created at {UserInfo.birthDate ? UserInfo.birthDate : ""}
+                            <h2 className="text-xl font-bold">{UserInfo.username}</h2>
+                            <p className="text-gray-600 text-base">
+                                Created at {UserInfo.birthDate ? formatDate(UserInfo.birthDate) : ""}
                             </p>
                         </div>
                     </div>
                     <div>
-                        <div className="flex flex-row justify-between">
+                        {/* <div className="flex flex-row justify-between">
                             <h3 className="text-lg font-semibold">Current Stage :</h3>
-                            <h3 className="text-lg font-medium">
+                            <h3 className="text-lg font-semibold">
                                 {ProjectInfo.stages && ProjectInfo.stages[1].name}
                             </h3>
-                        </div>
-                        <h1 className="text-3xl font-bold">{ProjectInfo.name}</h1>
+                        </div> */}
+                        <h1 className="text-2xl font-bold">{ProjectInfo.name}</h1>
                         <p className="text-gray-600 mb-4">{ProjectInfo.description}</p>
                     </div>
                 </>
