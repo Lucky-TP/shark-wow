@@ -65,10 +65,12 @@ export default function TargetStage({ stage }: Props) {
                 </span>
             </div>
             <div className="flex flex-col w-full text-center">
-                <p>
-                    {stage.detail}
-                    
-                </p>
+                <div
+                    className="ql-editor !p-0 preview-content mt-20"
+                    dangerouslySetInnerHTML={{
+                        __html: stage.detail || "",
+                    }}
+                />
                 <p>Current Funding {stage.currentFunding*stage.totalSupporter}</p>
                 <p>Goal funding this stage {stage.goalFunding}</p>
                 <p>Backers {stage.totalSupporter}</p>
