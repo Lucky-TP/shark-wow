@@ -15,9 +15,10 @@ export default function HeroSection({}: Props) {
                         projects, ideas, and needs. Supporters can explore these listings, find
                         projects that resonate with them, and support the project.
                     </p>
-                    <button className="bg-primary text-white py-3 px-6 rounded-lg text-lg transition duration-300">
-                        <Link href="/explore">Explore Now</Link>
-                    </button>
+                    <Link
+                        href="/explore"
+                        className="bg-orange-400 hover:bg-orange-500 hover:text-white text-white py-3 px-6 rounded-lg text-lg duration-500 transition-colors"
+                    >Explore Now</Link>
                 </div>
             </div>
         </section>
