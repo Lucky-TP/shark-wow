@@ -46,7 +46,7 @@ export default function InteractProject({}: Props) {
                         onClick={async ()=>{
                             const payload : CheckoutPayload = {
                                 projectId : ProjectInfo.projectId ?? "",
-                                fundingCost : 1000,
+                                fundingCost : Number(ProjectInfo.currentStage?.fundingCost),
                                 paymentMethod : StripePaymentMethod.Card, 
                                 stageId : ProjectInfo.currentStage?.stageId!,
                                 stageName : ProjectInfo.name ?? "", 

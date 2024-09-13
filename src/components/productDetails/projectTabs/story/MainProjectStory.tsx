@@ -16,7 +16,7 @@ export default function MainProjectStory({}: Props) {
                 >
                     {!isLoading && (
                         <>
-                            <h2 className="text-2xl font-semibold text-gray-700">Story</h2>
+                            {/* <h2 className="text-2xl font-semibold text-gray-700">Story</h2> */}
                             <h3 className="">
                                 <div
                                     className="ql-editor !p-0 preview-content mt-20"
