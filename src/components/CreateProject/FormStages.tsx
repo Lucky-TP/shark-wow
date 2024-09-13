@@ -8,8 +8,8 @@ import { ProjectModel, Stage } from "src/interfaces/models/project";
 import { StageId, StageStatus } from "src/interfaces/models/enums";
 import QuillEditor from "../global/QuillEditor";
 import { dayjsToString, stringToDayjs } from "src/utils/date/dateConversion";
-import LoadingPage from "../global/LoadingPage";
 import { Dayjs } from "dayjs";
+import LoadingSection from "../global/LoadingSection";
 
 const { Title } = Typography;
 const { RangePicker } = DatePicker;
@@ -38,19 +38,23 @@ export default function FormStages({ projectId }: Props) {
                     const retrivedConceptStage = response.data.stages[StageId.CONCEPT];
                     const retrivedPrototypeStage = response.data.stages[StageId.PROTOTYPE];
                     const retrivedProductionStage = response.data.stages[StageId.PRODUCTION];
+                    const projectStatus = response.data.status;
                     const { totalQuantity, costPerQuantity } = response.data;
                     const combinedValue = totalQuantity * costPerQuantity;
-
+    
                     setTotalValue(combinedValue);
+    
+                    // Check to avoid division by zero
+                    const conceptOwnership = combinedValue ? (retrivedConceptStage.goalFunding * 100) / combinedValue : 0;
+                    const prototypeOwnership = combinedValue ? (retrivedPrototypeStage.goalFunding * 100) / combinedValue : 0;
+                    const productionOwnership = combinedValue ? (retrivedProductionStage.goalFunding * 100) / combinedValue : 0;
+    
                     form.setFieldsValue({
                         packages: response.data.totalQuantity,
                         cpp: response.data.costPerQuantity,
-                        conceptOwnership: (retrivedConceptStage.goalFunding * 100) / combinedValue,
-                        prototypeOwnership:
-                            (retrivedPrototypeStage.goalFunding * 100) / combinedValue,
-                        productionOwnership:
-                            (retrivedProductionStage.goalFunding * 100) / combinedValue,
-
+                        conceptOwnership,
+                        prototypeOwnership,
+                        productionOwnership,
                         conceptStartDate: stringToDayjs(retrivedConceptStage.startDate),
                         conceptExpireDate: stringToDayjs(retrivedConceptStage.expireDate),
                         prototypeStartDate: stringToDayjs(retrivedPrototypeStage.startDate),
@@ -68,7 +72,7 @@ export default function FormStages({ projectId }: Props) {
                 setLoading(false);
             }
         };
-
+    
         fetchProjectData();
     }, [form, projectId]);
 
@@ -200,7 +204,7 @@ export default function FormStages({ projectId }: Props) {
                 status: StageStatus.CURRENT,
                 detail: conceptDetail,
                 imageUrl: "",
-                fundingCost: 0,
+                fundingCost: (values.conceptOwnership / 100) * values.cpp,
                 currentFunding: 0,
                 goalFunding: (values.conceptOwnership / 100) * totalValue,
                 totalSupporter: 0,
@@ -217,7 +221,7 @@ export default function FormStages({ projectId }: Props) {
                 status: StageStatus.INCOMING,
                 detail: prototypeDetail,
                 imageUrl: "",
-                fundingCost: 0,
+                fundingCost: (values.prototypeOwnership / 100) * values.cpp,
                 currentFunding: 0,
                 goalFunding: (values.prototypeOwnership / 100) * totalValue,
                 totalSupporter: 0,
@@ -234,7 +238,7 @@ export default function FormStages({ projectId }: Props) {
                 status: StageStatus.INCOMING,
                 detail: productionDetail,
                 imageUrl: "",
-                fundingCost: 0,
+                fundingCost: (values.productionOwnership / 100) * values.cpp,
                 currentFunding: 0,
                 goalFunding: (values.productionOwnership / 100) * totalValue,
                 totalSupporter: 0,
@@ -261,7 +265,7 @@ export default function FormStages({ projectId }: Props) {
     };
 
     if (loading) {
-        return <LoadingPage />;
+        return <LoadingSection />
     }
 
     return (

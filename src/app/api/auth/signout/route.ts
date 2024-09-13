@@ -9,15 +9,14 @@ import { withAuthVerify, clearUserSession } from "src/utils/api/auth";
  *   get:
  *     tags:
  *       - auth
- *     description: Sign out 
+ *     description: Sign out the current user by clearing the authentication session.
  *     security:
- *       - CookieAuth: []
+ *       - CookieAuth: []  # Requires authentication via cookies
  *     responses:
  *       200:
- *         description: Clear authentication successful
+ *         description: Sign-out successful. Authentication session has been cleared.
  *       401:
- *         description: Unauthorized - Missing or invalid token
- *
+ *         description: Unauthorized - Missing or invalid authentication token.
  */
 
 export async function GET(request: NextRequest) {

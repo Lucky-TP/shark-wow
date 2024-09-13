@@ -14,13 +14,61 @@ import { CustomError, errorHandler } from "src/libs/errors/apiError";
  *   post:
  *     tags:
  *       - auth
- *     description: Sign up by email 
+ *     description: Sign up a new user using email. Requires a Bearer token in the Authorization header.
  *     security:
- *       - CookieAuth: []
+ *       - BearerAuth: []  # Requires Bearer token authentication
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               firstName:
+ *                 type: string
+ *                 description: User's first name
+ *               lastName:
+ *                 type: string
+ *                 description: User's last name
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: User's email address
+ *               birthDate:
+ *                 type: string
+ *                 format: date
+ *                 description: User's birth date
+ *               address:
+ *                 type: object
+ *                 properties:
+ *                   country:
+ *                     type: string
+ *                     description: Country
+ *                   city:
+ *                     type: string
+ *                     description: City
+ *                   province:
+ *                     type: string
+ *                     description: Province or state
+ *                   postalCode:
+ *                     type: string
+ *                     description: Postal code
+ *                 required:
+ *                   - country
+ *                   - city
+ *                   - province
+ *                   - postalCode
+ *             required:
+ *               - firstName
+ *               - lastName
+ *               - email
+ *               - birthDate
+ *               - address
  *     responses:
  *       200:
- *         description: Sign-in successful
- *
+ *         description: User signed up successfully
+ *       500:
+ *         description: Internal server error - Something went wrong
  */
 
 export async function POST(request: NextRequest) {
@@ -29,9 +77,6 @@ export async function POST(request: NextRequest) {
         const userIdToken = extractBearerToken(request);
         const body: EmailSignUpPayload = await request.json();
         decodedToken = await auth.verifyIdToken(userIdToken);
-
-        // const salt = await genSalt(10);
-        // const hashedPassword = await hash(body.password, salt);
 
         const userModel: Partial<UserModel> = {
             uid: decodedToken.uid,

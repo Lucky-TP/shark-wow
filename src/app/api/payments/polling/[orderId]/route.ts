@@ -8,13 +8,18 @@ import { withAuthVerify } from "src/utils/api/auth";
 
 /**
  * @swagger
- * /api/payments/polling/[orderId]:
+ * /api/payments/polling/{orderId}:
  *   get:
  *     tags:
  *       - payments
  *     description: Get order information by order ID
  *     parameters:
+ *       - in: path
  *         name: orderId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Order ID
  *     security:
  *       - CookieAuth: []
  *     responses:

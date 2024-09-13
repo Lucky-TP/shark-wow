@@ -6,7 +6,7 @@ type Props = {};
 export default function HeroSection({}: Props) {
     return (
         <section>
-            <div className="flex items-center justify-center min-h-screen bg-gray-50 py-12">
+            <div className="flex items-center justify-center min-h-screen bg-orange-50 py-12">
                 <div className="text-center max-w-3xl">
                     <h1 className="text-5xl font-bold mb-6">Welcome to Shark WoW</h1>
                     <p className="text-xl mb-8">

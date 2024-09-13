@@ -8,21 +8,41 @@ import { withAuthVerify } from "src/utils/api/auth";
 
 /**
  * @swagger
- * /api/replies/create/[parentCommentId]:
+ * /api/replies/create/{parentCommentId}:
  *   post:
  *     tags:
  *       - replies
- *     description: Create replies to comment
+ *     description: Create a reply to a comment specified by `parentCommentId`. This endpoint allows users to add a new reply to an existing comment.
  *     parameters:
- *       - name: parentCommentId
+ *       - in: path
+ *         name: parentCommentId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The unique identifier of the parent comment to which the reply will be added.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               detail:
+ *                 type: string
+ *                 description: The detail of the reply.
+ *             required:
+ *               - detail
  *     security:
  *       - CookieAuth: []
  *     responses:
  *       200:
- *         description: Create reply successful
+ *         description: Reply successfully created
+ *       400:
+ *         description: Bad request - Invalid input or data format
  *       401:
  *         description: Unauthorized - Missing or invalid token
- *
+ *       404:
+ *         description: Not Found - The pa
  */
 
 export async function POST(

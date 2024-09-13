@@ -49,7 +49,7 @@ export default function CategoryProductCard({ category }: Props) {
 
     return (
         <section>
-            <p className="pb-2 font-bold">{category}</p>
+            <p className="text-xl font-bold text-orange-600">{category}</p>
             <div className="pt-2 pb-4">
                 <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {products.map((product) => (

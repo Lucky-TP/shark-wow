@@ -47,7 +47,7 @@ export default function InteractProject({}: Props) {
                             const payload : CheckoutPayload = {
                                 projectId : ProjectInfo.projectId ?? "",
                                 fundingCost : 1000,
-                                paymentMethod : StripePaymentMethod.Bitcoin, 
+                                paymentMethod : StripePaymentMethod.Card, 
                                 stageId : ProjectInfo.currentStage?.stageId!,
                                 stageName : ProjectInfo.name ?? "", 
                                 transactionType : TransactionType.FUNDING

@@ -8,21 +8,37 @@ import { withAuthVerify } from "src/utils/api/auth";
 
 /**
  * @swagger
- * /api/comments/project/[projectId]:
+ * /api/comments/project/{projectId}:
  *   post:
  *     tags:
  *       - comments
- *     description: Comment to project
+ *     description: Create a comment for a project.
  *     parameters:
- *       - name: projectId
+ *       - in: path
+ *         name: projectId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The unique identifier of the project to comment on.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               detail:
+ *                 type: string
+ *                 description: The content of the comment.
+ *             required:
+ *               - detail
  *     security:
  *       - CookieAuth: []
  *     responses:
  *       200:
- *         description: Create comment to project successful
+ *         description: Successfully created a comment for the project.
  *       401:
- *         description: Unauthorized - Missing or invalid token
- *
+ *         description: Unauthorized - Missing or invalid token.
  */
 
 export async function POST(request: NextRequest, { params }: { params: { projectId: string } }) {

@@ -16,34 +16,142 @@ import { getStartAndExpireTime } from "src/utils/api/projects";
 
 /**
  * @swagger
- * /api/projects/[projectId]:
+ * /api/projects/{projectId}:
  *   get:
  *     tags:
  *       - projects
- *     description: Get project information by ID
+ *     description: Retrieve project information by its ID.
  *     parameters:
- *       - name: projectId
- *     security:
- *       - CookieAuth: []
+ *       - in: path
+ *         name: projectId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The unique identifier of the project.
  *     responses:
  *       200:
- *         description: Create reply successful
+ *         description: Successfully retrieved project information.
  *       401:
- *         description: Unauthorized - Missing or invalid token
- * 
+ *         description: Unauthorized - Missing or invalid token.
+ *
  *   put:
  *     tags:
  *       - projects
- *     description: Delete replies by ID
+ *     description: Update project details based on the project status. Updates fields according to the project's current status.
  *     parameters:
- *       - name: replyId
+ *       - in: path
+ *         name: projectId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the project to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: The name of the project
+ *               carouselImageUrls:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 description: Array of URLs for carousel images
+ *               description:
+ *                 type: string
+ *                 description: A description of the project
+ *               address:
+ *                 type: object
+ *                 properties:
+ *                   street:
+ *                     type: string
+ *                   city:
+ *                     type: string
+ *                   zipcode:
+ *                     type: string
+ *                 description: The address of the project
+ *               status:
+ *                 type: string
+ *                 description: The status of the project (e.g., 'DRAFT', 'RUNNING')
+ *               category:
+ *                 type: string
+ *                 description: The category of the project
+ *               totalQuantity:
+ *                 type: integer
+ *                 description: The total quantity of items
+ *               costPerQuantity:
+ *                 type: number
+ *                 format: float
+ *                 description: The cost per quantity of items
+ *               stages:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     stageId:
+ *                       type: string
+ *                       description: The ID of the stage
+ *                     name:
+ *                       type: string
+ *                       description: The name of the stage
+ *                     startDate:
+ *                       type: string
+ *                       format: date
+ *                       description: The start date of the stage
+ *                     expireDate:
+ *                       type: string
+ *                       format: date
+ *                       description: The expiration date of the stage
+ *                     status:
+ *                       type: string
+ *                       description: The status of the stage (e.g., 'ACTIVE', 'COMPLETED')
+ *                     detail:
+ *                       type: string
+ *                       description: Detailed description of the stage
+ *                     imageUrl:
+ *                       type: string
+ *                       description: URL of the image associated with the stage
+ *                     fundingCost:
+ *                       type: number
+ *                       format: float
+ *                       description: The funding cost required for the stage
+ *                     currentFunding:
+ *                       type: number
+ *                       format: float
+ *                       description: The current amount of funding received
+ *                     goalFunding:
+ *                       type: number
+ *                       format: float
+ *                       description: The goal amount of funding needed
+ *                     totalSupporter:
+ *                       type: integer
+ *                       description: The total number of supporters for the stage
+ *                 description: List of stages in the project
+ *               story:
+ *                 type: string
+ *                 description: The story or background of the project
+ *               update:
+ *                 type: string
+ *                 description: Updates or recent changes to the project
+ *               website:
+ *                 type: string
+ *                 description: The URL of the project's website
  *     security:
  *       - CookieAuth: []
  *     responses:
  *       200:
- *         description: Get project data successful
+ *         description: Project updated successfully
+ *       400:
+ *         description: Bad request - Invalid or missing data
  *       401:
  *         description: Unauthorized - Missing or invalid token
+ *       404:
+ *         description: Not found - Project with the specified ID does not exist
+ *       500:
+ *         description: Internal server error - Something went wrong
  */
 
 export async function GET(request: NextRequest, { params }: { params: { projectId: string } }) {
@@ -62,7 +170,7 @@ export async function GET(request: NextRequest, { params }: { params: { projectI
             if (projectModel.uid !== projectOwner.uid) {
                 return NextResponse.json(
                     { message: "No permission to access draft project" },
-                    { status: StatusCode.UNAUTHORIZED }
+                    { status: StatusCode.BAD_REQUEST }
                 );
             }
         }
