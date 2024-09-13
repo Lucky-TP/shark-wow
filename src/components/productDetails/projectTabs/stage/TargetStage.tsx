@@ -28,9 +28,9 @@ export default function TargetStage({ stage }: Props) {
     return (
         <li
             key={stage.stageId}
-            className="flex flex-col items-center bg-orange-100 md:min-w-[50vw] max-w-[50vw] px-[2vw] py-[3vh]
-            rounded-lg  hover:shadow-xl  hover:bg-orange-200 border border-orange-200 shadow-xl h-fit
-            transition-all duration-700 hover:translate-y-[-1vh] cursor-pointer"
+            className="flex flex-col items-center bg-orange-100 px-[2vw] py-[2vh]
+            rounded-lg   hover:bg-orange-200 border border-orange-200 h-fit
+            transition-all duration-700  cursor-pointer"
         >
             {ProjectInfo.carouselImageUrls?.[0] !== undefined && (
                 <Image

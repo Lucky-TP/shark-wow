@@ -21,13 +21,6 @@ export default function MainProjectTabs() {
                     <h2 className="text-xl text-gray-700 font-semibold">Story</h2>
                 </li>
                 <li
-                    className={` ${activeTab === "stage" ? "bg-orange-300" : "bg-orange-200"} 
-                    w-full h-full flex items-center text-center justify-center py-[3vh] hover:bg-orange-400 cursor-pointer duration-500 transition-colors`}
-                    onClick={() => setActiveTab("stage")}
-                >
-                    <h2 className="text-xl text-gray-700 font-semibold">Stages</h2>
-                </li>
-                <li
                     className={` ${activeTab === "update" ? "bg-orange-300" : "bg-orange-200"}
                     w-full h-full flex items-center text-center justify-center py-[3vh] hover:bg-orange-400 cursor-pointer duration-500 transition-colors`}
                     onClick={() => setActiveTab("update")}
@@ -49,9 +42,15 @@ export default function MainProjectTabs() {
                     <h2 className="text-xl text-gray-700 font-bold">To Creator</h2>
                 </li>
             </ul>
-            <section className="py-[5vh] bg-orange-50 max-h-[120vh] overflow-y-auto">
-                {activeTab === "story" && <MainProjectStory key={0} />}
-                {activeTab === "stage" && <MainProjectStage key={1} />}
+            <section className="py-[3vh] bg-orange-50 min-h-[160vh] h-fit overflow-y-auto px-[3vw]">
+                {activeTab === "story" && 
+                    <section
+                        className="flex flex-row  justify-center w-full gap-x-[2vw] "
+                    >
+                        <MainProjectStory key={0} />
+                        <MainProjectStage key={1} />
+                    </section>
+                }
                 {activeTab === "update" && <MainProjectUpdates key={2} />}
                 {activeTab === "discussion" && <MainProjectDiscussion key={3} />}
                 {activeTab === "to-creator" && <MainProjectToCreator key={4} />}
