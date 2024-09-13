@@ -48,11 +48,6 @@ export async function POST(request: NextRequest) {
             case "payment_intent.succeeded": {
                 const paymentIntent = event.data.object as Stripe.PaymentIntent;
                 const metadata = paymentIntent.metadata as { orderId: string };
-                await updateOrder(metadata.orderId, {
-                    status: OrderStatus.COMPLETED,
-                    paymentIntentId: paymentIntent.id as string,
-                    paymentMethod: (paymentIntent.payment_method as string | null) ?? "",
-                });
                 break;
             }
             case "payment_intent.payment_failed": {
@@ -67,7 +62,9 @@ export async function POST(request: NextRequest) {
                 const charge = event.data.object;
                 const metadata = charge.metadata as { orderId: string };
                 const order = await getOrder(metadata.orderId);
-                await createTransactionLog({
+                const { orderId, projectId, amount, stageId } = order;
+                const promiseFetchProject = getProject(projectId);
+                const transactionId = await createTransactionLog({
                     uid: order.uid,
                     orderId: metadata.orderId,
                     projectId: order.projectId,
@@ -77,14 +74,26 @@ export async function POST(request: NextRequest) {
                     transactionType: order.transactionType,
                     slipUrl: charge.receipt_url as string,
                 });
+                const promiseUpdateOrder = updateOrder(orderId, {
+                    transactionId,
+                    status: OrderStatus.COMPLETED,
+                    paymentIntentId: charge.id as string,
+                    paymentMethod: (charge.payment_method as string | null) ?? "",
+                });
+                const retrivedProjectModel = await promiseFetchProject;
+                const updatedStages = retrivedProjectModel.stages;
+                updatedStages[stageId].currentFunding += amount;
+                updatedStages[stageId].totalSupporter += 1;
+                const promiseUpdateProject = updateProject(projectId, {
+                    totalSupporter: updatedStages[stageId].totalSupporter,
+                    stages: updatedStages,
+                });
+                await Promise.all([promiseUpdateProject, promiseUpdateOrder]);
                 break;
             }
             case "checkout.session.completed": {
                 const checkout = event.data.object;
                 const metadata = checkout.metadata as { orderId: string };
-                await updateOrder(metadata.orderId, {
-                    status: OrderStatus.COMPLETED,
-                });
                 break;
             }
             case "checkout.session.expired": {
