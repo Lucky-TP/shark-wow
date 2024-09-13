@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 
-import { Stage } from "src/interfaces/models/project";
+import { useProjectDetails } from "src/context/custom-hooks/useProjectDetails";
 
+import { Stage } from "src/interfaces/models/project";
+import { StageStatus } from "src/interfaces/models/enums";
+
+import Image from "next/image";
 import { FaLocationDot } from "react-icons/fa6";
 
 type Props = {
     stage: Stage;
 };
 
-import { StageStatus } from "src/interfaces/models/enums";
 
 function formatDate(date: string ): string {
     const DateO = new Date(date)
@@ -20,32 +23,21 @@ function formatDate(date: string ): string {
 }
 
 export default function TargetStage({ stage }: Props) {
-    // console.log("checking stage", stage);
-    // const [stageStatus, setStageStatus] = useState("");
-    // useEffect(() => {
-    //     if (stage) { 
-    //         if (stage.status === StageStatus.CURRENT) {
-    //             setStageStatus("Stage opening");
-    //         } else if (stage.status === StageStatus.FINISH) {
-    //             setStageStatus("Stage Done");
-    //         } else if (stage.status === StageStatus.INCOMING) {
-    //             setStageStatus("Stage Incoming");
-    //         } else if (stage.status === StageStatus.NOT_USE) {
-    //             // setStageStatus("Stage not using");
-    //         }
-    //     }
-    // },[stage])
+    const {ProjectInfo } = useProjectDetails();
 
     return (
         <li
             key={stage.stageId}
-            className="flex flex-col items-center justify-between bg-orange-100 md:min-w-[50vw] max-w-[50vw] h-[60vh] px-[2vw] py-[3vh]
-            rounded-lg  hover:shadow-xl  hover:bg-orange-200 border border-orange-200 shadow-xl
+            className="flex flex-col items-center bg-orange-100 md:min-w-[50vw] max-w-[50vw] px-[2vw] py-[3vh]
+            rounded-lg  hover:shadow-xl  hover:bg-orange-200 border border-orange-200 shadow-xl h-fit
             transition-all duration-700 hover:translate-y-[-1vh] cursor-pointer"
         >
-            {stage.imageUrl !== "" && (
-                <img
-                    src={stage.imageUrl}
+            {ProjectInfo.carouselImageUrls?.[0] !== undefined && (
+                <Image
+                    src={ProjectInfo.carouselImageUrls?.[0]}
+                    alt="stage image"
+                    width={500}
+                    height={400}
                     className="w-full rounded-t-lg cursor-pointer"
                     draggable={false}
                 />
@@ -64,20 +56,22 @@ export default function TargetStage({ stage }: Props) {
                     <p className="text-base">End: {formatDate(stage.expireDate)}</p>
                 </span>
             </div>
-            <div className="flex flex-col w-full text-center">
+
+            <div className="flex flex-col w-full ">
                 <div
-                    className="ql-editor !p-0 preview-content mt-20"
+                    className="ql-editor !p-0 preview-content "
                     dangerouslySetInnerHTML={{
                         __html: stage.detail || "",
                     }}
                 />
-                <p>Current Funding {stage.currentFunding*stage.totalSupporter}</p>
-                <p>Goal funding this stage {stage.goalFunding}</p>
-                <p>Backers {stage.totalSupporter}</p>
-                <p>{stage.status !== StageStatus.CURRENT ? "Not Funded able " : "Fundable"}</p>
+            <div className="flex flex-col items-start mb-4">
+                <p className="text-sm text-gray-500">Current Funding: <span className="font-bold text-gray-700">{stage.currentFunding.toLocaleString()} THB</span></p>
+                <p className="text-sm text-gray-500">Goal Funding this Stage: <span className="font-bold text-gray-700">{stage.goalFunding.toLocaleString()} THB</span></p>
+                <p className="text-sm text-gray-500">Backers: <span className="font-bold text-gray-700">{stage.totalSupporter}</span></p>
+            </div>
             </div>
             <div className="flex items-center justify-center w-full">
-                <button 
+                <button
                     onClick={() => console.log("support this stage")}
                     disabled={stage.status !== StageStatus.CURRENT ? true : false}
                     className={`px-[4vw] py-[2vh] rounded-xl shadow-md hover:shadow-lg
