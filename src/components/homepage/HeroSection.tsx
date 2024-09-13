@@ -17,7 +17,7 @@ export default function HeroSection({}: Props) {
                     </p>
                     <Link
                         href="/explore"
-                        className="bg-orange-400 hover:bg-orange-500 hover:text-white text-white py-3 px-6 rounded-lg text-lg duration-500 transition-colors"
+                        className="bg-orange-500 hover:bg-orange-600 hover:text-white text-white py-3 px-6 rounded-lg text-lg duration-500 transition-colors"
                     >Explore Now</Link>
                 </div>
             </div>
