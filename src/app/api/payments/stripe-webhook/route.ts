@@ -6,6 +6,7 @@ import { updateOrder } from "src/libs/databases/orders/updateOrder";
 import { OrderStatus } from "src/interfaces/models/enums";
 import { getOrder } from "src/libs/databases/orders/getOrder";
 import { createTransactionLog } from "src/libs/databases/transactionLogs/createTransactionLog";
+import { getProject, updateProject } from "src/libs/databases/projects";
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
@@ -14,6 +15,7 @@ const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 //         bodyParser: false, // Disable body parsing for raw data required by Stripe
 //     },
 // };
+export const maxDuration = 20;
 
 export async function POST(request: NextRequest) {
     try {
@@ -46,11 +48,11 @@ export async function POST(request: NextRequest) {
             case "payment_intent.succeeded": {
                 const paymentIntent = event.data.object as Stripe.PaymentIntent;
                 const metadata = paymentIntent.metadata as { orderId: string };
-                // await updateOrder(metadata.orderId, {
-                //     status: OrderStatus.COMPLETED,
-                //     paymentIntentId: paymentIntent.id as string,
-                //     paymentMethod: (paymentIntent.payment_method as string | null) ?? "",
-                // });
+                await updateOrder(metadata.orderId, {
+                    status: OrderStatus.COMPLETED,
+                    paymentIntentId: paymentIntent.id as string,
+                    paymentMethod: (paymentIntent.payment_method as string | null) ?? "",
+                });
                 break;
             }
             case "payment_intent.payment_failed": {
@@ -65,7 +67,7 @@ export async function POST(request: NextRequest) {
                 const charge = event.data.object;
                 const metadata = charge.metadata as { orderId: string };
                 const order = await getOrder(metadata.orderId);
-                const transactionId = await createTransactionLog({
+                await createTransactionLog({
                     uid: order.uid,
                     orderId: metadata.orderId,
                     projectId: order.projectId,
@@ -74,12 +76,6 @@ export async function POST(request: NextRequest) {
                     stageName: order.stageName,
                     transactionType: order.transactionType,
                     slipUrl: charge.receipt_url as string,
-                });
-                await updateOrder(metadata.orderId, {
-                    paymentIntentId: charge.id as string,
-                    paymentMethod: (charge.payment_method as string | null) ?? "",
-                    transactionId: transactionId,
-                    status: OrderStatus.COMPLETED,
                 });
                 break;
             }
