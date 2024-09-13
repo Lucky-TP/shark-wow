@@ -42,32 +42,14 @@ export async function GET(request: NextRequest, { params }: { params: { orderId:
         await withAuthVerify(request);
         const orderId = params.orderId;
         const orderModel = await getOrder(orderId);
-        if (orderModel.status !== OrderStatus.COMPLETED) {
+        const transactionId = orderModel.transactionId;
+        if (orderModel.status !== OrderStatus.COMPLETED || !transactionId) {
             return NextResponse.json(
                 { message: "Payment not received" },
                 { status: StatusCode.BAD_REQUEST }
             );
         }
-        const transactionLogCollection = getCollectionRef(CollectionPath.TRANSACTION);
-        const querySnapshot = await transactionLogCollection.where("orderId", "==", orderId).get();
-        const transactionLog = querySnapshot.docs
-            .map((transactionLog) => transactionLog)[0]
-            .data() as TransactionLog;
-        const promiseUpdate = updateOrder(orderId, {
-            transactionId: transactionLog.transactionId,
-        });
-
-        const { stageId, amount, projectId } = orderModel;
-        const retrivedProjectModel = await getProject(orderModel.projectId);
-        const updatedStages = retrivedProjectModel.stages;
-        updatedStages[stageId].currentFunding += amount;
-        updatedStages[stageId].totalSupporter += 1;
-        const promiseUpdateProject = updateProject(projectId, {
-            totalSupporter: updatedStages[stageId].totalSupporter,
-            stages: updatedStages,
-        });
-        await Promise.all([promiseUpdateProject, promiseUpdate]);
-
+        const transactionLog = await getTransactionLog(transactionId);
         return NextResponse.json(
             { message: "Payment succeed", slipUrl: transactionLog.slipUrl },
             { status: StatusCode.SUCCESS }
