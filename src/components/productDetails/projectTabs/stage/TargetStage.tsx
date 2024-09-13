@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Stage } from "src/interfaces/models/project";
 
@@ -8,6 +8,7 @@ type Props = {
     stage: Stage;
 };
 
+import { StageStatus } from "src/interfaces/models/enums";
 
 function formatDate(date: string ): string {
     const DateO = new Date(date)
@@ -20,6 +21,21 @@ function formatDate(date: string ): string {
 
 export default function TargetStage({ stage }: Props) {
     // console.log("checking stage", stage);
+    // const [stageStatus, setStageStatus] = useState("");
+    // useEffect(() => {
+    //     if (stage) { 
+    //         if (stage.status === StageStatus.CURRENT) {
+    //             setStageStatus("Stage opening");
+    //         } else if (stage.status === StageStatus.FINISH) {
+    //             setStageStatus("Stage Done");
+    //         } else if (stage.status === StageStatus.INCOMING) {
+    //             setStageStatus("Stage Incoming");
+    //         } else if (stage.status === StageStatus.NOT_USE) {
+    //             // setStageStatus("Stage not using");
+    //         }
+    //     }
+    // },[stage])
+
     return (
         <li
             key={stage.stageId}
@@ -41,26 +57,33 @@ export default function TargetStage({ stage }: Props) {
 
                 <span className="flex items-center text-gray-600 ml-[0.5vw]">
                     <FaLocationDot className="text-base mr-2" />
-                    <p className="text-base">Start: {stage.startDate}</p>
+                    <p className="text-base">Start: {formatDate(stage.startDate)}</p>
                 </span>
                 <span className="flex items-center text-gray-600 ml-[0.5vw]">
                     <FaLocationDot className="text-base mr-2" />
-                    <p className="text-base">End: {stage.expireDate}</p>
+                    <p className="text-base">End: {formatDate(stage.expireDate)}</p>
                 </span>
             </div>
             <div className="flex flex-col w-full text-center">
                 <p>
-                    {stage.detail === ""
-                        ? "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi, quas, hic laborum harum in nobis quaerat aliquam fugiat placeat est pariatur sed esse provident ea soluta? Explicabo ut quisquam debitis."
-                        : ""}
+                    {stage.detail}
+                    
                 </p>
-                <p>Current Funding {stage.currentFunding}</p>
+                <p>Current Funding {stage.currentFunding*stage.totalSupporter}</p>
                 <p>Goal funding this stage {stage.goalFunding}</p>
                 <p>Backers {stage.totalSupporter}</p>
+                <p>{stage.status !== StageStatus.CURRENT ? "Not Funded able " : "Fundable"}</p>
             </div>
-            <div className="flex items-center justify-center w-full ">
-                <button className="px-[4vw] py-[2vh] bg-orange-400 rounded-xl shadow-md hover:shadow-lg  hover:scale-[1.03] hover:bg-orange-600 transition-all duration-700">
-                    <p className="text-white text-lg">Support this stage</p>
+            <div className="flex items-center justify-center w-full">
+                <button 
+                    onClick={() => console.log("support this stage")}
+                    disabled={stage.status !== StageStatus.CURRENT ? true : false}
+                    className={`px-[4vw] py-[2vh] rounded-xl shadow-md hover:shadow-lg
+                         transition-all duration-700
+                        ${stage.status !== StageStatus.CURRENT ? 'cursor-not-allowed bg-orange-300' : 'bg-orange-400 cursor-pointer hover:bg-orange-500 hover:scale-[1.02]'}
+                    `}
+                >
+                    <p className="text-white text-lg">{stage.status !== StageStatus.CURRENT ? "Unavaliable" : "Support this stage"}</p>
                 </button>
             </div>
         </li>
