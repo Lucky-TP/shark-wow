@@ -88,9 +88,14 @@ const SingleprojectCard = ({ project, showEditProject }: ProjectCardProps) => {
                     </div>
                     <div className="pt-3 py-1">
                         <h2 className="text-xl font-semibold text-gray-800">{project.name}</h2>
-                        <p className="text-sm text-gray-600 mt-1">
-                            Fund at ${project.stages[0].fundingCost}
-                        </p>
+                        <div className="flex justify-between items-center">
+                            <p className="text-sm text-gray-600 mt-1">
+                                Fund at ${project.stages[0].fundingCost}
+                            </p>
+                            {showEditProject && (
+                                <p>{`${project.status ? "Launch" : "Draft"}`}</p>
+                            )}
+                        </div>
                     </div>
                     <div>
                         <div className="w-full bg-gray-300 rounded-full h-2.5 mt-2 mb-2">
