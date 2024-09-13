@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ProjectModel } from "src/interfaces/models/project";
+import { ProjectData } from "src/interfaces/datas/project";
+import { ProjectModel, Stage } from "src/interfaces/models/project";
 import { getCollectionRef } from "src/libs/databases/firestore";
 import { updateProject } from "src/libs/databases/projects";
 import { getProjects } from "src/libs/databases/projects/getProjects";
@@ -8,6 +9,62 @@ import { chunkArray } from "src/utils/api/queries";
 
 interface Data {
     projectId: string;
+}
+
+const mockData: Partial<ProjectModel> = {
+    totalQuantity: 150,
+    costPerQuantity: 750,
+    stages: [
+        {
+            fundingCost: 0,
+            imageUrl: "",
+            name: "Concept",
+            currentFunding: 0,
+            expireDate: "2024-09-10T12:55:33.361Z",
+            detail: "<p>At this stage we try to build concept about the story </p>",
+            goalFunding: 1,
+            totalSupporter: 0,
+            startDate: "2024-09-10T12:55:33.361Z",
+            stageId: 0,
+            status: 2,
+        },
+        {
+            fundingCost: 0,
+            imageUrl: "",
+            name: "Prototype",
+            currentFunding: 0,
+            expireDate: "2024-09-10T12:55:33.361Z",
+            detail: '<p>This is the prototype so far.<a href="https://docs.google.com/document/d/18BqfqLDomANDd1cjSWNVMDgXeN7tkvj-nEhDEq1euDA/edit" rel="noopener noreferrer" target="_blank">prototype</a></p>',
+            goalFunding: 11250,
+            totalSupporter: 0,
+            startDate: "2024-09-10T12:55:33.361Z",
+            stageId: 1,
+            status: 1,
+        },
+        {
+            fundingCost: 0,
+            imageUrl: "",
+            name: "Production",
+            currentFunding: 0,
+            expireDate: "2024-09-10T12:55:33.361Z",
+            detail: "<p>we will finish the product and deliver the book to your hand</p>",
+            goalFunding: 11250,
+            totalSupporter: 0,
+            startDate: "2024-09-10T12:55:33.361Z",
+            stageId: 2,
+            status: 1,
+        },
+    ],
+};
+
+function assignRandomFundingCosts(stages: Stage[]) {
+    stages.forEach((stage) => {
+        // Generate a random funding cost as a percentage of the goal funding
+        const randomPercentage = Math.random() * 0.2; // Random value between 0 and 1
+        stage.fundingCost = parseFloat((randomPercentage * stage.goalFunding).toFixed(2)); // Funding cost rounded to two decimal places
+    });
+
+    return stages;
 }
 
 export async function PUT(request: NextRequest) {
@@ -23,12 +80,16 @@ export async function PUT(request: NextRequest) {
         for (const chunk of chunks) {
             projectModels.push(...(await getProjects(chunk)));
         }
+        // const projectModels = await getProjects(["4osGMmfA4QCnIgktFEr6"]);
+        // const stages = mockData.stages;
+        // const totalCost = mockData.totalQuantity! * mockData.costPerQuantity!;
+        // const updateStage = assignRandomFundingCosts(stages!);
         const promises = projectModels.map((projectModel) => {
+            const stages = projectModel.stages;
+            // const totalCost = projectModel.totalQuantity * projectModel.costPerQuantity;
+            const updateStages = assignRandomFundingCosts(stages);
             return updateProject(projectModel.projectId, {
-                carouselImageUrls: [
-                    ...projectModel.carouselImageUrls,
-                    "https://firebasestorage.googleapis.com/v0/b/shark-wow.appspot.com/o/projects%2FafsBkloNg7ZsrHWfwANlQmnWFh32%2FwhLQIea368sS6PBkBwrz%2F1725593728505?alt=media&token=f7dbc917-33a3-46af-bd08-643d0cddc88e",
-                ],
+                stages: updateStages,
             });
         });
         await Promise.all(promises);
