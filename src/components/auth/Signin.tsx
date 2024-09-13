@@ -59,7 +59,7 @@ export default function Signin({}: Props) {
 
     return (
         <section>
-            <div className="h-screen w-screen flex bg-orange-300 ">
+            <div className="absolute top-0 h-screen w-screen flex bg-orange-300 ">
                 <div className="w-3/6 flex flex-col justify-center items-start p-16 ">
                     <Link href="/">
                         <Image
