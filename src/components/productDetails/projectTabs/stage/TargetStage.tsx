@@ -8,8 +8,18 @@ type Props = {
     stage: Stage;
 };
 
+
+function formatDate(date: string ): string {
+    const DateO = new Date(date)
+    const day = String(DateO.getDate()).padStart(2, '0');
+    const month = String(DateO.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const year = DateO.getFullYear();
+
+    return `${day}/${month}/${year}`;
+}
+
 export default function TargetStage({ stage }: Props) {
-    console.log("checking stage", stage);
+    // console.log("checking stage", stage);
     return (
         <li
             key={stage.stageId}
@@ -26,8 +36,9 @@ export default function TargetStage({ stage }: Props) {
             )}
 
             <div className="flex flex-col justify-between px-[1.5vw] my-[1.5vh] gap-y-[1vh] w-full">
-                <p className="text-red-500 text-sm font-normal">{stage.name}</p>
+                <p className="text-red-500 text-sm font-normal">{stage.name}</p> 
                 <h3 className="text-xl font-semibold text-gray-800">{stage.name}</h3>
+
                 <span className="flex items-center text-gray-600 ml-[0.5vw]">
                     <FaLocationDot className="text-base mr-2" />
                     <p className="text-base">Start: {stage.startDate}</p>
