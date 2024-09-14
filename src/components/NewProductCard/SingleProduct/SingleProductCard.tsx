@@ -61,7 +61,7 @@ const SingleprojectCard = ({ project, showEditProject }: ProjectCardProps) => {
                             >
                                 View Project
                             </button>
-                            {showEditProject && (
+                            {(showEditProject && project.status === 0) && (
                                 <button
                                     className="bg-orange-600 text-white ml-4 font-semibold py-2 px-4 rounded-full"
                                     onClick={handleEditProject}
@@ -93,7 +93,7 @@ const SingleprojectCard = ({ project, showEditProject }: ProjectCardProps) => {
                                 Fund at ${project.stages[0].fundingCost}
                             </p>
                             {showEditProject && (
-                                <p>{`${project.status ? "Launch" : "Draft"}`}</p>
+                                <p>{`${project.status ? "Launched" : "Draft"}`}</p>
                             )}
                         </div>
                     </div>

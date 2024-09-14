@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
+import { CollectionPath } from "src/constants/firestore";
 import { StatusCode } from "src/constants/statusCode";
 import { OrderStatus } from "src/interfaces/models/enums";
+import { TransactionLog } from "src/interfaces/models/transaction";
+import { getCollectionRef } from "src/libs/databases/firestore";
 import { getOrder } from "src/libs/databases/orders/getOrder";
+import { updateOrder } from "src/libs/databases/orders/updateOrder";
+import { getProject, updateProject } from "src/libs/databases/projects";
 import { getTransactionLog } from "src/libs/databases/transactionLogs/getTransactionLog";
 import { errorHandler } from "src/libs/errors/apiError";
 import { withAuthVerify } from "src/utils/api/auth";
@@ -32,24 +37,19 @@ import { withAuthVerify } from "src/utils/api/auth";
  *
  */
 
-
 export async function GET(request: NextRequest, { params }: { params: { orderId: string } }) {
     try {
         await withAuthVerify(request);
-        const orderModel = await getOrder(params.orderId);
-        if (!orderModel.transactionId) {
+        const orderId = params.orderId;
+        const orderModel = await getOrder(orderId);
+        const transactionId = orderModel.transactionId;
+        if (orderModel.status !== OrderStatus.COMPLETED || !transactionId) {
             return NextResponse.json(
                 { message: "Payment not received" },
                 { status: StatusCode.BAD_REQUEST }
             );
         }
-        const transactionLog = await getTransactionLog(orderModel.transactionId);
-        if (orderModel.status !== OrderStatus.COMPLETED) {
-            return NextResponse.json(
-                { message: "Payment not received" },
-                { status: StatusCode.BAD_REQUEST }
-            );
-        }
+        const transactionLog = await getTransactionLog(transactionId);
         return NextResponse.json(
             { message: "Payment succeed", slipUrl: transactionLog.slipUrl },
             { status: StatusCode.SUCCESS }

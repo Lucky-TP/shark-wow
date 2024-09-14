@@ -36,7 +36,7 @@ export default function InteractProject({}: Props) {
                             placeholder="xxx"
                         />
                     </div>
-                    <button className="w-full py-2 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600">
+                    <button className="w-full py-2 bg-orange-400 text-white font-bold rounded-lg hover:bg-orange-500">
                         Donate
                     </button>
                 </div>
@@ -46,7 +46,7 @@ export default function InteractProject({}: Props) {
                         onClick={async ()=>{
                             const payload : CheckoutPayload = {
                                 projectId : ProjectInfo.projectId ?? "",
-                                fundingCost : Number(ProjectInfo.currentStage?.fundingCost),
+                                fundingCost : Number(((ProjectInfo.currentStage?.goalFunding || 0) / (ProjectInfo?.totalQuantity || 1)).toFixed(2)),
                                 paymentMethod : StripePaymentMethod.Card, 
                                 stageId : ProjectInfo.currentStage?.stageId!,
                                 stageName : ProjectInfo.name ?? "", 
@@ -57,11 +57,11 @@ export default function InteractProject({}: Props) {
                                 router.push(response.redirectUrl)
                             }
                         }}
-                        className="w-full py-2 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600"
+                        className="w-full py-2 bg-orange-400 text-white font-bold rounded-lg hover:bg-orange-500"
                     >
                         Support this Project
                     </button>
-                    <button className="w-full py-2 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600">
+                    <button className="w-full py-2 bg-orange-400 text-white font-bold rounded-lg hover:bg-orange-500">
                         Add to favorite
                     </button>
                 </div>}
