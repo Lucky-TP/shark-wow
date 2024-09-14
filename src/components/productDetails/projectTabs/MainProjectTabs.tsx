@@ -18,28 +18,28 @@ export default function MainProjectTabs() {
                     w-full h-full flex items-center text-center justify-center py-[3vh] hover:bg-orange-200 cursor-pointer duration-500 transition-colors`}
                     onClick={() => setActiveTab("story")}
                 >
-                    <h2 className="text-xl text-gray-600 font-semibold">Story</h2>
+                    <h2 className={`text-xl text-gray-600 font-semibold ${activeTab === "story" ? "text-orange-500" : "text-gray-600"}`}>Story</h2>
                 </li>
                 <li
                     className={` ${activeTab === "update" ? "bg-orange-200" : "bg-orange-100"}
                     w-full h-full flex items-center text-center justify-center py-[3vh] hover:bg-orange-200 cursor-pointer duration-500 transition-colors`}
                     onClick={() => setActiveTab("update")}
                 >
-                    <h2 className="text-xl text-gray-600 font-semibold">Updates</h2>
+                    <h2 className={`text-xl text-gray-600 font-semibold ${activeTab === "update" ? "text-orange-500" : "text-gray-600"}`}>Updates</h2>
                 </li>
                 <li
                     className={` ${activeTab === "discussion" ? "bg-orange-200" : "bg-orange-100"}
                     w-full h-full flex items-center text-center justify-center py-[3vh] hover:bg-orange-200 cursor-pointer duration-500 transition-colors`}
                     onClick={() => setActiveTab("discussion")}
                 >
-                    <h2 className="text-xl text-gray-600 font-semibold">Discussion</h2>
+                    <h2 className={`text-xl text-gray-600 font-semibold ${activeTab === "discussion" ? "text-orange-500" : "text-gray-600"}`}>Discussion</h2>
                 </li>
                 <li
                     className={` ${activeTab === "to-creator" ? "bg-orange-200" : "bg-orange-100"}
                     w-full h-full flex items-center text-center justify-center py-[3vh] hover:bg-orange-200 cursor-pointer duration-500 transition-colors`}
                     onClick={() => setActiveTab("to-creator")}
                 >
-                    <h2 className="text-xl text-gray-600 font-bold">To Creator</h2>
+                    <h2 className={`text-xl text-gray-600 font-semibold ${activeTab === "to-creator" ? "text-orange-500" : "text-gray-600"}`}>To Creator</h2>
                 </li>
             </ul>
             <section className="py-[3vh] bg-orange-50 min-h-[160vh] h-fit overflow-y-auto px-[3vw]">
