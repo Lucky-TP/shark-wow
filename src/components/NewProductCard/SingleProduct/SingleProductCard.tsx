@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import LoadingSection from "src/components/global/LoadingSection";
 import { toggleFavoriteProject } from "src/services/apiService/users/toggleFavoriteProject";
 
+
 interface ProjectCardProps {
     project: ShowProject;
     showEditProject?: boolean;
@@ -46,13 +47,27 @@ const SingleprojectCard = ({ project, showEditProject }: ProjectCardProps) => {
                                 <LoadingSection />
                             </div>
                         )}
-                        <Image
-                            className="w-full h-full object-contain"
-                            src={project.carouselImageUrls[0]}
-                            alt={project.projectId}
-                            width={400}
-                            height={400}
-                        />
+                        {
+                            project.carouselImageUrls.length !== 0 ? (
+                                <Image
+                                    className="w-full h-full object-contain"
+                                    src={project.carouselImageUrls[0]}
+                                    alt={project.projectId}
+                                    width={400}
+                                    height={400}
+                                />
+                            ) : (
+                                <Image
+                                    className="w-full h-full object-contain"
+                                    src="/assets/noimg.png"
+                                    alt={project.projectId}
+                                    width={400}
+                                    height={400}
+                                />
+                                // <div className="rounded-full w-1/3 bg-orange-500 absolute top-28 left-24 text-center">No image yet</div>
+                            ) 
+                        }
+                        
                         {/* Hover elements */}
                         <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
                             <button
@@ -87,13 +102,13 @@ const SingleprojectCard = ({ project, showEditProject }: ProjectCardProps) => {
                         </div>
                     </div>
                     <div className="pt-3 py-1">
-                        <h2 className="text-xl font-semibold text-gray-800">{project.name}</h2>
+                        <div className="w-64 h-10 text-xl font-semibold text-gray-800 truncate whitespace-nowrap">{project.name}</div>
                         <div className="flex justify-between items-center">
                             <p className="text-sm text-gray-600 mt-1">
                                 Fund at ${project.stages[0].fundingCost}
                             </p>
                             {showEditProject && (
-                                <p>{`${project.status ? "Launched" : "Draft"}`}</p>
+                                <div className={`px-1  text-sm rounded-md text-white ${project.status ? "bg-orange-600" : "bg-orange-300"}`}>{`${project.status ? "Launched" : "Draft"}`}</div>
                             )}
                         </div>
                     </div>
