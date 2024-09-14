@@ -36,12 +36,11 @@ const SingleprojectCard = ({ project, showEditProject }: ProjectCardProps) => {
         await toggleFavoriteProject(project.projectId);
         setIsFavorited(!isFavorited); // Toggle the favorite status
     };
-
     return (
         <section>
             <div className="pl-6 p-3">
                 <div className="w-full h-full rounded-lg overflow-hidden relative group">
-                    <div className="relative w-full h-48">
+                    <div className={`relative w-full h-48 ${project.carouselImageUrls.length ? "" : "bg-orange-300"}`}>
                         {isLoading && (
                             <div className="absolute inset-0 z-10 flex items-center justify-center bg-white bg-opacity-70">
                                 <LoadingSection />
@@ -58,8 +57,8 @@ const SingleprojectCard = ({ project, showEditProject }: ProjectCardProps) => {
                                 />
                             ) : (
                                 <Image
-                                    className="w-full h-full object-contain"
-                                    src="/assets/noimg.png"
+                                    className="pl-20 w-3/4 h-full object-contain"
+                                    src="/assets/SharkwowLogo.png"
                                     alt={project.projectId}
                                     width={400}
                                     height={400}
