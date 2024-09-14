@@ -1,26 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+
+import { useRouter } from "next/navigation";
 
 import { useProjectDetails } from "src/context/custom-hooks/useProjectDetails";
 
+import { StripePaymentMethod } from "src/constants/paymentMethod";
+import { checkout } from "src/services/apiService/payments/checkout";
+
 import { Stage } from "src/interfaces/models/project";
-import { StageStatus } from "src/interfaces/models/enums";
+import { StageStatus, TransactionType } from "src/interfaces/models/enums";
+import { CheckoutPayload } from "src/interfaces/payload/paymentPayload";
 
 import Image from "next/image";
-import { FaLocationDot } from "react-icons/fa6";
+
 
 type Props = {
     stage: Stage;
 };
-
-
-function formatDate(date: string ): string {
-    const DateO = new Date(date)
-    const day = String(DateO.getDate()).padStart(2, '0');
-    const month = String(DateO.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-    const year = DateO.getFullYear();
-
-    return `${day}/${month}/${year}`;
-}
 
 function formatOwnerShip(goalStageFunding : number , goalProjectFunding : number ){
      return (goalStageFunding/goalProjectFunding)*100
@@ -43,20 +39,17 @@ function formateEstimatedDate(endDate : string) : string{
 
 export default function TargetStage({ stage }: Props) {
     const {ProjectInfo} = useProjectDetails();
+    const router = useRouter()
     return (
         <li
             key={stage.stageId}
-            className="flex flex-col
-            rounded-lg   hover:bg-orange-100 border border-orange-200 h-fit
-            transition-all duration-700  cursor-pointer"
+            className="flex flex-col rounded-lg   hover:bg-orange-100 border border-orange-200 h-fit transition-all duration-700  cursor-pointer"
         >        
-            <div
-                className=""
-            >
+            <div>
                 {ProjectInfo.carouselImageUrls?.[0] !== undefined && (
                     <Image
                         src={ProjectInfo.carouselImageUrls?.[0]}
-                        alt="stage image"
+                        alt=""
                         width={500}
                         height={400}
                         className="w-full rounded-t-lg cursor-pointer"
@@ -102,7 +95,7 @@ export default function TargetStage({ stage }: Props) {
                             <p className="text-lg font-bold text-gray-700">
                                 Ownership
                             </p>    
-                            <p className="text-base  pl-[1vw] text-gray-600">{(formatOwnerShip(stage.goalFunding,(ProjectInfo.totalQuantity ?? 0) * (ProjectInfo.costPerQuantity ?? 0))).toFixed(0)} % </p>
+                            <p className="text-base  pl-[1vw] text-gray-600">{(formatOwnerShip(stage.goalFunding,(ProjectInfo.totalQuantity ?? 0) * (ProjectInfo.costPerQuantity ?? 0))).toFixed()} % </p>
                         </span>
                 </div>
                 <div className="flex flex-row items-center justify-between my-[1.5vh] gap-y-[1vh] w-full ">
@@ -116,7 +109,20 @@ export default function TargetStage({ stage }: Props) {
 
                 <div className="flex items-center justify-center w-full">
                     <button
-                        onClick={() => console.log("support this stage")}
+                        onClick={async ()=>{
+                            const payload : CheckoutPayload = {
+                                projectId : ProjectInfo.projectId ?? "",
+                                fundingCost : Number((stage.goalFunding / (ProjectInfo?.totalQuantity || 1)).toFixed(2)),
+                                paymentMethod : StripePaymentMethod.Card, 
+                                stageId : stage.stageId,
+                                stageName : ProjectInfo.name ?? "", 
+                                transactionType : TransactionType.FUNDING
+                            }
+                            const response = await checkout(payload)
+                            if (response.status === 201 ){
+                                router.push(response.redirectUrl)
+                            }
+                        }}
                         disabled={stage.status !== StageStatus.CURRENT ? true : false}
                         className={`w-full py-[1.5vh] rounded-xl shadow-md hover:shadow-lg
                             transition-all duration-700
