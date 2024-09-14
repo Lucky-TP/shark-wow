@@ -7,11 +7,11 @@ type Props = {};
 export default function MainProjectStory({}: Props) {
     const { ProjectInfo, isLoading, error } = useProjectDetails();
     return (
-        <section className="flex flex-row w-5/12 ">
+        <section className={`flex flex-row ${isLoading ? "w-full" : "w-7/12"} `}>
             <section className="flex justify-center w-full" >
                 <div
-                    className={`flex flex-col items-center bg-orange-100 px-[3vw] py-[5vh] w-full min-h-[100vh] h-fit
-                                rounded-lg  hover:shadow-xl  hover:bg-orange-200 border border-orange-200 shadow-xl 
+                    className={`flex flex-col items-center bg-transparent px-[3vw] py-[5vh] w-full min-h-[100vh] h-fit
+                                rounded-lg  hover:shadow-xl  hover:bg-orange-100 border border-orange-200 shadow-xl 
                                 transition-all duration-700 cursor-pointer ${isLoading && "animate-pulse"}`}
                 >
                     {!isLoading && (
