@@ -15,6 +15,7 @@ export interface ProjectDetailPayloadInterface {
     isLoading: boolean;
     error: boolean;
     OnGettingUserDetails?: (uid: string) => Promise<void>;
+    OnReFetchingData?: ()=> Promise<void>;
 }
 
 const initializedProjectDetailPayload: ProjectDetailPayloadInterface = {
@@ -86,14 +87,19 @@ export const ProjectDetailProvider = ({
         }
     };
 
+    const OnReFetchingData = async () => {
+        if (projectId) {
+            await fetchProjectData();
+        }
+    }
+
     useEffect(() => {
         if (projectId) {
             fetchProjectData();
         }
     }, [projectId]);
-
     return (
-        <ProjectDetailsContext.Provider value={{ ...projectDetailPayload, OnGettingUserDetails }}>
+        <ProjectDetailsContext.Provider value={{ ...projectDetailPayload, OnGettingUserDetails , OnReFetchingData }}>
             {children}
         </ProjectDetailsContext.Provider>
     );

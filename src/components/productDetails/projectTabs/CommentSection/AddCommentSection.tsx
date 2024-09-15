@@ -31,7 +31,7 @@ const FormatDateSinceWhen = (date: string | undefined ):string  =>{
 } 
 
 export default function AddCommentSection({currentUser}: Props) {
-    const { UserInfo , ProjectInfo } = useProjectDetails();
+    const { UserInfo , ProjectInfo , OnReFetchingData} = useProjectDetails();
 
     const { 
         reset,
@@ -47,24 +47,25 @@ export default function AddCommentSection({currentUser}: Props) {
         }
     )
 
-    const OnCreatingComment : SubmitHandler<IFormInput> = (data) => {
+    const OnCreatingComment : SubmitHandler<IFormInput> = async (data) => {
         try{
             if (ProjectInfo.projectId) {
-                console.log(data)
                 const payload : CreateCommentPayload = {
                     detail : data.commentDetails
                 }
                 addCommentToProject(ProjectInfo.projectId, payload);
                 reset()
+                // if(OnReFetchingData ){
+                //     await OnReFetchingData()
+                // }                
             }
         }catch(err){
             console.log(err)
         }
- 
     }
 
     return (
-        <div className='flex flex-col w-full bg-orange-200 px-[2vw] py-[2vh]'>   
+        <div className='flex flex-col w-full bg-orange-200 px-[2vw] py-[1.5vh]'>   
             <div className='flex flex-col bg-orange-100 p-4 border border-orange-300 rounded-xl w-full gap-y-[2vh]'>
                 <div className='flex flex-row gap-x-[2vw]'>
                     {

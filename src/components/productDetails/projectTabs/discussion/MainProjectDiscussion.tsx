@@ -46,6 +46,7 @@ export default function MainProjectDiscussion({}: Props) {
         }
 
     }
+
     useEffect(()=>{
         OnGetSelfUser()
     },[])
@@ -61,7 +62,7 @@ export default function MainProjectDiscussion({}: Props) {
             {!currentUserStatus.isLoading && ProjectInfo.discussion && ProjectInfo.discussion.length > 0 && 
                 <div className="flex flex-col w-[70vw] items-center">
                     {
-                        ProjectInfo.discussion.map((e) => (
+                        ProjectInfo.discussion.reverse().map((e) => (
                             <CommentSection key={e.authorId} data={e} type="discusstion"/>
                         ))
                     }
