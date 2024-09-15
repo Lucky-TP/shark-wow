@@ -46,42 +46,52 @@ export default function RepliesSection({data}: Props) {
                 <span className={`w-[1vw] min-h-fit ${UserInfo.uid === data.authorId ? "bg-orange-400": "bg-orange-300"} rounded-l-lg block`}>
 
                 </span>
-                <div className='p-4'>
-                    <div className='flex flex-row gap-x-[2vw]'>
-                    {
-                        user?.username && 
-                        <>
-                            <div className='w-[3.5vw] rounded-full'>
-                                <img
-                                    src={user.profileImageUrl}
-                                    alt={user.username} 
-                                    className='rounded-full'
-                                />
-                            </div>
-                            <div>
-                                <div className='flex flex-row gap-x-[2vw] items-center'>
-                                    <h3 className='hover:underline text-xl font-normal '>
-                                        {user.username}
-                                    </h3>
-                                    <span>
-                                        {
-                                            UserInfo.uid === data.authorId ? 
-                                            <p className='text-orange-100 bg-orange-500 px-[1vw] py-[0.5vh] rounded-xl hover:opacity-80'>
-                                                Creator
-                                            </p> 
-                                            :
-                                            <p className='text-orange-100 bg-orange-300 px-[1vw] py-[0.5vh] rounded-xl hover:opacity-80'>
-                                                Supporter
-                                            </p>
-                                        }
-                                    </span>
+                <div className='p-4 w-full'>
+                    <div className='flex flex-row justify-between items-center'>
+                        {
+                            user?.username && 
+                            <div className='flex flex-row gap-x-[2vw] items-center'>
+                                <div className='w-[3.5vw] rounded-full'>
+                                    <img
+                                        src={user.profileImageUrl}
+                                        alt={user.username} 
+                                        className='rounded-full'
+                                    />
                                 </div>
-                                <p>
-                                    {FormatDateSinceWhen(data.createAt)}
-                                </p>
+                                <div>
+                                    <div className='flex flex-row gap-x-[2vw] items-center justify-center'>
+                                        <span>
+                                            <h3 className='hover:underline text-xl font-normal '>
+                                                {user.username}
+                                            </h3>
+                                            <p>
+                                                {FormatDateSinceWhen(user.birthDate)}
+                                            </p>                                        
+                                        </span>
+                                        <span className='flex items-center'>
+                                            {
+                                                UserInfo.uid === data.authorId ? 
+                                                <p className='text-orange-100 bg-orange-500 px-[1vw] py-[0.5vh] rounded-xl hover:opacity-80'>
+                                                    Creator
+                                                </p> 
+                                                :
+                                                <p className='text-orange-100 bg-orange-300 px-[1vw] py-[0.5vh] rounded-xl hover:opacity-80'>
+                                                    Supporter
+                                                </p>
+                                            }
+                                        </span>
+                                    </div>
+
+                                </div>
                             </div>
-                        </>
-                    }
+                        }
+                        <div className='flex flex-end '>
+                            <span>
+                                <p className='text-gray-600 '>
+                                    posted {FormatDateSinceWhen(data.createAt)}
+                                </p>
+                            </span>
+                        </div>
                     </div>
                     <div>
                         <p className='text-lg font-light px-[1vw]'>

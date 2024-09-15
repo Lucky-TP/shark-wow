@@ -72,7 +72,7 @@ export default function AddReplySection({ currentUser , parentComment }: Props) 
             <div className='flex flex-row w-full'>
                 <div className='w-[1vw] min-h-fit bg-orange-300 rounded-l-lg block'/>  
                 <div className='flex flex-col  bg-orange-100 p-4 border border-orange-300 rounded-r-xl w-full gap-y-[2vh]'>
-                    <div className='flex flex-row gap-x-[2vw] w-full'>
+                    <div className='flex flex-row gap-x-[2vw] w-full items-center'>
                         {
                             currentUser?.username && 
                             <>

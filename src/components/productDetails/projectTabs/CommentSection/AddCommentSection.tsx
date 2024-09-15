@@ -74,10 +74,10 @@ export default function AddCommentSection({currentUser , type  }: Props) {
     return (
         <div className='flex flex-col w-full bg-orange-200 px-[2vw] py-[1.5vh]'>   
             <div className='flex flex-col bg-orange-100 p-4 border border-orange-300 rounded-xl w-full gap-y-[2vh]'>
-                <div className='flex flex-row gap-x-[2vw]'>
+            <div className='flex flex-row justify-between items-center'>
                     {
                         currentUser?.username && 
-                        <>
+                        <div className='flex flex-row gap-x-[2vw] items-center'>
                             <div className='w-[3.5vw] rounded-full'>
                                 <img
                                     src={currentUser.profileImageUrl}
@@ -86,11 +86,16 @@ export default function AddCommentSection({currentUser , type  }: Props) {
                                 />
                             </div>
                             <div>
-                                <div className='flex flex-row gap-x-[2vw] items-center'>
-                                    <h3 className='hover:underline text-xl font-normal '>
-                                        {currentUser.username}
-                                    </h3>
+                                <div className='flex flex-row gap-x-[2vw] items-center justify-center'>
                                     <span>
+                                        <h3 className='hover:underline text-xl font-normal '>
+                                            {currentUser.username}
+                                        </h3>
+                                        <p>
+                                            {FormatDateSinceWhen(currentUser.birthDate)}
+                                        </p>                                        
+                                    </span>
+                                    <span className='flex items-center'>
                                         {
                                             UserInfo.uid === currentUser.uid ? 
                                             <p className='text-orange-100 bg-orange-500 px-[1vw] py-[0.5vh] rounded-xl hover:opacity-80'>
@@ -103,11 +108,10 @@ export default function AddCommentSection({currentUser , type  }: Props) {
                                         }
                                     </span>
                                 </div>
-                                <p>
-                                    {FormatDateSinceWhen(currentUser.birthDate)}
-                                </p>
+
                             </div>
-                        </>
+
+                        </div>
                     }
                 </div>
                 <form

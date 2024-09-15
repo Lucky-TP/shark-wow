@@ -76,7 +76,7 @@ export default function MainProjectDiscussion({}: Props) {
         <section className="flex flex-col items-center justify-center w-full gap-y-[3vh] ">
             <div className="flex flex-col w-[70vw] items-center">
                 {currentUserStatus.isLoading && <Skeleton active />}
-                {!currentUserStatus.isLoading && currentUserStatus.isValid &&  <AddCommentSection currentUser={currentUserStatus.data} type="discussion"/>}
+                {!currentUserStatus.isLoading && currentUserStatus.isValid &&  <AddCommentSection currentUser={currentUserStatus.data} type="project"/>}
                 {!currentUserStatus.isLoading && !currentUserStatus.isValid &&
                     <div className="flex flex-col w-[70vw] items-center">                    
                         <div className="bg-orange-200 w-full py-[1vh] text-center text-xl text-gray-600">

@@ -50,10 +50,10 @@ export default function CommentSection({ key , data }: Props) {
             className='flex flex-col w-full bg-orange-200 px-[2vw] py-[2vh] gap-y-[3vh]'
         >   
             <div className='bg-orange-100 p-4 border border-orange-300 rounded-xl'>
-                <div className='flex flex-row gap-x-[2vw]'>
+                <div className='flex flex-row justify-between items-center'>
                     {
                         user?.username && 
-                        <>
+                        <div className='flex flex-row gap-x-[2vw] items-center'>
                             <div className='w-[3.5vw] rounded-full'>
                                 <img
                                     src={user.profileImageUrl}
@@ -62,11 +62,16 @@ export default function CommentSection({ key , data }: Props) {
                                 />
                             </div>
                             <div>
-                                <div className='flex flex-row gap-x-[2vw] items-center'>
-                                    <h3 className='hover:underline text-xl font-normal '>
-                                        {user.username}
-                                    </h3>
+                                <div className='flex flex-row gap-x-[2vw] items-center justify-center'>
                                     <span>
+                                        <h3 className='hover:underline text-xl font-normal '>
+                                            {user.username}
+                                        </h3>
+                                        <p>
+                                            {FormatDateSinceWhen(user.birthDate)}
+                                        </p>                                        
+                                    </span>
+                                    <span className='flex items-center'>
                                         {
                                             UserInfo.uid === data.authorId ? 
                                             <p className='text-orange-100 bg-orange-500 px-[1vw] py-[0.5vh] rounded-xl hover:opacity-80'>
@@ -79,12 +84,18 @@ export default function CommentSection({ key , data }: Props) {
                                         }
                                     </span>
                                 </div>
-                                <p>
-                                    {FormatDateSinceWhen(data.createAt)}
-                                </p>
+
                             </div>
-                        </>
+
+                        </div>
                     }
+                    <div className='flex flex-end '>
+                        <span>
+                            <p className='text-gray-600 '>
+                                posted {FormatDateSinceWhen(data.createAt)}
+                            </p>
+                        </span>
+                    </div>
                 </div>
                 <div>
                     <p className='text-lg font-light px-[1vw]'>
