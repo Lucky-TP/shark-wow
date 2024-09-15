@@ -38,7 +38,7 @@ export default function Contribution({}: Props) {
     return (
         <div>
             <section>
-                <div className=" bg-[#E5D8CA] flex items-start">
+                <div className=" bg-orang-50 flex items-start">
                     <div className="w-full">
                         <UserInfo user={user} />
                     </div>

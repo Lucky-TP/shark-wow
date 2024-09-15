@@ -43,10 +43,10 @@ export default function UserProfile({}: Props) {
     }
     return (
         <div>
-            <div className="bg-[#E5D8CA] flex items-start">
+            <div className="bg-orang-50 flex items-start">
                 <div className="w-full">
                     <UserInfo user={user} />
-                    <div className="bg-[#E5D8CA] flex items-center justify-center">
+                    <div className="bg-orang-50 flex items-center justify-center">
                         <div className="flex items-start mt-10">
                             <Image
                                 src={user?.profileImageUrl || ""} // Replace with your image path
@@ -92,7 +92,7 @@ export default function UserProfile({}: Props) {
                             </a>
                         </div>
                     </div>
-                    <div className="bg-[#E5D8CA] flex flex-col justify-center">
+                    <div className="bg-orang-50 flex flex-col justify-center">
                         <h2 className="text-3xl font-bold text-black mb-8 mx-auto">About me</h2>
                         <div className="bg-white w-[80dvh] mx-auto h-80 rounded-lg shadow-lg px-6">
                             {/* เนื้อหาภายในกล่อง */}

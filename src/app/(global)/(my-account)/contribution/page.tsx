@@ -5,7 +5,7 @@ type Props = {};
 
 export default function page({}: Props) {
     return (
-        <section className="bg-[#E5D8CA]">
+        <section className="bg-orang-50">
             <div className="p-8">
                 <Contribution />
                 <Contribution2 />

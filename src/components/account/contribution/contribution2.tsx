@@ -5,7 +5,7 @@ type Props = {};
 export default function Contribution({}: Props) {
     // เปลี่ยนชื่อเป็น UserProfile
     return (
-        <section className="bg-[#E5D8CA] flex items-start p-8">
+        <section className="bg-orang-50 flex items-start p-8">
             <div className="w-full">
                 <h2 className="text-3xl font-bold mb-6">My Contributions</h2>
                 <div className="overflow-x-auto">
