@@ -1,18 +1,26 @@
 
 import React from 'react'
 
+import { useForm, SubmitHandler , Controller} from "react-hook-form"
+
 import { useProjectDetails } from 'src/context/custom-hooks/useProjectDetails';
 import { addCommentToProject } from 'src/services/apiService/comments/addCommentToProject';
 
-import { Input } from 'antd';
-
 
 import { UserData } from 'src/interfaces/datas/user'
+import { CreateCommentPayload } from 'src/interfaces/payload/commentPayload';
+
+import { Input } from 'antd';
+import { FaRegCommentDots } from "react-icons/fa6";
+
 
 type Props = {
     currentUser : UserData
 }
 
+interface IFormInput {
+    commentDetails: string
+  }
 
 const FormatDateSinceWhen = (date: string | undefined ):string  =>{
     const now = new Date()
@@ -25,16 +33,39 @@ const FormatDateSinceWhen = (date: string | undefined ):string  =>{
 export default function AddCommentSection({currentUser}: Props) {
     const { UserInfo , ProjectInfo } = useProjectDetails();
 
-    const OnCreatingComment = (details : string) => {
-        if (!ProjectInfo.projectId) {
-            return;
+    const { 
+        reset,
+        // register, 
+        handleSubmit, 
+        control,
+        formState: { errors }, 
+    } = useForm<IFormInput>(
+        {
+            defaultValues:{
+                commentDetails : ''
+            }
         }
-        addCommentToProject(ProjectInfo.projectId, { detail: details });
+    )
+
+    const OnCreatingComment : SubmitHandler<IFormInput> = (data) => {
+        try{
+            if (ProjectInfo.projectId) {
+                console.log(data)
+                const payload : CreateCommentPayload = {
+                    detail : data.commentDetails
+                }
+                addCommentToProject(ProjectInfo.projectId, payload);
+                reset()
+            }
+        }catch(err){
+            console.log(err)
+        }
+ 
     }
 
     return (
-        <div className='flex flex-col w-full bg-orange-200 px-[2vw] py-[2vh] gap-y-[3vh]'>   
-            <div className='bg-orange-100 p-4 border border-orange-300 rounded-xl w-full '>
+        <div className='flex flex-col w-full bg-orange-200 px-[2vw] py-[2vh]'>   
+            <div className='flex flex-col bg-orange-100 p-4 border border-orange-300 rounded-xl w-full gap-y-[2vh]'>
                 <div className='flex flex-row gap-x-[2vw]'>
                     {
                         currentUser?.username && 
@@ -71,9 +102,33 @@ export default function AddCommentSection({currentUser}: Props) {
                         </>
                     }
                 </div>
-                <div>
-                    <Input.TextArea/>
-                </div>
+                <form
+                    onSubmit={handleSubmit(OnCreatingComment)}
+                >
+                    <Controller
+                        name="commentDetails"  // Fix the name to match your form input
+                        control={control}
+                        rules={{
+                            required: 'This field is required.',
+                        }}
+                        render={({ field }) => (
+                            <Input.TextArea
+                                {...field}
+                                placeholder="Write your comment here..."
+                                className='w-full'
+                            />
+                        )}
+                    />
+                    {errors.commentDetails && (
+                        <p className="text-red-500">This field is required.</p>
+                    )} 
+                
+                 
+
+                    <button type="submit">
+                        <FaRegCommentDots/>
+                    </button>
+                </form>
             </div>
         </div>
     )

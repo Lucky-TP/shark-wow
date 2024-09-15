@@ -93,7 +93,7 @@ export default function CommentSection({ key , data , type }: Props) {
                 data.replyIds && data.replyIds.length > 0 &&
                 data.replyIds.map((e) => {
                     return(
-                        <RepliesSection key={e} repliesId={e}/>
+                        <RepliesSection key={1} repliesId={e}/>
                     )
                 })
             }
