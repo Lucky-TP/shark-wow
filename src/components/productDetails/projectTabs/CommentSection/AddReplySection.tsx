@@ -1,7 +1,7 @@
 
-import React from 'react'
+import React, { useState } from 'react'
 
-import { useForm, SubmitHandler ,Controller } from "react-hook-form"
+import { useForm, SubmitHandler ,Controller, set } from "react-hook-form"
 
 import { useProjectDetails } from 'src/context/custom-hooks/useProjectDetails';
 
@@ -34,7 +34,7 @@ const FormatDateSinceWhen = (date: string | undefined ):string  =>{
 
 export default function AddReplySection({ currentUser , parentComment }: Props) {
     const { UserInfo , ProjectInfo , OnReFetchingData} = useProjectDetails();
-
+    const [disable,setDisable] = useState<boolean>(false)
     const { 
         reset,
         register, 
@@ -55,10 +55,13 @@ export default function AddReplySection({ currentUser , parentComment }: Props) 
                 const payload : CreateCommentPayload = {
                     detail : data.commentDetails
                 }
+                setDisable(true)
                 await addReplyToComment(parentComment,payload)
                 reset()
+
             }
         } catch (err) {
+            setDisable(false)
             console.log(err)
         }
     }
@@ -128,7 +131,11 @@ export default function AddReplySection({ currentUser , parentComment }: Props) 
                             )}                             
                         </div>
                         <div className='flex w-full justify-end'>
-                            <button type="submit" className='flex flex-end  text-orange-50 bg-orange-400 px-[1.5vw] py-[1vh] rounded-lg hover:scale-[1.01] hover:bg-orange-500 duration-700 transition-all'>
+                            <button
+                                type="submit"
+                                className='flex flex-end  text-orange-50 bg-orange-400 px-[1.5vw] py-[1vh] rounded-lg hover:scale-[1.01] hover:bg-orange-500 duration-700 transition-all'
+                                disabled={disable}
+                            >
                                 <FaReply/>
                             </button>   
                         </div>
