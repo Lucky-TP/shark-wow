@@ -12,14 +12,17 @@ import { CreateCommentPayload } from 'src/interfaces/payload/commentPayload';
 
 import { Input } from 'antd';
 import { FaComment } from "react-icons/fa";
+import { addCommentToUser } from 'src/services/apiService/comments/addCommentToUser';
 
 
 type Props = {
+    type : string 
     currentUser : UserData
 }
 
 interface IFormInput {
     commentDetails: string
+    type : string 
   }
 
 const FormatDateSinceWhen = (date: string | undefined ):string  =>{
@@ -30,7 +33,7 @@ const FormatDateSinceWhen = (date: string | undefined ):string  =>{
     return `${Math.round(diffInDays)} days ago`
 } 
 
-export default function AddCommentSection({currentUser}: Props) {
+export default function AddCommentSection({currentUser , type  }: Props) {
     const { UserInfo , ProjectInfo , OnReFetchingData} = useProjectDetails();
 
     const { 
@@ -49,17 +52,16 @@ export default function AddCommentSection({currentUser}: Props) {
 
     const OnCreatingComment : SubmitHandler<IFormInput> = async (data) => {
         try{
-            if (ProjectInfo.projectId) {
+            if (ProjectInfo.projectId && UserInfo.uid){ 
                 const payload : CreateCommentPayload = {
                     detail : data.commentDetails
                 }
-                addCommentToProject(ProjectInfo.projectId, payload);
+                type ===  "project" ?
+                addCommentToProject(ProjectInfo.projectId, payload) : 
+                addCommentToUser(UserInfo.uid, payload)
                 reset()
-                // if(OnReFetchingData ){
-                //     await OnReFetchingData()
-                // }                
             }
-        }catch(err){
+        } catch (err) {
             console.log(err)
         }
     }
@@ -117,7 +119,7 @@ export default function AddCommentSection({currentUser}: Props) {
                                 render={({ field }) => (
                                     <Input.TextArea
                                         {...field}
-                                        placeholder="Write your comment here..."
+                                        placeholder={`Write your comment to ${type === "project" ? "project" : "creator"} here...`}
                                         className='w-full'
                                     />
                                 )}

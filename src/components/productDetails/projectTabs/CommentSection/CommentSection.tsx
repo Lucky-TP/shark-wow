@@ -7,11 +7,11 @@ import { getUserById } from 'src/services/apiService/users/getUserById'
 import { UserModel } from 'src/interfaces/models/user'
 import RepliesSection from './RepliesSection'
 import { CommentData } from 'src/interfaces/datas/comment'
+import { Skeleton } from 'antd'
 
 type Props = {
     key : string 
     data : Partial<CommentData>
-    type : string  
 }
 
 const FormatDateSinceWhen = (date: string | undefined ):string  =>{
@@ -22,8 +22,8 @@ const FormatDateSinceWhen = (date: string | undefined ):string  =>{
     return `${Math.round(diffInDays)} days ago`
 } 
 
-export default function CommentSection({ key , data , type }: Props) {
-    const { UserInfo } = useProjectDetails()
+export default function CommentSection({ key , data }: Props) {
+    const { UserInfo ,isLoading} = useProjectDetails()
 
     const [user, setUser] = useState<Partial<UserModel>>()
 
@@ -90,12 +90,15 @@ export default function CommentSection({ key , data , type }: Props) {
                 </div>                
             </div>
             {
-                data.replys && data.replys.length > 0 &&
+                user?.username && data.replys && data.replys.length > 0 &&
                 data.replys.map((e) => {
                     return(
                         <RepliesSection key={e.replyId} data={e}/>
                     )
                 })
+            }
+            {     
+                isLoading && <Skeleton  active/>
             }
 
         </div>
