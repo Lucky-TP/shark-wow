@@ -11,13 +11,15 @@ import { UserData } from 'src/interfaces/datas/user'
 import { CommentData } from 'src/interfaces/datas/comment'
 
 import { Skeleton } from 'antd'
+import Link from 'next/link'
 
 type Props = {
     key : string 
     data : Partial<CommentData>
+    isValid : boolean
 }
 
-const FormatDateSinceWhen = (date: string | undefined ):string  =>{
+const FormatDateSinceWhen = (date: string | undefined  ):string  =>{
     const now = new Date()
     const created = date != undefined ? new Date(date) : new Date()
     const diff = now.getTime() - created.getTime()
@@ -25,7 +27,7 @@ const FormatDateSinceWhen = (date: string | undefined ):string  =>{
     return `${Math.round(diffInDays)} days ago`
 } 
 
-export default function CommentSection({ key , data }: Props) {
+export default function CommentSection({ key , data , isValid}: Props) {
     const { UserInfo ,isLoading} = useProjectDetails()
 
     const [user, setUser] = useState<Partial<UserData>>()
@@ -112,9 +114,8 @@ export default function CommentSection({ key , data }: Props) {
                 })
             }
             {
-                user && data &&
+                user && data && isValid && 
                 <AddReplySection currentUser={user as UserData} parentComment={data.commentId}/>
-
             }            
             {     
                 isLoading && <Skeleton  active/>

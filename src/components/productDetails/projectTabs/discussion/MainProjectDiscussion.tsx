@@ -92,7 +92,7 @@ export default function MainProjectDiscussion({}: Props) {
                 <div className="flex flex-col w-[70vw] items-center">
                     {
                         comments.reverse().map((e) => (
-                            <CommentSection key={e.commentId} data={e}/>
+                            <CommentSection key={e.commentId} data={e} isValid={currentUserStatus.isValid}/>
                         ))
                     }
                 </div>

@@ -106,7 +106,6 @@ export default function AddReplySection({ currentUser , parentComment }: Props) 
                         <p className="text-red-500">This field is required.</p>
                     )}  
                 </div>
-                
         </div>
     </div>
     )
