@@ -5,6 +5,7 @@ import { CommentData } from "src/interfaces/datas/comment";
 import { CommentModel } from "src/interfaces/models/comment";
 import { StatusCode } from "src/constants/statusCode";
 import { CollectionPath } from "src/constants/firestore";
+import { chunkArray } from "src/utils/api/queries";
 
 export async function getComments(commentIds: string[]): Promise<CommentData[]> {
     try {
@@ -13,20 +14,23 @@ export async function getComments(commentIds: string[]): Promise<CommentData[]> 
         if (commentIds.length > 0) {
             const retrivedCommentsModels: CommentModel[] = [];
             const commentCollection = getCollectionRef(CollectionPath.COMMENT);
-            const querySnapshot = await commentCollection
-                .where("commentId", "in", commentIds)
-                .get();
-            querySnapshot.docs.forEach((commentRef) => {
-                const commentModel = commentRef.data() as CommentModel;
-                console.log(commentModel);
-                retrivedCommentsModels.push(commentModel);
-                commentModel.replyIds.forEach((replyId) => {
-                    replyIds.push(replyId);
+
+            const commentIdsChunks = chunkArray(commentIds, 30);
+            for (const commentIdsChunk of commentIdsChunks) {
+                const querySnapshot = await commentCollection
+                    .where("commentId", "in", commentIdsChunk)
+                    .get();
+                querySnapshot.docs.forEach((commentRef) => {
+                    const commentModel = commentRef.data() as CommentModel;
+                    retrivedCommentsModels.push(commentModel);
+                    commentModel.replyIds.forEach((replyId) => {
+                        replyIds.push(replyId);
+                    });
                 });
-            });
-            console.log(replyIds);
+            }
+
             const retrivedReplies = await getReplies(replyIds);
-            console.log(retrivedReplies);
+
             retrivedCommentsModels.forEach((commentModel) => {
                 const filteredReplies = retrivedReplies.filter(({ replyId }) => {
                     return commentModel.replyIds.includes(replyId);
