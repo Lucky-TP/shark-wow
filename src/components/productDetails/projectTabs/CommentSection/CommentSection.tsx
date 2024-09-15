@@ -2,16 +2,19 @@ import React, { useEffect, useState } from 'react'
 
 import { useProjectDetails } from 'src/context/custom-hooks/useProjectDetails'
 
+import AddReplySection from './AddReplySection'
+import RepliesSection from './RepliesSection'
+
 import { getUserById } from 'src/services/apiService/users/getUserById'
 
-import { CommentModel } from 'src/interfaces/models/comment'
-import { UserModel } from 'src/interfaces/models/user'
-import RepliesSection from './RepliesSection'
+import { UserData } from 'src/interfaces/datas/user'
+import { CommentData } from 'src/interfaces/datas/comment'
+
+import { Skeleton } from 'antd'
 
 type Props = {
     key : string 
-    data : Partial<CommentModel>
-    type : string  
+    data : Partial<CommentData>
 }
 
 const FormatDateSinceWhen = (date: string | undefined ):string  =>{
@@ -22,10 +25,10 @@ const FormatDateSinceWhen = (date: string | undefined ):string  =>{
     return `${Math.round(diffInDays)} days ago`
 } 
 
-export default function CommentSection({ key , data , type }: Props) {
-    const { UserInfo } = useProjectDetails()
+export default function CommentSection({ key , data }: Props) {
+    const { UserInfo ,isLoading} = useProjectDetails()
 
-    const [user, setUser] = useState<Partial<UserModel>>()
+    const [user, setUser] = useState<Partial<UserData>>()
 
     const OnGetUser = async (authorId : string)=>{
         const response = await getUserById(authorId)
@@ -47,10 +50,10 @@ export default function CommentSection({ key , data , type }: Props) {
             className='flex flex-col w-full bg-orange-200 px-[2vw] py-[2vh] gap-y-[3vh]'
         >   
             <div className='bg-orange-100 p-4 border border-orange-300 rounded-xl'>
-                <div className='flex flex-row gap-x-[2vw]'>
+                <div className='flex flex-row justify-between items-center'>
                     {
                         user?.username && 
-                        <>
+                        <div className='flex flex-row gap-x-[2vw] items-center'>
                             <div className='w-[3.5vw] rounded-full'>
                                 <img
                                     src={user.profileImageUrl}
@@ -59,11 +62,16 @@ export default function CommentSection({ key , data , type }: Props) {
                                 />
                             </div>
                             <div>
-                                <div className='flex flex-row gap-x-[2vw] items-center'>
-                                    <h3 className='hover:underline text-xl font-normal '>
-                                        {user.username}
-                                    </h3>
+                                <div className='flex flex-row gap-x-[2vw] items-center justify-center'>
                                     <span>
+                                        <h3 className='hover:underline text-xl font-normal '>
+                                            {user.username}
+                                        </h3>
+                                        <p>
+                                            {FormatDateSinceWhen(user.birthDate)}
+                                        </p>                                        
+                                    </span>
+                                    <span className='flex items-center'>
                                         {
                                             UserInfo.uid === data.authorId ? 
                                             <p className='text-orange-100 bg-orange-500 px-[1vw] py-[0.5vh] rounded-xl hover:opacity-80'>
@@ -76,12 +84,18 @@ export default function CommentSection({ key , data , type }: Props) {
                                         }
                                     </span>
                                 </div>
-                                <p>
-                                    {FormatDateSinceWhen(data.createAt)}
-                                </p>
+
                             </div>
-                        </>
+
+                        </div>
                     }
+                    <div className='flex flex-end '>
+                        <span>
+                            <p className='text-gray-600 '>
+                                posted {FormatDateSinceWhen(data.createAt)}
+                            </p>
+                        </span>
+                    </div>
                 </div>
                 <div>
                     <p className='text-lg font-light px-[1vw]'>
@@ -90,64 +104,22 @@ export default function CommentSection({ key , data , type }: Props) {
                 </div>                
             </div>
             {
-                data.replyIds && data.replyIds.length > 0 &&
-                data.replyIds.map((e) => {
+                user?.username && data.replys && data.replys.length > 0 &&
+                data.replys.map((e) => {
                     return(
-                        <RepliesSection key={1} repliesId={e}/>
+                        <RepliesSection key={e.replyId} data={e}/>
                     )
                 })
             }
-                <>
-                    <div className='flex flex-row bg-orange-100 border border-orange-300 rounded-xl ml-[2vw] h-full'>
-                        <span className={`w-[1vw] min-h-fit ${UserInfo.uid === data.authorId ? "bg-orange-400": "bg-orange-300"} rounded-l-lg block`}>
+            {
+                user && data &&
+                <AddReplySection currentUser={user as UserData} parentComment={data.commentId}/>
 
-                        </span>
-                        <div className='p-4'>
-                            <div className='flex flex-row gap-x-[2vw]'>
-                            {
-                                user?.username && 
-                                <>
-                                    <div className='w-[3.5vw] rounded-full'>
-                                        <img
-                                            src={user.profileImageUrl}
-                                            alt={user.username} 
-                                            className='rounded-full'
-                                        />
-                                    </div>
-                                    <div>
-                                        <div className='flex flex-row gap-x-[2vw] items-center'>
-                                            <h3 className='hover:underline text-xl font-normal '>
-                                                {user.username}
-                                            </h3>
-                                            <span>
-                                                {
-                                                    UserInfo.uid === data.authorId ? 
-                                                    <p className='text-orange-100 bg-orange-500 px-[1vw] py-[0.5vh] rounded-xl hover:opacity-80'>
-                                                        Creator
-                                                    </p> 
-                                                    :
-                                                    <p className='text-orange-100 bg-orange-300 px-[1vw] py-[0.5vh] rounded-xl hover:opacity-80'>
-                                                        Supporter
-                                                    </p>
-                                                }
-                                            </span>
-                                        </div>
-                                        <p>
-                                            {FormatDateSinceWhen(data.createAt)}
-                                        </p>
-                                    </div>
-                                </>
-                            }
-                            </div>
-                            <div>
-                                <p className='text-lg font-light px-[1vw]'>
-                                    {data.detail}
-                                </p>
-                            </div>  
-                        </div>
+            }            
+            {     
+                isLoading && <Skeleton  active/>
+            }
 
-                    </div>  
-                </>
         </div>
     )
 }
