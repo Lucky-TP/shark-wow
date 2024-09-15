@@ -4,13 +4,13 @@ import { useProjectDetails } from 'src/context/custom-hooks/useProjectDetails'
 
 import { getUserById } from 'src/services/apiService/users/getUserById'
 
-import { CommentModel } from 'src/interfaces/models/comment'
 import { UserModel } from 'src/interfaces/models/user'
 import RepliesSection from './RepliesSection'
+import { CommentData } from 'src/interfaces/datas/comment'
 
 type Props = {
     key : string 
-    data : Partial<CommentModel>
+    data : Partial<CommentData>
     type : string  
 }
 
@@ -90,64 +90,14 @@ export default function CommentSection({ key , data , type }: Props) {
                 </div>                
             </div>
             {
-                data.replyIds && data.replyIds.length > 0 &&
-                data.replyIds.map((e) => {
+                data.replys && data.replys.length > 0 &&
+                data.replys.map((e) => {
                     return(
-                        <RepliesSection key={1} repliesId={e}/>
+                        <RepliesSection key={e.replyId} data={e}/>
                     )
                 })
             }
-                <>
-                    <div className='flex flex-row bg-orange-100 border border-orange-300 rounded-xl ml-[2vw] h-full'>
-                        <span className={`w-[1vw] min-h-fit ${UserInfo.uid === data.authorId ? "bg-orange-400": "bg-orange-300"} rounded-l-lg block`}>
 
-                        </span>
-                        <div className='p-4'>
-                            <div className='flex flex-row gap-x-[2vw]'>
-                            {
-                                user?.username && 
-                                <>
-                                    <div className='w-[3.5vw] rounded-full'>
-                                        <img
-                                            src={user.profileImageUrl}
-                                            alt={user.username} 
-                                            className='rounded-full'
-                                        />
-                                    </div>
-                                    <div>
-                                        <div className='flex flex-row gap-x-[2vw] items-center'>
-                                            <h3 className='hover:underline text-xl font-normal '>
-                                                {user.username}
-                                            </h3>
-                                            <span>
-                                                {
-                                                    UserInfo.uid === data.authorId ? 
-                                                    <p className='text-orange-100 bg-orange-500 px-[1vw] py-[0.5vh] rounded-xl hover:opacity-80'>
-                                                        Creator
-                                                    </p> 
-                                                    :
-                                                    <p className='text-orange-100 bg-orange-300 px-[1vw] py-[0.5vh] rounded-xl hover:opacity-80'>
-                                                        Supporter
-                                                    </p>
-                                                }
-                                            </span>
-                                        </div>
-                                        <p>
-                                            {FormatDateSinceWhen(data.createAt)}
-                                        </p>
-                                    </div>
-                                </>
-                            }
-                            </div>
-                            <div>
-                                <p className='text-lg font-light px-[1vw]'>
-                                    {data.detail}
-                                </p>
-                            </div>  
-                        </div>
-
-                    </div>  
-                </>
         </div>
     )
 }
