@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+import Link from "next/link";
+
 import { getSelf } from "src/services/apiService/users/getSelf";
 
 import { useProjectDetails } from "src/context/custom-hooks/useProjectDetails";
@@ -56,7 +58,15 @@ export default function MainProjectDiscussion({}: Props) {
             <div className="flex flex-col w-[70vw] items-center">
                 {currentUserStatus.isLoading && <Skeleton active />}
                 {!currentUserStatus.isLoading && currentUserStatus.isValid &&  <AddCommentSection currentUser={currentUserStatus.data}/>}
-                {!currentUserStatus.isLoading && !currentUserStatus.isValid &&   <p>Sign in first</p>}                
+                {!currentUserStatus.isLoading && !currentUserStatus.isValid &&
+                    <div className="flex flex-col w-[70vw] items-center">                    
+                        <div className="bg-orange-200 w-full py-[1vh] text-center text-xl text-gray-600">
+                            <Link href='/sign-in' className="hover:text-orange-600 hover:underline">
+                                Sign in to comment                           
+                            </Link>
+                        </div>
+                    </div>
+                }                
             </div>
 
             {!currentUserStatus.isLoading && ProjectInfo.discussion && ProjectInfo.discussion.length > 0 && 
