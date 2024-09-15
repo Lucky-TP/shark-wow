@@ -42,7 +42,7 @@ export default function MainProjectTabs() {
                     <h2 className={`text-xl text-gray-600 font-semibold ${activeTab === "to-creator" ? "text-orange-500" : "text-gray-600"}`}>To Creator</h2>
                 </li>
             </ul>
-            <section className="py-[3vh] bg-orange-50 min-h-[160vh] h-fit overflow-y-auto px-[3vw]">
+            <section className="py-[3vh] bg-orange-50 min-h-[140vh] h-fit overflow-y-auto px-[3vw]">
                 {activeTab === "story" && 
                     <section
                         className="flex flex-row  justify-center w-full gap-x-[2vw] "
