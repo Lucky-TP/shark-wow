@@ -3,17 +3,24 @@ import { ReplyModel } from "src/interfaces/models/reply";
 import { getCollectionRef } from "../firestore";
 import { CustomError } from "src/libs/errors/apiError";
 import { StatusCode } from "src/constants/statusCode";
+import { chunkArray } from "src/utils/api/queries";
 
 export async function getReplies(replyIds: string[]): Promise<ReplyModel[]> {
     try {
         const retrivedReplies: ReplyModel[] = [];
         if (replyIds.length > 0) {
             const replyCollection = getCollectionRef(CollectionPath.REPLY);
-            const querySnapshot = await replyCollection.where("replyId", "in", replyIds).get();
-            querySnapshot.docs.forEach((replyRef) => {
-                const replyModel = replyRef.data() as ReplyModel;
-                retrivedReplies.push(replyModel);
-            });
+            const replyIdsChunks = chunkArray(replyIds, 30);
+
+            for (const replyIdsChunk of replyIdsChunks) {
+                const querySnapshot = await replyCollection
+                    .where("replyId", "in", replyIdsChunk)
+                    .get();
+                querySnapshot.docs.forEach((replyRef) => {
+                    const replyModel = replyRef.data() as ReplyModel;
+                    retrivedReplies.push(replyModel);
+                });
+            }
         }
         return retrivedReplies;
     } catch (error: unknown) {
