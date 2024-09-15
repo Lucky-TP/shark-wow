@@ -46,7 +46,6 @@ export default function MainProjectDiscussion({}: Props) {
         }
 
     }
-    
     useEffect(()=>{
         OnGetSelfUser()
     },[])
@@ -55,11 +54,11 @@ export default function MainProjectDiscussion({}: Props) {
         <section className="flex flex-col items-center justify-center w-full gap-y-[3vh] ">
             <div className="flex flex-col w-[70vw] items-center">
                 {currentUserStatus.isLoading && <Skeleton active />}
-                {!currentUserStatus.isLoading && currentUserStatus.isValid &&   <AddCommentSection currentUser={currentUserStatus.data}/>}
+                {!currentUserStatus.isLoading && currentUserStatus.isValid &&  <AddCommentSection currentUser={currentUserStatus.data}/>}
                 {!currentUserStatus.isLoading && !currentUserStatus.isValid &&   <p>Sign in first</p>}                
             </div>
 
-            {ProjectInfo.discussion && ProjectInfo.discussion.length > 0 && 
+            {!currentUserStatus.isLoading && ProjectInfo.discussion && ProjectInfo.discussion.length > 0 && 
                 <div className="flex flex-col w-[70vw] items-center">
                     {
                         ProjectInfo.discussion.map((e) => (
