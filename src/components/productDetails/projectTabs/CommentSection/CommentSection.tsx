@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react'
 
 import { useProjectDetails } from 'src/context/custom-hooks/useProjectDetails'
 
+import AddReplySection from './AddReplySection'
+import RepliesSection from './RepliesSection'
+
 import { getUserById } from 'src/services/apiService/users/getUserById'
 
-import { UserModel } from 'src/interfaces/models/user'
-import RepliesSection from './RepliesSection'
+import { UserData } from 'src/interfaces/datas/user'
 import { CommentData } from 'src/interfaces/datas/comment'
+
 import { Skeleton } from 'antd'
 
 type Props = {
@@ -25,7 +28,7 @@ const FormatDateSinceWhen = (date: string | undefined ):string  =>{
 export default function CommentSection({ key , data }: Props) {
     const { UserInfo ,isLoading} = useProjectDetails()
 
-    const [user, setUser] = useState<Partial<UserModel>>()
+    const [user, setUser] = useState<Partial<UserData>>()
 
     const OnGetUser = async (authorId : string)=>{
         const response = await getUserById(authorId)
@@ -97,6 +100,11 @@ export default function CommentSection({ key , data }: Props) {
                     )
                 })
             }
+            {
+                user && data &&
+                <AddReplySection currentUser={user as UserData} parentComment={data.commentId}/>
+
+            }            
             {     
                 isLoading && <Skeleton  active/>
             }
