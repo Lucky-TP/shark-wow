@@ -58,6 +58,7 @@ export default function AddReplySection({ currentUser , parentComment }: Props) 
                 setDisable(true)
                 await addReplyToComment(parentComment,payload)
                 reset()
+                setDisable(false)
 
             }
         } catch (err) {
