@@ -5,7 +5,7 @@ type Props = {};
 
 export default function page({}: Props) {
     return (
-        <section className="bg-orange-200">
+        <section className="">
             <MainExplore />
         </section>
     );

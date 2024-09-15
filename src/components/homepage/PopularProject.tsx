@@ -41,7 +41,7 @@ export default function PopularProject({}: Props) {
             )}
             {error && <p>Error: {error}</p>}
             {!loading && topproducts.length != 0 && (
-                <section className="bg-white p-10">
+                <section className="bg-orange-50 p-10">
                     <div className="flex flex-row items-center justify-between">
                         <h2 className="text-3xl font-bold mb-4">Popular Project</h2>
                         <span>

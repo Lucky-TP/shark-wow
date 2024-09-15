@@ -1,12 +1,25 @@
 import React from "react";
 
+import { useRouter } from "next/navigation";
+
 import { useProjectDetails } from "src/context/custom-hooks/useProjectDetails";
+
+import { checkout } from "src/services/apiService/payments/checkout";
+
+import { CheckoutPayload } from "src/interfaces/payload/paymentPayload";
+import { StripePaymentMethod } from "src/constants/paymentMethod";
+import { TransactionType } from "src/interfaces/models/enums";
 
 type Props = {};
 
+
 export default function InteractProject({}: Props) {
-    const context = useProjectDetails();
-    // Adding function support & donate handler payload having project id uid amount current stage price of the project sending to backend migrate payment
+    const {
+        ProjectInfo,
+        isLoading
+    } = useProjectDetails();
+
+    const router = useRouter()
     return (
         <>
             <div>
@@ -23,19 +36,35 @@ export default function InteractProject({}: Props) {
                             placeholder="xxx"
                         />
                     </div>
-                    <button className="w-full py-2 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600">
+                    <button className="w-full py-2 bg-orange-400 text-white font-bold rounded-lg hover:bg-orange-500">
                         Donate
                     </button>
                 </div>
 
-                <div className="space-y-4">
-                    <button className="w-full py-2 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600">
+                { !isLoading && <div className="space-y-4">
+                    <button 
+                        onClick={async ()=>{
+                            const payload : CheckoutPayload = {
+                                projectId : ProjectInfo.projectId ?? "",
+                                fundingCost : Number(((ProjectInfo.currentStage?.goalFunding || 0) / (ProjectInfo?.totalQuantity || 1)).toFixed(2)),
+                                paymentMethod : StripePaymentMethod.Card, 
+                                stageId : ProjectInfo.currentStage?.stageId!,
+                                stageName : ProjectInfo.name ?? "", 
+                                transactionType : TransactionType.FUNDING
+                            }
+                            const response = await checkout(payload)
+                            if (response.status === 201 ){
+                                router.push(response.redirectUrl)
+                            }
+                        }}
+                        className="w-full py-2 bg-orange-400 text-white font-bold rounded-lg hover:bg-orange-500"
+                    >
                         Support this Project
                     </button>
-                    <button className="w-full py-2 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600">
+                    <button className="w-full py-2 bg-orange-400 text-white font-bold rounded-lg hover:bg-orange-500">
                         Add to favorite
                     </button>
-                </div>
+                </div>}
             </div>
         </>
     );

@@ -12,6 +12,78 @@ import { UserModel } from "src/interfaces/models/user";
 import { ProjectModel } from "src/interfaces/models/project";
 import { CommentModel } from "src/interfaces/models/comment";
 
+/**
+ * @swagger
+ * /api/comments/{commentId}:
+ *   put:
+ *     tags:
+ *       - comments
+ *     description: Update a comment based on its ID.
+ *     parameters:
+ *       - in: path
+ *         name: commentId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The unique identifier of the comment to be updated.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               detail:
+ *                 type: string
+ *                 description: The new content of the comment.
+ *             required:
+ *               - detail
+ *     security:
+ *       - CookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Comment successfully updated.
+ *       401:
+ *         description: Unauthorized - Missing or invalid token.
+ *
+ *   delete:
+ *     tags:
+ *       - comments
+ *     description: Delete a comment based on its ID.
+ *     parameters:
+ *       - in: path
+ *         name: commentId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The unique identifier of the comment to be deleted.
+ *     requestBody:
+ *       description: Payload containing the type and ID required for the deletion.
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               type:
+ *                 type: string
+ *                 description: Type of the entity associated with the comment. Can be 'user' or 'project'.
+ *               id:
+ *                 type: string
+ *                 description: ID of the user or project associated with the comment.
+ *             required:
+ *               - type
+ *               - id
+ *     security:
+ *       - CookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Comment successfully deleted.
+ *       400:
+ *         description: Bad request - No permission to delete this comment.
+ *       401:
+ *         description: Unauthorized - Missing or invalid token.
+ */
+
 export async function PUT(request: NextRequest, { params }: { params: { commentId: string } }) {
     try {
         await withAuthVerify(request);

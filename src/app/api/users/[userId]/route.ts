@@ -7,6 +7,29 @@ import { ShowProject } from "src/interfaces/datas/project";
 import { PublicUserData } from "src/interfaces/datas/user";
 import { ProjectStatus } from "src/interfaces/models/enums";
 
+/**
+ * @swagger
+ * /api/users/{userId}:
+ *   get:
+ *     tags:
+ *       - users
+ *     description: Retrieve user information by user ID, including project summaries and profile details.
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The unique identifier of the user whose information is to be retrieved.
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved user information
+ *       404:
+ *         description: User with the specified ID does not exist
+ *       500:
+ *         description: Internal server error
+ */
+
 export async function GET(request: NextRequest, { params }: { params: { userId: string } }) {
     try {
         const uid = params.userId;

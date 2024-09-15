@@ -32,7 +32,7 @@ export default function CarouselProductCard({ title, data, showEditProject }: Pr
 
     return (
         <section className="relative">
-            <p className="pb-2 font-bold">{title}</p>
+            <p className="text-xl font-bold text-orange-600">{title}</p>
             <div className="relative">
                 <button
                     onClick={scrollLeft}

@@ -6,6 +6,45 @@ import { createReply } from "src/libs/databases/replies";
 import { errorHandler } from "src/libs/errors/apiError";
 import { withAuthVerify } from "src/utils/api/auth";
 
+/**
+ * @swagger
+ * /api/replies/create/{parentCommentId}:
+ *   post:
+ *     tags:
+ *       - replies
+ *     description: Create a reply to a comment specified by `parentCommentId`. This endpoint allows users to add a new reply to an existing comment.
+ *     parameters:
+ *       - in: path
+ *         name: parentCommentId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The unique identifier of the parent comment to which the reply will be added.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               detail:
+ *                 type: string
+ *                 description: The detail of the reply.
+ *             required:
+ *               - detail
+ *     security:
+ *       - CookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Reply successfully created
+ *       400:
+ *         description: Bad request - Invalid input or data format
+ *       401:
+ *         description: Unauthorized - Missing or invalid token
+ *       404:
+ *         description: Not Found - The pa
+ */
+
 export async function POST(
     request: NextRequest,
     { params }: { params: { parentCommentId: string } }

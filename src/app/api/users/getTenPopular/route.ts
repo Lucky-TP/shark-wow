@@ -6,6 +6,20 @@ import { UserModel } from "src/interfaces/models/user";
 import { PopularCreator } from "src/interfaces/datas/user";
 import { errorHandler } from "src/libs/errors/apiError";
 
+/**
+ * @swagger
+ * /api/users/getTenPopular:
+ *   get:
+ *     tags:
+ *       - users
+ *     description: Retrieve the top ten creators based on popularity metrics.
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved the top ten popular users
+ *       500:
+ *         description: Internal server error
+ */
+
 export async function GET(request: NextRequest) {
     try {
         const userCollection = getCollectionRef(CollectionPath.USER);
@@ -30,7 +44,7 @@ export async function GET(request: NextRequest) {
             topTen.push(tmp);
         });
         return NextResponse.json(
-            { message: "retrieve 10 popular user successful", data: topTen },
+            { message: "Retrieve 10 popular user successful", data: topTen },
             { status: StatusCode.SUCCESS }
         );
     } catch (error: unknown) {

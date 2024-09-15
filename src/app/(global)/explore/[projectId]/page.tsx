@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import MainProjectOverview from "src/components/productDetails/projectOverview/MainProjectOverview";
 import MainProjectTabs from "src/components/productDetails/projectTabs/MainProjectTabs";

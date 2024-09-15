@@ -28,7 +28,6 @@ export default function MainExplore() {
             ProjectCategories.ART,
             ProjectCategories.TECHNOLOGY,
             ProjectCategories.EDUCATION,
-            ProjectCategories.ART,
             ProjectCategories.FILM,
             ProjectCategories.MUSIC,
             ProjectCategories.FOOD,
@@ -136,23 +135,29 @@ export default function MainExplore() {
             </div>
             <div className="flex">
                 <div className="flex flex-col" style={{ width: `21%` }}>
-                    <p
-                        className="text-xl font-bold text-left ml-12 mb-4 cursor-pointer"
+                    <h3
+                        className="sm:text-xl lg:text-2xl text-orange-600 font-bold text-left ml-12 mb-4 cursor-pointer"
                         onClick={() => handleCategoryClick(null)}
                     >
                         Category
-                    </p>
-                    {categories.map((category, i) => (
-                        <button
-                            key={i}
-                            className={`ml-12 mb-2 text-left ${
-                                selectedCategory === category ? "font-bold" : ""
-                            }`}
-                            onClick={() => handleCategoryClick(category)}
-                        >
-                            {category}
-                        </button>
-                    ))}
+                    </h3>
+                    <ul
+                        className="flex flex-col gap-y-[1.5vh] pl-[2vw] pr-[4vw] "
+                    >
+                        {categories.map((category, i) => (
+                            <li
+                                key={i}
+                                className={`cursor-pointer pl-[2vw]  w-full text-left sm:text-lg lg:text-xl font-medium   hover:text-orange-600 
+                                    rounded-xl hover:bg-orange-200 transition-colors duration-500 py-[0.5vh]
+                                    ${selectedCategory === category ? "text-orange-600 bg-orange-200" : "text-orange-400"} 
+                                `}
+                                onClick={() => handleCategoryClick(category)}
+                            >
+                                {category}
+                            </li>
+                        ))}                        
+                    </ul>
+
                 </div>
 
                 <div className="text-xl flex flex-col" style={{ width: `73%` }}>

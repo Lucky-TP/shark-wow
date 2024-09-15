@@ -5,6 +5,32 @@ import { errorHandler } from "src/libs/errors/apiError";
 import { withAuthVerify } from "src/utils/api/auth";
 import { StatusCode } from "src/constants/statusCode";
 
+/**
+ * @swagger
+ * /api/users/favorites/{projectId}:
+ *   put:
+ *     tags:
+ *       - users
+ *     description: Update the list of user's favorite projects. If the project ID is already in the favorites, it will be removed; otherwise, it will be added.
+ *     parameters:
+ *       - in: path
+ *         name: projectId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The unique identifier of the project to be added or removed from favorites.
+ *     security:
+ *       - CookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Successfully updated the favorite project list
+ *       401:
+ *         description: Unauthorized - Missing or invalid token
+ *       500:
+ *         description: Internal server error
+ */
+
+
 export async function PUT(request: NextRequest, { params }: { params: { projectId: string } }) {
     const newProjectId = params.projectId;
     try {

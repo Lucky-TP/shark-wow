@@ -6,6 +6,30 @@ import { ShowProject } from "src/interfaces/datas/project";
 import { StatusCode } from "src/constants/statusCode";
 import { ProjectStatus } from "src/interfaces/models/enums";
 
+/**
+ * @swagger
+ * /api/projects/getByCategories:
+ *   get:
+ *     tags:
+ *       - projects
+ *     description: Retrieve projects filtered by specified categories.
+ *     parameters:
+ *       - in: query
+ *         name: category
+ *         schema:
+ *           type: array
+ *           items:
+ *             type: string
+ *         description: List of categories to filter projects by. Multiple values can be provided.
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved projects filtered by categories
+ *       400:
+ *         description: Bad request - Categories parameter is missing or empty
+ *       500:
+ *         description: Failed to retrieve projects
+ */
+
 export async function GET(request: NextRequest) {
     try {
         const categories = request.nextUrl.searchParams.getAll("category");

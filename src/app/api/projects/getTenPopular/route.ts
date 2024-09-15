@@ -6,6 +6,20 @@ import { getCollectionRef } from "src/libs/databases/firestore";
 import { ProjectStatus } from "src/interfaces/models/enums";
 import { ShowProject } from "src/interfaces/datas/project";
 
+/**
+ * @swagger
+ * /api/projects/getTenPopular:
+ *   get:
+ *     tags:
+ *       - projects
+ *     description: Retrieve the top 10 most popular projects based on popularity metrics.
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved the top 10 popular projects
+ *       500:
+ *         description: Failed to retrieve popular projects
+ */
+
 export async function GET(request: NextRequest) {
     try {
         const projectCollection = getCollectionRef(CollectionPath.PROJECT);

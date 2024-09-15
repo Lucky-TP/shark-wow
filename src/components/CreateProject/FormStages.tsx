@@ -1,5 +1,4 @@
-"use client";
-
+"use client"
 import React, { useEffect, useState } from "react";
 import { Form, InputNumber, Button, Typography, message, Input, DatePicker } from "antd";
 import { useRouter } from "next/navigation";
@@ -7,9 +6,10 @@ import { getProjectById } from "src/services/apiService/projects/getProjectById"
 import { editProjectById } from "src/services/apiService/projects/editProjectById";
 import { ProjectModel, Stage } from "src/interfaces/models/project";
 import { StageId, StageStatus } from "src/interfaces/models/enums";
-import QuillEditor from "../global/QuillEditor"; // Adjust the path if necessary
-import dayjs from "dayjs";
-import { dateToString, stringToDate } from "src/utils/date/dateConversion";
+import QuillEditor from "../global/QuillEditor";
+import { dayjsToString, stringToDayjs } from "src/utils/date/dateConversion";
+import { Dayjs } from "dayjs";
+import LoadingSection from "../global/LoadingSection";
 
 const { Title } = Typography;
 const { RangePicker } = DatePicker;
@@ -25,60 +25,54 @@ export default function FormStages({ projectId }: Props) {
     const [prototypeDetail, setPrototypeDetail] = useState<string>("");
     const [productionDetail, setProductionDetail] = useState<string>("");
     const [totalValue, setTotalValue] = useState<number>(0);
-    const [conceptStartDate, setConceptStartDate] = useState<Date | null>(new Date());
-    const [conceptExpireDate, setConceptExpireDate] = useState<Date | null>(new Date());
-    const [prototypeStartDate, setPrototypeStartDate] = useState<Date | null>(new Date());
-    const [prototypeExpireDate, setPrototypeExpireDate] = useState<Date | null>(new Date());
-    const [productionStartDate, setProductionStartDate] = useState<Date | null>(new Date());
-    const [productionExpireDate, setProductionExpireDate] = useState<Date | null>(new Date());
+    const [stages, setStages] = useState<Stage[] | null>(null);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchProjectData = async () => {
             try {
+                setLoading(true);
                 const response = await getProjectById(projectId);
                 if (response.data) {
-                    const conceptStage = response.data.stages[StageId.CONCEPT];
-                    const prototypeStage = response.data.stages[StageId.PROTOTYPE];
-                    const productionStage = response.data.stages[StageId.PRODUCTION];
-                    setConceptStartDate(stringToDate(conceptStage?.startDate!));
-                    setConceptExpireDate(stringToDate(conceptStage?.expireDate!));
-                    setPrototypeStartDate(stringToDate(prototypeStage?.startDate!));
-                    setPrototypeExpireDate(stringToDate(prototypeStage?.expireDate!));
-                    setProductionStartDate(stringToDate(productionStage?.startDate!));
-                    setProductionExpireDate(stringToDate(productionStage?.expireDate!));
-
+                    setStages(response.data.stages);
+                    const retrivedConceptStage = response.data.stages[StageId.CONCEPT];
+                    const retrivedPrototypeStage = response.data.stages[StageId.PROTOTYPE];
+                    const retrivedProductionStage = response.data.stages[StageId.PRODUCTION];
+                    const projectStatus = response.data.status;
+                    const { totalQuantity, costPerQuantity } = response.data;
+                    const combinedValue = totalQuantity * costPerQuantity;
+    
+                    setTotalValue(combinedValue);
+    
+                    // Check to avoid division by zero
+                    const conceptOwnership = combinedValue ? (retrivedConceptStage.goalFunding * 100) / combinedValue : 0;
+                    const prototypeOwnership = combinedValue ? (retrivedPrototypeStage.goalFunding * 100) / combinedValue : 0;
+                    const productionOwnership = combinedValue ? (retrivedProductionStage.goalFunding * 100) / combinedValue : 0;
+    
                     form.setFieldsValue({
-                        packages: response.data.totalQuantity || undefined,
-                        cpp: response.data.costPerQuantity || undefined,
-                        conceptOwnership:
-                            (conceptStage.goalFunding * 100) /
-                                (response.data.totalQuantity * response.data.costPerQuantity) ||
-                            undefined,
-                        prototypeOwnership:
-                            (prototypeStage.goalFunding * 100) /
-                                (response.data.totalQuantity * response.data.costPerQuantity) ||
-                            undefined,
-                        productionOwnership:
-                            (productionStage.goalFunding * 100) /
-                                (response.data.totalQuantity * response.data.costPerQuantity) ||
-                            undefined,
-                        // conceptStartDate: timestampToDate(conceptStage?.startDate!),
-                        // conceptExpireDate: timestampToDate(conceptStage?.expireDate!),
-                        // prototypeStartDate: timestampToDate(prototypeStage?.startDate!),
-                        // prototypeExpireDate: timestampToDate(prototypeStage?.expireDate!),
-                        // productionStartDate: timestampToDate(productionStage?.startDate!),
-                        // productionExpireDate: timestampToDate(productionStage?.expireDate!),
+                        packages: response.data.totalQuantity,
+                        cpp: response.data.costPerQuantity,
+                        conceptOwnership,
+                        prototypeOwnership,
+                        productionOwnership,
+                        conceptStartDate: stringToDayjs(retrivedConceptStage.startDate),
+                        conceptExpireDate: stringToDayjs(retrivedConceptStage.expireDate),
+                        prototypeStartDate: stringToDayjs(retrivedPrototypeStage.startDate),
+                        prototypeExpireDate: stringToDayjs(retrivedPrototypeStage.expireDate),
+                        productionStartDate: stringToDayjs(retrivedProductionStage.startDate),
+                        productionExpireDate: stringToDayjs(retrivedProductionStage.expireDate),
                     });
-                    setConceptDetail(conceptStage?.detail ?? "");
-                    setPrototypeDetail(prototypeStage?.detail ?? "");
-                    setProductionDetail(productionStage?.detail ?? "");
+                    setConceptDetail(retrivedConceptStage.detail);
+                    setPrototypeDetail(retrivedPrototypeStage.detail);
+                    setProductionDetail(retrivedProductionStage.detail);
                 }
-            } catch (error) {
+            } catch (error: unknown) {
                 console.error("Failed to fetch project data", error);
+            } finally {
+                setLoading(false);
             }
         };
-
+    
         fetchProjectData();
     }, [form, projectId]);
 
@@ -132,18 +126,85 @@ export default function FormStages({ projectId }: Props) {
         }
     };
 
+    const dateValidator = (value: [Dayjs, Dayjs] | null, key: string) => {
+        if (!value || !stages) return Promise.resolve();
+    
+        const [startDate, endDate] = value;
+        const stageId = StageId[key as keyof typeof StageId];
+        
+        if (key === "productionDates") {
+            const prototypeDates = form.getFieldValue("prototypeDates") || [];
+            const [prototypeStart, prototypeEnd] = prototypeDates;
+            if (startDate.isBefore(prototypeEnd)) {
+                return Promise.reject(new Error("Production start date must be after Prototype end date"));
+            }
+        }
+    
+        if (key === "prototypeDates") {
+            const conceptDates = form.getFieldValue("conceptDates") || [];
+            const [conceptStart, conceptEnd] = conceptDates;
+            if (startDate.isBefore(conceptEnd)) {
+                return Promise.reject(new Error("Prototype start date must be after Concept end date"));
+            }
+        }
+    
+        return Promise.resolve();
+    };
+
+    const disabledDate = (current: Dayjs) => {
+        if (!stages) return false;
+        
+        const conceptDates = form.getFieldValue("conceptDates") || [];
+        const prototypeDates = form.getFieldValue("prototypeDates") || [];
+        const productionDates = form.getFieldValue("productionDates") || [];
+        
+        const [conceptStart, conceptEnd] = conceptDates;
+        const [prototypeStart, prototypeEnd] = prototypeDates;
+        const [productionStart, productionEnd] = productionDates;
+        
+        // Disable dates before concept start date
+        if (conceptStart && current.isBefore(conceptStart, 'day')) {
+            return true;
+        }
+        
+        // Disable dates before prototype start date if concept end date exists
+        if (conceptEnd && current.isBefore(conceptEnd.add(1, 'day'), 'day') && (!prototypeStart || current.isAfter(prototypeStart, 'day'))) {
+            return true;
+        }
+    
+        // Disable dates before production start date if prototype end date exists
+        if (prototypeEnd && current.isBefore(prototypeEnd.add(1, 'day'), 'day') && (!productionStart || current.isAfter(productionStart, 'day'))) {
+            return true;
+        }
+    
+        // Disable dates after production end date if production end date exists
+        if (productionEnd && current.isAfter(productionEnd, 'day')) {
+            return true;
+        }
+        
+        return false;
+    };
+
     const onFinish = async (values: any) => {
         setLoading(true);
+        if (!stages) {
+            return;
+        }
+
         const updatedStages: Stage[] = [
             {
                 stageId: StageId.CONCEPT,
                 name: "Concept",
-                startDate: dateToString(conceptStartDate!),
-                expireDate: dateToString(conceptExpireDate!),
+                startDate: values.conceptDates
+                    ? dayjsToString(values.conceptDates[0])
+                    : stages[StageId.CONCEPT].startDate,
+                expireDate: values.conceptDates
+                    ? dayjsToString(values.conceptDates[1])
+                    : stages[StageId.CONCEPT].expireDate,
                 status: StageStatus.CURRENT,
                 detail: conceptDetail,
                 imageUrl: "",
-                fundingCost: 0,
+                fundingCost: (values.conceptOwnership / 100) * values.cpp,
                 currentFunding: 0,
                 goalFunding: (values.conceptOwnership / 100) * totalValue,
                 totalSupporter: 0,
@@ -151,12 +212,16 @@ export default function FormStages({ projectId }: Props) {
             {
                 stageId: StageId.PROTOTYPE,
                 name: "Prototype",
-                startDate: dateToString(prototypeStartDate!),
-                expireDate: dateToString(prototypeExpireDate!),
+                startDate: values.prototypeDates
+                    ? dayjsToString(values.prototypeDates[0])
+                    : stages[StageId.PROTOTYPE].startDate,
+                expireDate: values.prototypeDates
+                    ? dayjsToString(values.prototypeDates[1])
+                    : stages[StageId.PROTOTYPE].expireDate,
                 status: StageStatus.INCOMING,
                 detail: prototypeDetail,
                 imageUrl: "",
-                fundingCost: 0,
+                fundingCost: (values.prototypeOwnership / 100) * values.cpp,
                 currentFunding: 0,
                 goalFunding: (values.prototypeOwnership / 100) * totalValue,
                 totalSupporter: 0,
@@ -164,12 +229,16 @@ export default function FormStages({ projectId }: Props) {
             {
                 stageId: StageId.PRODUCTION,
                 name: "Production",
-                startDate: dateToString(productionStartDate!),
-                expireDate: dateToString(productionExpireDate!),
+                startDate: values.productionDates
+                    ? dayjsToString(values.productionDates[0])
+                    : stages[StageId.PRODUCTION].startDate,
+                expireDate: values.productionDates
+                    ? dayjsToString(values.productionDates[1])
+                    : stages[StageId.PRODUCTION].expireDate,
                 status: StageStatus.INCOMING,
                 detail: productionDetail,
                 imageUrl: "",
-                fundingCost: 0,
+                fundingCost: (values.productionOwnership / 100) * values.cpp,
                 currentFunding: 0,
                 goalFunding: (values.productionOwnership / 100) * totalValue,
                 totalSupporter: 0,
@@ -195,6 +264,10 @@ export default function FormStages({ projectId }: Props) {
         setLoading(false);
     };
 
+    if (loading) {
+        return <LoadingSection />
+    }
+
     return (
         <Form form={form} layout="vertical" onFinish={onFinish} className="w-full">
             <Title level={2}>Form Stages</Title>
@@ -206,14 +279,15 @@ export default function FormStages({ projectId }: Props) {
             </Form.Item>
             <Title level={4}>Total Funding: {totalValue.toLocaleString()} baht</Title>
             <Title level={3}>Stage 1: Concept</Title>
-            <Form.Item name="conceptDates" label="Start and End Dates">
+            <Form.Item name="conceptDates" label="Start and End Dates" rules={[{ validator: (rule, value) => dateValidator(value, "conceptDates") }]} >
                 <RangePicker
                     name="conceptDates"
                     format="DD-MM-YYYY"
                     defaultValue={[
-                        dayjs(dayjs(conceptStartDate).format("DD-MM-YYYY"), "DD-MM-YYYY"),
-                        dayjs(dayjs(conceptExpireDate).format("DD-MM-YYYY"), "DD-MM-YYYY"),
+                        stages ? stringToDayjs(stages[StageId.CONCEPT].startDate) : null,
+                        stages ? stringToDayjs(stages[StageId.CONCEPT].expireDate) : null,
                     ]}
+                    disabledDate={disabledDate}
                 />
             </Form.Item>
             <Form.Item name="conceptOwnership" label="Ownership (%)">
@@ -225,17 +299,16 @@ export default function FormStages({ projectId }: Props) {
             </Form.Item>
             <QuillEditor value={conceptDetail} onChange={setConceptDetail} projectId={projectId} />
 
-            <Title level={3} className="mt-12">
-                Stage 2: Prototype
-            </Title>
-            <Form.Item name="prototypeDates" label="Start and End Dates">
+            <Title level={3} className="mt-12">Stage 2: Prototype</Title>
+            <Form.Item name="prototypeDates" label="Start and End Dates" rules={[{ validator: (rule, value) => dateValidator(value, "prototypeDates") }]} >
                 <RangePicker
                     name="prototypeDates"
                     format="DD-MM-YYYY"
                     defaultValue={[
-                        dayjs(dayjs(prototypeStartDate).format("DD-MM-YYYY"), "DD-MM-YYYY"),
-                        dayjs(dayjs(prototypeExpireDate).format("DD-MM-YYYY"), "DD-MM-YYYY"),
+                        stages ? stringToDayjs(stages[StageId.PROTOTYPE].startDate) : null,
+                        stages ? stringToDayjs(stages[StageId.PROTOTYPE].expireDate) : null,
                     ]}
+                    disabledDate={disabledDate}
                 />
             </Form.Item>
             <Form.Item name="prototypeOwnership" label="Ownership (%)">
@@ -245,23 +318,18 @@ export default function FormStages({ projectId }: Props) {
                     onChange={(value) => handleOwnershipChange("prototypeOwnership", value)}
                 />
             </Form.Item>
-            <QuillEditor
-                value={prototypeDetail}
-                onChange={setPrototypeDetail}
-                projectId={projectId}
-            />
+            <QuillEditor value={prototypeDetail} onChange={setPrototypeDetail} projectId={projectId} />
 
-            <Title level={3} className="mt-12">
-                Stage 3: Production
-            </Title>
-            <Form.Item name="productionDates" label="Start and End Dates">
+            <Title level={3} className="mt-12">Stage 3: Production</Title>
+            <Form.Item name="productionDates" label="Start and End Dates" rules={[{ validator: (rule, value) => dateValidator(value, "productionDates") }]} >
                 <RangePicker
                     name="productionDates"
                     format="DD-MM-YYYY"
                     defaultValue={[
-                        dayjs(dayjs(productionStartDate).format("DD-MM-YYYY"), "DD-MM-YYYY"),
-                        dayjs(dayjs(productionExpireDate).format("DD-MM-YYYY"), "DD-MM-YYYY"),
+                        stages ? stringToDayjs(stages[StageId.PRODUCTION].startDate) : null,
+                        stages ? stringToDayjs(stages[StageId.PRODUCTION].expireDate) : null,
                     ]}
+                    disabledDate={disabledDate}
                 />
             </Form.Item>
             <Form.Item name="productionOwnership" label="Ownership (%)">
@@ -271,11 +339,7 @@ export default function FormStages({ projectId }: Props) {
                     onChange={(value) => handleOwnershipChange("productionOwnership", value)}
                 />
             </Form.Item>
-            <QuillEditor
-                value={productionDetail}
-                onChange={setProductionDetail}
-                projectId={projectId}
-            />
+            <QuillEditor value={productionDetail} onChange={setProductionDetail} projectId={projectId} />
 
             <Form.Item>
                 <Button
