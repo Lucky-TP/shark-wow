@@ -11,7 +11,7 @@ import { UserData } from 'src/interfaces/datas/user'
 import { CreateCommentPayload } from 'src/interfaces/payload/commentPayload';
 
 import { Input } from 'antd';
-import { FaRegCommentDots } from "react-icons/fa6";
+import { FaComment } from "react-icons/fa";
 
 
 type Props = {
@@ -104,30 +104,32 @@ export default function AddCommentSection({currentUser}: Props) {
                 </div>
                 <form
                     onSubmit={handleSubmit(OnCreatingComment)}
+                    className='flex flex-col gap-y-[1vh]'
                 >
-                    <Controller
-                        name="commentDetails"  // Fix the name to match your form input
-                        control={control}
-                        rules={{
-                            required: 'This field is required.',
-                        }}
-                        render={({ field }) => (
-                            <Input.TextArea
-                                {...field}
-                                placeholder="Write your comment here..."
-                                className='w-full'
+                        <div>
+                            <Controller
+                                name="commentDetails"  // Fix the name to match your form input
+                                control={control}
+                                rules={{
+                                    required: 'This field is required.',
+                                }}
+                                render={({ field }) => (
+                                    <Input.TextArea
+                                        {...field}
+                                        placeholder="Write your comment here..."
+                                        className='w-full'
+                                    />
+                                )}
                             />
-                        )}
-                    />
-                    {errors.commentDetails && (
-                        <p className="text-red-500">This field is required.</p>
-                    )} 
-                
-                 
-
-                    <button type="submit">
-                        <FaRegCommentDots/>
-                    </button>
+                            {errors.commentDetails && (
+                                <p className="text-red-500">This field is required.</p>
+                            )}                             
+                        </div>
+                    <div className='flex w-full justify-end'>
+                        <button type="submit" className='flex flex-end  text-orange-50 bg-orange-400 px-[1.5vw] py-[1vh] rounded-lg hover:scale-[1.01] hover:bg-orange-500 duration-700 transition-all'>
+                            <FaComment/>
+                        </button>   
+                    </div>
                 </form>
             </div>
         </div>
