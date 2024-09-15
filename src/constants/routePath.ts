@@ -35,9 +35,11 @@ export const apiPath = {
     COMMENTS: {
         USER: {
             CREATE: (userId: string) => `${API_BASE_URL}/api/comments/user/${userId}`,
+            GET: (userId: string) => `${API_BASE_URL}/api/comments/user/${userId}`,
         },
         PROJECT: {
             CREATE: (projectId: string) => `${API_BASE_URL}/api/comments/project/${projectId}`,
+            GET: (projectId: string) => `${API_BASE_URL}/api/comments/project/${projectId}`,
         },
         UPDATE: (commentId: string) => `${API_BASE_URL}/api/comments/${commentId}`,
         DELETE: (commentId: string) => `${API_BASE_URL}/api/comments/${commentId}`,
