@@ -33,7 +33,7 @@ export function UserInfo({ user }: Props) {
                 </button>
                 <button
                     className="bg-[#D2825E] text-white font-semibold py-2 px-16 rounded-xl text-xl"
-                    onClick={() => router.push("/setting")}
+                    onClick={() => router.push("/settings/profile-config")}
                 >
                     Setting
                 </button>
