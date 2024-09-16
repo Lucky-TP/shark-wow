@@ -4,6 +4,7 @@ import { Layout as AntdLayout, ConfigProvider } from "antd";
 import Navbar from "./navigation/Navbar";
 import Footer from "./footer/Footer";
 import { usePathname } from "next/navigation";
+import { UserProvider } from "src/context/custom-hooks/useUserData";
 interface Props {
     children: React.ReactNode;
 }
@@ -14,29 +15,30 @@ const Layout: NextPage<Props> = ({ children }) => {
     const hideNavbarAndFooter = hiddenPaths.includes(currentPath);
 
     return (
-        <AntdLayout className="min-h-screen w-screen">
-            <ConfigProvider
-                theme={{
-                    token: {
-                        colorPrimary: "#C54F1F",
-                    },
-                    components: {
-                        Button: {
-                            colorPrimaryBorderHover: "#C54F1F",
-                            colorPrimaryHover: "#C54F1F",
+        <UserProvider>
+            <AntdLayout className="min-h-screen w-screen">
+                <ConfigProvider
+                    theme={{
+                        token: {
                             colorPrimary: "#C54F1F",
-                            colorPrimaryActive: "#C54F1F",
-                            colorPrimaryTextHover: "#C54F1F",
                         },
-                    },
-                }}
-            >
-
+                        components: {
+                            Button: {
+                                colorPrimaryBorderHover: "#C54F1F",
+                                colorPrimaryHover: "#C54F1F",
+                                colorPrimary: "#C54F1F",
+                                colorPrimaryActive: "#C54F1F",
+                                colorPrimaryTextHover: "#C54F1F",
+                            },
+                        },
+                    }}
+                >
                     {!hideNavbarAndFooter && <Navbar />}
                     <main className="min-h-screen bg-orange-50 pt-[10vh]">{children}</main>
                     {!hideNavbarAndFooter && <Footer />}
-            </ConfigProvider>
-        </AntdLayout>
+                </ConfigProvider>
+            </AntdLayout>
+        </UserProvider>
     );
 };
 
