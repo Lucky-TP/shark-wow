@@ -5,6 +5,9 @@ import Navbar from "./navigation/Navbar";
 import Footer from "./footer/Footer";
 import { usePathname } from "next/navigation";
 import { UserProvider } from "src/context/custom-hooks/useUserData";
+import { Suspense } from "react";
+import LoadingPage from "./LoadingPage";
+
 interface Props {
     children: React.ReactNode;
 }
@@ -33,9 +36,11 @@ const Layout: NextPage<Props> = ({ children }) => {
                         },
                     }}
                 >
-                    {!hideNavbarAndFooter && <Navbar />}
-                    <main className="min-h-screen bg-orange-50 pt-[10vh]">{children}</main>
-                    {!hideNavbarAndFooter && <Footer />}
+                    <Suspense fallback={<LoadingPage />}>
+                        {!hideNavbarAndFooter && <Navbar />}
+                        <main className="min-h-screen bg-orange-50 pt-[10vh]">{children}</main>
+                        {!hideNavbarAndFooter && <Footer />}
+                    </Suspense>
                 </ConfigProvider>
             </AntdLayout>
         </UserProvider>
