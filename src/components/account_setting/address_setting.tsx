@@ -1,14 +1,27 @@
 "use client";
 
 import React from "react";
-import { Form, Input, Button, Checkbox, Select, Space } from "antd"; // Import Space
+import { Form, Input, Button, Checkbox, Select, Space, message } from "antd"; // Import message for notifications
+import axios from "axios"; // Import axios for backend integration
 
 const { Option } = Select;
 
 const SettingAddress: React.FC = () => {
+    const onFinish = async (values: any) => {
+        try {
+            // Replace with your backend API URL
+            const response = await axios.post("/api/address", values);
+            if (response.status === 200) {
+                message.success("Address created successfully!");
+            }
+        } catch (error) {
+            message.error("Failed to create address. Please try again.");
+        }
+    };
+
     return (
-        <div className="bg-[#E5D8CA] p-8 w-full pt-6 pl-48 pr-48">
-            <Form layout="vertical">
+        <div className="p-8 w-full pt-6 pl-40 pr-40">
+            <Form layout="vertical" onFinish={onFinish}>
                 <div className="pb-8">
                     <h2 className="text-black text-xl font-bold pb-2 border-b border-gray-400">
                         Create a new address
@@ -19,6 +32,7 @@ const SettingAddress: React.FC = () => {
                 <Form.Item
                     label={<label className="text-black text-sm font-bold">Full Name</label>}
                     name="fullName"
+                    rules={[{ required: true, message: "Please enter your full name" }]}
                 >
                     <Input placeholder="Full Name" />
                 </Form.Item>
@@ -29,6 +43,7 @@ const SettingAddress: React.FC = () => {
                         <label className="text-black text-sm font-bold">Country or Region</label>
                     }
                     name="countryOrRegion"
+                    rules={[{ required: true, message: "Please enter your country or region" }]}
                 >
                     <Input placeholder="Country or Region" />
                 </Form.Item>
@@ -37,6 +52,7 @@ const SettingAddress: React.FC = () => {
                 <Form.Item
                     label={<label className="text-black text-sm font-bold">Address Line 1</label>}
                     name="addressLine1"
+                    rules={[{ required: true, message: "Please enter address line 1" }]}
                 >
                     <Input placeholder="Address Line 1" />
                 </Form.Item>
@@ -53,6 +69,7 @@ const SettingAddress: React.FC = () => {
                 <Form.Item
                     label={<label className="text-black text-sm font-bold">City</label>}
                     name="city"
+                    rules={[{ required: true, message: "Please enter your city" }]}
                 >
                     <Input placeholder="City" />
                 </Form.Item>
@@ -62,12 +79,14 @@ const SettingAddress: React.FC = () => {
                     <Form.Item
                         label={<label className="text-black text-sm font-bold">Province</label>}
                         name="province"
+                        rules={[{ required: true, message: "Please enter your province" }]}
                     >
                         <Input placeholder="Province" />
                     </Form.Item>
                     <Form.Item
                         label={<label className="text-black text-sm font-bold">Postal Code</label>}
                         name="postalCode"
+                        rules={[{ required: true, message: "Please enter your postal code" }]}
                     >
                         <Input placeholder="Postal Code" />
                     </Form.Item>

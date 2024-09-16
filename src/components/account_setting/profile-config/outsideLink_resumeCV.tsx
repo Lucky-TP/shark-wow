@@ -56,11 +56,14 @@ const Resume_CV: React.FC = () => {
 };
 
 const OutsideLink_ResumeCV: React.FC = () => (
-    <div className="bg-[#E5D8CA] p-8 w-full pt-6 pl-48 pr-48">
+    <div className="p-8 w-full pt-6 pl-40 pr-40">
         <Form layout="vertical">
             <OutsideLink />
             <Resume_CV />
         </Form>
+        <div className="flex justify-end mt-6">
+            <Button type="primary">Save</Button>
+        </div>
     </div>
 );
 

@@ -4,7 +4,7 @@ import React from "react";
 
 const Other_Interests: React.FC = () => {
     return (
-        <div className="bg-[#E5D8CA] p-8 w-full pt-6 pl-48 pr-48">
+        <div className="p-8 w-full pt-6 pl-40 pr-40">
             <div className="pb-8">
                 <h2 className="text-black text-xl font-bold pb-2 border-b border-gray-400">
                     Other Interests
