@@ -4,12 +4,17 @@ import { pagePath } from "src/constants/routePath";
 import { USER_TOKEN } from "src/constants/cookiesKeyName";
 
 const publicPaths = [pagePath.ROOT, pagePath.SIGNIN];
+const privatePaths = [pagePath.PROFILE];
 
 export async function middleware(request: NextRequest) {
     const pathname = request.nextUrl.pathname;
     const isPublicPath = publicPaths.includes(pathname);
+    const isPrivatePath = privatePaths.includes(pathname);
     const token = request.cookies.get(USER_TOKEN)?.value || "";
 
+    if (!token && isPrivatePath) {
+        return NextResponse.redirect(new URL(pagePath.SIGNIN, request.nextUrl));
+    }
     // if (token && isPublicPath) {
     //     return NextResponse.redirect(
     //         new URL(pagePath.PROFILE, request.nextUrl)
