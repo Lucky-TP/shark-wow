@@ -5,7 +5,7 @@ import { Form, Input, Upload, Button, Typography } from "antd";
 
 const { Title } = Typography;
 
-export default function OutsideLink_ResumeCV_Save() {
+export default function OutsideLink_ResumeCV_SaveButton() {
     const [fileName, setFileName] = useState("");
 
     const handleFileChange = (info: any) => {
@@ -54,7 +54,15 @@ export default function OutsideLink_ResumeCV_Save() {
                 </div>
             </Form>
             <div className="flex justify-end mt-6">
-                <Button type="primary">Save</Button>
+                <Button
+                    className="w-fit mt-20"
+                    type="primary"
+                    //loading={loading}
+                    //disabled={loading}
+                    //onClick={onFinish}
+                >
+                    Save
+                </Button>
             </div>
         </div>
     );
