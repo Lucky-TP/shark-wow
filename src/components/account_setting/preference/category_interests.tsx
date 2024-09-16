@@ -2,7 +2,7 @@
 
 import React from "react";
 
-const Category_Interests: React.FC = () => {
+export default function Category_Interests() {
     return (
         <div className="p-8 w-full pt-6 pl-40 pr-40">
             <div className="pb-8">
@@ -117,6 +117,4 @@ const Category_Interests: React.FC = () => {
             </div>
         </div>
     );
-};
-
-export default Category_Interests;
+}

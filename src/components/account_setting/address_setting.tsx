@@ -1,12 +1,12 @@
 "use client";
 
 import React from "react";
-import { Form, Input, Button, Checkbox, Select, Space, message } from "antd"; // Import message for notifications
+import { Form, Input, Button, Checkbox, Select, message } from "antd"; // Import message for notifications
 import axios from "axios"; // Import axios for backend integration
 
 const { Option } = Select;
 
-const SettingAddress: React.FC = () => {
+export default function SettingAddress() {
     const onFinish = async (values: any) => {
         try {
             // Replace with your backend API URL
@@ -130,6 +130,4 @@ const SettingAddress: React.FC = () => {
             </Form>
         </div>
     );
-};
-
-export default SettingAddress;
+}

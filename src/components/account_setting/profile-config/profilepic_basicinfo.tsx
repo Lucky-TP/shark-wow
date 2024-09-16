@@ -1,9 +1,10 @@
 "use client";
+
 import React, { useState } from "react";
 import { Form, Input, Upload, Button } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 
-const ProfilePicture_BasicInformation: React.FC = () => {
+export default function ProfilePicture_BasicInformation() {
     const [imageUrl, setImageUrl] = useState<string | null>(null);
 
     // Convert file to Base64 format for image preview
@@ -75,8 +76,16 @@ const ProfilePicture_BasicInformation: React.FC = () => {
                                     label: "First Name",
                                     placeholder: "First Name",
                                 },
-                                { name: "lastname", label: "Last Name", placeholder: "Last Name" },
-                                { name: "country", label: "Country", placeholder: "Country" },
+                                {
+                                    name: "lastname",
+                                    label: "Last Name",
+                                    placeholder: "Last Name",
+                                },
+                                {
+                                    name: "country",
+                                    label: "Country",
+                                    placeholder: "Country",
+                                },
                             ].map(({ name, label, placeholder }) => (
                                 <Form.Item
                                     key={name}
@@ -110,6 +119,4 @@ const ProfilePicture_BasicInformation: React.FC = () => {
             </div>
         </div>
     );
-};
-
-export default ProfilePicture_BasicInformation;
+}

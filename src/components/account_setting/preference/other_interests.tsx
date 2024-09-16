@@ -2,7 +2,7 @@
 
 import React from "react";
 
-const Other_Interests: React.FC = () => {
+export default function Other_Interests() {
     return (
         <div className="p-8 w-full pt-6 pl-40 pr-40">
             <div className="pb-8">
@@ -31,7 +31,7 @@ const Other_Interests: React.FC = () => {
                             InDemand
                             <p className="text-sm text-gray-600 mt-2">
                                 Back projects after the campaign deadline has passed to show
-                                continuing support and receives perks at early discount.
+                                continuing support and receive perks at early discount.
                             </p>
                         </div>
                     </div>
@@ -81,6 +81,4 @@ const Other_Interests: React.FC = () => {
             </div>
         </div>
     );
-};
-
-export default Other_Interests;
+}

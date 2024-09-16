@@ -1,27 +1,30 @@
 "use client";
+
 import React, { useState } from "react";
 import { Form, Input, Upload, Button, Typography } from "antd";
 
 const { Title } = Typography;
 
-const OutsideLink: React.FC = () => (
-    <div className="pb-4">
-        <Title level={4} className="pb-2 border-b border-gray-400">
-            Outside Links
-        </Title>
-        {["Facebook", "Twitter", "YouTube"].map((platform) => (
-            <Form.Item
-                label={`${platform} Link`}
-                name={`${platform.toLowerCase()}Link`}
-                key={platform}
-            >
-                <Input placeholder={`${platform} Link`} />
-            </Form.Item>
-        ))}
-    </div>
-);
+export function OutsideLink() {
+    return (
+        <div className="pb-4">
+            <Title level={4} className="pb-2 border-b border-gray-400">
+                Outside Links
+            </Title>
+            {["Facebook", "Twitter", "YouTube"].map((platform) => (
+                <Form.Item
+                    label={`${platform} Link`}
+                    name={`${platform.toLowerCase()}Link`}
+                    key={platform}
+                >
+                    <Input placeholder={`${platform} Link`} />
+                </Form.Item>
+            ))}
+        </div>
+    );
+}
 
-const Resume_CV: React.FC = () => {
+export function Resume_CV() {
     const [fileName, setFileName] = useState("");
 
     const handleFileChange = (info: any) => {
@@ -53,18 +56,18 @@ const Resume_CV: React.FC = () => {
             </div>
         </div>
     );
-};
+}
 
-const OutsideLink_ResumeCV: React.FC = () => (
-    <div className="p-8 w-full pt-6 pl-40 pr-40">
-        <Form layout="vertical">
-            <OutsideLink />
-            <Resume_CV />
-        </Form>
-        <div className="flex justify-end mt-6">
-            <Button type="primary">Save</Button>
+export default function OutsideLink_ResumeCV() {
+    return (
+        <div className="p-8 w-full pt-6 pl-40 pr-40">
+            <Form layout="vertical">
+                <OutsideLink />
+                <Resume_CV />
+            </Form>
+            <div className="flex justify-end mt-6">
+                <Button type="primary">Save</Button>
+            </div>
         </div>
-    </div>
-);
-
-export default OutsideLink_ResumeCV;
+    );
+}
