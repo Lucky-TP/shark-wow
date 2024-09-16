@@ -51,8 +51,6 @@ export const ProjectDetailProvider = ({
                 const response = await getProjectById(projectId);
                 const data = response.data;
 
-                await new Promise((resolve) => setTimeout(resolve, 1000));
-
                 SetProjectDetailsPayload({
                     ...projectDetailPayload,
                     ProjectInfo: data !== undefined ? data : projectDetailPayload.ProjectInfo,

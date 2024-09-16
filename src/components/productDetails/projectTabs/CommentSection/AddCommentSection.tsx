@@ -1,7 +1,7 @@
 
-import React from 'react'
+import React, { useState } from 'react'
 
-import { useForm, SubmitHandler , Controller} from "react-hook-form"
+import { useForm, SubmitHandler , Controller, set} from "react-hook-form"
 
 import { useProjectDetails } from 'src/context/custom-hooks/useProjectDetails';
 import { addCommentToProject } from 'src/services/apiService/comments/addCommentToProject';
@@ -12,14 +12,17 @@ import { CreateCommentPayload } from 'src/interfaces/payload/commentPayload';
 
 import { Input } from 'antd';
 import { FaComment } from "react-icons/fa";
+import { addCommentToUser } from 'src/services/apiService/comments/addCommentToUser';
 
 
 type Props = {
+    type : string 
     currentUser : UserData
 }
 
 interface IFormInput {
     commentDetails: string
+    type : string 
   }
 
 const FormatDateSinceWhen = (date: string | undefined ):string  =>{
@@ -30,12 +33,14 @@ const FormatDateSinceWhen = (date: string | undefined ):string  =>{
     return `${Math.round(diffInDays)} days ago`
 } 
 
-export default function AddCommentSection({currentUser}: Props) {
+export default function AddCommentSection({currentUser , type  }: Props) {
     const { UserInfo , ProjectInfo , OnReFetchingData} = useProjectDetails();
+
+    const [disable,setDisable] = useState<boolean>(false)
+
 
     const { 
         reset,
-        // register, 
         handleSubmit, 
         control,
         formState: { errors }, 
@@ -49,17 +54,19 @@ export default function AddCommentSection({currentUser}: Props) {
 
     const OnCreatingComment : SubmitHandler<IFormInput> = async (data) => {
         try{
-            if (ProjectInfo.projectId) {
+            if (ProjectInfo.projectId && UserInfo.uid){ 
                 const payload : CreateCommentPayload = {
                     detail : data.commentDetails
                 }
-                addCommentToProject(ProjectInfo.projectId, payload);
+                setDisable(true)
+                type ===  "project" ?
+                addCommentToProject(ProjectInfo.projectId, payload) : 
+                addCommentToUser(UserInfo.uid, payload)
                 reset()
-                // if(OnReFetchingData ){
-                //     await OnReFetchingData()
-                // }                
+                setDisable(false)
             }
-        }catch(err){
+        } catch (err) {
+            setDisable(false)
             console.log(err)
         }
     }
@@ -67,10 +74,10 @@ export default function AddCommentSection({currentUser}: Props) {
     return (
         <div className='flex flex-col w-full bg-orange-200 px-[2vw] py-[1.5vh]'>   
             <div className='flex flex-col bg-orange-100 p-4 border border-orange-300 rounded-xl w-full gap-y-[2vh]'>
-                <div className='flex flex-row gap-x-[2vw]'>
+            <div className='flex flex-row justify-between items-center'>
                     {
                         currentUser?.username && 
-                        <>
+                        <div className='flex flex-row gap-x-[2vw] items-center'>
                             <div className='w-[3.5vw] rounded-full'>
                                 <img
                                     src={currentUser.profileImageUrl}
@@ -79,11 +86,16 @@ export default function AddCommentSection({currentUser}: Props) {
                                 />
                             </div>
                             <div>
-                                <div className='flex flex-row gap-x-[2vw] items-center'>
-                                    <h3 className='hover:underline text-xl font-normal '>
-                                        {currentUser.username}
-                                    </h3>
+                                <div className='flex flex-row gap-x-[2vw] items-center justify-center'>
                                     <span>
+                                        <h3 className='hover:underline text-xl font-normal '>
+                                            {currentUser.username}
+                                        </h3>
+                                        <p>
+                                            {FormatDateSinceWhen(currentUser.birthDate)}
+                                        </p>                                        
+                                    </span>
+                                    <span className='flex items-center'>
                                         {
                                             UserInfo.uid === currentUser.uid ? 
                                             <p className='text-orange-100 bg-orange-500 px-[1vw] py-[0.5vh] rounded-xl hover:opacity-80'>
@@ -96,11 +108,10 @@ export default function AddCommentSection({currentUser}: Props) {
                                         }
                                     </span>
                                 </div>
-                                <p>
-                                    {FormatDateSinceWhen(currentUser.birthDate)}
-                                </p>
+
                             </div>
-                        </>
+
+                        </div>
                     }
                 </div>
                 <form
@@ -117,7 +128,7 @@ export default function AddCommentSection({currentUser}: Props) {
                                 render={({ field }) => (
                                     <Input.TextArea
                                         {...field}
-                                        placeholder="Write your comment here..."
+                                        placeholder={`Write your comment to ${type === "project" ? "project" : "creator"} here...`}
                                         className='w-full'
                                     />
                                 )}
@@ -127,7 +138,11 @@ export default function AddCommentSection({currentUser}: Props) {
                             )}                             
                         </div>
                     <div className='flex w-full justify-end'>
-                        <button type="submit" className='flex flex-end  text-orange-50 bg-orange-400 px-[1.5vw] py-[1vh] rounded-lg hover:scale-[1.01] hover:bg-orange-500 duration-700 transition-all'>
+                        <button
+                            type="submit"
+                            className='flex flex-end  text-orange-50 bg-orange-400 px-[1.5vw] py-[1vh] rounded-lg hover:scale-[1.01] hover:bg-orange-500 duration-700 transition-all'
+                            disabled={disable}
+                        >
                             <FaComment/>
                         </button>   
                     </div>
