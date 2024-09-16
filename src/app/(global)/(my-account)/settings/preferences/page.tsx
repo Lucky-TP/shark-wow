@@ -1,15 +1,15 @@
 import React from "react";
-import Setting_Navbar from "src/components/account_setting/setting_navbar";
-import Category_Interests from "src/components/account_setting/preference/category_interests";
-import Other_Interests from "src/components/account_setting/preference/other_interests";
+import SettingNavbar from "src/components/AccountSetting/SettingNavbar";
+import CategoryInterests from "src/components/AccountSetting/Preferences/CategoryInterests";
+import OtherInterests from "src/components/AccountSetting/Preferences/OtherInterests";
 type Props = {};
 
 export default function page({}: Props) {
     return (
         <>
-            <Setting_Navbar />
-            <Category_Interests />
-            <Other_Interests />
+            <SettingNavbar />
+            <CategoryInterests />
+            <OtherInterests />
         </>
     );
 }
