@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import "react-quill/dist/quill.snow.css"; // Import Quill styles
+//import "react-quill/dist/quill.snow.css"; // Import Quill styles
 import QuillEditor from "src/components/global/QuillEditor"; // Adjust the path to your QuillEditor component
 import { Button, message } from "antd";
 //import { updateAboutMeContent } from "src/services/apiService/user/updateAboutMeContent"; // Adjust the path and service function
