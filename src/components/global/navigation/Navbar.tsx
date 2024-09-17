@@ -5,34 +5,15 @@ import { useRouter } from "next/navigation";
 import { Button, Dropdown } from "antd";
 import Image from "next/image";
 import { signOut } from "src/services/authService";
-import { getSelf } from "src/services/apiService/users/getSelf";
 import { createProject } from "src/services/apiService/projects/createProject"; // Import your function
-import { UserData } from "src/interfaces/datas/user";
-import { useAuth } from "src/hooks/useAuth";
+import { useUserData } from "src/context/custom-hooks/useUserData";
 
 type Props = {};
 
 export default function Navbar({}: Props) {
     const router = useRouter();
-    const [user, setUser] = useState<UserData | null>();
+    const { user } = useUserData();
     const [loading, setLoading] = useState(false);
-    const { user: userHook } = useAuth();
-
-    useEffect(() => {
-        const fetchUserProfile = async () => {
-            try {
-                const result = await getSelf();
-                setUser(result.data);
-            } catch (error: any) {
-                setUser(null);
-            }
-        };
-        if (userHook) {
-            fetchUserProfile();
-        } else {
-            setUser(null);
-        }
-    }, [userHook, setUser]);
 
     const handleCreateProject = async () => {
         setLoading(true);
@@ -82,9 +63,8 @@ export default function Navbar({}: Props) {
         };
     }, [lastScrollY]);
 
-
     return (
-        <section            
+        <section
             className={`fixed top-0 w-[100vw] z-50 transition-transform duration-500 ease-in-out ${
                 showNavbar ? "translate-y-0" : "-translate-y-full"
             }`}
@@ -103,21 +83,16 @@ export default function Navbar({}: Props) {
                     </div>
                     <ul className="flex flex-row gap-x-[3vw] items-center">
                         <li>
-                            <Link
-                                href="/explore"
-                            >   
-                                <h1
-                                    className="text-orange-600 sm:text-lg lg:text-xl font-semibold hover:text-orange-400 duration-700"
-                                >
+                            <Link href="/explore">
+                                <h1 className="text-orange-600 sm:text-lg lg:text-xl font-semibold hover:text-orange-400 duration-700">
                                     EXPLORE
                                 </h1>
-                                
                             </Link>
                         </li>
                         <li>
                             <Button type="link" onClick={handleCreateProject} loading={loading}>
-                                <span >
-                                    <h1 className="text-orange-600 sm:text-lg lg:text-xl font-semibold hover:text-orange-400 duration-700"> 
+                                <span>
+                                    <h1 className="text-orange-600 sm:text-lg lg:text-xl font-semibold hover:text-orange-400 duration-700">
                                         CREATE PROJECT
                                     </h1>
                                 </span>
@@ -125,17 +100,15 @@ export default function Navbar({}: Props) {
                         </li>
                         <li>
                             {!user && (
-                                <Link
-                                    href="/sign-in"
-                                >
-                                    <h1 className="text-orange-600 sm:text-lg lg:text-xl font-semibold hover:text-orange-400 duration-700"> 
-                                        SIGN IN / SIGN UP       
+                                <Link href="/sign-in">
+                                    <h1 className="text-orange-600 sm:text-lg lg:text-xl font-semibold hover:text-orange-400 duration-700">
+                                        SIGN IN / SIGN UP
                                     </h1>
                                 </Link>
                             )}
                             {user && (
                                 <Dropdown
-                                className="flex items-center"
+                                    className="flex items-center"
                                     menu={{
                                         items: [
                                             {

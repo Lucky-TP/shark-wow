@@ -1,51 +1,26 @@
 "use client";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FaFacebook, FaTwitter, FaYoutube } from "react-icons/fa";
-import { pagePath } from "src/constants/routePath";
-import { useAuth } from "src/hooks/useAuth";
-import { UserData } from "src/interfaces/datas/user";
-import { getSelf } from "src/services/apiService/users/getSelf";
 import { UserInfo } from "../UserInfo";
 import LoadingPage from "src/components/global/LoadingPage";
+import { useUserData } from "src/context/custom-hooks/useUserData";
 
 type Props = {};
 
 export default function UserProfile({}: Props) {
     // เปลี่ยนชื่อเป็น UserProfile
-    const [user, setUser] = useState<UserData>();
-    const [loading, setLoading] = useState<boolean>(false);
-    const { user: authUser, authLoading } = useAuth();
-    const router = useRouter();
-    useEffect(() => {
-        const fetchUserProfile = async () => {
-            try {
-                setLoading(true);
-                if (!authUser) {
-                    router.push(pagePath.SIGNIN);
-                    return;
-                }
-                const result = await getSelf();
-                setUser(result.data);
-            } catch (error) {
-                console.error("Error fetching user profile:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        if (!authLoading) {
-            fetchUserProfile();
-        }
-    }, [authUser]);
+    const { user, loading } = useUserData();
+
     if (loading) {
         return <LoadingPage />;
     }
+
     return (
         <div>
             <div className="bg-[#E5D8CA] flex items-start">
                 <div className="w-full">
-                    <UserInfo user={user} />
+                    <UserInfo user={user || undefined} />
                     <div className="bg-[#E5D8CA] flex items-center justify-center">
                         <div className="flex items-start mt-10">
                             <Image
