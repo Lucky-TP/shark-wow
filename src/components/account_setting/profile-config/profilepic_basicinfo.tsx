@@ -1,49 +1,123 @@
 "use client";
 
-import React, { useState } from "react";
-import { Form, Input, Upload, Button } from "antd";
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import { Input, Upload, Button, Form, FormProps } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
+import { useUserData } from "src/context/custom-hooks/useUserData";
+import { upload } from "src/services/apiService/files/upload";
+import { FileTypeKeys } from "src/constants/payloadKeys/file";
+import { editSelf } from "src/services/apiService/users/editSelf";
+import { getBase64 } from "src/utils/getBase64";
+import LoadingPage from "src/components/global/LoadingPage";
+import { UserModel } from "src/interfaces/models/user";
+import { Address } from "src/interfaces/models/common";
 
-export default function ProfilePicture_BasicInformation() {
+type FieldType = {
+    firstName?: string;
+    lastName?: string;
+    country?: string;
+    city?: string;
+    postalCode?: string;
+};
+
+const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+};
+
+export default function ProfilePictureBasicInformation() {
+    const { user: initUser, refetchUserData } = useUserData();
+    const [initUserLoading, setInitUserLoading] = useState<boolean>(true);
     const [imageUrl, setImageUrl] = useState<string | null>(null);
+    const [uploading, setUploading] = useState<boolean>(false);
 
-    // Convert file to Base64 format for image preview
-    const getBase64 = (file: File, callback: (url: string) => void) => {
-        const reader = new FileReader();
-        reader.onload = () => callback(reader.result as string);
-        reader.readAsDataURL(file);
+    const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
+        if (uploading) return; // Prevent multiple uploads
+        setUploading(true);
+        try {
+            const updatedAddress: Address[] = [];
+            if (initUser) {
+                updatedAddress.push(...initUser.address);
+            } else {
+                updatedAddress.push({
+                    country: values.country ?? "",
+                    city: values.city ?? "",
+                    postalCode: values.postalCode ?? "",
+                    province: "",
+                });
+            }
+
+            const updatedFields: Partial<UserModel> = {
+                firstName: values.firstName,
+                lastName: values.lastName,
+                address: updatedAddress,
+            };
+            await editSelf(updatedFields);
+        } catch (error: unknown) {
+            console.log("Update profile failed");
+        } finally {
+            setUploading(false);
+        }
+
+        console.log("Success:", values);
     };
 
-    // Handle image upload and preview
-    const handleUpload = (info: any) => {
-        const file = info.file.originFileObj; // Access the uploaded file
-        if (file) {
-            getBase64(file, (url) => {
-                setImageUrl(url); // Set the base64 URL to imageUrl state
-            });
+    useEffect(() => {
+        if (initUser) {
+            setImageUrl(initUser?.profileImageUrl || null);
+            setInitUserLoading(false);
+        }
+    }, [initUser]);
+
+    const handlePreviewProfileImage = async (file: any) => {
+        if (!file.url && !file.preview) {
+            file.preview = await getBase64(file);
+        }
+        setImageUrl(file.url || file.preview);
+    };
+
+    const handleUploadProfileImage = async (info: any) => {
+        if (uploading) return; // Prevent multiple uploads
+        setUploading(true);
+
+        try {
+            const file: Blob = info.file.originFileObj;
+            handlePreviewProfileImage(file);
+            if (file && initUser) {
+                const newImageUrl = await upload({
+                    file,
+                    fileType: FileTypeKeys.PROFILE_IMAGE_FILE,
+                });
+                setImageUrl(newImageUrl[0].url || initUser.profileImageUrl || null);
+                await editSelf({ profileImageUrl: newImageUrl[0].url });
+                refetchUserData();
+            }
+        } finally {
+            setUploading(false);
         }
     };
 
+    if (initUserLoading) {
+        return <LoadingPage />;
+    }
+
     return (
         <div className="flex h-full w-full">
-            <div className="p-8 w-full flex flex-col">
-                <div className="flex">
+            <div className="flex w-full flex-col px-40">
+                <div className="flex w-full flex-wrap justify-center">
                     {/* Profile Picture Section */}
-                    <div className="flex flex-col items-center w-1/2 pl-10">
-                        <h2 className="text-black text-xl font-bold pb-4">Profile Photo</h2>
-                        <div className="relative bg-white rounded-full h-[325px] w-[325px] flex items-center justify-center overflow-hidden">
+                    <div className="flex flex-grow-0 flex-col items-center">
+                        <h2 className="pb-4 text-xl font-bold text-black">Profile Photo</h2>
+
+                        <div className="relative flex h-[300px] w-[300px] items-center justify-center overflow-hidden rounded-full bg-white">
                             {imageUrl ? (
-                                <img
-                                    src={imageUrl}
-                                    alt="Profile"
-                                    className="object-cover h-full w-full"
-                                />
+                                <Image src={imageUrl} alt="Profile" width={300} height={300} />
                             ) : (
                                 <Upload
                                     name="profile"
                                     listType="picture"
-                                    showUploadList={false}
-                                    onChange={handleUpload}
+                                    showUploadList={true}
+                                    onChange={handleUploadProfileImage}
                                 >
                                     <Button icon={<UploadOutlined />} className="text-2xl">
                                         Upload Photo
@@ -57,7 +131,7 @@ export default function ProfilePicture_BasicInformation() {
                                 name="profile"
                                 listType="picture"
                                 showUploadList={false}
-                                onChange={handleUpload}
+                                onChange={handleUploadProfileImage}
                             >
                                 <Button icon={<UploadOutlined />} className="mt-4" type="default">
                                     Change Photo
@@ -67,50 +141,71 @@ export default function ProfilePicture_BasicInformation() {
                     </div>
 
                     {/* Basic Information Form Section */}
-                    <div className="w-2/3 pl-8">
-                        <Form layout="vertical">
+                    <div className="min-w-[300px] flex-grow flex-row flex-wrap px-32">
+                        <Form layout="vertical" onFinish={onFinish} onFinishFailed={onFinishFailed}>
                             <div className="pb-8"></div>
-                            {[
-                                {
-                                    name: "firstname",
-                                    label: "First Name",
-                                    placeholder: "First Name",
-                                },
-                                {
-                                    name: "lastname",
-                                    label: "Last Name",
-                                    placeholder: "Last Name",
-                                },
-                                {
-                                    name: "country",
-                                    label: "Country",
-                                    placeholder: "Country",
-                                },
-                            ].map(({ name, label, placeholder }) => (
-                                <Form.Item
-                                    key={name}
-                                    name={name}
-                                    label={<label className="text-black font-bold">{label}</label>}
-                                >
-                                    <Input placeholder={placeholder} className="w-3/5" />
-                                </Form.Item>
-                            ))}
-                            <div className="flex space-x-4">
+
+                            <Form.Item
+                                name="firstName"
+                                label={<label className="font-bold text-black">First name</label>}
+                            >
+                                <Input
+                                    defaultValue={initUser?.firstName}
+                                    placeholder="First name"
+                                    className="w-4/6"
+                                />
+                            </Form.Item>
+                            <Form.Item
+                                name="lastName"
+                                label={<label className="font-bold text-black">Last name</label>}
+                            >
+                                <Input
+                                    defaultValue={initUser?.lastName}
+                                    placeholder="Last name"
+                                    className="w-4/6"
+                                />
+                            </Form.Item>
+                            <Form.Item
+                                name="country"
+                                label={<label className="font-bold text-black">Country</label>}
+                            >
+                                <Input
+                                    defaultValue={
+                                        initUser?.address[0] ? initUser?.address[0].country : ""
+                                    }
+                                    placeholder="Country"
+                                    className="w-4/6"
+                                />
+                            </Form.Item>
+
+                            <div className="flex flex-wrap gap-4">
                                 <Form.Item
                                     name="city"
-                                    label={<label className="text-black font-bold">City</label>}
-                                    className="w-1/2"
+                                    label={<label className="font-bold text-black">City</label>}
+                                    className="w-full md:w-0 md:flex-grow-[3]"
                                 >
-                                    <Input placeholder="City" />
+                                    <Input
+                                        defaultValue={
+                                            initUser?.address[0] ? initUser?.address[0].city : ""
+                                        }
+                                        placeholder="City"
+                                    />
                                 </Form.Item>
                                 <Form.Item
                                     name="postalCode"
                                     label={
-                                        <label className="text-black font-bold">Postal Code</label>
+                                        <label className="font-bold text-black">Postal Code</label>
                                     }
-                                    className="w-1/5"
+                                    className="flex-grow-0 md:w-0 md:flex-grow-[2]"
                                 >
-                                    <Input placeholder="Postal Code" />
+                                    <Input
+                                        defaultValue={
+                                            initUser?.address[0]
+                                                ? initUser?.address[0].postalCode
+                                                : ""
+                                        }
+                                        placeholder="Postal Code"
+                                    />
                                 </Form.Item>
                             </div>
                         </Form>

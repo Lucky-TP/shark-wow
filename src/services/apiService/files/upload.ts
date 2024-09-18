@@ -14,7 +14,7 @@ export async function upload(payload: FileUploadPayload): Promise<FileUploadResp
         } else {
             files = [...file];
         }
-
+        console.log(files);
         const promiseArray: Promise<AxiosResponse<any, any>>[] = [];
         files.forEach((file) => {
             const formData = new FormData();
