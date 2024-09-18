@@ -2,7 +2,7 @@
 
 import React from "react";
 
-export default function Other_Interests() {
+export default function OtherInterests() {
     return (
         <div className="p-8 w-full pt-6 pl-40 pr-40">
             <div className="pb-8">
