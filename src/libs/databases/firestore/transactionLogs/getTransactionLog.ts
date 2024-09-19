@@ -1,4 +1,4 @@
-import { getDocRef, runTransaction } from "../firestore";
+import { getDocRef, runTransaction } from "../commons";
 import { CollectionPath } from "src/constants/firestore";
 import { StatusCode } from "src/constants/statusCode";
 import { TransactionLog } from "src/interfaces/models/transaction";

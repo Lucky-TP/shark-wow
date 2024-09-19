@@ -1,6 +1,6 @@
 import { CollectionPath } from "src/constants/firestore";
 import { ReplyModel } from "src/interfaces/models/reply";
-import { getCollectionRef } from "../firestore";
+import { getCollectionRef } from "../commons";
 import { CustomError } from "src/libs/errors/apiError";
 import { StatusCode } from "src/constants/statusCode";
 import { chunkArray } from "src/utils/api/queries";

@@ -1,5 +1,5 @@
 import { CollectionPath } from "src/constants/firestore";
-import { getDocRef, runTransaction } from "../firestore";
+import { getDocRef, runTransaction } from "../commons";
 import { CustomError } from "src/libs/errors/apiError";
 import { StatusCode } from "src/constants/statusCode";
 

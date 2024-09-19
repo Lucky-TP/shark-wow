@@ -1,4 +1,4 @@
-import { getDocRef, runTransaction } from "../firestore/commons";
+import { getDocRef, runTransaction } from "../commons";
 import { MetadataModel } from "src/interfaces/models/metadata";
 import { MetadataId } from "src/interfaces/models/enums";
 import { CollectionPath } from "src/constants/firestore";

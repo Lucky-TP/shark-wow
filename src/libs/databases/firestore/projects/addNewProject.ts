@@ -1,4 +1,4 @@
-import { newDocRef } from "../firestore";
+import { newDocRef } from "../commons";
 import { ProjectModel } from "src/interfaces/models/project";
 import { StatusCode } from "src/constants/statusCode";
 import { CollectionPath } from "src/constants/firestore";

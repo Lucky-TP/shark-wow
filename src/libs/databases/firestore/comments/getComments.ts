@@ -1,4 +1,4 @@
-import { getCollectionRef } from "../firestore";
+import { getCollectionRef } from "../commons";
 import { getReplies } from "../replies";
 import { CustomError } from "src/libs/errors/apiError";
 import { CommentData } from "src/interfaces/datas/comment";

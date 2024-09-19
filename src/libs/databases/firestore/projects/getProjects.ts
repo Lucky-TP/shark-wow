@@ -1,6 +1,6 @@
 import { StatusCode } from "src/constants/statusCode";
 import { CustomError } from "src/libs/errors/apiError";
-import { getCollectionRef } from "../firestore";
+import { getCollectionRef } from "../commons";
 import { CollectionPath } from "src/constants/firestore";
 import { ProjectModel } from "src/interfaces/models/project";
 import { chunkArray } from "src/utils/api/queries";

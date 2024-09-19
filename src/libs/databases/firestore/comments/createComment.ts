@@ -1,4 +1,4 @@
-import { newDocRef, runTransaction } from "../firestore";
+import { newDocRef, runTransaction } from "../commons";
 import { CustomError } from "src/libs/errors/apiError";
 import { CollectionPath } from "src/constants/firestore";
 import { StatusCode } from "src/constants/statusCode";

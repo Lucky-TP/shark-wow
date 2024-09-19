@@ -1,4 +1,4 @@
-import { getDocRef } from "../firestore";
+import { getDocRef } from "../commons";
 import { UserModel } from "src/interfaces/models/user";
 import { CollectionPath } from "src/constants/firestore";
 import { StatusCode } from "src/constants/statusCode";
