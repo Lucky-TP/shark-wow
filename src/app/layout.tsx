@@ -3,17 +3,20 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 import Layout from "src/components/global/Layout";
+import SessionWrapper from "src/components/global/SessionWrapper";
 
 export const metadata: Metadata = {
     title: "Shark WoW",
     description: "Funding for Startup and SMEs",
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
         <html lang="en">
             <body className="overflow-x-hidden">
-                <Layout>{children}</Layout>
+                <SessionWrapper initialData={null}>
+                    <Layout>{children}</Layout>
+                </SessionWrapper>
             </body>
         </html>
     );
