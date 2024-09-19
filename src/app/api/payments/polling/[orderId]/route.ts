@@ -1,13 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { CollectionPath } from "src/constants/firestore";
 import { StatusCode } from "src/constants/statusCode";
 import { OrderStatus } from "src/interfaces/models/enums";
-import { TransactionLog } from "src/interfaces/models/transaction";
-import { getCollectionRef } from "src/libs/databases/firestore";
-import { getOrder } from "src/libs/databases/orders/getOrder";
-import { updateOrder } from "src/libs/databases/orders/updateOrder";
-import { getProject, updateProject } from "src/libs/databases/projects";
-import { getTransactionLog } from "src/libs/databases/transactionLogs/getTransactionLog";
+import { getOrder } from "src/libs/databases/firestore/orders/getOrder";
+import { getTransactionLog } from "src/libs/databases/firestore/transactionLogs/getTransactionLog";
 import { errorHandler } from "src/libs/errors/apiError";
 import { withAuthVerify } from "src/utils/api/auth";
 

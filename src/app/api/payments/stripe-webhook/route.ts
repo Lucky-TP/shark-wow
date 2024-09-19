@@ -2,11 +2,11 @@ import Stripe from "stripe";
 import { NextRequest, NextResponse } from "next/server";
 import { StatusCode } from "src/constants/statusCode";
 import { stripe } from "src/libs/stripe/stripe";
-import { updateOrder } from "src/libs/databases/orders/updateOrder";
+import { updateOrder } from "src/libs/databases/firestore/orders/updateOrder";
 import { OrderStatus } from "src/interfaces/models/enums";
-import { getOrder } from "src/libs/databases/orders/getOrder";
-import { createTransactionLog } from "src/libs/databases/transactionLogs/createTransactionLog";
-import { getProject, updateProject } from "src/libs/databases/projects";
+import { getOrder } from "src/libs/databases/firestore/orders/getOrder";
+import { createTransactionLog } from "src/libs/databases/firestore/transactionLogs/createTransactionLog";
+import { getProject, updateProject } from "src/libs/databases/firestore/projects";
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 

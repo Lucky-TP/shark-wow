@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { DecodedIdToken } from "firebase-admin/auth";
 import { auth } from "src/libs/firebase/firebaseAdmin";
-import { createUser, deleteUser } from "src/libs/databases/users";
+import { createUser, deleteUser } from "src/libs/databases/firestore/users";
 import { StatusCode } from "src/constants/statusCode";
 import { UserModel } from "src/interfaces/models/user";
 import { EmailSignUpPayload } from "src/interfaces/payload/authPayload";

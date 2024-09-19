@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { errorHandler } from "src/libs/errors/apiError";
-import { getCollectionRef } from "src/libs/databases/firestore";
+import { getCollectionRef } from "src/libs/databases/firestore/commons";
 import { CollectionPath } from "src/constants/firestore";
 import { ShowProject } from "src/interfaces/datas/project";
 import { StatusCode } from "src/constants/statusCode";
