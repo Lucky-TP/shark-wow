@@ -4,7 +4,7 @@ import { CollectionPath } from "src/constants/firestore";
 import { withAuthVerify } from "src/utils/api/auth";
 import { ProjectStatus, StageId, StageStatus } from "src/interfaces/models/enums";
 import { StatusCode } from "src/constants/statusCode";
-import { getDocRef } from "src/libs/databases/firestore";
+import { getDocRef } from "src/libs/databases/firestore/commons";
 import { UserModel } from "src/interfaces/models/user";
 import { ProjectModel } from "src/interfaces/models/project";
 import { addNewProject } from "src/libs/databases/firestore/projects";
