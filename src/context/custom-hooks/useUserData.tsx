@@ -13,11 +13,12 @@ interface UserContextType {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 interface UserProviderProps {
+    initialData: UserData | null;
     children: React.ReactNode;
 }
 
-export const UserProvider = ({ children }: UserProviderProps) => {
-    const [user, setUser] = useState<UserData | null>(null);
+export const UserProvider = ({ children, initialData }: UserProviderProps) => {
+    const [user, setUser] = useState<UserData | null>(initialData);
     const [loading, setLoading] = useState(true);
     const { user: authUser, authLoading } = useAuth();
 
@@ -45,6 +46,10 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             intervalId = setInterval(() => {
                 fetchUserData();
             }, 1000);
+
+            setTimeout(() => {
+                clearInterval(intervalId);
+            }, 3000);
         }
     }, [authUser, authLoading]);
 
