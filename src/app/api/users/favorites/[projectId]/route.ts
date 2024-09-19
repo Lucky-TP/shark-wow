@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUser } from "src/libs/databases/users";
-import { updateUser } from "src/libs/databases/users/updateUser";
+import { getUser } from "src/libs/databases/firestore/users";
+import { updateUser } from "src/libs/databases/firestore/users/updateUser";
 import { errorHandler } from "src/libs/errors/apiError";
 import { withAuthVerify } from "src/utils/api/auth";
 import { StatusCode } from "src/constants/statusCode";
@@ -29,7 +29,6 @@ import { StatusCode } from "src/constants/statusCode";
  *       500:
  *         description: Internal server error
  */
-
 
 export async function PUT(request: NextRequest, { params }: { params: { projectId: string } }) {
     const newProjectId = params.projectId;

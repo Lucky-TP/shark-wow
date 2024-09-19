@@ -1,18 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getDocRef } from "src/libs/databases/firestore";
+import { getDocRef } from "src/libs/databases/firestore/commons";
 import { errorHandler } from "src/libs/errors/apiError";
-import { getComments } from "src/libs/databases/comments";
-import { updateProject } from "src/libs/databases/projects";
+import { getComments } from "src/libs/databases/firestore/comments";
+import { updateProject } from "src/libs/databases/firestore/projects";
 import { withAuthVerify } from "src/utils/api/auth";
 import { StatusCode } from "src/constants/statusCode";
 import { CollectionPath } from "src/constants/firestore";
-import { ProjectModel, Stage } from "src/interfaces/models/project";
+import { ProjectModel } from "src/interfaces/models/project";
 import { ProjectStatus } from "src/interfaces/models/enums";
 import { CommentData } from "src/interfaces/datas/comment";
 import { ProjectData } from "src/interfaces/datas/project";
 import { EditProjectPayload } from "src/interfaces/payload/projectPayload";
 import { getCurrentStage } from "src/utils/api/projects/getCurrentStage";
 import { getStartAndExpireTime } from "src/utils/api/projects";
+import { increaseTotalViewer } from "src/libs/databases/realtimeDatabase/server/projects/increaseTotalViewer";
 
 /**
  * @swagger
@@ -200,6 +201,7 @@ export async function GET(request: NextRequest, { params }: { params: { projectI
             expireDate: projectTime.expireDate,
             currentStage,
         };
+        await increaseTotalViewer(params.projectId);
         return NextResponse.json(
             { message: "Get project data successful", data: projectData },
             { status: StatusCode.SUCCESS }

@@ -7,8 +7,8 @@ import { StatusCode } from "src/constants/statusCode";
 import { getDocRef } from "src/libs/databases/firestore";
 import { UserModel } from "src/interfaces/models/user";
 import { ProjectModel } from "src/interfaces/models/project";
-import { addNewProject } from "src/libs/databases/projects";
-import { updateUser } from "src/libs/databases/users";
+import { addNewProject } from "src/libs/databases/firestore/projects";
+import { updateUser } from "src/libs/databases/firestore/users";
 import { dateToString } from "src/utils/date";
 
 /**
