@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { errorHandler } from "src/libs/errors/apiError";
 import { StatusCode } from "src/constants/statusCode";
 import { CollectionPath } from "src/constants/firestore";
-import { getCollectionRef } from "src/libs/databases/firestore";
+import { getCollectionRef } from "src/libs/databases/firestore/commons";
 import { ProjectStatus } from "src/interfaces/models/enums";
 import { ShowProject } from "src/interfaces/datas/project";
 

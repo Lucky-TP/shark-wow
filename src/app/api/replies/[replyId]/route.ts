@@ -3,12 +3,12 @@ import { errorHandler } from "src/libs/errors/apiError";
 import { EditReplyPayload } from "src/interfaces/payload/replyPayload";
 import { StatusCode } from "src/constants/statusCode";
 import { withAuthVerify } from "src/utils/api/auth";
-import { updateReply } from "src/libs/databases/replies";
+import { updateReply } from "src/libs/databases/firestore/replies";
 import { CollectionPath } from "src/constants/firestore";
-import { getDocRef } from "src/libs/databases/firestore";
+import { getDocRef } from "src/libs/databases/firestore/commons";
 import { ReplyModel } from "src/interfaces/models/reply";
 import { CommentModel } from "src/interfaces/models/comment";
-import { updateComment } from "src/libs/databases/comments";
+import { updateComment } from "src/libs/databases/firestore/comments";
 
 /**
  * @swagger
@@ -43,7 +43,7 @@ import { updateComment } from "src/libs/databases/comments";
  *         description: Update reply successful
  *       401:
  *         description: Unauthorized - Missing or invalid token
- * 
+ *
  *   delete:
  *     tags:
  *       - replies

@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { DecodedIdToken } from "firebase-admin/auth";
 import { auth } from "src/libs/firebase/firebaseAdmin";
-import { createUser, deleteUser } from "src/libs/databases/users";
-import { getDocRef } from "src/libs/databases/firestore";
+import { createUser, deleteUser } from "src/libs/databases/firestore/users";
+import { getDocRef } from "src/libs/databases/firestore/commons";
 import { clearUserSession, extractBearerToken, signUserSession } from "src/utils/api/auth";
 import { UserModel } from "src/interfaces/models/user";
 import { StatusCode } from "src/constants/statusCode";

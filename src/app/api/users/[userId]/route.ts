@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { StatusCode } from "src/constants/statusCode";
-import { getProjects } from "src/libs/databases/projects/getProjects";
-import { getUser } from "src/libs/databases/users";
+import { getProjects } from "src/libs/databases/firestore/projects/getProjects";
+import { getUser } from "src/libs/databases/firestore/users";
 import { errorHandler } from "src/libs/errors/apiError";
 import { ShowProject } from "src/interfaces/datas/project";
 import { PublicUserData } from "src/interfaces/datas/user";

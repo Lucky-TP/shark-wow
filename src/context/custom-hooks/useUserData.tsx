@@ -44,7 +44,9 @@ export const UserProvider = ({ children, initialData }: UserProviderProps) => {
         let intervalId: NodeJS.Timeout;
         if (!authLoading) {
             intervalId = setInterval(() => {
-                fetchUserData();
+                if (!user) {
+                    fetchUserData();
+                }
             }, 1000);
 
             setTimeout(() => {

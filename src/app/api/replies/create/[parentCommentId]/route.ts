@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { StatusCode } from "src/constants/statusCode";
 import { CreateReplyPayload } from "src/interfaces/payload/replyPayload";
-import { getComments, updateComment } from "src/libs/databases/comments";
-import { createReply } from "src/libs/databases/replies";
+import { getComments, updateComment } from "src/libs/databases/firestore/comments";
+import { createReply } from "src/libs/databases/firestore/replies";
 import { errorHandler } from "src/libs/errors/apiError";
 import { withAuthVerify } from "src/utils/api/auth";
 
