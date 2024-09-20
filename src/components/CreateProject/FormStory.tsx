@@ -58,6 +58,12 @@ export default function FormStory({ projectId }: FormStoryProps) {
 
     return (
         <>
+            <h1 className="text-3xl font-bold">Story</h1>
+            <p className="text-lg mb-4">
+                Tell potential contributors more about your campaign. Provide details that will
+                motivate people to contribute. A good pitch is compelling, informative, and easy to
+                digest
+            </p>
             <QuillEditor value={content} onChange={handleEditorChange} projectId={projectId} />
             <Button
                 className="w-fit mt-20"
