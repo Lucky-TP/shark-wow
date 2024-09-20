@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { Input, Upload, Button, Form, FormProps } from "antd";
+import { Input, Upload, Button, Form, FormProps, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { useUserData } from "src/context/custom-hooks/useUserData";
 import { upload } from "src/services/apiService/files/upload";
@@ -12,6 +12,7 @@ import { getBase64 } from "src/utils/getBase64";
 import LoadingPage from "src/components/global/LoadingPage";
 import { UserModel } from "src/interfaces/models/user";
 import { Address } from "src/interfaces/models/common";
+
 
 type FieldType = {
     firstName?: string;
@@ -25,7 +26,7 @@ const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (errorInfo) => {
     console.log("Failed:", errorInfo);
 };
 
-export default function ProfilePictureBasicInformation() {
+export default function ProfilepictureBasicinformation() {
     const { user: initUser, refetchUserData } = useUserData();
     const [initUserLoading, setInitUserLoading] = useState<boolean>(true);
     const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -58,6 +59,8 @@ export default function ProfilePictureBasicInformation() {
         } finally {
             setUploading(false);
         }
+
+        message.success("Suay Pee Suay")
 
         console.log("Success:", values);
     };
@@ -107,7 +110,7 @@ export default function ProfilePictureBasicInformation() {
                 <div className="flex w-full flex-wrap justify-center">
                     {/* Profile Picture Section */}
                     <div className="flex flex-grow-0 flex-col items-center">
-                        <h2 className="pb-4 text-xl font-bold text-black">Profile Photo</h2>
+                        <h2 className="pb-4 text-xl font-bold text-black">Profile Picture</h2>
 
                         <div className="relative flex h-[300px] w-[300px] items-center justify-center overflow-hidden rounded-full bg-white">
                             {imageUrl ? (
@@ -209,6 +212,7 @@ export default function ProfilePictureBasicInformation() {
                                 </Form.Item>
                             </div>
                         </Form>
+                        
                     </div>
                 </div>
             </div>

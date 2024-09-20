@@ -9,3 +9,8 @@ export const FileUploadPayloadKeys = {
     fileType: "fileType",
     projectId: "projectId",
 } as const;
+
+export const FileUploadPayloadKeysAboutMe = {
+    file: "file",
+    fileType: "fileType",
+} as const;

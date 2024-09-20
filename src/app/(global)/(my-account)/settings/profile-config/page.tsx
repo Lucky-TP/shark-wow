@@ -1,18 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import SettingNavbar from "src/components/AccountSetting/SettingNavbar";
-import ProfilePicture_BasicInformation from "src/components/AccountSetting/ProfileConfig/ProfilePic_BasicInfo";
+import ProfilepictureBasicinformation from "src/components/AccountSetting/ProfileConfig/ProfilepicBasicinfo";
 import AboutMe from "src/components/AccountSetting/ProfileConfig/AboutMe";
-import OutsideLink_ResumeCV_SaveButton from "src/components/AccountSetting/AddressSetting";
+import LinkResumeSavebutton from "src/components/AccountSetting/ProfileConfig/LinkResumeSavebutton";
 
 type Props = {};
 
-export default function page({}: Props) {
+export default function Page({}: Props) {
+    
     return (
         <>
             <SettingNavbar />
-            <ProfilePicture_BasicInformation />
+            <ProfilepictureBasicinformation />
             <AboutMe />
-            <OutsideLink_ResumeCV_SaveButton />
+            <LinkResumeSavebutton />
         </>
     );
 }
