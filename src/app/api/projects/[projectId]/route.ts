@@ -201,7 +201,9 @@ export async function GET(request: NextRequest, { params }: { params: { projectI
             expireDate: projectTime.expireDate,
             currentStage,
         };
-        await increaseTotalViewer(params.projectId);
+        if (projectModel.status === ProjectStatus.RUNNING) {
+            await increaseTotalViewer(params.projectId);
+        }
         return NextResponse.json(
             { message: "Get project data successful", data: projectData },
             { status: StatusCode.SUCCESS }
