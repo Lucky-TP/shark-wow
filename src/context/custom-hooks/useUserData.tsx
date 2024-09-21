@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useAuth } from "src/hooks/useAuth";
 import { UserData } from "src/interfaces/datas/user";
 import { getSelf } from "src/services/apiService/users/getSelf";
@@ -8,7 +8,6 @@ interface UserContextType {
     user: UserData | null;
     setUser: (user: UserData | null) => void;
     loading: boolean;
-    refetchUserData: () => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -23,30 +22,26 @@ export const UserProvider = ({ children, initialData }: UserProviderProps) => {
     const [loading, setLoading] = useState(true);
     const { user: authUser, authLoading } = useAuth();
 
-    const fetchUserData = useCallback(async () => {
-        if (authUser) {
-            try {
-                const fetchedUserData = await getSelf();
-                setUser(fetchedUserData?.data ?? null);
-            } catch (error) {
-                console.error("Failed to fetch user data", error);
+    useEffect(() => {
+        const fetchUserData = async () => {
+            if (authUser) {
+                try {
+                    const fetchedUserData = await getSelf();
+                    setUser(fetchedUserData?.data!);
+                    clearInterval(intervalId);
+                } catch (error) {
+                    console.error("Failed to fetch user data", error);
+                    setUser(null);
+                } finally {
+                    setLoading(false);
+                }
+            } else {
                 setUser(null);
-            } finally {
                 setLoading(false);
             }
-        } else {
-            setUser(null);
-            setLoading(false);
-        }
-    }, [authUser]);
+        };
 
-    // Define refetchUserData function
-    const refetchUserData = () => {
-        setLoading(true); // Set loading to true before fetching
-        fetchUserData(); // Call fetchUserData
-    };
-
-    useEffect(() => {
+        let intervalId: NodeJS.Timeout;
         if (!authLoading) {
             intervalId = setInterval(() => {
                 if (!user) {
@@ -58,12 +53,10 @@ export const UserProvider = ({ children, initialData }: UserProviderProps) => {
                 clearInterval(intervalId);
             }, 3000);
         }
-    }, [authUser, authLoading, fetchUserData]);
-    
+    }, [authUser, authLoading]);
+
     return (
-        <UserContext.Provider value={{ user, setUser, loading, refetchUserData }}>
-            {children}
-        </UserContext.Provider>
+        <UserContext.Provider value={{ user, setUser, loading }}>{children}</UserContext.Provider>
     );
 };
 
