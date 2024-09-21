@@ -5,7 +5,7 @@ import { Form, Input, Upload, Button, Typography } from "antd";
 
 const { Title } = Typography;
 
-export default function OutsideLink_ResumeCV_SaveButton() {
+export default function LinkResumeSavebutton() {
     const [fileName, setFileName] = useState("");
 
     const handleFileChange = (info: any) => {
@@ -16,28 +16,39 @@ export default function OutsideLink_ResumeCV_SaveButton() {
     };
 
     return (
-        <div className="p-8 w-full pt-6 pl-40 pr-40">
+        <div className="w-full p-8 pl-40 pr-40 pt-6">
             <Form layout="vertical">
                 <div className="pb-4">
-                    <Title level={4} className="pb-2 border-b border-gray-400">
+                    <Title level={4} className="border-b border-gray-400 pb-2">
                         Outside Links
                     </Title>
-                    {["Facebook", "Twitter", "YouTube"].map((platform) => (
-                        <Form.Item
-                            label={`${platform} Link`}
-                            name={`${platform.toLowerCase()}Link`}
-                            key={platform}
-                        >
-                            <Input placeholder={`${platform} Link`} />
-                        </Form.Item>
-                    ))}
+                    {/* Website Link */}
+                    <Form.Item label="Website Link" name="websiteLink">
+                        <Input placeholder="Website Link" />
+                    </Form.Item>
+
+                    {/* Facebook Link */}
+                    <Form.Item label="Facebook Link" name="facebookLink">
+                        <Input placeholder="Facebook Link" />
+                    </Form.Item>
+
+                    {/* Twitter Link */}
+                    <Form.Item label="Twitter Link" name="twitterLink">
+                        <Input placeholder="Twitter Link" />
+                    </Form.Item>
+
+                    {/* YouTube Link */}
+                    <Form.Item label="YouTube Link" name="youtubeLink">
+                        <Input placeholder="YouTube Link" />
+                    </Form.Item>
                 </div>
+
                 <div>
-                    <Title level={4} className="pb-2 border-b border-gray-400">
+                    <Title level={4} className="border-b border-gray-400 pb-2">
                         Resume / CV
                     </Title>
-                    <div className="flex items-center mt-4">
-                        <div className="bg-white rounded-md shadow-inner px-4 py-2 mr-4">
+                    <div className="mt-4 flex items-center">
+                        <div className="mr-4 rounded-md bg-white px-4 py-2 shadow-inner">
                             {fileName ? fileName : "No file selected"}
                         </div>
                         <Upload
@@ -53,9 +64,9 @@ export default function OutsideLink_ResumeCV_SaveButton() {
                     </div>
                 </div>
             </Form>
-            <div className="flex justify-end mt-6">
+            <div className="mt-6 flex justify-end">
                 <Button
-                    className="w-fit mt-20"
+                    className="mt-20 w-fit"
                     type="primary"
                     //loading={loading}
                     //disabled={loading}

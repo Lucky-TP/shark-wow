@@ -1,10 +1,10 @@
 import axios, { AxiosResponse } from "axios";
-import { FileUploadPayloadKeys } from "src/constants/payloadKeys/file";
+import { FileUploadPayloadKeysAboutMe } from "src/constants/payloadKeys/file";
 import { apiPath } from "src/constants/routePath";
-import { FileUploadPayload } from "src/interfaces/payload/filePayload";
+import { FileUploadPayload } from "src/interfaces/payload/filePayloadAboutMe";
 import { FileUploadResponse } from "src/interfaces/response/fileResponse";
 
-export async function upload(payload: FileUploadPayload): Promise<FileUploadResponse[]> {
+export async function uploadAboutMe(payload: FileUploadPayload): Promise<FileUploadResponse[]> {
     try {
         const file = payload.file;
 
@@ -19,9 +19,8 @@ export async function upload(payload: FileUploadPayload): Promise<FileUploadResp
         files.forEach((file) => {
             const formData = new FormData();
             const fields = {
-                [FileUploadPayloadKeys.file]: file,
-                [FileUploadPayloadKeys.fileType]: payload.fileType,
-                [FileUploadPayloadKeys.projectId]: payload.projectId,
+                [FileUploadPayloadKeysAboutMe.file]: file,
+                [FileUploadPayloadKeysAboutMe.fileType]: payload.fileType,
             };
             console.table(fields);
             Object.entries(fields).forEach(([key, value]) => {

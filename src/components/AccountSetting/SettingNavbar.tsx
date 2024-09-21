@@ -7,7 +7,7 @@ import { UserData } from "src/interfaces/datas/user";
 import { getSelf } from "src/services/apiService/users/getSelf";
 type Props = {};
 
-export default function Setting_Navbar({}: Props) {
+export default function SettingNavbar({}: Props) {
     const [user, setUser] = useState<UserData | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const { user: authUser, authLoading } = useAuth();
