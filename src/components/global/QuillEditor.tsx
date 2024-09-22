@@ -3,8 +3,10 @@
 import React, { useMemo, useRef } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { upload } from "src/services/apiService/files/upload";
-import { FileTypeKeys } from "src/constants/payloadKeys/file";
+import {
+    singleUpload,
+    ProjectSingleUploadDetail,
+} from "src/services/apiService/files/singleUpload";
 import { message } from "antd";
 
 type QuillEditorProps = {
@@ -27,13 +29,13 @@ export default function QuillEditor({ value, onChange, projectId }: QuillEditorP
             const file = input.files?.[0];
             if (file && /^image\//.test(file.type)) {
                 try {
-                    const payload = {
+                    const payload: ProjectSingleUploadDetail = {
                         file: file,
-                        fileType: FileTypeKeys.CAROUSEL_IMAGE_FILES,
+                        type: "general",
                         projectId: projectId,
                     };
-                    const response = await upload(payload);
-                    const url = response[0]?.url;
+                    const response = await singleUpload(payload);
+                    const url = response.url;
 
                     if (url) {
                         editor.insertEmbed(editor.getSelection()?.index || 0, "image", url);
