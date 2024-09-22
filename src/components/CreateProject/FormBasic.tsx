@@ -6,7 +6,7 @@ import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 import {
     multipleUpload,
-    ProjectFileUploadsDetail,
+    ProjectMultipleUploadsDetail,
 } from "src/services/apiService/files/multipleUpload";
 import { editProjectById } from "src/services/apiService/projects/editProjectById";
 import { getProjectById } from "src/services/apiService/projects/getProjectById"; // Import the getProjectById function
@@ -91,7 +91,7 @@ export default function FormBasic({ projectId }: Props) {
                     (file) => !initialCarouselImageUrls.includes(file.url)
                 );
                 if (newFiles.length > 0) {
-                    const payload: ProjectFileUploadsDetail = {
+                    const payload: ProjectMultipleUploadsDetail = {
                         files: newFiles.map((file) => file.originFileObj),
                         type: "carousel",
                         projectId: projectId,

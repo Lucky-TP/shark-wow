@@ -1,14 +1,18 @@
 import { ProjectFileType, UserFileType } from "src/constants/payloadKeys/file";
 import { FileUploadResponse } from "src/interfaces/response/fileResponse";
 import { isProjectFileType } from "src/utils/files/common/typeGuard";
-import { multipleUpload, ProjectFileUploadsDetail, UserFileUploadsDetail } from "./multipleUpload";
+import {
+    multipleUpload,
+    ProjectMultipleUploadsDetail,
+    UserMultipleUploadsDetail,
+} from "./multipleUpload";
 
-export interface UserFileUploadDetail {
+export interface UserSingleUploadDetail {
     file: File;
     type: UserFileType;
 }
 
-export interface ProjectFileUploadDetail {
+export interface ProjectSingleUploadDetail {
     file: File;
     type: ProjectFileType;
     projectId: string;
@@ -16,31 +20,31 @@ export interface ProjectFileUploadDetail {
 
 // Overload signatures
 export async function singleUpload(
-    fileUploadDetail: UserFileUploadDetail
+    fileUploadDetail: UserSingleUploadDetail
 ): Promise<FileUploadResponse>;
 
 export async function singleUpload(
-    fileUploadDetail: ProjectFileUploadDetail
+    fileUploadDetail: ProjectSingleUploadDetail
 ): Promise<FileUploadResponse>;
 
 // General implementation
 export async function singleUpload(
-    fileUploadDetail: UserFileUploadDetail | ProjectFileUploadDetail
+    fileUploadDetail: UserSingleUploadDetail | ProjectSingleUploadDetail
 ): Promise<FileUploadResponse> {
     try {
         // Type narrowing based on whether the file type is a project file or not
         if (isProjectFileType(fileUploadDetail.type)) {
             // Handle ProjectFileUploadDetail
-            const projectFileUploadDetail: ProjectFileUploadsDetail = {
+            const projectFileUploadDetail: ProjectMultipleUploadsDetail = {
                 files: [fileUploadDetail.file], // Wrapping single file in array
                 type: fileUploadDetail.type,
-                projectId: (fileUploadDetail as ProjectFileUploadDetail).projectId, // Safe cast
+                projectId: (fileUploadDetail as ProjectSingleUploadDetail).projectId, // Safe cast
             };
             const responses = await multipleUpload(projectFileUploadDetail);
             return responses[0]; // Return the first response for single file upload
         } else {
             // Handle UserFileUploadDetail
-            const userFileUploadDetail: UserFileUploadsDetail = {
+            const userFileUploadDetail: UserMultipleUploadsDetail = {
                 files: [fileUploadDetail.file], // Wrapping single file in array
                 type: fileUploadDetail.type,
             };

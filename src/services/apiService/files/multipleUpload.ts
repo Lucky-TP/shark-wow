@@ -8,31 +8,31 @@ import { apiPath } from "src/constants/routePath";
 import { FileUploadResponse } from "src/interfaces/response/fileResponse";
 import { isProjectFileType } from "src/utils/files/common/typeGuard";
 
-export interface UserFileUploadsDetail {
+export interface UserMultipleUploadsDetail {
     files: File[];
     type: UserFileType;
 }
 
-export interface ProjectFileUploadsDetail {
+export interface ProjectMultipleUploadsDetail {
     files: File[];
     type: ProjectFileType;
     projectId: string;
 }
 
 export async function multipleUpload(
-    fileUploadDetail: UserFileUploadsDetail
+    fileUploadDetail: UserMultipleUploadsDetail
 ): Promise<FileUploadResponse[]>;
 
 export async function multipleUpload(
-    fileUploadDetail: ProjectFileUploadsDetail
+    fileUploadDetail: ProjectMultipleUploadsDetail
 ): Promise<FileUploadResponse[]>;
 
 export async function multipleUpload(
-    fileUploadDetail: UserFileUploadsDetail | ProjectFileUploadsDetail
+    fileUploadDetail: UserMultipleUploadsDetail | ProjectMultipleUploadsDetail
 ): Promise<FileUploadResponse[]> {
     const { files, type } = fileUploadDetail;
     const projectId = isProjectFileType(type)
-        ? (fileUploadDetail as ProjectFileUploadsDetail).projectId
+        ? (fileUploadDetail as ProjectMultipleUploadsDetail).projectId
         : undefined;
 
     try {

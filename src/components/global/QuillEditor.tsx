@@ -3,7 +3,10 @@
 import React, { useMemo, useRef } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { singleUpload, ProjectFileUploadDetail } from "src/services/apiService/files/singleUpload";
+import {
+    singleUpload,
+    ProjectSingleUploadDetail,
+} from "src/services/apiService/files/singleUpload";
 import { message } from "antd";
 
 type QuillEditorProps = {
@@ -26,7 +29,7 @@ export default function QuillEditor({ value, onChange, projectId }: QuillEditorP
             const file = input.files?.[0];
             if (file && /^image\//.test(file.type)) {
                 try {
-                    const payload: ProjectFileUploadDetail = {
+                    const payload: ProjectSingleUploadDetail = {
                         file: file,
                         type: "general",
                         projectId: projectId,
