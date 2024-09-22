@@ -1,12 +1,9 @@
-export enum FileTypeKeys {
-    CAROUSEL_IMAGE_FILES = "carouselImageFiles",
-    PROFILE_IMAGE_FILE = "profileImageFile",
-    CV_FILE = "cvFile",
-}
+export type ProjectFileType = "carousel" | "general";
+export type UserFileType = "profile" | "general" | "cv";
 
 export const FileUploadPayloadKeys = {
     file: "file",
-    fileType: "fileType",
+    type: "type",
     projectId: "projectId",
 } as const;
 
