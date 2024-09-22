@@ -38,6 +38,7 @@ export default function UserProfile({}: Props) {
                                 height={256}
                             />
                         </div>
+
                         <div className="mb-6 ml-20 text-3xl text-black">
                             <p>{user?.address[0]?.country}</p>
                             <p>
@@ -78,7 +79,7 @@ export default function UserProfile({}: Props) {
                         <h2 className="mx-auto mb-8 text-3xl font-bold text-black">About me</h2>
                         <div className="mx-auto w-[80dvh] rounded-lg bg-white px-6 shadow-lg">
                             <div
-                                className="ql-editor preview-content !p-0 "
+                                className="ql-editor preview-content !p-0"
                                 dangerouslySetInnerHTML={{ __html: content }}
                             />
                         </div>
