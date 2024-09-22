@@ -4,10 +4,12 @@ import { useState, useEffect } from "react";
 import { Form, Input, Button, Select, DatePicker, Upload, message, Image } from "antd";
 import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
-import { upload } from "src/services/apiService/files/upload";
+import {
+    multipleUpload,
+    ProjectFileUploadsDetail,
+} from "src/services/apiService/files/multipleUpload";
 import { editProjectById } from "src/services/apiService/projects/editProjectById";
 import { getProjectById } from "src/services/apiService/projects/getProjectById"; // Import the getProjectById function
-import { FileTypeKeys } from "src/constants/payloadKeys/file";
 import { EditProjectPayload } from "src/interfaces/payload/projectPayload";
 
 type Props = {
@@ -89,13 +91,13 @@ export default function FormBasic({ projectId }: Props) {
                     (file) => !initialCarouselImageUrls.includes(file.url)
                 );
                 if (newFiles.length > 0) {
-                    const payload = {
-                        file: newFiles.map((file) => file.originFileObj),
-                        fileType: FileTypeKeys.CAROUSEL_IMAGE_FILES,
+                    const payload: ProjectFileUploadsDetail = {
+                        files: newFiles.map((file) => file.originFileObj),
+                        type: "carousel",
                         projectId: projectId,
                     };
 
-                    const response = await upload(payload);
+                    const response = await multipleUpload(payload);
                     if (response && response.length > 0) {
                         carouselImageUrls = [
                             ...carouselImageUrls,
