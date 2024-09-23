@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useAuth } from "src/hooks/useAuth";
 import { UserData } from "src/interfaces/datas/user";
 import { getSelf } from "src/services/apiService/users/getSelf";
@@ -23,11 +23,15 @@ export const UserProvider = ({ children, initialData }: UserProviderProps) => {
     const [loading, setLoading] = useState(true);
     const { user: authUser, authLoading } = useAuth();
 
+    let intervalIdRef = useRef<NodeJS.Timeout | null>(null);
     const fetchUserData = useCallback(async () => {
         if (authUser) {
             try {
                 const fetchedUserData = await getSelf();
-                setUser(fetchedUserData?.data ?? null);
+                setUser(fetchedUserData.data);
+                if (intervalIdRef.current) {
+                    clearInterval(intervalIdRef.current); // Clear interval after data is fetched
+                }
             } catch (error) {
                 console.error("Failed to fetch user data", error);
                 setUser(null);
@@ -45,22 +49,29 @@ export const UserProvider = ({ children, initialData }: UserProviderProps) => {
         setLoading(true); // Set loading to true before fetching
         fetchUserData(); // Call fetchUserData
     };
-    
-    let intervalId: NodeJS.Timeout;
+
     useEffect(() => {
         if (!authLoading) {
-            intervalId = setInterval(() => {
+            intervalIdRef.current = setInterval(() => {
                 if (!user) {
                     fetchUserData();
                 }
             }, 1000);
 
             setTimeout(() => {
-                clearInterval(intervalId);
+                if (intervalIdRef.current) {
+                    clearInterval(intervalIdRef.current); // Ensure the interval is cleared after 3 seconds
+                }
             }, 3000);
         }
-    }, [authUser, authLoading, fetchUserData]);
-    
+
+        return () => {
+            if (intervalIdRef.current) {
+                clearInterval(intervalIdRef.current); // Cleanup interval on unmount
+            }
+        };
+    }, [authUser, authLoading, fetchUserData, user]);
+
     return (
         <UserContext.Provider value={{ user, setUser, loading, refetchUserData }}>
             {children}
