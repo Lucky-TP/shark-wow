@@ -2,11 +2,11 @@
 
 import React from "react";
 
-export default function CategoryInterests() {
+export default function Interests() {
     return (
         <div className="w-full p-8 pl-40 pr-40 pt-6">
             <div className="pb-8">
-                <h2 className="border-b border-gray-400 pb-4 text-2xl font-bold text-black">
+                <h2 className="border-b border-gray-400 pb-2 text-2xl font-bold text-black">
                     Category Interests
                 </h2>
             </div>
@@ -98,6 +98,39 @@ export default function CategoryInterests() {
                     </div>
                     <div className="relative z-10 cursor-pointer bg-white px-4 py-6 text-center shadow-md transition duration-200 hover:bg-gray-100">
                         Game
+                    </div>
+                </div>
+            </div>
+
+            {/* Product Stages Section */}
+            <div className="pb-8 pt-14">
+                <h2 className="border-b border-gray-400 pb-2 text-2xl font-bold text-black">
+                    Product Stages Interests
+                </h2>
+            </div>
+
+            <div className="flex items-start justify-between">
+                <div className="grid grid-cols-3 gap-4">
+                    <div className="cursor-pointer bg-white px-12 py-9 shadow-md hover:bg-gray-100">
+                        <p className="text-center"> Concept </p>
+                        <p className="mt-2 text-sm text-gray-600">
+                            The campaign team has an idea for the product they plan to create, but
+                            hasn’t yet built a working prototype.
+                        </p>
+                    </div>
+                    <div className="cursor-pointer bg-white px-12 py-9 shadow-md hover:bg-gray-100">
+                        <p className="text-center"> Prototype </p>
+                        <p className="mt-2 text-sm text-gray-600">
+                            The campaign team has a working version that successfully demonstrates
+                            the functionality of the final product.
+                        </p>
+                    </div>
+                    <div className="cursor-pointer bg-white px-12 py-9 shadow-md hover:bg-gray-100">
+                        <p className="text-center"> Production </p>
+                        <p className="mt-2 text-sm text-gray-600">
+                            The campaign team is currently producing the final product for their
+                            backers.
+                        </p>
                     </div>
                 </div>
             </div>
