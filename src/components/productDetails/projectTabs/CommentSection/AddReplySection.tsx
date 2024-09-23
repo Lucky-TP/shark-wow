@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 
 import { useForm, SubmitHandler ,Controller, set } from "react-hook-form"
 
-import { useProjectDetails } from 'src/context/custom-hooks/useProjectDetails';
+import { useProjectDetails } from "src/context/useProjectDetails";
 
 import { addReplyToComment } from 'src/services/apiService/replies/addReplyToComment';
 

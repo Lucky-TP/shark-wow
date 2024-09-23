@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-import { useProjectDetails } from "src/context/custom-hooks/useProjectDetails";
+import { useProjectDetails } from "src/context/useProjectDetails";
 
 import EmblaCarousel from "./emblaCarousel/EmblaCarousel";
 import { EmblaOptionsType } from "embla-carousel";

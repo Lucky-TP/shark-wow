@@ -2,7 +2,7 @@ import React from "react";
 
 import { useRouter } from "next/navigation";
 
-import { useProjectDetails } from "src/context/custom-hooks/useProjectDetails";
+import { useProjectDetails } from "src/context/useProjectDetails";
 
 import { StripePaymentMethod } from "src/constants/paymentMethod";
 import { checkout } from "src/services/apiService/payments/checkout";

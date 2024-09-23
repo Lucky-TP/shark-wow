@@ -3,7 +3,7 @@ import React from "react";
 import { Stage } from "src/interfaces/models/project";
 
 import { Skeleton } from "antd";
-import { useProjectDetails } from "src/context/custom-hooks/useProjectDetails";
+import { useProjectDetails } from "src/context/useProjectDetails";
 
 function formatDate(date: string ): string {
     const DateO = new Date(date)

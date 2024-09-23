@@ -3,25 +3,24 @@ import React, { useEffect, useState } from "react";
 import {
     ProjectDetailPayloadInterface,
     useProjectDetails,
-} from "src/context/custom-hooks/useProjectDetails";
+} from "src/context/useProjectDetails";
 
 import { message, Skeleton } from "antd";
-import { listenOnProjectChanges } from "src/services/realtimeDbService/listenOnProjectChanges";
 
-function formatDate(date: string): string {
-    const DateO = new Date(date);
-    const day = String(DateO.getDate()).padStart(2, "0");
-    const month = String(DateO.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+function formatDate(date: string ): string {
+    const DateO = new Date(date)
+    const day = String(DateO.getDate()).padStart(2, '0');
+    const month = String(DateO.getMonth() + 1).padStart(2, '0'); // Months are zero-based
     const year = DateO.getFullYear();
 
     return `${day}/${month}/${year}`;
 }
 
+
 export default function ProjectOverviewInfo() {
     const { isLoading, ProjectInfo, UserInfo, error, OnGettingUserDetails } =
         useProjectDetails() as ProjectDetailPayloadInterface;
 
-    const [totalViewer, setTotalViewer] = useState(0);
     const [isFirstTime, setFirstTime] = useState(true);
 
     useEffect(() => {
@@ -30,16 +29,6 @@ export default function ProjectOverviewInfo() {
             setFirstTime(false);
         }
     }, [ProjectInfo.uid]);
-
-    useEffect(() => {
-        const unsubscribe = listenOnProjectChanges(ProjectInfo.projectId!, (data) => {
-            setTotalViewer(data?.totalViewer ?? 0);
-        });
-
-        return () => {
-            unsubscribe();
-        };
-    }, [ProjectInfo.projectId]);
 
     return (
         <>
@@ -61,8 +50,7 @@ export default function ProjectOverviewInfo() {
                         <div className="ml-4">
                             <h2 className="text-xl font-bold">{UserInfo.username}</h2>
                             <p className="text-gray-600 text-base">
-                                Created at{" "}
-                                {UserInfo.birthDate ? formatDate(UserInfo.birthDate) : ""}
+                                Created at {UserInfo.birthDate ? formatDate(UserInfo.birthDate) : ""}
                             </p>
                         </div>
                     </div>
@@ -75,7 +63,6 @@ export default function ProjectOverviewInfo() {
                         </div> */}
                         <h1 className="text-2xl font-bold">{ProjectInfo.name}</h1>
                         <p className="text-gray-600 mb-4">{ProjectInfo.description}</p>
-                        <p className="text-gray-600 mb-4">Total viewer {totalViewer}</p>
                     </div>
                 </>
             )}
