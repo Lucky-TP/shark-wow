@@ -11,7 +11,7 @@ import { editSelf } from "src/services/apiService/users/editSelf";
 import { EditUserPayload } from "src/interfaces/payload/userPayload";
 import { getBase64 } from "src/utils/getBase64";
 import { singleUpload, UserSingleUploadDetail } from "src/services/apiService/files/singleUpload";
-import { useUserData } from "src/context/custom-hooks/useUserData";
+import { useUserData } from "src/context/useUserData";
 import Link from "next/link";
 import { FileUploadResponse } from "src/interfaces/response/fileResponse";
 
