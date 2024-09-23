@@ -1,18 +1,17 @@
 "use client";
 
-import React, { useMemo, useRef } from "react";
+import { useMemo, useRef } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { uploadAboutMe } from "src/services/apiService/files/uploadAboutMe";
-import { FileTypeKeys } from "src/constants/payloadKeys/file";
 import { message } from "antd";
+import { singleUpload, UserSingleUploadDetail } from "src/services/apiService/files/singleUpload";
 
 type QuillEditorProps = {
     value: string;
     onChange: (data: string) => void;
 };
 
-export default function QuillEditorForAboutMe({ value, onChange}: QuillEditorProps) {
+export default function QuillEditorForAboutMe({ value, onChange }: QuillEditorProps) {
     const quillRef = useRef<any>(null);
 
     const imageHandler = async () => {
@@ -26,20 +25,19 @@ export default function QuillEditorForAboutMe({ value, onChange}: QuillEditorPro
             const file = input.files?.[0];
             if (file && /^image\//.test(file.type)) {
                 try {
-                    const payload = {
+                    const payload: UserSingleUploadDetail = {
                         file: file,
-                        fileType: FileTypeKeys.CAROUSEL_IMAGE_FILES,
+                        type: "userGeneral",
                     };
-                    const response = await uploadAboutMe(payload);
-                    const url = response[0]?.url;
-
+                    const response = await singleUpload(payload);
+                    const url = response.url;
                     if (url) {
                         editor.insertEmbed(editor.getSelection()?.index || 0, "image", url);
                     } else {
                         message.error("Failed to upload image.");
                     }
                 } catch (error) {
-                    console.log(error)
+                    console.log(error);
                     message.error("Isas Image upload failed.");
                 }
             } else {

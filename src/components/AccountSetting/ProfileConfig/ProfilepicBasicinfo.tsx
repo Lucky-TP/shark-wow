@@ -5,14 +5,12 @@ import Image from "next/image";
 import { Input, Upload, Button, Form, FormProps, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { useUserData } from "src/context/custom-hooks/useUserData";
-import { upload } from "src/services/apiService/files/upload";
-import { FileTypeKeys } from "src/constants/payloadKeys/file";
 import { editSelf } from "src/services/apiService/users/editSelf";
 import { getBase64 } from "src/utils/getBase64";
 import LoadingPage from "src/components/global/LoadingPage";
 import { UserModel } from "src/interfaces/models/user";
 import { Address } from "src/interfaces/models/common";
-
+import { singleUpload } from "src/services/apiService/files/singleUpload";
 
 type FieldType = {
     firstName?: string;
@@ -60,7 +58,7 @@ export default function ProfilepictureBasicinformation() {
             setUploading(false);
         }
 
-        message.success("Suay Pee Suay")
+        message.success("Suay Pee Suay");
 
         console.log("Success:", values);
     };
@@ -84,15 +82,15 @@ export default function ProfilepictureBasicinformation() {
         setUploading(true);
 
         try {
-            const file: Blob = info.file.originFileObj;
+            const file: File = info.file.originFileObj;
             handlePreviewProfileImage(file);
             if (file && initUser) {
-                const newImageUrl = await upload({
+                const newImageUrl = await singleUpload({
                     file,
-                    fileType: FileTypeKeys.PROFILE_IMAGE_FILE,
+                    type: "profile",
                 });
-                setImageUrl(newImageUrl[0].url || initUser.profileImageUrl || null);
-                await editSelf({ profileImageUrl: newImageUrl[0].url });
+                setImageUrl(newImageUrl.url || initUser.profileImageUrl || null);
+                await editSelf({ profileImageUrl: newImageUrl.url });
                 refetchUserData();
             }
         } finally {
@@ -212,7 +210,6 @@ export default function ProfilepictureBasicinformation() {
                                 </Form.Item>
                             </div>
                         </Form>
-                        
                     </div>
                 </div>
             </div>
