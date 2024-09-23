@@ -1,6 +1,7 @@
 import { UserModel } from "../models/user";
 import { CommentData } from "./comment";
-import { ShowProject } from "./project";
+import { CreatorProjectStats, TimeSeriesDataPoint } from "./common";
+import { ProjectPreview, ShowProject } from "./project";
 
 export type UserData = Omit<UserModel, "ownProjectIds" | "receivedCommentIds"> & {
     ownProjects: ShowProject[];
@@ -30,3 +31,30 @@ export type PublicUserData = Omit<
     projectSummarizes: ShowProject[];
     birthDate: string;
 };
+
+export interface UserPreview {
+    uid: string;
+    username: string;
+    profileImageUrl: string;
+}
+
+export interface DonatorPreview extends UserPreview {
+    totalDonates: number;
+}
+
+export interface UserActivity {
+    userPreview: UserPreview;
+    amount: number;
+    date: string;
+    action: "donate" | "funding";
+}
+
+export interface CreatorSummaryStats {
+    topDonators: DonatorPreview[];
+    topSupportedProjects: ProjectPreview[];
+    projectStats: CreatorProjectStats;
+    financialTimeSeries: TimeSeriesDataPoint[];
+    recentContributions: UserActivity[];
+    totalSupporter: number;
+    totalFunding: number;
+}

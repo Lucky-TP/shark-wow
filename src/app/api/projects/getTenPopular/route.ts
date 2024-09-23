@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { errorHandler } from "src/libs/errors/apiError";
 import { StatusCode } from "src/constants/statusCode";
 import { CollectionPath } from "src/constants/firestore";
-import { getCollectionRef } from "src/libs/databases/firestore";
+import { getCollectionRef } from "src/libs/databases/firestore/commons";
 import { ProjectStatus } from "src/interfaces/models/enums";
 import { ShowProject } from "src/interfaces/datas/project";
 
@@ -19,6 +19,7 @@ import { ShowProject } from "src/interfaces/datas/project";
  *       500:
  *         description: Failed to retrieve popular projects
  */
+export const revalidate = 10;
 
 export async function GET(request: NextRequest) {
     try {

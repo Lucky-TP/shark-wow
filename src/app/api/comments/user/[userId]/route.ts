@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { errorHandler } from "src/libs/errors/apiError";
-import { getUser, updateUser } from "src/libs/databases/users";
-import { createComment } from "src/libs/databases/comments/createComment";
+import { getUser, updateUser } from "src/libs/databases/firestore/users";
+import { createComment } from "src/libs/databases/firestore/comments/createComment";
 import { CreateCommentPayload } from "src/interfaces/payload/commentPayload";
 import { StatusCode } from "src/constants/statusCode";
 import { withAuthVerify } from "src/utils/api/auth";
-import { getComments } from "src/libs/databases/comments";
+import { getComments } from "src/libs/databases/firestore/comments";
 
 /**
  * @swagger

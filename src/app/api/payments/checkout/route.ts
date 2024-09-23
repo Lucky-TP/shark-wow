@@ -4,8 +4,8 @@ import { CheckoutPayload } from "src/interfaces/payload/paymentPayload";
 import { withAuthVerify } from "src/utils/api/auth";
 import { StatusCode } from "src/constants/statusCode";
 import { stripe } from "src/libs/stripe/stripe";
-import { createOrder } from "src/libs/databases/orders/createOrder";
-import { updateOrder } from "src/libs/databases/orders/updateOrder";
+import { createOrder } from "src/libs/databases/firestore/orders/createOrder";
+import { updateOrder } from "src/libs/databases/firestore/orders/updateOrder";
 import { OrderStatus } from "src/interfaces/models/enums";
 
 /**

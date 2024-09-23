@@ -18,32 +18,30 @@ const Layout: NextPage<Props> = ({ children }) => {
     const hideNavbarAndFooter = hiddenPaths.includes(currentPath);
 
     return (
-        <UserProvider>
-            <AntdLayout className="min-h-screen w-screen">
-                <ConfigProvider
-                    theme={{
-                        token: {
+        <AntdLayout className="min-h-screen w-screen">
+            <ConfigProvider
+                theme={{
+                    token: {
+                        colorPrimary: "#C54F1F",
+                    },
+                    components: {
+                        Button: {
+                            colorPrimaryBorderHover: "#C54F1F",
+                            colorPrimaryHover: "#C54F1F",
                             colorPrimary: "#C54F1F",
+                            colorPrimaryActive: "#C54F1F",
+                            colorPrimaryTextHover: "#C54F1F",
                         },
-                        components: {
-                            Button: {
-                                colorPrimaryBorderHover: "#C54F1F",
-                                colorPrimaryHover: "#C54F1F",
-                                colorPrimary: "#C54F1F",
-                                colorPrimaryActive: "#C54F1F",
-                                colorPrimaryTextHover: "#C54F1F",
-                            },
-                        },
-                    }}
-                >
-                    <Suspense fallback={<LoadingPage />}>
-                        {!hideNavbarAndFooter && <Navbar />}
-                        <main className="min-h-screen bg-orange-50 pt-[10vh]">{children}</main>
-                        {!hideNavbarAndFooter && <Footer />}
-                    </Suspense>
-                </ConfigProvider>
-            </AntdLayout>
-        </UserProvider>
+                    },
+                }}
+            >
+                <Suspense fallback={<LoadingPage />}>
+                    {!hideNavbarAndFooter && <Navbar />}
+                    <main className="min-h-screen bg-orange-50 pt-[10vh]">{children}</main>
+                    {!hideNavbarAndFooter && <Footer />}
+                </Suspense>
+            </ConfigProvider>
+        </AntdLayout>
     );
 };
 

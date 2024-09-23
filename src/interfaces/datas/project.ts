@@ -18,3 +18,10 @@ export interface ShowProject {
     category: string;
     status: ProjectStatus;
 }
+
+export interface ProjectPreview {
+    projectId: string;
+    name: string;
+    previewImageUrl: string;
+    totalSupports: number
+}

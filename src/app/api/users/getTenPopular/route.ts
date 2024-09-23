@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { StatusCode } from "src/constants/statusCode";
 import { CollectionPath } from "src/constants/firestore";
-import { getCollectionRef } from "src/libs/databases/firestore";
+import { getCollectionRef } from "src/libs/databases/firestore/commons";
 import { UserModel } from "src/interfaces/models/user";
 import { PopularCreator } from "src/interfaces/datas/user";
 import { errorHandler } from "src/libs/errors/apiError";
@@ -19,6 +19,7 @@ import { errorHandler } from "src/libs/errors/apiError";
  *       500:
  *         description: Internal server error
  */
+export const revalidate = 10;
 
 export async function GET(request: NextRequest) {
     try {

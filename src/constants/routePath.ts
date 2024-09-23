@@ -16,10 +16,11 @@ export const apiPath = {
         GET_SELF: `${API_BASE_URL}/api/users/me`,
         EDIT_SELF: `${API_BASE_URL}/api/users/me`,
         GET_TEN_POPULAR: `${API_BASE_URL}/api/users/getTenPopular`,
-        FAVORITE_PROJECTS: `${API_BASE_URL}/api/users/favorites`,
+        FAVORITE_PROJECTS: `${API_BASE_URL}/api/users/me/favorites`,
         GET_BY_ID: (userId: string) => `${API_BASE_URL}/api/users/${userId}`,
         UPDATE: (userId: string) => `${API_BASE_URL}/api/users/${userId}/update`,
         DELETE: (userId: string) => `${API_BASE_URL}/api/users/${userId}/delete`,
+        GET_CREATOR_SUMMARY_STATS: `${API_BASE_URL}/api/users/me/creator-view/summary-stats`,
     },
     FILES: {
         UPLOAD: `${API_BASE_URL}/api/files/upload`,

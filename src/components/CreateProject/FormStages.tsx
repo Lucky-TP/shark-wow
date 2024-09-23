@@ -151,34 +151,50 @@ export default function FormStages({ projectId }: Props) {
         return Promise.resolve();
     };
 
-    const disabledDate = (current: Dayjs) => {
+    const conceptDateDisabled = (current: Dayjs) => {
         if (!stages) return false;
-        
         const conceptDates = form.getFieldValue("conceptDates") || [];
         const prototypeDates = form.getFieldValue("prototypeDates") || [];
         const productionDates = form.getFieldValue("productionDates") || [];
-        
+        const [prototypeStart, prototypeEnd] = prototypeDates;
+        const [productionStart, productionEnd] = productionDates;
+        if (prototypeStart && current.isAfter(prototypeStart.subtract(1, 'day'), 'day')) {
+            return true;
+        }
+        if (productionStart && current.isAfter(productionStart.subtract(1, 'day'), 'day')) {
+            return true;
+        }
+        return false;
+    };
+    const prototypeDateDisabled = (current: Dayjs) => {
+        if (!stages) return false;
+        const conceptDates = form.getFieldValue("conceptDates") || [];
+        const prototypeDates = form.getFieldValue("prototypeDates") || [];
+        const productionDates = form.getFieldValue("productionDates") || [];
         const [conceptStart, conceptEnd] = conceptDates;
         const [prototypeStart, prototypeEnd] = prototypeDates;
         const [productionStart, productionEnd] = productionDates;
-        
-        // Disable dates before concept start date
-        if (conceptStart && current.isBefore(conceptStart, 'day')) {
+        if (conceptEnd && current.isBefore(conceptEnd.add(1, 'day'), 'day')) {
             return true;
         }
-        
-        // Disable dates before prototype start date if concept end date exists
-        if (conceptEnd && current.isBefore(conceptEnd.add(1, 'day'), 'day') && (!prototypeStart || current.isAfter(prototypeStart, 'day'))) {
+        if (productionStart && current.isAfter(productionStart.subtract(1, 'day'), 'day')) {
             return true;
         }
-    
-        // Disable dates before production start date if prototype end date exists
-        if (prototypeEnd && current.isBefore(prototypeEnd.add(1, 'day'), 'day') && (!productionStart || current.isAfter(productionStart, 'day'))) {
+        return false;
+    };
+
+    const productionDateDisabled = (current: Dayjs) => {
+        if (!stages) return false;
+        const conceptDates = form.getFieldValue("conceptDates") || [];
+        const prototypeDates = form.getFieldValue("prototypeDates") || [];
+        const productionDates = form.getFieldValue("productionDates") || [];
+        const [conceptStart, conceptEnd] = conceptDates;
+        const [prototypeStart, prototypeEnd] = prototypeDates;
+        const [productionStart, productionEnd] = productionDates;
+        if (conceptEnd && current.isBefore(conceptEnd.add(1, 'day'), 'day')) {
             return true;
         }
-    
-        // Disable dates after production end date if production end date exists
-        if (productionEnd && current.isAfter(productionEnd, 'day')) {
+        if (prototypeEnd && current.isBefore(prototypeEnd.add(1, 'day'), 'day')) {
             return true;
         }
         
@@ -287,7 +303,7 @@ export default function FormStages({ projectId }: Props) {
                         stages ? stringToDayjs(stages[StageId.CONCEPT].startDate) : null,
                         stages ? stringToDayjs(stages[StageId.CONCEPT].expireDate) : null,
                     ]}
-                    disabledDate={disabledDate}
+                    disabledDate={conceptDateDisabled}
                 />
             </Form.Item>
             <Form.Item name="conceptOwnership" label="Ownership (%)">
@@ -308,7 +324,7 @@ export default function FormStages({ projectId }: Props) {
                         stages ? stringToDayjs(stages[StageId.PROTOTYPE].startDate) : null,
                         stages ? stringToDayjs(stages[StageId.PROTOTYPE].expireDate) : null,
                     ]}
-                    disabledDate={disabledDate}
+                    disabledDate={prototypeDateDisabled}
                 />
             </Form.Item>
             <Form.Item name="prototypeOwnership" label="Ownership (%)">
@@ -329,7 +345,7 @@ export default function FormStages({ projectId }: Props) {
                         stages ? stringToDayjs(stages[StageId.PRODUCTION].startDate) : null,
                         stages ? stringToDayjs(stages[StageId.PRODUCTION].expireDate) : null,
                     ]}
-                    disabledDate={disabledDate}
+                    disabledDate={productionDateDisabled}
                 />
             </Form.Item>
             <Form.Item name="productionOwnership" label="Ownership (%)">

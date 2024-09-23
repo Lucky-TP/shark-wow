@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ProjectData } from "src/interfaces/datas/project";
 import { ProjectModel, Stage } from "src/interfaces/models/project";
-import { getCollectionRef } from "src/libs/databases/firestore";
-import { updateProject } from "src/libs/databases/projects";
-import { getProjects } from "src/libs/databases/projects/getProjects";
+import { getCollectionRef } from "src/libs/databases/firestore/commons";
+import { updateProject } from "src/libs/databases/firestore/projects";
+import { getProjects } from "src/libs/databases/firestore/projects/getProjects";
 import { errorHandler } from "src/libs/errors/apiError";
 import { chunkArray } from "src/utils/api/queries";
 

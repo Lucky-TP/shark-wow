@@ -100,13 +100,20 @@ export default function TargetStage({ stage }: Props) {
                 </div>
                 <div className="flex flex-row items-center justify-between my-[1.5vh] gap-y-[1vh] w-full ">
                     <p className="text-gray-700 text-lg font-bold">
+                        Stage
+                    </p>
+                    <p className="text-base text-gray-600">
+                        {stage.name}
+                    </p>
+                </div>
+                <div className="flex flex-row items-center justify-between  gap-y-[1vh] w-full ">
+                    <p className="text-gray-700 text-lg font-bold">
                         Estimated Date
                     </p>
                     <p className="text-base text-gray-600">
                             {formateEstimatedDate(stage.expireDate)}
                     </p>
                 </div>
-
                 <div className="flex items-center justify-center w-full">
                     <button
                         onClick={async ()=>{
