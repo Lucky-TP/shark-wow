@@ -4,7 +4,7 @@ import { Layout as AntdLayout, ConfigProvider } from "antd";
 import Navbar from "./navigation/Navbar";
 import Footer from "./footer/Footer";
 import { usePathname } from "next/navigation";
-import { UserProvider } from "src/context/custom-hooks/useUserData";
+import { UserProvider } from "src/context/useUserData";
 import { Suspense } from "react";
 import LoadingPage from "./LoadingPage";
 

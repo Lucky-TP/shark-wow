@@ -4,9 +4,10 @@ import { getCreatorSummaryStats } from "src/services/apiService/users/getCreator
 
 
 import { GetCreatorSummaryStats as CreatorSummaryStatsType} from "src/interfaces/response/userResponse" 
+import { CreatorSummaryStats } from "src/interfaces/datas/user"
 
 export interface CreatorSummaryType {
-    data : CreatorSummaryStatsType
+    data : CreatorSummaryStats
     isLoading : boolean
     error : boolean
     status : number
@@ -19,7 +20,7 @@ export interface CreatorSummaryContextType {
 
 //creating initialize data 
 const initializeCreatorSummary : CreatorSummaryType ={ 
-    data : { } as CreatorSummaryStatsType, 
+    data : { } as CreatorSummaryStats, 
     isLoading : false,
     error : false,
     status : 0
@@ -43,20 +44,21 @@ export function CreatorSummaryProvider ({
             })
             // API CALL
             const response = await getCreatorSummaryStats()
-            setCreatorSummary({
-                ...creatorSummary,
-                data : response,
-                isLoading : false,
-                error : false,
-                status : 200
-            })
+            if (response.status !== 200){
+                setCreatorSummary({
+                    ...creatorSummary,
+                    data : response.data,
+                    isLoading : false,
+                    error : false,
+                    status : response.status
+                })                
+            }
         }catch(err){
             console.log(err)
             setCreatorSummary({
                 ...creatorSummary,
                 isLoading : false, 
-                error : true,
-                status : 500
+                error : true ,
             })
         }
     }
@@ -67,9 +69,6 @@ export function CreatorSummaryProvider ({
         </creatCreatorSummaryContext.Provider>
     );
 }
-
-
-
 
 
 
