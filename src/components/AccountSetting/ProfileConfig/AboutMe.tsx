@@ -1,22 +1,20 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, message } from "antd";
-import { useRouter } from "next/navigation";
 import { EditUserPayload } from "src/interfaces/payload/userPayload";
-//import { editProjectById } from "src/services/apiService/projects/editProjectById";
 import { editSelf } from "src/services/apiService/users/editSelf";
-import { getSelf } from "src/services/apiService/users/getSelf";
-//import { getUserById } from "src/services/apiService/users/getUserById";
-//import QuillEditor from "src/components/AccountSetting/ProfileConfig/QuillEditorForAboutMe";
-import QuillEditorForAboutMe from "src/components/AccountSetting/ProfileConfig/QuillEditorForAboutMe";
+import { useUserData } from "src/context/custom-hooks/useUserData";
+import dynamic from "next/dynamic";
 
-type Props = {
-    
-};
+// Dynamically import QuillEditor
+const QuillEditor = dynamic(() => import("src/components/global/QuillEditor"), { ssr: false });
 
-export default function AboutMe() {
-    const router = useRouter();
+type Props = {};
+
+export default function AboutMe({}: Props) {
+    const { user: initUser } = useUserData();
+
     const [loading, setLoading] = useState<boolean>(false);
     const [content, setContent] = useState<string>("");
 
@@ -25,17 +23,10 @@ export default function AboutMe() {
     };
 
     useEffect(() => {
-        const fetchUserData = async () => {
-             try {
-                 const userData = await getSelf();
-                 setContent(userData.data?.aboutMe ?? "");
-             } catch (error) {
-                 message.error("Failed to load user data.");
-             }
-        };
-
-        fetchUserData();
-    }, []);
+        if (initUser) {
+            setContent(initUser?.aboutMe ?? "");
+        }
+    }, [initUser]);
 
     const onFinish = async () => {
         setLoading(true);
@@ -59,19 +50,14 @@ export default function AboutMe() {
 
     return (
         <>
+            <QuillEditor value={content} onChange={handleEditorChange} projectId="1" />
             <div className="h-full w-full pl-40 pr-40">
                 <div className="pt-8">
                     <label className="block pb-2 text-xl font-bold text-black">About Me</label>
-                    <QuillEditorForAboutMe value={content} onChange={handleEditorChange} />
                 </div>
                 <div className="mt-6 flex justify-end">
-                <Button
-                    type="primary"
-                    loading={loading}
-                    disabled={loading}
-                    onClick={onFinish}
-                >
-                    Save 999
+                    <Button type="primary" loading={loading} disabled={loading} onClick={onFinish}>
+                        Save 999
                     </Button>
                 </div>
             </div>
@@ -81,6 +67,3 @@ export default function AboutMe() {
         </>
     );
 }
-
-
-
