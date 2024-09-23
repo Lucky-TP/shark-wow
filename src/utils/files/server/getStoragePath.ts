@@ -13,7 +13,7 @@ export function getStoragePath(type: string, uid: string, projectId?: string): s
                 return StoragePath.USER.PROFILE(uid);
             case "cv":
                 return StoragePath.USER.CV(uid);
-            case "general":
+            case "userGeneral":
                 return StoragePath.USER.GENERAL(uid);
             default:
                 throw new CustomError(
@@ -30,7 +30,7 @@ export function getStoragePath(type: string, uid: string, projectId?: string): s
         switch (type) {
             case "carousel":
                 return StoragePath.PROJECT.CAROUSEL_IMAGES(uid, projectId);
-            case "general":
+            case "projectGeneral":
                 return StoragePath.PROJECT.GENERAL(uid, projectId);
             default:
                 throw new CustomError(

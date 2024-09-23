@@ -1,5 +1,5 @@
-export type ProjectFileType = "carousel" | "general";
-export type UserFileType = "profile" | "general" | "cv";
+export type ProjectFileType = "carousel" | "projectGeneral";
+export type UserFileType = "profile" | "userGeneral" | "cv";
 
 export const FileUploadPayloadKeys = {
     file: "file",
