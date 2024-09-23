@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useAuth } from "src/hooks/useAuth";
 import { UserData } from "src/interfaces/datas/user";
 import { getSelf } from "src/services/apiService/users/getSelf";
@@ -22,38 +22,55 @@ export const UserProvider = ({ children, initialData }: UserProviderProps) => {
     const [loading, setLoading] = useState(true);
     const { user: authUser, authLoading } = useAuth();
 
-    useEffect(() => {
-        const fetchUserData = async () => {
-            if (authUser) {
-                try {
-                    const fetchedUserData = await getSelf();
-                    setUser(fetchedUserData?.data!);
-                    clearInterval(intervalId);
-                } catch (error) {
-                    console.error("Failed to fetch user data", error);
-                    setUser(null);
-                } finally {
-                    setLoading(false);
+    let intervalIdRef = useRef<NodeJS.Timeout | null>(null); // Store the intervalId with useRef
+
+    const fetchUserData = useCallback(async () => {
+        if (authUser) {
+            try {
+                const fetchedUserData = await getSelf();
+                setUser(fetchedUserData.data);
+                if (intervalIdRef.current) {
+                    clearInterval(intervalIdRef.current); // Clear interval after data is fetched
                 }
-            } else {
+            } catch (error) {
+                console.error("Failed to fetch user data", error);
                 setUser(null);
+            } finally {
                 setLoading(false);
             }
-        };
+        } else {
+            setUser(null);
+            setLoading(false);
+        }
+    }, [authUser]);
 
-        let intervalId: NodeJS.Timeout;
+    // Define refetchUserData function
+    const refetchUserData = () => {
+        setLoading(true); // Set loading to true before fetching
+        fetchUserData(); // Call fetchUserData
+    };
+
+    useEffect(() => {
         if (!authLoading) {
-            intervalId = setInterval(() => {
+            intervalIdRef.current = setInterval(() => {
                 if (!user) {
                     fetchUserData();
                 }
             }, 1000);
 
             setTimeout(() => {
-                clearInterval(intervalId);
+                if (intervalIdRef.current) {
+                    clearInterval(intervalIdRef.current); // Ensure the interval is cleared after 3 seconds
+                }
             }, 3000);
         }
-    }, [authUser, authLoading]);
+
+        return () => {
+            if (intervalIdRef.current) {
+                clearInterval(intervalIdRef.current); // Cleanup interval on unmount
+            }
+        };
+    }, [authUser, authLoading, fetchUserData, user]);
 
     return (
         <UserContext.Provider value={{ user, setUser, loading }}>{children}</UserContext.Provider>
