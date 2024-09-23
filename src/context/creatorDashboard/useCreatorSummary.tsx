@@ -1,9 +1,8 @@
+
 import { createContext, useState } from "react"
 
 import { getCreatorSummaryStats } from "src/services/apiService/users/getCreatorSummaryStats"
 
-
-import { GetCreatorSummaryStats as CreatorSummaryStatsType} from "src/interfaces/response/userResponse" 
 import { CreatorSummaryStats } from "src/interfaces/datas/user"
 
 export interface CreatorSummaryType {
