@@ -8,6 +8,7 @@ interface UserContextType {
     user: UserData | null;
     setUser: (user: UserData | null) => void;
     loading: boolean;
+    refetchUserData: () => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -73,7 +74,9 @@ export const UserProvider = ({ children, initialData }: UserProviderProps) => {
     }, [authUser, authLoading, fetchUserData, user]);
 
     return (
-        <UserContext.Provider value={{ user, setUser, loading }}>{children}</UserContext.Provider>
+        <UserContext.Provider value={{ user, setUser, refetchUserData, loading }}>
+            {children}
+        </UserContext.Provider>
     );
 };
 
