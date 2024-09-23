@@ -25,7 +25,7 @@ const initializeCreatorSummary : CreatorSummaryType ={
     status : 0
 }
 // Creating context 
-const creatCreatorSummaryContext = createContext<CreatorSummaryContextType | undefined>(undefined)
+const CreatorSummaryContext = createContext<CreatorSummaryContextType | undefined>(undefined)
 
 
 export function CreatorSummaryProvider ({
@@ -63,12 +63,17 @@ export function CreatorSummaryProvider ({
     }
     
     return (
-        <creatCreatorSummaryContext.Provider value={{ creatorSummary , onGettingSummary }}>
+        <CreatorSummaryContext.Provider value={{ creatorSummary , onGettingSummary }}>
             {children}
-        </creatCreatorSummaryContext.Provider>
+        </CreatorSummaryContext.Provider>
     );
 }
 
-
-
+export const useCreatorSummary = ()=>{
+    const context = createContext(CreatorSummaryContext)
+    if (context === undefined){
+        throw new Error("useCreatorSummary must be used within a CreatorSummaryProvider")
+    }
+    return context
+}
 
