@@ -11,18 +11,11 @@ import {
 import { editProjectById } from "src/services/apiService/projects/editProjectById";
 import { getProjectById } from "src/services/apiService/projects/getProjectById"; // Import the getProjectById function
 import { EditProjectPayload } from "src/interfaces/payload/projectPayload";
+import { getBase64 } from "src/utils/getBase64";
 
 type Props = {
     projectId: string;
 };
-
-const getBase64 = (file: File): Promise<string> =>
-    new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result as string);
-        reader.onerror = (error) => reject(error);
-    });
 
 export default function FormBasic({ projectId }: Props) {
     const router = useRouter();
@@ -164,7 +157,7 @@ export default function FormBasic({ projectId }: Props) {
     return (
         <>
             <Form form={form} layout="vertical" onFinish={onFinish} className="w-full">
-                <h1 className="text-4xl mb-1">Basic Details</h1>
+                <h1 className="mb-1 text-4xl">Basic Details</h1>
                 <p className="mb-2">Summarize your details for a good impression</p>
                 <Form.Item
                     name="title"
