@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import SettingNavbar from "src/components/AccountSetting/SettingNavbar";
 import ProfilepictureBasicinformation from "src/components/AccountSetting/ProfileConfig/ProfilepicBasicinfo";
 import AboutMe from "src/components/AccountSetting/ProfileConfig/AboutMe";
@@ -6,8 +5,7 @@ import LinkResumeSavebutton from "src/components/AccountSetting/ProfileConfig/Li
 
 type Props = {};
 
-export default function Page({}: Props) {
-    
+export default function ProfileConfig({}: Props) {
     return (
         <>
             <SettingNavbar />
