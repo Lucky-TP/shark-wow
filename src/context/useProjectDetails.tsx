@@ -109,4 +109,4 @@ export const useProjectDetails = () => {
         throw new Error("useProjectDetails must be used within a ProjectDetailProvider");
     }
     return context;
-};
+}; 
