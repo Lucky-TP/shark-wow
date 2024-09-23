@@ -1,41 +1,23 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import {
-    Form,
-    Input,
-    Button,
-    Select,
-    DatePicker,
-    Upload,
-    message,
-    Image,
-    DatePickerProps,
-} from "antd";
-import { Typography } from "antd";
-const { Title } = Typography;
-import { stringToDayjs, dayjsToString } from "src/utils/date/dateConversion"; // Import your utilities
-import { Dayjs } from "dayjs";
-
-import QuillEditorForAboutMe from "./QuillEditorForAboutMe";
-
-import { UploadOutlined, PlusOutlined, DeleteOutlined } from "@ant-design/icons";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-
-import { upload } from "src/services/apiService/files/upload";
-
+import { useState, useEffect } from "react";
+import { Form, Input, Button, DatePicker, Upload, message, Image } from "antd";
+import { Typography } from "antd";
+import { UploadOutlined, DeleteOutlined } from "@ant-design/icons";
+import { stringToDayjs, dayjsToString } from "src/utils/date/dateConversion"; // Import your utilities
 import { editSelf } from "src/services/apiService/users/editSelf";
-
 import { getSelf } from "src/services/apiService/users/getSelf";
-//import { getUserById } from "src/services/apiService/users/getUserById";
-
-import { FileTypeKeys } from "src/constants/payloadKeys/file";
 import { EditUserPayload } from "src/interfaces/payload/userPayload";
 import { getBase64 } from "src/utils/getBase64";
+import { singleUpload, UserSingleUploadDetail } from "src/services/apiService/files/singleUpload";
+const QuillEditor = dynamic(() => import("src/components/global/QuillEditor"), { ssr: false });
 
 type Props = {};
 
 export default function ProfileConfig() {
+    const { Title } = Typography;
     const router = useRouter();
     const [form] = Form.useForm();
     const [loading, setLoading] = useState<boolean>(false);
@@ -109,14 +91,14 @@ export default function ProfileConfig() {
         setUploading(true);
 
         try {
-            const file: Blob = info.file.originFileObj;
+            const file: File = info.file.originFileObj;
             handlePreviewProfileImage(file); // Show preview before saving
             if (file) {
-                const newImageUrl = await upload({
+                const newImageUrl = await singleUpload({
                     file,
-                    fileType: FileTypeKeys.PROFILE_IMAGE_FILE,
-                });
-                setPreviewImage(newImageUrl[0].url || defaultPlaceholder);
+                    type: "profile",
+                } satisfies UserSingleUploadDetail);
+                setPreviewImage(newImageUrl.url || defaultPlaceholder);
             }
         } finally {
             setUploading(false);
@@ -192,12 +174,9 @@ export default function ProfileConfig() {
     return (
         <div className="pl-40 pr-40">
             <Form form={form} layout="vertical" onFinish={onFinish} className="w-full">
-
                 {/* Profile Picture */}
-                <div className="relative flex flex-col items-center mb-7 ">
-                    <p className="font-serif text-xl mb-3">
-                        Profile Picture
-                    </p>
+                <div className="relative mb-7 flex flex-col items-center">
+                    <p className="mb-3 font-serif text-xl">Profile Picture</p>
                     <div
                         className="relative"
                         onMouseEnter={() => setHover(true)}
@@ -358,7 +337,7 @@ export default function ProfileConfig() {
                     <Title level={4} className="border-b border-gray-400 pb-1">
                         About Me
                     </Title>
-                    <QuillEditorForAboutMe value={content} onChange={handleEditorChange} />
+                    <QuillEditor value={content} onChange={handleEditorChange} />
                 </div>
                 <div className="pb-10 pt-10">
                     <Title level={4} className="border-b border-gray-400 pb-1">
@@ -404,13 +383,13 @@ export default function ProfileConfig() {
                                 const file = info.fileList[0]?.originFileObj;
 
                                 if (file) {
-                                    const uploadedFile = await upload({
+                                    const uploadedFile = await singleUpload({
                                         file,
-                                        fileType: FileTypeKeys.CV_FILE, // Assuming you have a key for this file type
-                                    });
+                                        type: "cv", // Assuming you have a key for this file type
+                                    } satisfies UserSingleUploadDetail);
 
-                                    if (uploadedFile?.[0]?.url) {
-                                        form.setFieldsValue({ cvUrl: uploadedFile[0].url }); // Set cvUrl in form
+                                    if (uploadedFile.url) {
+                                        form.setFieldsValue({ cvUrl: uploadedFile.url }); // Set cvUrl in form
                                         //message.success("Resume uploaded successfully!");
                                     } else {
                                         message.error("Failed to upload resume.");
