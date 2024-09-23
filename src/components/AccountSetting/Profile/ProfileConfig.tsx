@@ -8,10 +8,13 @@ import { Typography } from "antd";
 import { UploadOutlined, DeleteOutlined } from "@ant-design/icons";
 import { stringToDayjs, dayjsToString } from "src/utils/date/dateConversion"; // Import your utilities
 import { editSelf } from "src/services/apiService/users/editSelf";
-import { getSelf } from "src/services/apiService/users/getSelf";
 import { EditUserPayload } from "src/interfaces/payload/userPayload";
 import { getBase64 } from "src/utils/getBase64";
 import { singleUpload, UserSingleUploadDetail } from "src/services/apiService/files/singleUpload";
+import { useUserData } from "src/context/custom-hooks/useUserData";
+import Link from "next/link";
+import { FileUploadResponse } from "src/interfaces/response/fileResponse";
+
 const QuillEditor = dynamic(() => import("src/components/global/QuillEditor"), { ssr: false });
 
 type Props = {};
@@ -23,9 +26,13 @@ export default function ProfileConfig() {
     const [loading, setLoading] = useState<boolean>(false);
 
     // ProfilePicture
-    const [imageUrl, setImageUrl] = useState<string | null>(null);
+    // const [imageUrl, setImageUrl] = useState<string | null>(null);
+    const [cvUrl, setCvUrl] = useState<string | null>(null);
     const [previewImage, setPreviewImage] = useState<string | null>(null);
-    const [uploadingProfilePicture, setUploading] = useState<boolean>(false);
+    const [isUpload, setIsUpload] = useState<boolean>(false);
+    const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
+    const [cvFile, setCvFile] = useState<File | null>(null);
+
     const [hover, setHover] = useState<boolean>(false);
     const defaultPlaceholder = "/defaultProfilePic.png"; // Default placeholder image URL
 
@@ -35,48 +42,41 @@ export default function ProfileConfig() {
         setContent(data);
     };
 
-    // Fetch project data and set initial form values
+    const { user: initUser, refetchUserData } = useUserData();
     useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const userData = await getSelf();
+        if (!initUser) {
+            return;
+        }
 
-                // Profile Picture
-                setImageUrl(userData?.data?.profileImageUrl || defaultPlaceholder);
-                setPreviewImage(userData?.data?.profileImageUrl || defaultPlaceholder);
+        // Profile Picture
+        // setImageUrl(initUser.profileImageUrl || defaultPlaceholder);
+        setPreviewImage(initUser?.profileImageUrl || defaultPlaceholder);
 
-                // Convert birthDate to Dayjs object
-                const birthDate = userData.data?.birthDate
-                    ? stringToDayjs(userData.data?.birthDate)
-                    : null;
+        setCvUrl(initUser.cvUrl);
 
-                // About Me
-                setContent(userData.data?.aboutMe ?? "");
+        // Convert birthDate to Dayjs object
+        const birthDate = initUser.birthDate ? stringToDayjs(initUser.birthDate) : null;
 
-                form.setFieldsValue({
-                    username: userData.data?.username,
-                    firstName: userData.data?.firstName,
-                    lastName: userData.data?.lastName,
-                    birthDate, // Pass the Dayjs object here
-                    country: userData.data?.address[0].country,
-                    city: userData.data?.address[0].city,
-                    province: userData.data?.address[0].province,
-                    postalCode: userData.data?.address[0].postalCode,
-                    //websiteLink: userData.data?.contact.
-                    xLink: userData.data?.contact.X,
-                    facebookLink: userData.data?.contact.facebook,
-                    phoneNumber: userData.data?.contact.phone,
-                    youtubeLink: userData.data?.contact.youtube,
-                    cvUrl: userData.data?.cvUrl,
-                });
-            } catch (error) {
-                message.error("Failed to load user data.");
-                console.error(error);
-            }
-        };
+        // About Me
+        setContent(initUser.aboutMe ?? "");
 
-        fetchUserData();
-    }, [form]);
+        form.setFieldsValue({
+            username: initUser.username,
+            firstName: initUser.firstName,
+            lastName: initUser.lastName,
+            birthDate, // Pass the Dayjs object here
+            country: initUser.address[0]?.country,
+            city: initUser.address[0]?.city,
+            province: initUser.address[0]?.province,
+            postalCode: initUser.address[0]?.postalCode,
+            //websiteLink: initUser.contact.
+            xLink: initUser.contact.X,
+            facebookLink: initUser.contact.facebook,
+            phoneNumber: initUser.contact.phone,
+            youtubeLink: initUser.contact.youtube,
+            cvUrl: initUser.cvUrl,
+        });
+    }, [initUser]);
 
     // Profile Picture
     const handlePreviewProfileImage = async (file: any) => {
@@ -86,22 +86,68 @@ export default function ProfileConfig() {
         setPreviewImage(file.url || file.preview);
     };
 
-    const handleUploadProfileImage = async (info: any) => {
-        if (uploadingProfilePicture) return; // Prevent multiple uploads
-        setUploading(true);
+    // const handlePreviewCvUrl = async (file: any) => {
+    //     setCvUrl(file.url || file.preview);
+    // };
+
+    const onProfileChange = async (info: any) => {
+        if (isUpload) return; // Prevent multiple uploads
+        setIsUpload(true);
 
         try {
             const file: File = info.file.originFileObj;
             handlePreviewProfileImage(file); // Show preview before saving
             if (file) {
-                const newImageUrl = await singleUpload({
-                    file,
-                    type: "profile",
-                } satisfies UserSingleUploadDetail);
-                setPreviewImage(newImageUrl.url || defaultPlaceholder);
+                setProfileImageFile(file);
+                // const result = await singleUpload({
+                //     file,
+                //     type: "profile",
+                // } satisfies UserSingleUploadDetail);
+                // setPreviewImage(result.url || defaultPlaceholder);
+                // await editSelf({ profileImageUrl: result.url ?? initUser?.profileImageUrl });
+                // message.success("Update profile image successfully!");
+                // refetchUserData();
+            }
+            // } catch (error: unknown) {
+            //     message.error("Update profile imagefailed!");
+        } finally {
+            setIsUpload(false);
+        }
+    };
+
+    const onCvChange = async (info: any) => {
+        if (isUpload) return; // Prevent multiple uploads
+        setIsUpload(true);
+
+        try {
+            const file: File = info.file;
+            if (file) {
+                setCvFile(file);
             }
         } finally {
-            setUploading(false);
+            setIsUpload(false);
+        }
+    };
+
+    const handleUploadCv = async (info: any) => {
+        if (isUpload) return; // Prevent multiple uploads
+        setIsUpload(true);
+        try {
+            const file: File = info.file;
+            if (file) {
+                const result = await singleUpload({
+                    file,
+                    type: "cv",
+                } satisfies UserSingleUploadDetail);
+                setCvUrl(result.url ?? null);
+                await editSelf({ cvUrl: result.url ?? initUser?.cvUrl });
+                message.success("Update cv successfully!");
+                refetchUserData();
+            }
+        } catch (error: unknown) {
+            message.error("Update cv failed!");
+        } finally {
+            setIsUpload(false);
         }
     };
 
@@ -109,31 +155,55 @@ export default function ProfileConfig() {
         setPreviewImage(defaultPlaceholder); // Replace with default placeholder image
     };
 
-    const handleSaveProfilePicture = async () => {
-        if (uploadingProfilePicture) return;
+    // const handleSaveProfilePicture = async () => {
+    //     if (uploadingProfilePicture) return;
 
-        setUploading(true);
-        try {
-            // Always save the previewImage, whether it's a new image or the placeholder
-            const imageToSave =
-                previewImage === defaultPlaceholder
-                    ? defaultPlaceholder
-                    : previewImage || undefined;
+    //     setUploading(true);
+    //     try {
+    //         // Always save the previewImage, whether it's a new image or the placeholder
+    //         const imageToSave =
+    //             previewImage === defaultPlaceholder
+    //                 ? defaultPlaceholder
+    //                 : previewImage || undefined;
 
-            await editSelf({
-                profileImageUrl: imageToSave, // Save either the default placeholder or the uploaded image URL
-            });
-
-            setImageUrl(previewImage);
-            //fetchUserData(); //refetchUserData();
-            console.log("Profile picture updated successfully!");
-        } finally {
-            setUploading(false);
-        }
-    };
+    //         await editSelf({
+    //             profileImageUrl: imageToSave, // Save either the default placeholder or the uploaded image URL
+    //         });
+    //         setImageUrl(previewImage);
+    //         refetchUserData();
+    //         //fetchUserData(); //refetchUserData();
+    //         console.log("Profile picture updated successfully!");
+    //     } finally {
+    //         setUploading(false);
+    //     }
+    // };
 
     const onFinish = async (values: any) => {
         setLoading(true);
+
+        let uploadProfilePromise: Promise<FileUploadResponse> | null = null;
+        let uploadCvPromise: Promise<FileUploadResponse> | null = null;
+
+        if (profileImageFile) {
+            uploadProfilePromise = singleUpload({ file: profileImageFile, type: "profile" });
+        }
+
+        if (cvFile) {
+            uploadCvPromise = singleUpload({ file: cvFile, type: "cv" });
+        }
+
+        const [uploadProfileResult, uploadCvResult] = await Promise.all([
+            uploadProfilePromise,
+            uploadCvPromise,
+        ]);
+
+        if (uploadProfileResult) {
+            message.success("Profile image uploaded successfully!");
+        }
+
+        if (uploadCvResult) {
+            message.success("CV uploaded successfully!");
+        }
 
         const userPayload: Partial<EditUserPayload> = {
             aboutMe: content,
@@ -141,8 +211,10 @@ export default function ProfileConfig() {
             firstName: values.firstName,
             lastName: values.lastName,
             birthDate: values.birthDate ? dayjsToString(values.birthDate) : undefined,
-            cvUrl: values.cvUrl,
-
+            profileImageUrl: uploadProfileResult
+                ? uploadProfileResult.url
+                : initUser?.profileImageUrl,
+            cvUrl: uploadCvResult ? uploadCvResult.url : "",
             contact: {
                 facebook: values.facebookLink,
                 X: values.xLink,
@@ -163,6 +235,7 @@ export default function ProfileConfig() {
         try {
             await editSelf(userPayload);
             message.success("User Profile updated successfully!");
+            refetchUserData();
             router.push(`/profile`);
         } catch (error) {
             message.error("User Profile update failed!");
@@ -211,7 +284,7 @@ export default function ProfileConfig() {
                                     <Upload
                                         name="profile"
                                         showUploadList={false}
-                                        onChange={handleUploadProfileImage}
+                                        onChange={onProfileChange}
                                     >
                                         <Button
                                             shape="circle"
@@ -229,7 +302,7 @@ export default function ProfileConfig() {
                                     <Upload
                                         name="profile"
                                         showUploadList={false}
-                                        onChange={handleUploadProfileImage}
+                                        onChange={onProfileChange}
                                     >
                                         <Button
                                             shape="circle"
@@ -371,31 +444,17 @@ export default function ProfileConfig() {
                         Resume / CV
                     </Title>
 
-                    <Form.Item
-                        label="Upload Your Resume or Update Your Current Resume"
-                        name="cvUrl"
-                    >
+                    <Form.Item label="Upload Your Resume or Update Your Current Resume" name="cv">
+                        {cvUrl && (
+                            <Link className="text-blue-600 underline" href={cvUrl}>
+                                Your CV
+                            </Link>
+                        )}
                         <Upload
                             accept=".pdf"
                             maxCount={1}
                             beforeUpload={() => false} // Prevent automatic upload, handle it manually
-                            onChange={async (info) => {
-                                const file = info.fileList[0]?.originFileObj;
-
-                                if (file) {
-                                    const uploadedFile = await singleUpload({
-                                        file,
-                                        type: "cv", // Assuming you have a key for this file type
-                                    } satisfies UserSingleUploadDetail);
-
-                                    if (uploadedFile.url) {
-                                        form.setFieldsValue({ cvUrl: uploadedFile.url }); // Set cvUrl in form
-                                        //message.success("Resume uploaded successfully!");
-                                    } else {
-                                        message.error("Failed to upload resume.");
-                                    }
-                                }
-                            }}
+                            onChange={onCvChange}
                         >
                             <Button icon={<UploadOutlined />}>Upload PDF</Button>
                         </Upload>
@@ -418,8 +477,7 @@ export default function ProfileConfig() {
                     <Button
                         type="primary"
                         loading={loading}
-                        disabled={loading && uploadingProfilePicture}
-                        onClick={handleSaveProfilePicture}
+                        disabled={loading || isUpload}
                         htmlType="submit"
                     >
                         Save Changes
