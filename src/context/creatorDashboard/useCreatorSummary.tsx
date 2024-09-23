@@ -1,5 +1,4 @@
-
-import { createContext, useState } from "react"
+import { createContext, useContext, useEffect, useState } from "react"
 
 import { getCreatorSummaryStats } from "src/services/apiService/users/getCreatorSummaryStats"
 
@@ -43,7 +42,7 @@ export function CreatorSummaryProvider ({
             })
             // API CALL
             const response = await getCreatorSummaryStats()
-            if (response.status !== 200){
+            if (response.data){
                 setCreatorSummary({
                     ...creatorSummary,
                     data : response.data,
@@ -61,7 +60,8 @@ export function CreatorSummaryProvider ({
             })
         }
     }
-    
+
+
     return (
         <CreatorSummaryContext.Provider value={{ creatorSummary , onGettingSummary }}>
             {children}
@@ -70,7 +70,7 @@ export function CreatorSummaryProvider ({
 }
 
 export const useCreatorSummary = ()=>{
-    const context = createContext(CreatorSummaryContext)
+    const context = useContext(CreatorSummaryContext)
     if (context === undefined){
         throw new Error("useCreatorSummary must be used within a CreatorSummaryProvider")
     }

@@ -12,6 +12,7 @@ export default function layout({ children }:{ children: React.ReactNode } ) {
     return (
         <section>
             <UserInfo user={user || undefined} />
+            {children}
         </section>
     )
 }
