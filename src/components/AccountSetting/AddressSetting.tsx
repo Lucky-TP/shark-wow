@@ -6,7 +6,7 @@ import axios from "axios"; // Import axios for backend integration
 
 const { Option } = Select;
 
-export default function SettingAddress() {
+export default function AddressSetting() {
     const onFinish = async (values: any) => {
         try {
             // Replace with your backend API URL

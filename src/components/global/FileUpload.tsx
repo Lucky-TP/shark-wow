@@ -48,7 +48,7 @@ export default function FileUpload() {
             setLoading(true);
             const response: FileUploadResponse[] = await multipleUpload({
                 files: mockFiles,
-                type: "general",
+                type: "projectGeneral",
                 projectId: "QM2gmeMoyqJb35GAbDQe",
             });
             setMessage(response[0].message);
@@ -65,8 +65,8 @@ export default function FileUpload() {
 
     return (
         <div className="my-4 flex items-center justify-center">
-            <Form onFinish={handleSubmit} className="bg-white p-6 rounded shadow-md">
-                <h1 className="text-2xl mb-4">Upload File</h1>
+            <Form onFinish={handleSubmit} className="rounded bg-white p-6 shadow-md">
+                <h1 className="mb-4 text-2xl">Upload File</h1>
                 <Form.Item>
                     <Upload beforeUpload={() => false} onChange={handleFileChange} maxCount={1}>
                         <Button icon={<UploadOutlined />}>Select File</Button>

@@ -8,7 +8,7 @@ import TargetStage from "./TargetStage";
 
 import { Skeleton } from "antd";
 
-import { useProjectDetails } from "src/context/custom-hooks/useProjectDetails";
+import { useProjectDetails } from "src/context/useProjectDetails";
 import { dateToString } from "src/utils/date";
 
 interface Stages {

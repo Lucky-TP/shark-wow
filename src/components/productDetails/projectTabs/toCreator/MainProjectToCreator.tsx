@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import { getSelf } from "src/services/apiService/users/getSelf";
 
-import { useProjectDetails } from "src/context/custom-hooks/useProjectDetails";
+import { useProjectDetails } from "src/context/useProjectDetails";
 import CommentSection from "../CommentSection/CommentSection";
 import AddCommentSection from "../CommentSection/AddCommentSection";
 

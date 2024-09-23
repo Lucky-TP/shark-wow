@@ -7,7 +7,7 @@ import { UserData } from "src/interfaces/datas/user";
 import { getSelf } from "src/services/apiService/users/getSelf";
 type Props = {};
 
-export default function Setting_Navbar({}: Props) {
+export default function SettingNavbar({}: Props) {
     const [user, setUser] = useState<UserData | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const { user: authUser, authLoading } = useAuth();
@@ -39,10 +39,10 @@ export default function Setting_Navbar({}: Props) {
             <section>
                 <div className="flex items-start">
                     <div className="w-full">
-                        <h1 className="text-7xl text-black text-left ml-40 mt-20">
+                        <h1 className="text-7xl text-black text-center mt-20">
                             {user?.username || "Loading..."}
                         </h1>
-                        <div className="flex items-start ml-40 space-x-10 mt-20">
+                        <div className="flex items-center justify-center space-x-10 mt-20">
                             <button
                                 className="bg-[#D2825E] text-white font-semibold py-2 px-16 rounded-xl text-xl"
                                 onClick={() => router.push("/settings/profile-config")}
@@ -62,7 +62,7 @@ export default function Setting_Navbar({}: Props) {
                                 Interest
                             </button>
                         </div>
-                        <hr className="border-t-4 border-black w-3/5 my-8 ml-40" />
+                        <hr className="border-t-4 border-black w-4/5 my-8 ml-40" />
                     </div>
                 </div>
             </section>

@@ -19,7 +19,7 @@
         "antd": "^5.19.1",
         "axios": "^1.7.2",
         "chart.js": "^4.4.4",
-        "dayjs": "^1.11.12",
+        "dayjs": "^1.11.13",
         "embla-carousel-autoplay": "^8.1.7",
         "embla-carousel-react": "^8.1.7",
         "eslint-config-prettier": "^9.1.0",
