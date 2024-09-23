@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react'
 
 import { useCreatorSummary } from 'src/context/creatorDashboard/useCreatorSummary'
+import DashBoard from '../ReportProject/DashBoard'
 
 type Props = {}
 
@@ -14,7 +15,11 @@ export default function CreatorDashboard({}: Props) {
 
     return (
         <section>
-            awrgjkopqwrng
+            <div>
+              <DashBoard data={creatorSummary.data.financialTimeSeries} />  
+              <DashBoard  />
+            </div>
+            
             {
                 creatorSummary && 
                 (

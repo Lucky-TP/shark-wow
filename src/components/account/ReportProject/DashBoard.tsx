@@ -2,22 +2,21 @@
 
 import React from 'react'
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+import { TimeSeriesDataPoint } from 'src/interfaces/datas/common'
+import { CreatorSummaryStats } from 'src/interfaces/datas/user'
 
-type DataPoint = {
-  day: number
-  value: number
-}
 
-type ProjectViewerProps = {
-  data?: DataPoint[]
+
+interface ProjectViewerProps  {
+  data?: TimeSeriesDataPoint[]
 }
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-orange-500 text-white p-2 rounded shadow-lg">
-        <p className="font-bold">{`Day ${label}`}</p>
-        <p>{`Value: ${payload[0].value}`}</p>
+        <p className="font-bold">{`Date ${label}`}</p>
+        <p>{`Total Amount: ${payload[0].value}`}</p>
       </div>
     )
   }
@@ -25,48 +24,12 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 }
 
 // Mock data
-const mockData: DataPoint[] = [
-  { day: 1, value: 2800 },
-  { day: 2, value: 2500 },
-  { day: 3, value: 1300 },
-  { day: 4, value: 2300 },
-  { day: 5, value: 3000 },
-  { day: 6, value: 2300 },
-  { day: 7, value: 1400 },
-  { day: 8, value: 3300 },
-  { day: 9, value: 1300 },
-  { day: 10, value: 2500 },
-  { day: 11, value: 3300 },
-  { day: 12, value: 1300 },
-  { day: 13, value: 2200 },
-  { day: 14, value: 3300 },
-  { day: 15, value: 1800 },
-  { day: 16, value: 2300 },
-  { day: 17, value: 3300 },
-  { day: 18, value: 1100 },
-  { day: 19, value: 3300 },
-  { day: 20, value: 1300 },
-  { day: 21, value: 3300 },
-  { day: 22, value: 4300 },
-  { day: 23, value: 2900 },
-  { day: 24, value: 1300 },
-  { day: 25, value: 2400 },
-  { day: 26, value: 3300 },
-  { day: 27, value: 4300 },
-  { day: 28, value: 1800 },
-  { day: 29, value: 2300 },
-  { day: 30, value: 5300 },
-  { day: 31, value: 2800 },
+const mockData: TimeSeriesDataPoint[] = [
+  { date: '9-20-2024', totalAmount: 2800, transactionCount: 1},
+  { date: '9-21-2024', totalAmount: 3500, transactionCount: 2 }
 ]
 
-export default function DashBoard({ data = mockData}: ProjectViewerProps) {
-  if (data.length === 0) {
-    return (
-      <div className="w-full max-w-3xl bg-white rounded-lg shadow-lg p-6">
-        <h2 className="text-lg font-semibold text-gray-700 text-center">No data available</h2>
-      </div>
-    )
-  }
+export default function DashBoard({ data = mockData }: ProjectViewerProps) {
 
   return (
     <div className="w-full max-w-3xl bg-white rounded-lg shadow-lg p-6">
@@ -91,12 +54,12 @@ export default function DashBoard({ data = mockData}: ProjectViewerProps) {
               </linearGradient>
             </defs>
             <XAxis 
-              dataKey="day" 
+              dataKey="date" 
               axisLine={false} 
               tickLine={false} 
               tick={{ fill: '#888', fontSize: 12 }}
-              ticks={[1, 5, 10, 15, 20, 25, 30]}
-              domain={[1, 31]}
+              // ticks={[1, 5, 10, 15, 20, 25, 30]}
+              domain={['dataMin', 'dataMax']}
             />
             <YAxis 
               axisLine={false} 
@@ -111,7 +74,7 @@ export default function DashBoard({ data = mockData}: ProjectViewerProps) {
             />
             <Area 
               type="natural" 
-              dataKey="value" 
+              dataKey="totalAmount" 
               stroke="#ff7043" 
               fillOpacity={1} 
               fill="url(#colorValue)" 
