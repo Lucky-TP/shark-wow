@@ -21,9 +21,15 @@ export function UserInfo({ user }: Props) {
                 </button>
                 <button
                     className="bg-[#D2825E] text-white font-semibold py-2 px-16 rounded-xl text-xl"
-                    onClick={() => router.push("/my-project")}
+                    onClick={() => router.push("/supporter")}
                 >
-                    Projects
+                    Supporter
+                </button>
+                <button
+                    className="bg-[#D2825E] text-white font-semibold py-2 px-16 rounded-xl text-xl"
+                    onClick={() => router.push("/creator")}
+                >
+                    Creator
                 </button>
                 <button
                     className="bg-[#D2825E] text-white font-semibold py-2 px-16 rounded-xl text-xl"
