@@ -4,11 +4,10 @@ import { DefaultResponse } from "src/interfaces/response/commonResponse";
 
 export async function changeStatus(
     projectId: string,
-    payload: Promise<DefaultResponse>){
+    ):Promise<DefaultResponse> {
     try {
-        const result: AxiosResponse<DefaultResponse> = await axios.put(
+        const result: AxiosResponse<DefaultResponse> = await axios.patch(
             apiPath.PROJECTS.UPDATE_STATUS(projectId),
-            payload
         );
         result.data.status = result.status;
         return result.data;

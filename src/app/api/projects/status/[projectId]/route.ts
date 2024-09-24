@@ -9,7 +9,7 @@ import { errorHandler } from "src/libs/errors/apiError";
 import { updateProject } from "src/libs/databases/firestore/projects";
 import { projectValidation } from "src/libs/validation";
 
-export async function PUT(request: NextRequest, { params }: { params: { projectId: string } }) {
+export async function PATCH(request: NextRequest, { params }: { params: { projectId: string } }) {
     try {
         const tokenData = await withAuthVerify(request);
         const uid = tokenData.uid;
