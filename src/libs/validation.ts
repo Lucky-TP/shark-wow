@@ -1,4 +1,3 @@
-import { NextRequest } from "next/server";
 import { getProject } from "./databases/firestore/projects";
 import { getDocRef } from "./databases/firestore/commons";
 import { CollectionPath } from "src/constants/firestore";
