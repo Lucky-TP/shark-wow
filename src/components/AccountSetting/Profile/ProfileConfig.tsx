@@ -221,15 +221,6 @@ export default function ProfileConfig() {
                 youtube: values.youtubeLink,
                 phone: values.phoneNumber,
             },
-
-            address: [
-                {
-                    country: values.country,
-                    city: values.city,
-                    province: values.province,
-                    postalCode: values.postalCode,
-                },
-            ],
         };
 
         try {
@@ -368,45 +359,7 @@ export default function ProfileConfig() {
                     />
                 </Form.Item>
 
-                <Form.Item
-                    name="country"
-                    label="Country"
-                    rules={[
-                        {
-                            required: true,
-                            message: "Please input the country!",
-                        },
-                    ]}
-                >
-                    <Input />
-                </Form.Item>
-                <Form.Item
-                    name="city"
-                    label="City"
-                    rules={[{ required: true, message: "Please input the city!" }]}
-                >
-                    <Input />
-                </Form.Item>
-                <Form.Item
-                    name="province"
-                    label="Province"
-                    rules={[{ required: true, message: "Please input the city!" }]}
-                >
-                    <Input />
-                </Form.Item>
-                <Form.Item
-                    name="postalCode"
-                    label="Postal Code"
-                    rules={[
-                        {
-                            required: true,
-                            message: "Please input the postal code!",
-                        },
-                    ]}
-                >
-                    <Input />
-                </Form.Item>
-                <div className="pb-10 pt-10">
+                <div>
                     <Title level={4} className="border-b border-gray-400 pb-1">
                         About Me
                     </Title>
@@ -473,7 +426,7 @@ export default function ProfileConfig() {
                     </div>
                 </div>
                 */}
-                <Form.Item className="flex justify-end pt-6">
+                <Form.Item className="flex justify-center pt-6">
                     <Button
                         type="primary"
                         loading={loading}
