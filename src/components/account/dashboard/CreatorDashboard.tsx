@@ -29,10 +29,10 @@ export default function CreatorDashboard({}: Props) {
                         <TopCreatorProject/>
                     </div>
                     <div className='w-3/5 bg-white'>
-                        <div>
+                        <div className='w-3/5 bg-red-200'>
                             total support funding
                         </div>
-                        <div>
+                        <div className='w-3/5 bg-red-200'>
                             total backer
                         </div>
                     </div>
