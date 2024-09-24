@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { CollectionPath } from "src/constants/firestore";
+import { ProjectStatus, StageStatus } from "src/interfaces/models/enums";
 import { ProjectModel, Stage } from "src/interfaces/models/project";
-import { getCollectionRef } from "src/libs/databases/firestore/commons";
+import { getCollectionRef, getDocRef } from "src/libs/databases/firestore/commons";
 import { updateProject } from "src/libs/databases/firestore/projects";
 import { getProjects } from "src/libs/databases/firestore/projects/getProjects";
 import { errorHandler } from "src/libs/errors/apiError";
@@ -93,6 +95,29 @@ export async function PUT(request: NextRequest) {
         });
         await Promise.all(promises);
         return NextResponse.json({ message: "Lucky" }, { status: 200 });
+    } catch (error: unknown) {
+        return errorHandler(error);
+    }
+}
+
+export async function DELETE(request: NextRequest) {
+    try {
+        const projectCollection = getCollectionRef(CollectionPath.PROJECT);
+        const querySnapshot = await projectCollection.get();
+        await Promise.all(
+            querySnapshot.docs.map(async (snapshot) => {
+                const projectModel = snapshot.data() as ProjectModel;
+                const currentStage = projectModel.stages.find(
+                    ({ status }) => status === StageStatus.CURRENT
+                );
+                if (!currentStage && projectModel.status === ProjectStatus.RUNNING) {
+                    const projectDocRef = getDocRef(CollectionPath.PROJECT, projectModel.projectId);
+                    await projectDocRef.delete();
+                }
+            })
+        );
+
+        return NextResponse.json({ message: "Lucky delete" }, { status: 200 });
     } catch (error: unknown) {
         return errorHandler(error);
     }
