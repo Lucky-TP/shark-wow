@@ -1,7 +1,7 @@
 import { ProjectFileType, UserFileType } from "src/constants/payloadKeys/file";
 
-const projectFileTypes: ProjectFileType[] = ["carousel", "general"];
-const userFileTypes: UserFileType[] = ["profile", "cv", "general"];
+const projectFileTypes: ProjectFileType[] = ["carousel", "projectGeneral"];
+const userFileTypes: UserFileType[] = ["profile", "cv", "userGeneral"];
 
 // guard
 export function isProjectFileType(type: string): type is ProjectFileType {

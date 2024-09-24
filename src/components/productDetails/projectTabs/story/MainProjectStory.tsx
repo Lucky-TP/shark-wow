@@ -1,6 +1,6 @@
 import React, { use } from "react";
 
-import { useProjectDetails } from "src/context/custom-hooks/useProjectDetails";
+import { useProjectDetails } from "src/context/useProjectDetails";
 
 type Props = {};
 

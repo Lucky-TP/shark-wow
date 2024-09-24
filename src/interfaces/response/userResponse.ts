@@ -3,7 +3,7 @@ import { CreatorSummaryStats, PopularCreator, PublicUserData } from "../datas/us
 import { UserData } from "../datas/user";
 
 export interface GetUserResponse extends DefaultResponse {
-    data?: UserData;
+    data: UserData;
 }
 
 export interface EditUserResponse extends DefaultResponse {}

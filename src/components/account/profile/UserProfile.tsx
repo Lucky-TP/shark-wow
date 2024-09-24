@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { FaFacebook, FaTwitter, FaYoutube } from "react-icons/fa";
 import { UserInfo } from "../UserInfo";
 import LoadingPage from "src/components/global/LoadingPage";
-import { useUserData } from "src/context/custom-hooks/useUserData";
+import { useUserData } from "src/context/useUserData";
 
 type Props = {};
 
