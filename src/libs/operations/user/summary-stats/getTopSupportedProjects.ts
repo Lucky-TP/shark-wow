@@ -1,3 +1,5 @@
+"use server";
+
 import { StatusCode } from "src/constants/statusCode";
 import { ProjectPreview } from "src/interfaces/datas/project";
 import { getProjects } from "src/libs/databases/firestore/projects";
@@ -17,7 +19,7 @@ export async function getTopSupportedProjects(
                 return {
                     projectId,
                     name,
-                    previewImageUrl: carouselImageUrls[0] ?? "",
+                    previewImageUrl: carouselImageUrls.length > 0 ? carouselImageUrls[0] : "",
                     totalSupports: totalSupporter,
                 };
             }
