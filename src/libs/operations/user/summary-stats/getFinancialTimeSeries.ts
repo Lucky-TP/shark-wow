@@ -1,7 +1,11 @@
+"use server";
+
 import { TimeSeriesDataPoint } from "src/interfaces/datas/common";
 import { TransactionLog } from "src/interfaces/models/transaction";
 
-export function getFinancialTimeSeries(transactionLogs: TransactionLog[]): TimeSeriesDataPoint[] {
+export async function getFinancialTimeSeries(
+    transactionLogs: TransactionLog[]
+): Promise<TimeSeriesDataPoint[]> {
     const financialTimeSeries: TimeSeriesDataPoint[] = [];
     if (transactionLogs.length > 0) {
         let startDate = Infinity;
