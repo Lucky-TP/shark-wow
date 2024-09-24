@@ -14,7 +14,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { projec
         const tokenData = await withAuthVerify(request);
         const uid = tokenData.uid;
 
-        if(!projectValidation(params.projectId)){
+        if (!(await projectValidation(params.projectId))) {
             return NextResponse.json(
                 { message: "Please fill project information before launch." },
                 { status: StatusCode.BAD_REQUEST }
@@ -41,7 +41,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { projec
 
         if (currentProjectModel.status === ProjectStatus.DRAFT) {
             await updateProject(projectId, {
-                status: ProjectStatus.RUNNING
+                status: ProjectStatus.RUNNING,
             });
         } else {
             return NextResponse.json(
