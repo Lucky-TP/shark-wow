@@ -43,7 +43,7 @@ export interface DonatorPreview extends UserPreview {
 }
 
 export interface UserActivity {
-    userPreview: UserPreview;
+    userPreview?: UserPreview;
     amount: number;
     date: string;
     action: "donate" | "funding";
