@@ -56,7 +56,8 @@ const mockData: TimeSeriesDataPoint[] = [
 
 
 export default function DashBoard({ data = mockData }: ProjectViewerProps) {
-  const processedData = calculateDaysFromFirstDate(data);
+  const { creatorSummary, onGettingSummary } = useCreatorSummary();
+  const processedData = calculateDaysFromFirstDate(creatorSummary.data.financialTimeSeries);
 
   return (
     <div className="w-full bg-white rounded-lg shadow-lg p-6">
