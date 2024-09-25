@@ -25,7 +25,7 @@ export default function RecentActivities() {
       </div>
       <div className="h-[300px] overflow-y-auto pr-4 custom-scrollbar">
         <div className="w-full">
-          {creatorSummary.data.recentContributions.map((data, index) => {
+          {creatorSummary?.data?.recentContributions && creatorSummary.data.recentContributions.length > 0 ? (creatorSummary.data.recentContributions.map((data, index) => {
             const { date, time } = formatDateAndTime(data.date);
             return (
               <div key={index} className="flex items-center justify-between py-4 border-b last:border-b-0">
@@ -46,7 +46,10 @@ export default function RecentActivities() {
               </div>
             </div>
             )
-          })}
+          })) : (
+                <div className='text-center text-gray-500 mt-4'>
+                  No Data Available
+                </div>)}
         </div>
       </div>
       <style jsx>{`

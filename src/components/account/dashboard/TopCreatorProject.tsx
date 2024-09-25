@@ -8,11 +8,11 @@ export default function TopCreatorProject() {
     
 
     return (
-        <div className="flex-col rounded-lg bg-white">
+        <div className="flex-col h-[60vh] rounded-lg bg-white">
             <div className='text-gray-700 text-lg font-extrabold  pl-3 pt-4'>
                 Top 5 Projects
             </div>
-            {creatorSummary.data.topSupportedProjects.map((project, index) => (
+            {creatorSummary?.data?.topSupportedProjects&&creatorSummary.data.topSupportedProjects.length > 0 ?(creatorSummary.data.topSupportedProjects.map((project, index) => (
                 <div key={index} className='flex items-center justify-between p-3 '>
                     <div className='flex items-center'>
                         <img src={project.previewImageUrl} alt={project.name} className='object-contain h-12 w-12 rounded-full mr-3'/>
@@ -25,7 +25,11 @@ export default function TopCreatorProject() {
                         {index + 1}
                     </div>
                 </div>
-            ))}
+                
+            ))):(
+                <div className='text-center text-gray-500 mt-4'>
+                    No Data Available
+                </div>)}
         </div>
     );
 }

@@ -108,7 +108,9 @@ export default function DashBoard({ data = mockData }: ProjectViewerProps) {
             </AreaChart>
           </ResponsiveContainer>
         ) : (
-          <p>No data available</p> // Fallback when there's no data
+          <div className='text-center text-gray-500 mt-4'>
+            No Data Available
+          </div> // Fallback when there's no data
         )}
       </div>
     </div>
