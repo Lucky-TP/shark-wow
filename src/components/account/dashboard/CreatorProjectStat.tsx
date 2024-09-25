@@ -2,33 +2,50 @@
 
 import React, { useEffect, useState } from 'react'
 import { useCreatorSummary } from 'src/context/creatorDashboard/useCreatorSummary'
+import { useRouter } from "next/navigation";
 
 export default function CreatorProjectStat(){
     const { creatorSummary, onGettingSummary } = useCreatorSummary()
-    const launchedProjects = creatorSummary?.data?.projectStats?.launched
-    const draftedProjects = creatorSummary?.data?.projectStats?.drafted
-    const completedProjects = creatorSummary?.data?.projectStats?.completed
-    const failedProjects = creatorSummary?.data?.projectStats?.failed
+    const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleClick = () => {
+        setIsLoading(true);
+        router.push(`/creator/projects`);
+        setIsLoading(false);
+    };
 
     return (
         
         <div className="flex space-x-8">
-            <div className='bg-white rounded-xl w-[12vw] p-4 flex flex-col shadow-md'>
-                <div className='text-gray-700 text-lg font-extrabold '>Project launched</div>
-                <div className='text-gray-700 text-lg font-semibold pt-3'>{launchedProjects}</div>
-            </div>
-            <div className='bg-white rounded-xl w-[12vw] p-4 flex flex-col shadow-md'>
+            <button
+                className='bg-white rounded-xl w-[12vw] p-4 flex flex-col shadow-md focus:outline-none focus:ring-2 focus:ring-orange-300 active:bg-orange-500'
+                onClick={handleClick}  // Define this function to handle click events
+            >
+                <div className='text-gray-700 text-lg font-extrabold'>Project launched</div>
+                <div className='text-gray-700 text-lg font-semibold pt-3'>{creatorSummary.data.projectStats.launched}</div>
+            </button>
+            <button
+                className='bg-white rounded-xl w-[12vw] p-4 flex flex-col shadow-md focus:outline-none focus:ring-2 focus:ring-orange-300  active:bg-orange-500'
+                onClick={handleClick}  // Define this function to handle click events
+            >
                 <div className='text-gray-700 text-lg font-extrabold '>Project draft</div>
-                <div className='text-gray-700 text-lg font-semibold pt-3'>{draftedProjects}</div>
-            </div>
-            <div className='bg-white rounded-xl w-[12vw] p-4 flex flex-col shadow-md'>
+                <div className='text-gray-700 text-lg font-semibold pt-3'>{creatorSummary.data.projectStats.drafted}</div>
+            </button>
+            <button
+                className='bg-white rounded-xl w-[12vw] p-4 flex flex-col shadow-md focus:outline-none focus:ring-2 focus:ring-orange-300  active:bg-orange-500'
+                onClick={handleClick}  // Define this function to handle click events
+            >
                 <div className='text-gray-700 text-lg font-extrabold '>Project completed</div>
-                <div className='text-gray-700 text-lg font-semibold pt-3'>{completedProjects}</div>
-            </div>
-            <div className='bg-white rounded-xl w-[12vw] p-4 flex flex-col shadow-md'>
+                <div className='text-gray-700 text-lg font-semibold pt-3'>{creatorSummary.data.projectStats.completed}</div>
+            </button>
+            <button
+                className='bg-white rounded-xl w-[12vw] p-4 flex flex-col shadow-md focus:outline-none focus:ring-2 focus:ring-orange-300 active:bg-orange-500'
+                onClick={handleClick}  // Define this function to handle click events
+            >
                 <div className='text-gray-700 text-lg font-extrabold '>Project failed</div>
-                <div className='text-gray-700 text-lg font-semibold pt-3'>{failedProjects}</div>
-            </div>
+                <div className='text-gray-700 text-lg font-semibold pt-3'>{creatorSummary.data.projectStats.failed}</div>
+            </button>
         </div>
         
     )
