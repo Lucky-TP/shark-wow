@@ -1,3 +1,5 @@
+"use server";
+
 import { StatusCode } from "src/constants/statusCode";
 import { DonatorPreview } from "src/interfaces/datas/user";
 import { TransactionLog } from "src/interfaces/models/transaction";

@@ -23,5 +23,12 @@ export interface ProjectPreview {
     projectId: string;
     name: string;
     previewImageUrl: string;
-    totalSupports: number
+    totalSupports: number;
+}
+
+export interface ProjectSummary extends ProjectPreview {
+    currentStage: Stage;
+    projectStatus: ProjectStatus;
+    isFundingComplete: boolean;
+    isUpdateOnce: boolean;
 }
