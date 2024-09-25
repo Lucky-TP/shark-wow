@@ -5,8 +5,8 @@ type Props = {};
 export default function Projecttitle({}: Props) {
     // เปลี่ยนชื่อเป็น UserProfile
     return (
-        <div className="flex items-center justify-center mt-10 mb-20 bg-[#E5D8CA] ">
-            <div className="bg-[#E59A73] rounded-lg border-4 border-blue-400 p-8 max-w-md">
+        <div className="flex items-center justify-center mt-10 mb-20 bg-orange-50 ">
+            <div className="bg-[#D2825E] rounded-lg border-4 border-blue-400 p-8 max-w-md">
                 <h3 className="text-2xl font-semibold mb-4">Stage 1</h3>
                 <p className="text-lg mb-6">Concept</p>
 
