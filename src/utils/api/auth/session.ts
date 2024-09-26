@@ -6,9 +6,15 @@ import { generateJWT } from "./jose";
 import { translateDurationToSeconds } from "../../date/translateDurationToSeconds";
 import { UserToken } from "src/interfaces/token";
 import { USER_TOKEN } from "src/constants/cookiesKeyName";
+import { UserRole } from "src/interfaces/models/enums";
 
-export async function signUserSession(decodedToken: DecodedIdToken) {
-    const tokenData: UserToken = { uid: decodedToken.uid };
+interface SignUserSessionParams {
+    uid: string;
+    role: UserRole;
+}
+
+export async function signUserSession({ uid, role }: SignUserSessionParams) {
+    const tokenData: UserToken = { uid, role };
     const token = await generateJWT(tokenData);
     const cookieStore = cookies();
     cookieStore.set(USER_TOKEN, token, {

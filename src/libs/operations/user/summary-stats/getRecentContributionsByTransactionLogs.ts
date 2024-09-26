@@ -1,3 +1,5 @@
+"use server";
+
 import { StatusCode } from "src/constants/statusCode";
 import { UserActivity } from "src/interfaces/datas/user";
 import { TransactionType } from "src/interfaces/models/enums";
