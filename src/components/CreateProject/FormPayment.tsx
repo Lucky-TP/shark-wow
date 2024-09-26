@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ProjectStatus } from "src/interfaces/models/enums";
 import { EditProjectPayload } from "src/interfaces/payload/projectPayload";
-import { changeStatus } from "src/services/apiService/projects/changeStatus";
 import { editProjectById } from "src/services/apiService/projects/editProjectById";
 
 type Props = {

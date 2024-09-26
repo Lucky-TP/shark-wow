@@ -32,7 +32,6 @@ export async function POST(request: NextRequest) {
         const tokenData = await withAuthVerify(request);
 
         const uid = tokenData.uid;
-
         const userDocRef = getDocRef(CollectionPath.USER, uid);
         const userSnapshot = await userDocRef.get();
 
