@@ -27,7 +27,8 @@ export default function ProjectStages() {
                 {ProjectInfo.stages !== undefined &&
                     ProjectInfo.stages.map((stage: Stage, key) => (
                         <TargetStage key={key} stage={stage} />
-                    ))}
+                    )
+                )}
                 {(isLoading || ProjectInfo.stages === null) && (
                     <li>
                         <Skeleton active />
