@@ -69,6 +69,7 @@ export async function GET(request: NextRequest, { params }: { params: { userId: 
             cvUrl: userModel.cvUrl,
             projectSummarizes,
             birthDate: userModel.birthDate,
+            role: userModel.role,
         };
         return NextResponse.json(
             { message: "Get user successful", data: publicUserData },
