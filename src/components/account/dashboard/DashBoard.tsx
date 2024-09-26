@@ -6,13 +6,7 @@ import { useCreatorSummary } from 'src/context/creatorDashboard/useCreatorSummar
 import { TimeSeriesDataPoint } from 'src/interfaces/datas/common'
 import { UserActivity } from 'src/interfaces/datas/user'
 
-interface props {
-  date: string;
-  amount: number;
-}
-interface ProjectViewerProps {
-  data?: TimeSeriesDataPoint[];
-}
+
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -44,18 +38,7 @@ const calculateDaysFromFirstDate = (data: TimeSeriesDataPoint[]): TimeSeriesData
 };
 
 
-
-// Mock data
-const mockData: TimeSeriesDataPoint[] = [
-  { date: "2024-09-11T16:21:29.138Z", totalAmount: 15, transactionCount:1},
-  { date: "2024-09-12T16:21:29.138Z", totalAmount: 25, transactionCount:2},
-  { date: "2024-09-13T16:21:29.138Z", totalAmount: 40, transactionCount:3},
-  { date: "2024-09-14T16:21:29.138Z", totalAmount: 45, transactionCount:4},
-]
-
-
-
-export default function DashBoard({ data = mockData }: ProjectViewerProps) {
+export default function DashBoard() {
   const { creatorSummary, onGettingSummary } = useCreatorSummary();
   const processedData = calculateDaysFromFirstDate(creatorSummary.data.financialTimeSeries);
 
