@@ -37,12 +37,6 @@ export function UserInfo({ user }: Props) {
                 >
                     Contribution
                 </button>
-                <button
-                    className="bg-[#D2825E] text-white font-semibold py-2 px-16 rounded-xl text-xl"
-                    onClick={() => router.push("/settings/profile-config")}
-                >
-                    Setting
-                </button>
             </div>
             <div className="w-full flex justify-center">
                 <hr className="border-t-4 border-black w-4/5 my-8" />
