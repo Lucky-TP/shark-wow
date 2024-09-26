@@ -22,7 +22,7 @@ export async function PATCH(request : NextRequest , { params }: { params: { proj
             status: ProjectStatus.RUNNING
         });
         return NextResponse.json(
-            { message: "Laucnh project successful." },
+            { message: "Approve project successful." },
             { status: StatusCode.SUCCESS }
         );
     }
