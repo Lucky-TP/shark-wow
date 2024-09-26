@@ -3,6 +3,7 @@ import { UserModel } from "src/interfaces/models/user";
 import { StatusCode } from "src/constants/statusCode";
 import { CustomError } from "src/libs/errors/apiError";
 import { dateToString } from "src/utils/date/dateConversion";
+import { UserRole } from "src/interfaces/models/enums";
 
 export async function createUser(userData?: Partial<UserModel>): Promise<void> {
     try {
@@ -33,6 +34,7 @@ export async function createUser(userData?: Partial<UserModel>): Promise<void> {
             },
             receivedCommentIds: [],
             interestCategories: [],
+            role: UserRole.USER,
             address: userData?.address || [],
             contact: userData.contact || {
                 facebook: "",
