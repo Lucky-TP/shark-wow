@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { DecodedIdToken } from "firebase-admin/auth";
 import { auth } from "src/libs/firebase/firebaseAdmin";
-import { createUser, deleteUser } from "src/libs/databases/firestore/users";
+import { createUser, deleteUser, getUser } from "src/libs/databases/firestore/users";
 import { getDocRef } from "src/libs/databases/firestore/commons";
 import { clearUserSession, extractBearerToken, signUserSession } from "src/utils/api/auth";
 import { UserModel } from "src/interfaces/models/user";
@@ -49,8 +49,8 @@ export async function POST(request: NextRequest) {
             };
             await createUser(userModel);
         }
-
-        await signUserSession(decodedToken);
+        const retrivedUserModel = await getUser(decodedToken.uid);
+        await signUserSession({ uid: retrivedUserModel.uid, role: retrivedUserModel.role });
         return NextResponse.json(
             { message: "Authentication successful" },
             { status: StatusCode.SUCCESS }
