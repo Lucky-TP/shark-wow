@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { DecodedIdToken } from "firebase-admin/auth";
 import { auth } from "src/libs/firebase/firebaseAdmin";
-import { createUser, deleteUser } from "src/libs/databases/firestore/users";
+import { createUser, deleteUser, getUser } from "src/libs/databases/firestore/users";
 import { StatusCode } from "src/constants/statusCode";
 import { UserModel } from "src/interfaces/models/user";
 import { EmailSignUpPayload } from "src/interfaces/payload/authPayload";
@@ -88,7 +88,8 @@ export async function POST(request: NextRequest) {
         };
 
         await createUser(userModel);
-        await signUserSession(decodedToken);
+        const retrivedUserModel = await getUser(decodedToken.uid);
+        await signUserSession({ uid: retrivedUserModel.uid, role: retrivedUserModel.role });
 
         return NextResponse.json({ message: "Sign-in successful" }, { status: StatusCode.SUCCESS });
     } catch (error: unknown) {

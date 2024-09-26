@@ -1,9 +1,14 @@
 import { DefaultResponse } from "./commonResponse";
-import { CreatorSummaryStats, PopularCreator, PublicUserData } from "../datas/user";
+import {
+    CreatorOwnProjects,
+    CreatorSummaryStats,
+    PopularCreator,
+    PublicUserData,
+} from "../datas/user";
 import { UserData } from "../datas/user";
 
 export interface GetUserResponse extends DefaultResponse {
-    data?: UserData;
+    data: UserData;
 }
 
 export interface EditUserResponse extends DefaultResponse {}
@@ -17,4 +22,8 @@ export interface GetUserByIdResponse extends DefaultResponse {
 
 export interface GetCreatorSummaryStats extends DefaultResponse {
     data: CreatorSummaryStats;
+}
+
+export interface GetCreatorOwnProjects extends DefaultResponse {
+    data: CreatorOwnProjects;
 }

@@ -49,12 +49,13 @@ export async function GET(request: NextRequest) {
         const projectStats = countOverallProjectStats(projectModels);
 
         const transactionLogs = await getTransactionLogsByProjectIds(projectIds);
-        const financialTimeSeries = getFinancialTimeSeries(transactionLogs);
-        const [topSupportedProjects, topDonators, recentContributions] = await Promise.all([
-            getTopSupportedProjects(projectIds, 5),
-            getTopDonatorsForProjects(transactionLogs, 5),
-            getRecentContributionsByTransactionLogs(transactionLogs),
-        ]);
+        const [financialTimeSeries, topSupportedProjects, topDonators, recentContributions] =
+            await Promise.all([
+                getFinancialTimeSeries(transactionLogs),
+                getTopSupportedProjects(projectIds, 5),
+                getTopDonatorsForProjects(transactionLogs, 5),
+                getRecentContributionsByTransactionLogs(transactionLogs),
+            ]);
         const totalFunding = transactionLogs
             .filter(({ transactionType }) => transactionType === TransactionType.FUNDING)
             .reduce((acc, { amount }) => acc + amount, 0);
