@@ -1,5 +1,5 @@
 "use client";
-import { UserProvider } from "src/context/custom-hooks/useUserData";
+import { UserProvider } from "src/context/useUserData";
 import { UserData } from "src/interfaces/datas/user";
 
 type Props = {

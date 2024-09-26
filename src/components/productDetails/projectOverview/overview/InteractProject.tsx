@@ -2,7 +2,7 @@ import React from "react";
 
 import { useRouter } from "next/navigation";
 
-import { useProjectDetails } from "src/context/custom-hooks/useProjectDetails";
+import { useProjectDetails } from "src/context/useProjectDetails";
 
 import { checkout } from "src/services/apiService/payments/checkout";
 
