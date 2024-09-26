@@ -35,7 +35,6 @@ export default function FormPayment({ projectId }: Props) {
         const projectPayload: Partial<EditProjectPayload> = {
             status: ProjectStatus.RUNNING,
         };
-        console.log(projectPayload);
         try {
             await editProjectById(projectId, projectPayload);
             message.success("Project updated successfully!");
