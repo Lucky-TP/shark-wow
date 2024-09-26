@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useProjectsCreatedByCreator } from 'src/context/creatorDashboard/useProjectsCreatedByCreator';
 import LoadingSection from "src/components/global/LoadingSection";
-import ProjectsLaunched from './ProjectsLaunched';
-import ProjectsDrafted from './ProjectsDrafted';
+// import ProjectsLaunched from './ProjectsLaunched';
+// import ProjectsDrafted from './ProjectsDrafted';
 import { Dropdown } from 'antd';
-import ProjectsEnd from './ProjectsEnd';
+// import ProjectsEnd from './ProjectsEnd';
 
 export default function ProjectsList({ projectType }: { projectType: string }) {
   const { payload, OnChangeProjectStageType,OnGettingProjectCreatedByCreator } = useProjectsCreatedByCreator(); // Assuming payload holds project data
@@ -26,12 +26,12 @@ if (loading) {
   const renderProjectSection = () => {
     switch (projectType) {
       case 'launched':
-        return <ProjectsLaunched/>
+        return <div className='text-gray-700 text-lg font-extrabold pl-3 pt-4'>Project launched</div>;
             
       case 'drafted':
-        return <ProjectsDrafted/>
+        return <div className='text-gray-700 text-lg font-extrabold pl-3 pt-4'>Project drafted</div>;
       case 'end':
-        return <ProjectsEnd/>
+        return <div className='text-gray-700 text-lg font-extrabold pl-3 pt-4'>Project End</div>;
       case 'end':
         return <div className='text-gray-700 text-lg font-extrabold pl-3 pt-4'>Project End</div>;
       
