@@ -32,6 +32,9 @@ export default function Navbar({}: Props) {
     const handleProfile = async () => {
         router.push("/profile");
     };
+    const handleProfileSetting = async () => {
+        router.push("/settings/profile-config");
+    };
 
     const handleSignOut = async () => {
         try {
@@ -117,6 +120,10 @@ export default function Navbar({}: Props) {
                                             },
                                             {
                                                 key: "2",
+                                                label: <div onClick={handleProfileSetting}>Setting</div>,
+                                            },
+                                            {
+                                                key: "3",
                                                 label: <div onClick={handleSignOut}>Sign Out</div>,
                                                 danger: true,
                                             },
