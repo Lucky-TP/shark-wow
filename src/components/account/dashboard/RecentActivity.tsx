@@ -25,26 +25,43 @@ export default function RecentActivity() {
       </div>
       <div className="h-[300px] overflow-y-auto pr-4 custom-scrollbar">
         <div className="w-full">
+        <div className="flex items-center justify-between py-4 border-b last:border-b-0">
+            <div className="flex-1">
+              <p className="font-semibold text-gray-800">Name</p>
+            </div>
+            <div className="flex-1 text-right">
+              <p className="font-semibold text-gray-800">Amount</p>
+            </div>
+            <div className="flex-1 text-right">
+            <p className="font-semibold text-gray-800">Date</p>
+            </div>
+            <div className="flex-1 text-right">
+              <p className="font-semibold text-gray-800">Time</p>
+            </div>
+            <div className="flex-1 text-right">
+              <p className="font-semibold text-gray-800">Action</p>
+            </div>
+          </div>
           {creatorSummary?.data?.recentContributions && creatorSummary.data.recentContributions.length > 0 ? (creatorSummary.data.recentContributions.map((data, index) => {
             const { date, time } = formatDateAndTime(data.date);
             return (
               <div key={index} className="flex items-center justify-between py-4 border-b last:border-b-0">
-              <div className="flex-1">
-                <p className="font-medium text-gray-500">{data.userPreview?.username}</p>
+                <div className="flex-1">
+                  <p className="font-medium text-gray-500">{data.userPreview?.username}</p>
+                </div>
+                <div className="flex-1 text-right">
+                  <p className="font-medium text-gray-500">{data.amount} THB</p>
+                </div>
+                <div className="flex-1 text-right">
+                <p className="text-sm text-gray-500">{date}</p>
+                </div>
+                <div className="flex-1 text-right">
+                  <p className="text-sm text-gray-500">{time}</p>
+                </div>
+                <div className="flex-1 text-right">
+                  <p className="text-sm text-gray-500">{data.action}</p>
+                </div>
               </div>
-              <div className="flex-1 text-right">
-                <p className="font-medium text-gray-500">{data.amount} THB</p>
-              </div>
-              <div className="flex-1 text-right">
-              <p className="text-sm text-gray-500">{date}</p>
-              </div>
-              <div className="flex-1 text-right">
-                <p className="text-sm text-gray-500">{time}</p>
-              </div>
-              <div className="flex-1 text-right">
-                <p className="text-sm text-gray-500">{data.action}</p>
-              </div>
-            </div>
             )
           })) : (
                 <div className='text-center text-gray-500 mt-4'>
