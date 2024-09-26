@@ -1,27 +1,67 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 
 
 import { CreatorOwnProjects } from "src/interfaces/datas/user";
+import { getCreatorOwnProjects } from "src/services/apiService/users/getCreatorOwnProjects";
 
 
-const InitializeProjectsCreatedByCreator : CreatorOwnProjects = {
-    drafted: [],
-    launched: [],
-    failed: [],
-    completed: [],
+interface ProjectsCreatedByCreatorContextType { 
+    payload  : ProjectsCreatedByCreatorType
+    OnGettingProjectCreatedByCreator : ()=> Promise<void>
 }
 
-const ProjectsCreatedByCreatorContext = createContext<CreatorOwnProjects | undefined>(InitializeProjectsCreatedByCreator)
+interface ProjectsCreatedByCreatorType {
+    ProjectsCreatedByCreator : CreatorOwnProjects
+    isLoading : boolean
+    error : boolean
+}
+
+const InitializeProjectsCreatedByCreator : ProjectsCreatedByCreatorType = {
+    ProjectsCreatedByCreator : {} as CreatorOwnProjects,
+    isLoading : false,
+    error : false
+}
+
+
+const ProjectsCreatedByCreatorContext = createContext<ProjectsCreatedByCreatorContextType | undefined>(undefined)
 
 export function ProjectsCreatedByCreatorProvider ({
     children
 } : {
     children : React.ReactNode
 }){
+    const [ ProjectsCreatedByCreatorPayload , setProjectCreatedByCreatorPayload ] = useState<ProjectsCreatedByCreatorType>(InitializeProjectsCreatedByCreator)
 
+    const OnGettingProjectCreatedByCreator = async () => { 
+        // API CAll
+        setProjectCreatedByCreatorPayload({
+            ...ProjectsCreatedByCreatorPayload,
+            isLoading : true ,
+            error : false
+        })
+        try { 
+            const response = await getCreatorOwnProjects()
+            if (response.data) { 
+                setProjectCreatedByCreatorPayload({
+                    ...ProjectsCreatedByCreatorPayload,
+                    ProjectsCreatedByCreator : response.data,
+                    error : false
+                })
+            }
+        }catch(err) { 
+            setProjectCreatedByCreatorPayload({
+                ...ProjectsCreatedByCreatorPayload,
+                error : true 
+            }) 
+        }        
+        setProjectCreatedByCreatorPayload({
+            ...ProjectsCreatedByCreatorPayload,
+            isLoading : false
+            }) 
+    }
     
     return (
-        <ProjectsCreatedByCreatorContext.Provider value={InitializeProjectsCreatedByCreator}>
+        <ProjectsCreatedByCreatorContext.Provider value={{payload :  ProjectsCreatedByCreatorPayload, OnGettingProjectCreatedByCreator : OnGettingProjectCreatedByCreator}}>
             {children}
         </ProjectsCreatedByCreatorContext.Provider>
     )
