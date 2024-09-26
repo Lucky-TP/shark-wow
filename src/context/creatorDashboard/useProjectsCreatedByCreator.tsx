@@ -4,33 +4,48 @@ import { createContext, useContext, useState } from "react";
 import { CreatorOwnProjects } from "src/interfaces/datas/user";
 import { getCreatorOwnProjects } from "src/services/apiService/users/getCreatorOwnProjects";
 
+enum ProjectStagesType {
+    drafted ="drafted",
+    launched = "launched",
+    failed =  "failed",
+    completed = "completed",
+    default = "default"
+} 
+
 
 interface ProjectsCreatedByCreatorContextType { 
     payload  : ProjectsCreatedByCreatorType
     OnGettingProjectCreatedByCreator : ()=> Promise<void>
+    OnChangeProjectStageType : (projectType : string) => void
+
 }
 
 interface ProjectsCreatedByCreatorType {
     ProjectsCreatedByCreator : CreatorOwnProjects
     isLoading : boolean
-    error : boolean
+    error : boolean,
+    currentProjectType : ProjectStagesType
 }
 
 const InitializeProjectsCreatedByCreator : ProjectsCreatedByCreatorType = {
     ProjectsCreatedByCreator : {} as CreatorOwnProjects,
     isLoading : false,
-    error : false
+    error : false,
+    currentProjectType : ProjectStagesType.default
 }
 
 
 const ProjectsCreatedByCreatorContext = createContext<ProjectsCreatedByCreatorContextType | undefined>(undefined)
 
 export function ProjectsCreatedByCreatorProvider ({
-    children
+    children,
+    projectType
 } : {
-    children : React.ReactNode
+    children : React.ReactNode,
+    projectType : string 
 }){
     const [ ProjectsCreatedByCreatorPayload , setProjectCreatedByCreatorPayload ] = useState<ProjectsCreatedByCreatorType>(InitializeProjectsCreatedByCreator)
+    const [ currentProjectStageType , setCurrentProjectStageType ] = useState<ProjectStagesType>(ProjectStagesType.default)
 
     const OnGettingProjectCreatedByCreator = async () => { 
         // API CAll
@@ -59,9 +74,13 @@ export function ProjectsCreatedByCreatorProvider ({
             isLoading : false
             }) 
     }
-    
+
+    const OnChangeProjectStageType = (projectType : string) => {
+        setCurrentProjectStageType(projectType as ProjectStagesType)
+    }
+
     return (
-        <ProjectsCreatedByCreatorContext.Provider value={{payload :  ProjectsCreatedByCreatorPayload, OnGettingProjectCreatedByCreator : OnGettingProjectCreatedByCreator}}>
+        <ProjectsCreatedByCreatorContext.Provider value={{payload :  ProjectsCreatedByCreatorPayload, OnGettingProjectCreatedByCreator : OnGettingProjectCreatedByCreator , OnChangeProjectStageType : OnChangeProjectStageType}}>
             {children}
         </ProjectsCreatedByCreatorContext.Provider>
     )
