@@ -33,7 +33,8 @@ export async function POST(request: NextRequest) {
         const tokenData = await withAuthVerify(request);
 
         const uid = tokenData.uid;
-
+        
+        /*
         if(!(await userValidation(uid))){
             return NextResponse.json(
                 {
@@ -42,6 +43,7 @@ export async function POST(request: NextRequest) {
                 { status: StatusCode.BAD_REQUEST }
             );
         }
+        */
 
         const userDocRef = getDocRef(CollectionPath.USER, uid);
         const userSnapshot = await userDocRef.get();
