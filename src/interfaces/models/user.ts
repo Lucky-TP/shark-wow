@@ -1,4 +1,5 @@
 import { Address } from "./common";
+import { UserRole } from "./enums";
 
 export interface PopularDetail {
     totalProjectSuccess: number;
@@ -18,6 +19,7 @@ export interface UserModel {
     firstName: string;
     lastName: string;
     aboutMe: string;
+    role: UserRole;
     email: string;
     profileImageUrl?: string;
     ownProjectIds: string[];
