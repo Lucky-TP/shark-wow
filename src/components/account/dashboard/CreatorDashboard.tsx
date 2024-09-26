@@ -9,6 +9,7 @@ import TotalStats from './TotalStat'
 import TopDonate from './TopDonate'
 import LoadingSection from 'src/components/global/LoadingSection';
 import RecentActivity from './RecentActivity';
+import TotalStat from './TotalStat';
 
 type Props = {}
 
@@ -42,7 +43,7 @@ export default function CreatorDashboard({}: Props) {
                     </div>
                     <div className='w-2/5'>
                         <div className='w-2/5'>
-                            <TotalStats/>
+                            <TotalStat/>
                         </div>
                     </div>
                 </div>
