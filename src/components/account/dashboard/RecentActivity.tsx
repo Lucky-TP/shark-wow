@@ -33,7 +33,7 @@ export default function RecentActivity() {
                 <p className="font-medium text-gray-500">{data.userPreview?.username}</p>
               </div>
               <div className="flex-1 text-right">
-                <p className="font-medium text-gray-500">{data.amount}</p>
+                <p className="font-medium text-gray-500">{data.amount} THB</p>
               </div>
               <div className="flex-1 text-right">
               <p className="text-sm text-gray-500">{date}</p>
