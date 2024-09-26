@@ -10,7 +10,6 @@ import { ProjectModel } from "src/interfaces/models/project";
 import { addNewProject } from "src/libs/databases/firestore/projects";
 import { updateUser } from "src/libs/databases/firestore/users";
 import { dateToString } from "src/utils/date";
-import { userValidation } from "src/libs/validation";
 
 /**
  * @swagger
@@ -33,15 +32,6 @@ export async function POST(request: NextRequest) {
         const tokenData = await withAuthVerify(request);
 
         const uid = tokenData.uid;
-
-        if(!(await userValidation(uid))){
-            return NextResponse.json(
-                {
-                    message: "Please fill your information before create a project.",
-                },
-                { status: StatusCode.BAD_REQUEST }
-            );
-        }
 
         const userDocRef = getDocRef(CollectionPath.USER, uid);
         const userSnapshot = await userDocRef.get();

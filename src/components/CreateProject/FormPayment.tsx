@@ -33,12 +33,11 @@ export default function FormPayment({ projectId }: Props) {
 
     const onFinish = async (values: any) => {
         setLoading(true);
-        // const projectPayload: Partial<EditProjectPayload> = {
-        //     status: ProjectStatus.RUNNING,
-        // };
-        // console.log(projectPayload);
+        const projectPayload: Partial<EditProjectPayload> = {
+            status: ProjectStatus.RUNNING,
+        };
         try {
-            await changeStatus(projectId)
+            await editProjectById(projectId, projectPayload);
             message.success("Project updated successfully!");
             router.push(`/explore/${projectId}`);
         } catch (error) {
