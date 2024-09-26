@@ -88,7 +88,8 @@ export function ProjectsCreatedByCreatorProvider ({
 
 export const useProjectsCreatedByCreator = ()=> { 
     const context = useContext(ProjectsCreatedByCreatorContext)
-    if (context){
-        return context
+    if (context === undefined){
+        throw new Error("useCreatorSummary must be used within a CreatorSummaryProvider")
     }
+    return context
 }

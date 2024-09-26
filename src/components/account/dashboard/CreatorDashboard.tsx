@@ -5,7 +5,6 @@ import { useCreatorSummary } from 'src/context/creatorDashboard/useCreatorSummar
 import DashBoard from './DashBoard'
 import CreatorProjectStat from './CreatorProjectStat'
 import TopCreatorProject from './TopCreatorProject'
-import TotalStats from './TotalStat'
 import TopDonate from './TopDonate'
 import LoadingSection from 'src/components/global/LoadingSection';
 import RecentActivity from './RecentActivity';
