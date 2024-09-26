@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "src/libs/firebase/firebaseAdmin";
 import { errorHandler } from "src/libs/errors/apiError";
 import { extractBearerToken, signUserSession } from "src/utils/api/auth";
+import { getUser } from "src/libs/databases/firestore/users";
 
 /**
  * @swagger
@@ -40,7 +41,8 @@ export async function POST(request: NextRequest) {
     try {
         const userIdToken = extractBearerToken(request);
         const decodedToken = await auth.verifyIdToken(userIdToken);
-        await signUserSession(decodedToken);
+        const retrivedUserModel = await getUser(decodedToken.uid);
+        await signUserSession({ uid: retrivedUserModel.uid, role: retrivedUserModel.role });
 
         return NextResponse.json({ message: "Authentication successful" }, { status: 200 });
     } catch (error: unknown) {
