@@ -4,6 +4,11 @@ const API_BASE_URL =
         : "https://localhost:3000";
 
 export const apiPath = {
+    ADMIN: {
+        APPROVE: (projectId: string) => `${API_BASE_URL}/api/admin/approve/${projectId}`,
+        REJECT: (projectId: string) => `${API_BASE_URL}/api/admin/reject/${projectId}`,
+        GET_PENDING_PROJECT: `${API_BASE_URL}/api/admin/getPendingProjects`,
+    },
     AUTH: {
         // BASE: `${API_BASE_URL}/api/auth`,
         GOOGLE_SIGNIN: `${API_BASE_URL}/api/auth/signin/google`,

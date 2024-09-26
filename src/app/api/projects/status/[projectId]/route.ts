@@ -41,7 +41,8 @@ export async function PATCH(request: NextRequest, { params }: { params: { projec
 
         if (currentProjectModel.status === ProjectStatus.DRAFT) {
             await updateProject(projectId, {
-                status: ProjectStatus.RUNNING
+                status: ProjectStatus.PENDING
+                //status: ProjectStatus.RUNNING
             });
         } else {
             return NextResponse.json(
