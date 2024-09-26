@@ -8,6 +8,7 @@ export enum ProjectStatus {
     RUNNING = 1,
     SUCCESS = 2,
     FAIL = 3,
+    PENDING = 4,
 }
 
 export enum StageId {

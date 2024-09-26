@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
         const projectCollection = getCollectionRef(CollectionPath.PROJECT);
         const querySnapshot = await projectCollection
             .where("category", "in", categories)
-            .where("status", "!=", ProjectStatus.DRAFT)
+            .where("status", "==", ProjectStatus.RUNNING)
             .select(
                 "projectId",
                 "name",
