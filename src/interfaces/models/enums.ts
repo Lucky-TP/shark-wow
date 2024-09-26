@@ -40,3 +40,8 @@ export enum OrderStatus {
     REFUNDED = "refunded", // Payment was refunded after successful completion.
     EXPIRED = "expired", // Payment session expired without completing the order.
 }
+
+export enum UserRole {
+    USER = "user",
+    ADMIN = "admin",
+}
