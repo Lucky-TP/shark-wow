@@ -243,7 +243,7 @@ export async function PUT(request: NextRequest, { params }: { params: { projectI
                 carouselImageUrls: body.carouselImageUrls,
                 description: body.description,
                 address: body.address,
-                status: body.status, // implement to check if every field is filled before it could change the status (in short "IMPLEMENT LATER")
+                //status: body.status,  //implement to check if every field is filled before it could change the status (in short "IMPLEMENT LATER")
                 category: body.category,
                 totalQuantity: body.totalQuantity,
                 costPerQuantity: body.costPerQuantity,

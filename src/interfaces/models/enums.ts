@@ -8,6 +8,7 @@ export enum ProjectStatus {
     RUNNING = 1,
     SUCCESS = 2,
     FAIL = 3,
+    PENDING = 4,
 }
 
 export enum StageId {
@@ -39,4 +40,9 @@ export enum OrderStatus {
     FAILED = "failed", // Payment failed due to issues (e.g., insufficient funds, declined card).
     REFUNDED = "refunded", // Payment was refunded after successful completion.
     EXPIRED = "expired", // Payment session expired without completing the order.
+}
+
+export enum UserRole {
+    USER = "user",
+    ADMIN = "admin",
 }
