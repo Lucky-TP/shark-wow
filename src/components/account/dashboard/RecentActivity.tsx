@@ -15,7 +15,7 @@ function formatDateAndTime(isoDateString: string | number | Date) {
   return { date, time };
 }
 
-export default function RecentActivities() {
+export default function RecentActivity() {
   const { creatorSummary, onGettingSummary } = useCreatorSummary();
 
   return (
