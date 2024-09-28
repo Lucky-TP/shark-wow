@@ -1,49 +1,37 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useProjectsCreatedByCreator } from 'src/context/creatorDashboard/useProjectsCreatedByCreator';
-import LoadingSection from "src/components/global/LoadingSection";
-// import ProjectsLaunched from './ProjectsLaunched';
-// import ProjectsDrafted from './ProjectsDrafted';
-import { Dropdown } from 'antd';
-// import ProjectsEnd from './ProjectsEnd';
+import ProjectsDrafted from './ProjectsDrafted';
+import ProjectsLaunched from './ProjectsLaunched';
+import LoadingSection from 'src/components/global/LoadingSection';
+import ProjectsEnd from './ProjectsEnd';
 
-export default function ProjectsList({ projectType }: { projectType: string }) {
-  const { payload, OnChangeProjectStageType,OnGettingProjectCreatedByCreator } = useProjectsCreatedByCreator(); // Assuming payload holds project data
-  const [loading, setLoading] = useState(true);
+type Props = {
+  projectType: string; // projectType prop passed into the component
+};
+
+export default function ProjectsList({ projectType }: Props) {
+  const { payload, OnGettingProjectCreatedByCreator } = useProjectsCreatedByCreator();
+
+  // Fetch data when the component is mounted
   useEffect(() => {
-    OnGettingProjectCreatedByCreator().then(() => {
-        setLoading(false);
-    });
-}, []);
+    OnGettingProjectCreatedByCreator();
+  }, []); // Empty dependency array ensures this only runs once on mount
 
-if (loading) {
-    return <LoadingSection/>;
-}
-  
+  if (payload.isLoading) {
+    return <LoadingSection />;
+  }
 
-
-
-  // Render content based on projectType
-  const renderProjectSection = () => {
-    switch (projectType) {
-      case 'launched':
-        return <div className='text-gray-700 text-lg font-extrabold pl-3 pt-4'>Project launched</div>;
-            
-      case 'drafted':
-        return <div className='text-gray-700 text-lg font-extrabold pl-3 pt-4'>Project drafted</div>;
-      case 'end':
-        return <div className='text-gray-700 text-lg font-extrabold pl-3 pt-4'>Project End</div>;
-      case 'end':
-        return <div className='text-gray-700 text-lg font-extrabold pl-3 pt-4'>Project End</div>;
-      
-      default:
-        return <div className='text-gray-700 text-lg font-extrabold pl-3 pt-4'>No specific projects found</div>;
-    }
-  };
+  if (payload.error) {
+    return <div>Error loading projects</div>;
+  }
 
   return (
-    <div className='w-full px-[4vw]'>
-        {renderProjectSection()}
+    <div>
+      {/* Render based on the current project type in payload or fallback to prop */}
+      {(projectType === "launched") && <ProjectsLaunched />}
+      {(projectType === "drafted") && <ProjectsDrafted />}
+      {(projectType === "end") && <ProjectsEnd />}
+      {!projectType && <div>No project type selected</div>}
     </div>
-      
   );
 }

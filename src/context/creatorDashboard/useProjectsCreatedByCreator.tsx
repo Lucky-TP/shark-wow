@@ -4,7 +4,7 @@ import { createContext, useContext, useState } from "react";
 import { CreatorOwnProjects } from "src/interfaces/datas/user";
 import { getCreatorOwnProjects } from "src/services/apiService/users/getCreatorOwnProjects";
 
-enum ProjectStagesType {
+export enum ProjectStagesType {
     drafted ="drafted",
     launched = "launched",
     failed =  "failed",

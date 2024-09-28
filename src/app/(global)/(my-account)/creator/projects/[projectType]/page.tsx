@@ -11,7 +11,7 @@ export default function Page({ params }: { params: { projectType: string } }) {
   return (
     <section className="px-[4vw]">
       <ProjectsCreatedByCreatorProvider projectType={projectType}>
-        <ProjectsList projectType={projectType} />
+        <ProjectsList projectType={projectType}/>
       </ProjectsCreatedByCreatorProvider>
     </section>
   );
