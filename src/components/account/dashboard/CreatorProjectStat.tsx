@@ -36,14 +36,14 @@ export default function CreatorProjectStat(){
             </button>
             <button
                 className='bg-white rounded-xl w-[12vw] p-4 flex flex-col shadow-md focus:outline-none focus:ring-2 focus:ring-orange-300  active:bg-orange-500'
-                onClick={() => handleClick('end')}  // Define this function to handle click events
+                onClick={() => handleClick('ended')}  // Define this function to handle click events
             >
                 <div className='text-gray-700 text-lg font-extrabold '>Project completed</div>
                 <div className='text-gray-700 text-lg font-semibold pt-3'>{creatorSummary?.data?.projectStats?.completed &&creatorSummary.data.projectStats.completed}</div>
             </button>
             <button
                 className='bg-white rounded-xl w-[12vw] p-4 flex flex-col shadow-md focus:outline-none focus:ring-2 focus:ring-orange-300 active:bg-orange-500'
-                onClick={() => handleClick('end')}  // Define this function to handle click events
+                onClick={() => handleClick('ended')}  // Define this function to handle click events
             >
                 <div className='text-gray-700 text-lg font-extrabold '>Project failed</div>
                 <div className='text-gray-700 text-lg font-semibold pt-3'>{creatorSummary?.data?.projectStats?.failed &&creatorSummary.data.projectStats.failed}</div>

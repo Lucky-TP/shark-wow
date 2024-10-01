@@ -26,12 +26,15 @@ export default function ProjectsList({ projectType }: Props) {
   }
 
   return (
-    <div>
+    <>
+      <div className="w-full flex justify-center">
+        <hr className='border-t-4 border-gray-600 w-full mb-[4vh]'/>
+      </div>
       {/* Render based on the current project type in payload or fallback to prop */}
       {(projectType === "launched") && <ProjectsLaunched />}
       {(projectType === "drafted") && <ProjectsDrafted />}
-      {(projectType === "end") && <ProjectsEnd />}
+      {(projectType === "ended") && <ProjectsEnd />}
       {!projectType && <div>No project type selected</div>}
-    </div>
+    </>
   );
 }
