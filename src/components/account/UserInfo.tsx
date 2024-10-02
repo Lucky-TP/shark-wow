@@ -22,7 +22,7 @@ export function UserInfo({ user }: Props) {
                 </button>
                 <button
                     className="bg-orange-400 text-orange-50 font-semibold py-[1vh] px-[3vw] rounded-xl text-lg"
-                    onClick={() => router.push("/supporter")}
+                    onClick={() => router.push("/supporter/contribution")}
                 >
                     Supporter
                 </button>
