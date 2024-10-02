@@ -52,7 +52,7 @@ export default function ProjectStatusDropdown({ status = 'launched' }: Props) {
   }
 
   return (
-    <div className="p-6  relative" ref={dropdownRef}>
+    <div className="px-6 pb-6  relative" ref={dropdownRef}>
       <button
         onClick={toggleDropdown}
         className="text-4xl font-bold flex items-center focus:outline-none"

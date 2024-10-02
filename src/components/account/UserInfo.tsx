@@ -48,7 +48,7 @@ export function UserInfo({ user }: Props) {
                 )}
             </div>
             <div className="w-full flex justify-center">
-                <hr className="border-t-4 border-gray-600 w-4/5 mb-[4vh]" />
+                <hr className="border-t-4 border-gray-600 w-[92vw] mb-[4vh]" />
             </div>
         </section>
     );
