@@ -10,12 +10,12 @@ type Props = {
 };
 
 export default function ProjectsList({ projectType }: Props) {
-  const { payload, OnGettingProjectCreatedByCreator } = useProjectsCreatedByCreator();
+  const { payload, OnGettingProjectCreatedByCreator, OnChangeProjectStageType } = useProjectsCreatedByCreator();
 
   // Fetch data when the component is mounted
   useEffect(() => {
     OnGettingProjectCreatedByCreator();
-  }, []); // Empty dependency array ensures this only runs once on mount
+  }, []);
 
   if (payload.isLoading) {
     return <LoadingSection />;
@@ -25,16 +25,25 @@ export default function ProjectsList({ projectType }: Props) {
     return <div>Error loading projects</div>;
   }
 
+  // Log the launched projects array
+  if (payload.ProjectsCreatedByCreator.launched && payload.ProjectsCreatedByCreator.launched.length > 0) {
+    console.log("Launched Projects Array:", payload.ProjectsCreatedByCreator.launched);
+    payload.ProjectsCreatedByCreator.launched.forEach((project, index) => {
+      console.log(`Launched Project ${index + 1}:`, project);
+    });
+  } else {
+    console.log("No launched projects found.");
+  }
+
   return (
-    <>
-      <div className="w-full flex justify-center">
-        <hr className='border-t-4 border-gray-600 w-full mb-[4vh]'/>
-      </div>
+    <div>
+
       {/* Render based on the current project type in payload or fallback to prop */}
-      {(projectType === "launched") && <ProjectsLaunched />}
-      {(projectType === "drafted") && <ProjectsDrafted />}
-      {(projectType === "ended") && <ProjectsEnd />}
+      {projectType === "launched" && <ProjectsLaunched />}
+      {projectType === "drafted" && <ProjectsDrafted />}
+      {projectType === "ended" && <ProjectsEnd />}
+
       {!projectType && <div>No project type selected</div>}
-    </>
+    </div>
   );
 }
