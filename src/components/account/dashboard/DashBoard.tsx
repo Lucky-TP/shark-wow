@@ -75,7 +75,7 @@ export default function DashBoard() {
               />
               <Tooltip content={<CustomTooltip />} cursor={true} position={{ y: 0 }} />
               <Area
-                type="natural"
+                type="monotone"
                 dataKey="totalAmount"
                 stroke="#ff7043"
                 fillOpacity={1}
