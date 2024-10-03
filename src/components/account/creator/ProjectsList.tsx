@@ -18,13 +18,15 @@ export default function ProjectsList({ projectType }: Props) {
   }, []);
 
   if (payload.isLoading) {
-    console.log(payload.ProjectsCreatedByCreator)
     return <LoadingSection />;
   }
 
-  // if (payload.error) {
-  //   return <div>Error loading projects</div>;
-  // }
+  
+  if (payload.error) {
+    console.error("Error loading projects:", payload.error);
+    return <div>Error loading projects: {JSON.stringify(payload.error)}</div>;
+  }
+  
 
   // Log the launched projects array
   // if (payload.ProjectsCreatedByCreator.launched && payload.ProjectsCreatedByCreator.launched.length > 0) {
