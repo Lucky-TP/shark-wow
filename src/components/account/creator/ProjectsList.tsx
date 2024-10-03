@@ -18,6 +18,7 @@ export default function ProjectsList({ projectType }: Props) {
   }, []);
 
   if (payload.isLoading) {
+    console.log(payload.ProjectsCreatedByCreator)
     return <LoadingSection />;
   }
 
