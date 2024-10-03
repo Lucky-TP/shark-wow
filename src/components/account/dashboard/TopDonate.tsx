@@ -16,7 +16,7 @@ export default function TopDonate() {
                         <div className='flex items-center'>
                             <img src={user.profileImageUrl} alt={user.uid} className='object-contain h-12 w-12 rounded-full mr-3' />
                             <div>
-                                <h3 className='text-base font-semibold'>{user.username}</h3>
+                                <h3 className='text-base w-[20vw] truncate whitespace-nowrap font-semibold'>{user.username}</h3>
                                 <p className='text-sm text-gray-600'>Donated {user.totalDonates} baht</p>
                             </div>
                         </div>

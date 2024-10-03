@@ -157,13 +157,13 @@ export default function Signin({}: Props) {
                                 >
                                     <div className="flex">
                                         <Image
-                                            src="/assets/gmail.svg"
-                                            alt="Gmail logo"
+                                            src="/assets/google.webp"
+                                            alt="Google logo"
                                             className="w-6 h-6 mr-2"
                                             width={24}
                                             height={24}
                                         />
-                                        <span className="text-white">Sign in with gmail</span>
+                                        <span className="text-white">Sign in with Google</span>
                                     </div>
                                 </button>
                             </div>

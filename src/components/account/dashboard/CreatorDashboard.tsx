@@ -30,7 +30,7 @@ export default function CreatorDashboard({}: Props) {
 
     return (
         <section>
-            <div className='w-full px-40'>
+            <div className='w-full px-[4vw]'>
                 <div className=' pb-4'>
                     <CreatorProjectStat/>
                 </div>

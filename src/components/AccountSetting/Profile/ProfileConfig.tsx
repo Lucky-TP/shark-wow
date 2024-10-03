@@ -240,7 +240,6 @@ export default function ProfileConfig() {
             <Form form={form} layout="vertical" onFinish={onFinish} className="w-full">
                 {/* Profile Picture */}
                 <div className="relative mb-7 flex flex-col items-center">
-                    <p className="mb-3 font-serif text-xl">Profile Picture</p>
                     <div
                         className="relative"
                         onMouseEnter={() => setHover(true)}
