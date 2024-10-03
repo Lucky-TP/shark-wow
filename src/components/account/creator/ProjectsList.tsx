@@ -26,14 +26,15 @@ export default function ProjectsList({ projectType }: Props) {
   }
 
   // Log the launched projects array
-  if (payload.ProjectsCreatedByCreator.launched && payload.ProjectsCreatedByCreator.launched.length > 0) {
-    console.log("Launched Projects Array:", payload.ProjectsCreatedByCreator.launched);
-    payload.ProjectsCreatedByCreator.launched.forEach((project, index) => {
-      console.log(`Launched Project ${index + 1}:`, project);
-    });
-  } else {
-    console.log("No launched projects found.");
-  }
+  // if (payload.ProjectsCreatedByCreator.launched && payload.ProjectsCreatedByCreator.launched.length > 0) {
+  //   console.log("Launched Projects Array:", payload.ProjectsCreatedByCreator.launched);
+  //   payload.ProjectsCreatedByCreator.launched.forEach((project, index) => {
+  //     console.log(`Launched Project ${index + 1}:`, project);
+  //   });
+  // } else {
+  //   console.log("No launched projects found.");
+  // }
+  console.log(payload.ProjectsCreatedByCreator)
 
   return (
     <div>
