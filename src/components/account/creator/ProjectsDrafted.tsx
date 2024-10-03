@@ -72,6 +72,16 @@ export default function ProjectsDrafted() {
     return <LoadingSection/>; // Handle loading or undefined data
   }
 
+  if (payload.ProjectsCreatedByCreator.drafted.length == 0) {
+    return (
+      <div className="w-full m-0 p-0">
+        <hr className="border-t-4 border-gray-600 w-full mb-[4vh]" />
+        <div className="w-full flex  justify-center font-semibold text-xl">No Drafted Project </div>
+      </div>
+      
+    );
+  }
+
   return (
     <div className="w-full m-0 p-0">
       <div className="space-y-4">
