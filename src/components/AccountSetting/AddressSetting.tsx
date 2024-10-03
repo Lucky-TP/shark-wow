@@ -4,11 +4,30 @@ import { Form, Input, Button, message } from "antd"; // Import message for notif
 import { EditUserPayload } from "src/interfaces/payload/userPayload";
 import { editSelf } from "src/services/apiService/users/editSelf";
 import { useUserData } from "src/context/useUserData";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function AddressSetting() {
     const [loading, setLoading] = useState<boolean>(false);
     const { user: initUser, refetchUserData } = useUserData();
+    const [form] = Form.useForm();
+    const router = useRouter();
+
+
+     useEffect(() => {
+         if (!initUser) {
+             return;
+         }
+
+         form.setFieldsValue({
+             country: initUser.address[0]?.country,
+             city: initUser.address[0]?.city,
+             province: initUser.address[0]?.province,
+             postalCode: initUser.address[0]?.postalCode,
+         });
+     }, [initUser]);
+
+
     const onFinish = async (values: any) => {
         setLoading(true);
         const userPayload: Partial<EditUserPayload> = {
@@ -25,6 +44,7 @@ export default function AddressSetting() {
             await editSelf(userPayload);
             message.success("User Profile updated successfully!");
             refetchUserData();
+            router.push(`/profile`);
         } catch (error) {
             message.error("User Profile update failed!");
         } finally {
@@ -33,18 +53,17 @@ export default function AddressSetting() {
     };
 
     return (
-        <div className="p-8 w-full pt-6 pl-40 pr-40">
-            <Form layout="vertical" onFinish={onFinish}>
+        <div className="w-full p-8 pl-40 pr-40 pt-6">
+
+            <Form form={form} layout="vertical" onFinish={onFinish}>
                 <div className="pb-8">
-                    <h2 className="text-black text-xl font-bold pb-2 border-b border-gray-400">
+                    <h2 className="border-b border-gray-400 pb-2 text-xl font-bold text-black">
                         Address
                     </h2>
                 </div>
 
                 <Form.Item
-                    label={
-                        <label className="text-black text-sm font-bold">Country</label>
-                    }
+                    label={<label className="text-sm font-bold text-black">Country</label>}
                     name="country"
                     rules={[{ required: true, message: "Please enter your country" }]}
                 >
@@ -52,7 +71,7 @@ export default function AddressSetting() {
                 </Form.Item>
 
                 <Form.Item
-                    label={<label className="text-black text-sm font-bold">City</label>}
+                    label={<label className="text-sm font-bold text-black">City</label>}
                     name="city"
                     rules={[{ required: true, message: "Please enter your city" }]}
                 >
@@ -61,14 +80,14 @@ export default function AddressSetting() {
 
                 <div className="grid grid-cols-2 gap-4 pb-4">
                     <Form.Item
-                        label={<label className="text-black text-sm font-bold">Province</label>}
+                        label={<label className="text-sm font-bold text-black">Province</label>}
                         name="province"
                         rules={[{ required: true, message: "Please enter your province" }]}
                     >
                         <Input placeholder="Province" />
                     </Form.Item>
                     <Form.Item
-                        label={<label className="text-black text-sm font-bold">Postal Code</label>}
+                        label={<label className="text-sm font-bold text-black">Postal Code</label>}
                         name="postalCode"
                         rules={[{ required: true, message: "Please enter your postal code" }]}
                     >
@@ -76,12 +95,13 @@ export default function AddressSetting() {
                     </Form.Item>
                 </div>
 
-                <div className="flex justify-center">
+                <div className="flex justify-end">
                     <Button
                         type="primary"
                         htmlType="submit"
                         loading={loading}
                         disabled={loading}
+                        className="w-full"
                     >
                         Save Changes
                     </Button>
