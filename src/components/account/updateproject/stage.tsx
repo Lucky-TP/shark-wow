@@ -2,11 +2,11 @@ import React from "react";
 import { AiOutlineCheckCircle } from "react-icons/ai"; // นำเข้าไอคอนเครื่องหมายถูก
 type Props = {};
 
-export default function Projecttitle({}: Props) {
+export default function Stage({}: Props) {
     // เปลี่ยนชื่อเป็น UserProfile
     return (
         <div className="flex items-center justify-center mt-10 mb-20 bg-orange-50 ">
-            <div className="bg-[#D2825E] rounded-lg border-4 border-blue-400 p-8 max-w-md">
+            <div className="bg-[#FB923C] rounded-lg border-4 border-blue-400 p-8 max-w-md">
                 <h3 className="text-2xl font-semibold mb-4">Stage 1</h3>
                 <p className="text-lg mb-6">Concept</p>
 

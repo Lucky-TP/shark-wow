@@ -5,7 +5,6 @@ type Props = {}
 export default function page({}: Props) {
   return (
     <section>
-        <Projecttitle/>
     </section>
   )
 }
