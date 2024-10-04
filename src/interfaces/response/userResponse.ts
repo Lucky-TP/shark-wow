@@ -6,6 +6,8 @@ import {
     PublicUserData,
 } from "../datas/user";
 import { UserData } from "../datas/user";
+import { TransactionLog } from "../models/transaction";
+import { ContributedTransactionPreview } from "../datas/transaction";
 
 export interface GetUserResponse extends DefaultResponse {
     data: UserData;
@@ -26,4 +28,8 @@ export interface GetCreatorSummaryStats extends DefaultResponse {
 
 export interface GetCreatorOwnProjects extends DefaultResponse {
     data: CreatorOwnProjects;
+}
+
+export interface GetContributedTransactions extends DefaultResponse {
+    data: ContributedTransactionPreview[];
 }
