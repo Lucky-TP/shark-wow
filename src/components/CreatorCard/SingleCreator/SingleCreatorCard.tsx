@@ -13,7 +13,7 @@ const SingleCreatorCard = ({ creator }: CreatorCardProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const handleViewProject = () => {
         setIsLoading(true);
-        router.push(`/explore/creator/${creator.uid}`);
+        router.push(`/creator/${creator.uid}/profile`);
     };
     return (
         <section>
