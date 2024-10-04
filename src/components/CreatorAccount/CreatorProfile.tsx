@@ -1,15 +1,15 @@
 "use client";
 import Image from "next/image";
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaFacebook, FaTwitter, FaYoutube } from "react-icons/fa";
-import { UserInfo } from "../UserInfo";
-import LoadingPage from "src/components/global/LoadingPage";
-import { useUserData } from "src/context/useUserData";
-//import { Viewer } from "@react-pdf-viewer/core";
-//import "@react-pdf-viewer/core/lib/styles/index.css";
+//import { UserInfo } from "../UserInfo"; // Import UserInfo component
+import LoadingPage from "src/components/global/LoadingPage"; // Import loading component
+import { getUserById } from "src/services/apiService/users/getUserById"; // Import your API service
+import { message } from "antd"; // Optional, if you want to show error messages
 
-type Props = {};
+type Props = {
+    uid: string; // Expecting a user ID as a prop
+};
 
 // Function to calculate age from birthDate string
 const calculateAge = (birthDateString: string): number | string => {
@@ -20,35 +20,51 @@ const calculateAge = (birthDateString: string): number | string => {
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
         age--;
     }
-    if (age < 0) return "N/A";
-    return age;
+    return age < 0 ? "N/A" : age;
 };
 
-export default function UserProfile({}: Props) {
-    // เปลี่ยนชื่อเป็น UserProfile
-    const { user, loading } = useUserData();
+export default function UserProfile({ uid }: Props) {
+    const [user, setUser] = useState<any>(null);
+    const [loading, setLoading] = useState<boolean>(true);
     const [content, setContent] = useState<string>("");
+
     useEffect(() => {
-        if (user) {
-            setContent(user.aboutMe ?? "");
-        }
-    }, [user]);
+        const fetchUserData = async () => {
+            console.log("Fetching user with ID:", uid); // Log the uid for debugging
+            setLoading(true); // Set loading to true
+            try {
+                const response = await getUserById(uid); // Fetch user data by ID
+                if (response.data) {
+                    setUser(response.data);
+                    setContent(response.data.aboutMe ?? "");
+                } else {
+                    message.error("User not found."); // Handle case when user not found
+                }
+            } catch (error) {
+                console.error(error);
+                message.error("Failed to load user data."); // Show error if the fetch fails
+            } finally {
+                setLoading(false); // Set loading to false after fetch
+            }
+        };
+
+        fetchUserData(); // Call the fetch function
+    }, [uid]);
 
     if (loading) {
-        return <LoadingPage />;
+        return <LoadingPage />; // Show loading page while fetching
     }
 
-    const userAge = user?.birthDate ? calculateAge(user.birthDate) : "N/A"; // Calculate age or show "N/A" if birthDate is not available
+    const userAge = user?.birthDate ? calculateAge(user.birthDate) : "N/A"; // Calculate age
 
     return (
         <div>
             <div className="flex items-start">
                 <div className="w-full">
-                    <UserInfo user={user || undefined} />
                     <div className="flex items-center justify-center">
                         <div className="mt-10 flex items-start">
                             <Image
-                                src={user?.profileImageUrl || ""} // Replace with your image path
+                                src={user?.profileImageUrl || ""} // Profile image URL
                                 alt="Profile"
                                 className="h-64 w-64 rounded-full object-cover"
                                 width={256}
@@ -57,8 +73,15 @@ export default function UserProfile({}: Props) {
                         </div>
 
                         <div className="mb-6 ml-20 text-3xl text-black">
-                            <p>Age: {userAge} </p> {/* Display the calculated age */}
-                            <p>Country: {user?.address[0]?.country}</p>
+                            <p>Username: {user?.username}</p>
+                            <p>Age: {userAge}</p> {/* Display the calculated age */}
+                            <p>
+                                Country:{" "}
+                                {user?.address && user.address.length > 0
+                                    ? user.address[0].country
+                                    : "N/A"}
+                            </p>{" "}
+                            {/* Safely access country */}
                         </div>
                         <div className="ml-20 flex flex-col space-y-6">
                             <a
@@ -70,7 +93,7 @@ export default function UserProfile({}: Props) {
                                 <FaFacebook />
                             </a>
                             <a
-                                href={user?.contact.X}
+                                href={user?.contact.twitter}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-3xl text-blue-500"

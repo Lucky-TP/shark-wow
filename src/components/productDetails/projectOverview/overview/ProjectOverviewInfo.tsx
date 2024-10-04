@@ -40,17 +40,26 @@ export default function ProjectOverviewInfo() {
             )}
             {!isLoading && (
                 <>
-                    <div className="flex flex-row items-center gap-x-[2vw] ">
+                    <div className="flex flex-row items-center gap-x-[2vw]">
                         <div className="rounded-full">
-                            <img
-                                src={UserInfo.profileImageUrl}
-                                className="rounded-full max-w-[3vw]"
-                            />
+                            <a href={`/creator/${UserInfo.uid}/profile`}>
+                                <img
+                                    src={UserInfo.profileImageUrl}
+                                    className="max-w-[3vw] cursor-pointer rounded-full"
+                                    alt="Profile"
+                                />
+                            </a>
                         </div>
                         <div className="ml-4">
-                            <h2 className="text-xl font-bold">{UserInfo.username}</h2>
-                            <p className="text-gray-600 text-base">
-                                Created at {UserInfo.birthDate ? formatDate(UserInfo.birthDate) : ""}
+                            <a
+                                href={`/creator/${UserInfo.uid}/profile`}
+                                className="cursor-pointer text-xl font-bold hover:underline focus:underline"
+                            >
+                                {UserInfo.username}
+                            </a>
+                            <p className="text-base text-gray-600">
+                                Created at{" "}
+                                {UserInfo.birthDate ? formatDate(UserInfo.birthDate) : ""}
                             </p>
                         </div>
                     </div>
@@ -62,7 +71,7 @@ export default function ProjectOverviewInfo() {
                             </h3>
                         </div> */}
                         <h1 className="text-2xl font-bold">{ProjectInfo.name}</h1>
-                        <p className="text-gray-600 mb-4">{ProjectInfo.description}</p>
+                        <p className="mb-4 text-gray-600">{ProjectInfo.description}</p>
                     </div>
                 </>
             )}

@@ -368,10 +368,6 @@ export default function ProfileConfig() {
                     <Title level={4} className="border-b border-gray-400 pb-1">
                         Outside Links
                     </Title>
-                    {/* Website Link */}
-                    <Form.Item label="Website Link" name="websiteLink">
-                        <Input placeholder="Website Link" />
-                    </Form.Item>
                     {/* Facebook Link */}
                     <Form.Item label="Facebook Link" name="facebookLink">
                         <Input placeholder="Facebook Link" />
@@ -384,7 +380,7 @@ export default function ProfileConfig() {
                     <Form.Item label="Youtube Link" name="youtubeLink">
                         <Input placeholder="YouTube Link" />
                     </Form.Item>
-                    {/* YouTube Link */}
+                    {/* Phone Number */}
                     <Form.Item label="Phone Number" name="phoneNumber">
                         <Input placeholder="Phone number" />
                     </Form.Item>
@@ -398,7 +394,7 @@ export default function ProfileConfig() {
 
                     <Form.Item label="Upload Your Resume or Update Your Current Resume" name="cv">
                         {cvUrl && (
-                            <Link className="text-blue-600 underline" href={cvUrl}>
+                            <Link className="mr-4 text-blue-600 underline" href={cvUrl}>
                                 Your CV
                             </Link>
                         )}
@@ -425,15 +421,18 @@ export default function ProfileConfig() {
                     </div>
                 </div>
                 */}
-                <Form.Item className="flex justify-center pt-6">
-                    <Button
-                        type="primary"
-                        loading={loading}
-                        disabled={loading || isUpload}
-                        htmlType="submit"
-                    >
-                        Save Changes
-                    </Button>
+                <Form.Item>
+                    <div className="flex justify-end pt-6">
+                        <Button
+                            type="primary"
+                            loading={loading}
+                            disabled={loading || isUpload}
+                            htmlType="submit"
+                            className="w-full"
+                        >
+                            Save Changes
+                        </Button>
+                    </div>
                 </Form.Item>
             </Form>
         </div>
