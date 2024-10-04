@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+"use client"
+import { useEffect, useState } from "react";
 import { ShowProject } from "src/interfaces/datas/project";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import LoadingSection from "src/components/global/LoadingSection";
 import { toggleFavoriteProject } from "src/services/apiService/users/toggleFavoriteProject";
+import { useUserData } from "src/context/useUserData";
 
 
 interface ProjectCardProps {
@@ -13,8 +15,15 @@ interface ProjectCardProps {
 
 const SingleprojectCard = ({ project, showEditProject }: ProjectCardProps) => {
     const router = useRouter();
+    const { user: initUser, refetchUserData } = useUserData();
     const [isLoading, setIsLoading] = useState(false);
     const [isFavorited, setIsFavorited] = useState(false); // State for favorite status
+
+    useEffect(() => {
+        if (initUser && initUser.favoriteProjectIds.includes(project.projectId)) {
+            setIsFavorited(true);
+        }
+    }, [initUser]);
 
     const percentageFunded = Math.round(
         (project.stages[0].currentFunding / project.stages[0].goalFunding) * 100
@@ -33,8 +42,12 @@ const SingleprojectCard = ({ project, showEditProject }: ProjectCardProps) => {
     };
 
     const handleFavoriteProject = async () => {
-        await toggleFavoriteProject(project.projectId);
-        setIsFavorited(!isFavorited); // Toggle the favorite status
+        if (initUser) {
+            setIsFavorited(!isFavorited);
+            await toggleFavoriteProject(project.projectId);
+        } else {
+            router.push(`/sign-in`);
+        }
     };
     return (
         <section>
