@@ -1,7 +1,7 @@
 import { UserModel } from "../models/user";
 import { CommentData } from "./comment";
 import { CreatorProjectStats, TimeSeriesDataPoint } from "./common";
-import { ProjectPreview, ProjectSummary, ShowProject } from "./project";
+import { ExtendProjectPreview, ProjectPreview, ProjectSummary, ShowProject } from "./project";
 
 export type UserData = Omit<UserModel, "ownProjectIds" | "receivedCommentIds"> & {
     ownProjects: ShowProject[];
@@ -64,4 +64,9 @@ export interface CreatorOwnProjects {
     launched: ProjectSummary[];
     failed: ProjectSummary[];
     completed: ProjectSummary[];
+}
+
+export interface SupporterSummaryProjects {
+    favorited: ExtendProjectPreview[];
+    contributed: ExtendProjectPreview[];
 }

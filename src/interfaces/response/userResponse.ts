@@ -4,6 +4,7 @@ import {
     CreatorSummaryStats,
     PopularCreator,
     PublicUserData,
+    SupporterSummaryProjects,
 } from "../datas/user";
 import { UserData } from "../datas/user";
 import { TransactionLog } from "../models/transaction";
@@ -32,4 +33,8 @@ export interface GetCreatorOwnProjects extends DefaultResponse {
 
 export interface GetContributedTransactions extends DefaultResponse {
     data: ContributedTransactionPreview[];
+}
+
+export interface GetSupporterSummaryProjects extends DefaultResponse {
+    data: SupporterSummaryProjects;
 }
