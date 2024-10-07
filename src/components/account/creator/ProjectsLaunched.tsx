@@ -115,7 +115,7 @@ export default function ProjectsLaunched() {
                           className="font-semibold py-2 px-4 rounded-md w-full bg-orange-400 text-white hover:bg-orange-500"
                           onClick={() => handleEditProject(project.projectId)}
                         >
-                          Edit Projects
+                          Edit Project
                         </button>
                         <button
                           className="font-semibold py-2 px-4 rounded-md w-full bg-orange-400 text-white hover:bg-orange-500"

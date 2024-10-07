@@ -13,7 +13,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
     return (
       <div className="bg-orange-500 text-white p-2 rounded shadow-lg">
         <p className="font-bold">{`Day ${label}`}</p>
-        <p>{`Viewer: ${payload[0].value}`}</p>
+        <p>{`Funding: ${payload[0].value}`}</p>
       </div>
     )
   }
@@ -45,7 +45,7 @@ export default function DashBoard() {
   return (
     <div className="w-full bg-white rounded-lg shadow-lg p-6">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-extrabold text-gray-700">Project Viewer</h2>
+        <h2 className="text-lg font-extrabold text-gray-700">Project Funding</h2>
       </div>
       <div className="h-[400px]">
         {processedData.length > 0 ? (
