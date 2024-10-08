@@ -65,6 +65,7 @@ export async function GET(request: NextRequest, { params }: { params: { userId: 
             profileImageUrl: userModel.profileImageUrl,
             popularDetail: userModel.popularDetail,
             receivedCommentIds: userModel.receivedCommentIds,
+            address: userModel.address,
             contact: userModel.contact,
             cvUrl: userModel.cvUrl,
             projectSummarizes,
