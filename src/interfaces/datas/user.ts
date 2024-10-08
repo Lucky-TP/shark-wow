@@ -24,7 +24,6 @@ export type PublicUserData = Omit<
     | "favoriteProjectIds"
     | "interestCategories"
     | "birthDate"
-    | "address"
     | "agreement"
     | "ownProjectIds"
 > & {
