@@ -8,6 +8,10 @@ import { getSupporterSummaryProjects } from "src/services/apiService/users/getSu
 import { getProjectById } from "src/services/apiService/projects/getProjectById"; // Second fetch
 import { GetProjectResponse } from "src/interfaces/response/projectResponse";
 
+function formatOwnerShip(goalStageFunding : number , goalProjectFunding : number ){
+    return (goalStageFunding/goalProjectFunding)*100
+}
+
 export default function ContributionProject() {
     const [loading, setLoading] = useState<boolean>(true);
     const [supporterSummary, setSupporterSummary] = useState<GetSupporterSummaryProjects | null>(null);
@@ -124,17 +128,17 @@ export default function ContributionProject() {
                                         <div className="flex-row">
                                             <div className="flex">
                                                 <div className="pb-2 font-bold text-xl mr-2 w-[15vw]">
-                                                    Fund: {project.currentStage.fundingCost} Baht
+                                                    Fund: {projectDetailsData[index].data?.costPerQuantity} Baht
                                                 </div>
                                                 <div className="pb-2 font-bold text-xl ml-2 w-[15vw]">
-                                                    Ownership: 70%
+                                                    Ownership: {(formatOwnerShip(project.currentStage.goalFunding,(projectDetailsData[index].data?.totalQuantity ?? 0)*(projectDetailsData[index].data?.costPerQuantity ?? 0))).toFixed()} %
                                                 </div>
                                             </div>
                                             <div className="flex">
                                                 
                                                 <div className="flex-row">
-                                                    <div className="pb-2 text-xl">Funded at: Prototype (20%)</div>
-                                                    <div className="pb-2 text-xl">Funded at: Production (50%)</div>
+                                                    <div className="pb-2 text-xl">Funded at: Concept ({(formatOwnerShip(project.currentStage.goalFunding,(projectDetailsData[index].data?.totalQuantity ?? 0)*(projectDetailsData[index].data?.costPerQuantity ?? 0))).toFixed()} %)</div>
+                                                    {/* <div className="pb-2 text-xl">Funded at: Production (50%)</div> */}
                                                 </div>
                                             </div>
                                         </div>
