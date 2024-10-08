@@ -32,3 +32,9 @@ export interface ProjectSummary extends ProjectPreview {
     isFundingComplete: boolean;
     isUpdateOnce: boolean;
 }
+
+export interface ExtendProjectPreview extends ProjectPreview {
+    currentStage: Stage;
+    projectOwnerUsername: string;
+    stages: Stage[];
+}
