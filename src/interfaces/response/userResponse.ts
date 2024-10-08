@@ -20,7 +20,7 @@ export interface GetTopTenCreatorResponse extends DefaultResponse {
     data: PopularCreator[];
 }
 export interface GetUserByIdResponse extends DefaultResponse {
-    data?: PublicUserData;
+    data: PublicUserData;
 }
 
 export interface GetCreatorSummaryStats extends DefaultResponse {
