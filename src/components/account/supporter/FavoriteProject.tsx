@@ -12,6 +12,7 @@ function formatOwnerShip(goalStageFunding : number , goalProjectFunding : number
     return (goalStageFunding/goalProjectFunding)*100
 }
 
+
 export default function FavoriteProject() {
     const [loading, setLoading] = useState<boolean>(true);
     const [supporterSummary, setSupporterSummary] = useState<GetSupporterSummaryProjects | null>(null);
