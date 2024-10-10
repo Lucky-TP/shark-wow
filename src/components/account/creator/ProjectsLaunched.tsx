@@ -5,18 +5,18 @@ import LoadingSection from "src/components/global/LoadingSection";
 import { useProjectsCreatedByCreator } from "src/context/creatorDashboard/useProjectsCreatedByCreator";
 
 // TypeScript Interface for the Project object (adjust fields as per your data structure)
-interface Project {
-  projectId: string;
-  name: string;
-  previewImageUrl: string;
-  totalSupports: number;
-  currentStage: {
-    stageId: number;
-    goalFunding: number;
-    totalSupporter: number;
-    expireDate: string; // Assume expireDate is a string (adjust if necessary)
-  };
-}
+// interface Project {
+//   projectId: string;
+//   name: string;
+//   previewImageUrl: string;
+//   totalSupports: number;
+//   currentStage: {
+//     stageId: number;
+//     goalFunding: number;
+//     totalSupporter: number;
+//     expireDate: string; // Assume expireDate is a string (adjust if necessary)
+//   };
+// }
 
 export default function ProjectsLaunched() {
   const router = useRouter();
@@ -30,7 +30,7 @@ export default function ProjectsLaunched() {
 
   const handleOperateProject = (projectId: string) => {
     setIsLoading(true);
-    router.push(`/creator/projects/launched/operate/${projectId}/report`);
+    router.push(`/creator/projects/operate/dashboard/${projectId}`);
   };
 
   // Function to calculate remaining days until expiration
