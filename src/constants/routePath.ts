@@ -43,6 +43,7 @@ export const apiPath = {
         GET_BY_ID: (projectId: string) => `${API_BASE_URL}/api/projects/${projectId}`,
         UPDATE: (projectId: string) => `${API_BASE_URL}/api/projects/${projectId}`,
         DELETE: (projectId: string) => `${API_BASE_URL}/api/projects/${projectId}`,
+        UPDATE_STAGE: (projectId: string) => `${API_BASE_URL}/api/projects/${projectId}`,
         UPDATE_STATUS: (projectId: string) => `${API_BASE_URL}/api/projects/status/${projectId}`,
     },
     COMMENTS: {
