@@ -30,7 +30,8 @@ export default function ProjectsLaunched() {
 
   const handleOperateProject = (projectId: string) => {
     setIsLoading(true);
-    router.push(`/creator/projects/operate/dashboard/${projectId}`);
+    // router.push(`/creator/projects/operate/dashboard/${projectId}`);
+    router.push(`/creator/projects/operate/dashboard`);
   };
 
   // Function to calculate remaining days until expiration
