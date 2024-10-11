@@ -42,11 +42,11 @@ export default function AddressSetting() {
         };
         try {
             await editSelf(userPayload);
-            message.success("User Profile updated successfully!");
+            message.success("User's address updated successfully!");
             refetchUserData();
             router.push(`/profile`);
         } catch (error) {
-            message.error("User Profile update failed!");
+            message.error("User's address update failed!");
         } finally {
             setLoading(false);
         }

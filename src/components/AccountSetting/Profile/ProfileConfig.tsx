@@ -213,7 +213,9 @@ export default function ProfileConfig() {
             birthDate: values.birthDate ? dayjsToString(values.birthDate) : undefined,
             profileImageUrl: uploadProfileResult
                 ? uploadProfileResult.url
-                : initUser?.profileImageUrl,
+                : previewImage === defaultPlaceholder
+                  ? defaultPlaceholder
+                  : initUser?.profileImageUrl,
             cvUrl: uploadCvResult ? uploadCvResult.url : "",
             contact: {
                 facebook: values.facebookLink,
