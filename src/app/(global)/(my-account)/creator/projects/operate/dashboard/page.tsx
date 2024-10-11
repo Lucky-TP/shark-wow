@@ -1,13 +1,13 @@
 import React from 'react'
 import Projecttitle from 'src/components/account/updateproject/projecttitle'
-import DashBoard from 'src/components/account/updateproject/dashboard'
+import GraphProject from 'src/components/account/updateproject/GraphProject'
 type Props = {}
 
 export default function page({}: Props) {
   return (
     <section>
       <Projecttitle/>
-      <DashBoard/>
+      <GraphProject/>
     </section>
   )
 }
