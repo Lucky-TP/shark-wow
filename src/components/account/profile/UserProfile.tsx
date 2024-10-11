@@ -59,12 +59,8 @@ export default function UserProfile({}: Props) {
 
                         {/* User Information */}
                         <div className="ml-20 mt-24 items-start space-y-2 text-3xl text-black">
-                            <p
-                            //className="font-semibold"
-                            >
-                                {user?.firstName} {user?.lastName}
-                            </p>
-                            <p>Age: {userAge} </p> {/* Display the calculated age */}
+                            <p>{user?.firstName} {user?.lastName}</p>
+                            <p>Age: {userAge}</p> {/* Display the calculated age */}
                             <p>Country: {user?.address[0]?.country}</p>
                         </div>
 
