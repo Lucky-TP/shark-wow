@@ -42,7 +42,7 @@ export default function ProjectOverviewInfo() {
                 <>
                     <div className="flex flex-row items-center gap-x-[2vw]">
                         <div className="rounded-full">
-                            <a href={`/creator/${UserInfo.uid}/profile`}>
+                            <a href={`/users/${UserInfo.uid}/profile`}>
                                 <img
                                     src={UserInfo.profileImageUrl}
                                     className="max-w-[3vw] cursor-pointer rounded-full"
@@ -52,7 +52,7 @@ export default function ProjectOverviewInfo() {
                         </div>
                         <div className="ml-4">
                             <a
-                                href={`/creator/${UserInfo.uid}/profile`}
+                                href={`/users/${UserInfo.uid}/profile`}
                                 className="cursor-pointer text-xl font-bold hover:underline focus:underline"
                             >
                                 {UserInfo.username}
