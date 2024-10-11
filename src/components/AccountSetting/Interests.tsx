@@ -1,8 +1,87 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Form, Button, message } from "antd";
+import { EditUserPayload } from "src/interfaces/payload/userPayload";
+import { editSelf } from "src/services/apiService/users/editSelf";
+import { useUserData } from "src/context/useUserData";
+import { useRouter } from "next/navigation";
 
 export default function Interests() {
+    const [loading, setLoading] = useState<boolean>(false);
+    const { user: initUser, refetchUserData } = useUserData();
+    const [form] = Form.useForm();
+    const router = useRouter();
+
+    // State to track selected categories
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
+    useEffect(() => {
+        if (!initUser) {
+            return;
+        }
+
+        form.setFieldsValue({
+            interestCategories: initUser.interestCategories || [],
+        });
+        setSelectedCategories(initUser.interestCategories || []);
+    }, [initUser]);
+
+    const handleCategoryClick = (category: string) => {
+        setSelectedCategories(
+            (prevSelected) =>
+                prevSelected.includes(category)
+                    ? prevSelected.filter((item) => item !== category) // Remove if already selected
+                    : [...prevSelected, category] // Add if not selected
+        );
+    };
+
+    const onFinish = async () => {
+        setLoading(true);
+        const userPayload: Partial<EditUserPayload> = {
+            interestCategories: selectedCategories,
+        };
+        try {
+            await editSelf(userPayload);
+            message.success("User's interest updated successfully!");
+            refetchUserData();
+            router.push(`/profile`);
+        } catch (error) {
+            message.error("User's interest update failed!");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Image mapping for categories
+    const categoryImages: { [key: string]: string } = {
+        Technology: "/categoryBackground/technology.jpg",
+        Education: "/categoryBackground/education.jpg",
+        Art: "/categoryBackground/art.jpg",
+        Film: "/categoryBackground/film.jpg",
+        Music: "/categoryBackground/music.jpg",
+        Food: "/categoryBackground/food.jpg",
+        Transportation: "/categoryBackground/transportation.jpg",
+        Health: "/categoryBackground/health.jpg",
+        Game: "/categoryBackground/game.jpg",
+    };
+
+    // Function to determine box styling based on selection and background image
+    const getBoxStyle = (category: string): React.CSSProperties => ({
+        backgroundImage: `url(${categoryImages[category]})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        border: selectedCategories.includes(category)
+            ? "4px solid #00FF00" // Green border for selected boxes
+            : "none",
+        position: "relative", // TypeScript requires this to match CSS property values
+        opacity: selectedCategories.includes(category) ? 0.7 : 1,
+        boxShadow: selectedCategories.includes(category)
+            ? "0px 0px 10px 5px rgba(0, 255, 0, 0.5)" // Green glow for selected boxes
+            : "none",
+        transition: "all 0.3s ease-in-out", // Smooth transitions for selection
+    });
+
     return (
         <div className="w-full p-8 pl-40 pr-40 pt-6">
             <div className="pb-8">
@@ -11,128 +90,55 @@ export default function Interests() {
                 </h2>
             </div>
             <div className="relative grid grid-cols-3 gap-6">
-                {/* Technology */}
-                <div className="relative">
-                    <div className="absolute inset-0 flex items-center justify-center text-6xl font-bold text-gray-300 opacity-10">
-                        Technology
+                {[
+                    "Technology",
+                    "Education",
+                    "Art",
+                    "Film",
+                    "Music",
+                    "Food",
+                    "Transportation",
+                    "Health",
+                    "Game",
+                ].map((category) => (
+                    <div
+                        key={category}
+                        className="relative z-10 cursor-pointer px-4 py-20 text-center shadow-md transition duration-200 hover:bg-gray-100"
+                        style={getBoxStyle(category)}
+                        onClick={() => handleCategoryClick(category)}
+                    >
+                        {/* Background overlay for better text visibility */}
+                        <div
+                            className="absolute inset-0 z-10 bg-black"
+                            style={{
+                                opacity: selectedCategories.includes(category) ? 0.7 : 0.3, // Adjust these values to control the fade effect
+                                transition: "opacity 0.3s ease", // Smooth fade transition
+                            }}
+                        ></div>
+                        {/* Category name styling */}
+                        <div className="relative z-20 text-2xl font-extrabold text-white">
+                            <span
+                                className="px-2"
+                                style={{
+                                    textShadow: "4px 4px 6px rgba(0, 0, 0, 0.9)", // Increased shadow size and opacity, // Text shadow for better readability
+                                }}
+                            >
+                                {category}
+                            </span>
+                        </div>
                     </div>
-                    <div className="relative z-10 cursor-pointer bg-white px-4 py-6 text-center shadow-md transition duration-200 hover:bg-gray-100">
-                        Technology
-                    </div>
-                </div>
-
-                {/* Education */}
-                <div className="relative">
-                    <div className="absolute inset-0 flex items-center justify-center text-6xl font-bold text-gray-300 opacity-10">
-                        Education
-                    </div>
-                    <div className="relative z-10 cursor-pointer bg-white px-4 py-6 text-center shadow-md transition duration-200 hover:bg-gray-100">
-                        Education
-                    </div>
-                </div>
-
-                {/* Art */}
-                <div className="relative">
-                    <div className="absolute inset-0 flex items-center justify-center text-6xl font-bold text-gray-300 opacity-10">
-                        Art
-                    </div>
-                    <div className="relative z-10 cursor-pointer bg-white px-4 py-6 text-center shadow-md transition duration-200 hover:bg-gray-100">
-                        Art
-                    </div>
-                </div>
-
-                {/* Film */}
-                <div className="relative">
-                    <div className="absolute inset-0 flex items-center justify-center text-6xl font-bold text-gray-300 opacity-10">
-                        Film
-                    </div>
-                    <div className="relative z-10 cursor-pointer bg-white px-4 py-6 text-center shadow-md transition duration-200 hover:bg-gray-100">
-                        Film
-                    </div>
-                </div>
-
-                {/* Music */}
-                <div className="relative">
-                    <div className="absolute inset-0 flex items-center justify-center text-6xl font-bold text-gray-300 opacity-10">
-                        Music
-                    </div>
-                    <div className="relative z-10 cursor-pointer bg-white px-4 py-6 text-center shadow-md transition duration-200 hover:bg-gray-100">
-                        Music
-                    </div>
-                </div>
-
-                {/* Food */}
-                <div className="relative">
-                    <div className="absolute inset-0 flex items-center justify-center text-6xl font-bold text-gray-300 opacity-10">
-                        Food
-                    </div>
-                    <div className="relative z-10 cursor-pointer bg-white px-4 py-6 text-center shadow-md transition duration-200 hover:bg-gray-100">
-                        Food
-                    </div>
-                </div>
-
-                {/* Transportation */}
-                <div className="relative">
-                    <div className="absolute inset-0 flex items-center justify-center text-6xl font-bold text-gray-300 opacity-10">
-                        Transportation
-                    </div>
-                    <div className="relative z-10 cursor-pointer bg-white px-4 py-6 text-center shadow-md transition duration-200 hover:bg-gray-100">
-                        Transportation
-                    </div>
-                </div>
-
-                {/* Health */}
-                <div className="relative">
-                    <div className="absolute inset-0 flex items-center justify-center text-6xl font-bold text-gray-300 opacity-10">
-                        Health
-                    </div>
-                    <div className="relative z-10 cursor-pointer bg-white px-4 py-6 text-center shadow-md transition duration-200 hover:bg-gray-100">
-                        Health
-                    </div>
-                </div>
-
-                {/* Game */}
-                <div className="relative">
-                    <div className="absolute inset-0 flex items-center justify-center text-6xl font-bold text-gray-300 opacity-10">
-                        Game
-                    </div>
-                    <div className="relative z-10 cursor-pointer bg-white px-4 py-6 text-center shadow-md transition duration-200 hover:bg-gray-100">
-                        Game
-                    </div>
-                </div>
+                ))}
             </div>
-
-            {/* Product Stages Section */}
-            <div className="pb-8 pt-14">
-                <h2 className="border-b border-gray-400 pb-2 text-2xl font-bold text-black">
-                    Product Stages Interests
-                </h2>
-            </div>
-
-            <div className="flex items-start justify-between">
-                <div className="grid grid-cols-3 gap-4">
-                    <div className="cursor-pointer bg-white px-12 py-9 shadow-md hover:bg-gray-100">
-                        <p className="text-center"> Concept </p>
-                        <p className="mt-2 text-sm text-gray-600">
-                            The campaign team has an idea for the product they plan to create, but
-                            hasn’t yet built a working prototype.
-                        </p>
-                    </div>
-                    <div className="cursor-pointer bg-white px-12 py-9 shadow-md hover:bg-gray-100">
-                        <p className="text-center"> Prototype </p>
-                        <p className="mt-2 text-sm text-gray-600">
-                            The campaign team has a working version that successfully demonstrates
-                            the functionality of the final product.
-                        </p>
-                    </div>
-                    <div className="cursor-pointer bg-white px-12 py-9 shadow-md hover:bg-gray-100">
-                        <p className="text-center"> Production </p>
-                        <p className="mt-2 text-sm text-gray-600">
-                            The campaign team is currently producing the final product for their
-                            backers.
-                        </p>
-                    </div>
-                </div>
+            <div className="pt-14">
+                <Button
+                    type="primary"
+                    loading={loading}
+                    onClick={onFinish}
+                    disabled={loading}
+                    className="w-full"
+                >
+                    Save Changes
+                </Button>
             </div>
         </div>
     );

@@ -20,7 +20,7 @@ const calculateAge = (birthDateString: string): number | string => {
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
         age--;
     }
-    if (age < 0) return "N/A";
+    if (age <= 0) return "N/A";
     return age;
 };
 
@@ -45,7 +45,8 @@ export default function UserProfile({}: Props) {
             <div className="flex items-start">
                 <div className="w-full">
                     <UserInfo user={user || undefined} />
-                    <div className="flex items-center justify-center">
+                    <div className="flex h-full items-start justify-center">
+                        {/* Profile Image */}
                         <div className="mt-10 flex items-start">
                             <Image
                                 src={user?.profileImageUrl || ""} // Replace with your image path
@@ -56,37 +57,52 @@ export default function UserProfile({}: Props) {
                             />
                         </div>
 
-                        <div className="mb-6 ml-20 text-3xl text-black">
+                        {/* User Information */}
+                        <div className="ml-20 mt-24 items-start space-y-2 text-3xl text-black">
+                            <p
+                            //className="font-semibold"
+                            >
+                                {user?.firstName} {user?.lastName}
+                            </p>
                             <p>Age: {userAge} </p> {/* Display the calculated age */}
                             <p>Country: {user?.address[0]?.country}</p>
                         </div>
-                        <div className="ml-20 flex flex-col space-y-6">
-                            <a
-                                href={user?.contact.facebook}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-3xl text-blue-700"
-                            >
-                                <FaFacebook />
-                            </a>
-                            <a
-                                href={user?.contact.X}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-3xl text-blue-500"
-                            >
-                                <FaTwitter />
-                            </a>
-                            <a
-                                href={user?.contact.youtube}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-3xl text-red-600"
-                            >
-                                <FaYoutube />
-                            </a>
+
+                        {/* Social Media Icons (Vertically aligned at the top) */}
+                        <div className="mt-24 flex h-auto flex-col items-start space-y-4 pl-20">
+                            {user?.contact.facebook && (
+                                <a
+                                    href={user.contact.facebook}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-3xl text-blue-700"
+                                >
+                                    <FaFacebook />
+                                </a>
+                            )}
+                            {user?.contact.X && (
+                                <a
+                                    href={user.contact.X}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-3xl text-blue-500"
+                                >
+                                    <FaTwitter />
+                                </a>
+                            )}
+                            {user?.contact.youtube && (
+                                <a
+                                    href={user.contact.youtube}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-3xl text-red-600"
+                                >
+                                    <FaYoutube />
+                                </a>
+                            )}
                         </div>
                     </div>
+
                     <div className="mt-10 flex flex-col justify-center">
                         <h2 className="mx-auto mb-8 text-3xl font-bold text-black">About me</h2>
                         <div className="mx-auto w-[80dvh] rounded-lg bg-white px-6 shadow-lg">
