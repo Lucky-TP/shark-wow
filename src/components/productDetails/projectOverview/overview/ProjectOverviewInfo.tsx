@@ -64,12 +64,6 @@ export default function ProjectOverviewInfo() {
                         </div>
                     </div>
                     <div>
-                        {/* <div className="flex flex-row justify-between">
-                            <h3 className="text-lg font-semibold">Current Stage :</h3>
-                            <h3 className="text-lg font-semibold">
-                                {ProjectInfo.stages && ProjectInfo.stages[1].name}
-                            </h3>
-                        </div> */}
                         <h1 className="text-2xl font-bold">{ProjectInfo.name}</h1>
                         <p className="mb-4 text-gray-600">{ProjectInfo.description}</p>
                     </div>

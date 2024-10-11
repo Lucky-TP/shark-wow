@@ -40,6 +40,7 @@ export default function Navbar({}: Props) {
         try {
             await signOut();
             router.push("/");
+            window.location.reload();
         } catch (error: any) {
             console.error("Error signing out:", error.message);
         }
