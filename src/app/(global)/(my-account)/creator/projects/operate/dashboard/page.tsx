@@ -1,13 +1,13 @@
 import React from 'react'
 import Projecttitle from 'src/components/account/updateproject/projecttitle'
-import CreatorDashboard from 'src/components/account/dashboard/CreatorDashboard'
+import DashBoard from 'src/components/account/updateproject/dashboard'
 type Props = {}
 
 export default function page({}: Props) {
   return (
     <section>
       <Projecttitle/>
-      {/*<CreatorDashboard/>*/}
+      <DashBoard/>
     </section>
   )
 }
