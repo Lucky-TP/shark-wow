@@ -7,7 +7,7 @@ export default function page({}: Props) {
   return (
     <section>
       <Projecttitle/>
-      <CreatorDashboard/>
+      {/*<CreatorDashboard/>*/}
     </section>
   )
 }
