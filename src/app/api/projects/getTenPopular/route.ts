@@ -50,6 +50,7 @@ export async function GET(request: NextRequest) {
             { status: StatusCode.SUCCESS }
         );
     } catch (error: any) {
+        console.log(error);
         return errorHandler(error);
     }
 }
