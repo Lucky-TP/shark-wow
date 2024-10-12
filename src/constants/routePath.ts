@@ -26,6 +26,7 @@ export const apiPath = {
         UPDATE: (userId: string) => `${API_BASE_URL}/api/users/${userId}/update`,
         DELETE: (userId: string) => `${API_BASE_URL}/api/users/${userId}/delete`,
         GET_CREATOR_SUMMARY_STATS: `${API_BASE_URL}/api/users/me/creator-view/summary-stats`,
+        GET_CREATOR_SPECIFIC_PROJECT_SUMMARY_STATS: `${API_BASE_URL}/api/users/me/creator-view/summary-stats`,
         GET_CREATOR_OWN_PROJECTS: `${API_BASE_URL}/api/users/me/creator-view/own-projects`,
         GET_CONTRIBUTED_TRANSACTIONS: `${API_BASE_URL}/api/users/me/transactions`,
         GET_SUPPORTER_SUMMARY_PROJECTS: `${API_BASE_URL}/api/users/me/supporter-view/projects`,
