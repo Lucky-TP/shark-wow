@@ -19,8 +19,7 @@ export async function getComments(commentIds: string[]): Promise<CommentData[]> 
             for (const commentIdsChunk of commentIdsChunks) {
                 const querySnapshot = await commentCollection
                     .where("commentId", "in", commentIdsChunk)
-                    //.orderBy("createAt", "desc")
-                    //.orderBy("updateAt", "desc")
+                    .orderBy("createAt", "desc")
                     .get();
                 querySnapshot.docs.forEach((commentRef) => {
                     const commentModel = commentRef.data() as CommentModel;

@@ -15,8 +15,7 @@ export async function getReplies(replyIds: string[]): Promise<ReplyModel[]> {
             for (const replyIdsChunk of replyIdsChunks) {
                 const querySnapshot = await replyCollection
                     .where("replyId", "in", replyIdsChunk)
-                    //.orderBy("createAt", "desc")
-                    //.orderBy("updateAt", "desc")
+                    .orderBy("createAt", "desc")
                     .get();
                 querySnapshot.docs.forEach((replyRef) => {
                     const replyModel = replyRef.data() as ReplyModel;
