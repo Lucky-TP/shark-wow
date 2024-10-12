@@ -112,12 +112,12 @@ export default function ProjectsLaunched() {
                         </div>
                       </div>
                       <div className="space-y-2">
-                        <button
+                        {/* <button
                           className="font-semibold py-2 px-4 rounded-md w-full bg-orange-400 text-white hover:bg-orange-500"
                           onClick={() => handleEditProject(project.projectId)}
                         >
                           Edit Project
-                        </button>
+                        </button> */}
                         <button
                           className="font-semibold py-2 px-4 rounded-md w-full bg-orange-400 text-white hover:bg-orange-500"
                           onClick={() => handleOperateProject(project.projectId)}
