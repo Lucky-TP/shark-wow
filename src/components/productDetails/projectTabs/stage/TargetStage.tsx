@@ -77,7 +77,7 @@ export default function TargetStage({ stage }: Props) {
                             <p className="text-lg font-bold text-gray-700">
                                 Current Funding
                             </p>
-                            <p className="text-base pl-[1vw] text-gray-600">{(stage.totalSupporter * (ProjectInfo.costPerQuantity ?? 0)).toFixed(0).toLocaleString()} THB</p>
+                            <p className="text-base pl-[1vw] text-gray-600">{stage.currentFunding} THB</p>
                         </span>
                         <span className="flex flex-col w-1/2">
                             <p className="text-lg font-bold text-gray-700">
