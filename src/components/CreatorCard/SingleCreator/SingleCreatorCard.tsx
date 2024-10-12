@@ -44,7 +44,7 @@ const SingleCreatorCard = ({ creator }: CreatorCardProps) => {
                             </button>
                         </div>
                         <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <button className="bg-orange-600 text-white p-2 rounded-full">
+                            {/* <button className="bg-orange-600 text-white p-2 rounded-full">
                                 <svg
                                     className="w-5 h-5"
                                     fill="currentColor"
@@ -53,7 +53,7 @@ const SingleCreatorCard = ({ creator }: CreatorCardProps) => {
                                 >
                                     <path d="M19 21l-7-5.3L5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
                                 </svg>
-                            </button>
+                            </button> */}
                         </div>
                     </div>
                     <div className="pt-3 py-1">

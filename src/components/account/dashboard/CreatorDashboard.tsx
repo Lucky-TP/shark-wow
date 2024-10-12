@@ -14,6 +14,7 @@ type Props = {}
 
 export default function CreatorDashboard({}: Props) {
     const { creatorSummary , onGettingSummary } = useCreatorSummary()
+    
     const [loading, setLoading] = useState(true);
 
     
