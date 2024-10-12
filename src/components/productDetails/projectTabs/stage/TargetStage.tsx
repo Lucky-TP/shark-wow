@@ -19,13 +19,6 @@ type Props = {
     stage: Stage;
 };
 
-enum ButtonStatus {
-    SUPPORT = "SUPPORT",
-    UNAVALIABLE = "UNAVALIABLE",
-    LAUNCHED = "LAUNCHED",
-    EXPIRED = "EXPIRED",
-}
-
 
 function formatOwnerShip(goalStageFunding: number, goalProjectFunding: number) {
     return (goalStageFunding / goalProjectFunding) * 100;
@@ -64,7 +57,7 @@ export default function TargetStage({ stage }: Props) {
                 const payload: CheckoutPayload = {
                     projectId: ProjectInfo.projectId ?? "",
                     fundingCost: Number(
-                        (stage.goalFunding / (ProjectInfo?.totalQuantity || 1)).toFixed(2)
+                        stage.fundingCost.toFixed(0)
                     ),
                     paymentMethod: StripePaymentMethod.Card,
                     stageId: stage.stageId,
@@ -112,9 +105,7 @@ export default function TargetStage({ stage }: Props) {
                         </h3>
                         <h3 className="flex flex-row text-lg font-normal text-gray-600">
                             ฿
-                            {(stage.goalFunding / (ProjectInfo?.totalQuantity || 1))
-                                .toFixed(0)
-                                .toLocaleString()}
+                            {stage.fundingCost.toLocaleString()}
                         </h3>
                     </div>
                 </div>
@@ -126,35 +117,35 @@ export default function TargetStage({ stage }: Props) {
                         }}
                     />
                 </div>
-                <div className="flex flex-wrap  justify-between gap-y-[2vh] pt-[1vh]">
-                        <span className="flex flex-col w-1/2">
+                <div className="flex flex-wrap  justify-center gap-y-[2vh] pt-[1vh]">
+                        <span className="flex flex-col w-1/2 items-center">
                             <p className="text-lg font-bold text-gray-700">
                                 Current Funding
                             </p>
                             <p className="text-base pl-[1vw] text-gray-600">{(stage.currentFunding).toLocaleString()} THB</p>
                         </span>
-                        <span className="flex flex-col w-1/2">
+                        <span className="flex flex-col w-1/2 items-center">
                             <p className="text-lg font-bold text-gray-700">
                                 Goal Funding
                             </p>
-                            <p className="text-base pl-[1vw] text-gray-600">{stage.goalFunding.toFixed(0).toLocaleString()} </p>
+                            <p className="text-base pl-[1vw] text-gray-600">{stage.goalFunding.toLocaleString()} </p>
                         </span>
-                        <span className="flex flex-col w-1/2">
-                            <p className="text-lg font-bold text-gray-700">
-                                Backers:
-                            </p>
-                            <p className="text-base pl-[1vw] text-gray-600">{stage.totalSupporter}</p>
-                        </span>
-                        <span className="flex flex-col w-1/2">
+                        <span className="flex flex-col w-1/2 items-center">
                             <p className="text-lg font-bold text-gray-700">
                                 Ownership
                             </p>    
                             <p className="text-base  pl-[1vw] text-gray-600">{(formatOwnerShip(stage.goalFunding,(ProjectInfo.totalQuantity ?? 0) * (ProjectInfo.costPerQuantity ?? 0))).toFixed()} % </p>
                         </span>
                 </div>
-                <div className="my-[1.5vh] flex w-full flex-row items-center justify-between gap-y-[1vh]">
-                    <p className="text-lg font-bold text-gray-700">Stage</p>
-                    <p className="text-base text-gray-600">{stage.name}</p>
+                <div>
+                    <div className="my-[1.5vh] flex w-full flex-row items-center justify-between gap-y-[1vh]">
+                        <p className="text-lg font-bold text-gray-700">Stage</p>
+                        <p className="text-base text-gray-600">{stage.name}</p>
+                    </div>
+                    <div className="my-[1.5vh] flex w-full flex-row items-center justify-between gap-y-[1vh]">
+                        <p className="text-lg font-bold text-gray-700">Backers</p>
+                        <p className="text-base text-gray-600">{stage.totalSupporter} / {ProjectInfo.totalQuantity}</p>
+                    </div>                    
                 </div>
                 <div className="flex w-full flex-row items-center justify-between gap-y-[1vh]">
                     <p className="text-lg font-bold text-gray-700">Estimated Date</p>
@@ -169,26 +160,28 @@ export default function TargetStage({ stage }: Props) {
                                 router.push("/sign-in");
                                 return;
                             }
-                            const payload : CheckoutPayload = {
-                                projectId : ProjectInfo.projectId ?? "",
-                                fundingCost : Number((stage.goalFunding / (ProjectInfo?.totalQuantity || 1)).toFixed(2)),
-                                paymentMethod : StripePaymentMethod.Card, 
-                                stageId : stage.stageId,
-                                stageName : ProjectInfo.name ?? "", 
-                                transactionType : TransactionType.FUNDING
-                            }
-                            const response = await checkout(payload)
-                            if (response.status === 201 ){
-                                router.push(response.redirectUrl)
-                            }
+                            handleCheckout()
                         }}
-                        disabled={stage.status !== StageStatus.CURRENT ? true : false}
+                        disabled={stage.status !== StageStatus.CURRENT || stage.currentFunding >= stage.goalFunding? true : false}
                         className={`w-full py-[1.5vh] rounded-xl shadow-md hover:shadow-lg
                             transition-all duration-700
-                            ${stage.status !== StageStatus.CURRENT ? 'cursor-not-allowed bg-orange-200 text-gray-500': 'text-gray-600 bg-orange-300 cursor-pointer hover:bg-orange-400 hover:scale-[1.02]'}
+                            ${stage.status !== StageStatus.CURRENT || stage.currentFunding >= stage.goalFunding ? 'cursor-not-allowed bg-orange-200 text-gray-500': 'text-gray-600 bg-orange-300 cursor-pointer hover:bg-orange-400 hover:scale-[1.02]'}
                         `}
                     >
-                        <p className=" text-base font-bold">{stage.status !== StageStatus.CURRENT ? "UNAVALIABLE" : "SUPPORT"}</p>
+                        <p className=" text-base font-bold">
+                            {(() => {
+                                switch (stage.status) {
+                                    case StageStatus.CURRENT:
+                                        return stage.currentFunding >= stage.goalFunding ? 'FULLY FUNDING' : 'SUPPORT';
+                                    case StageStatus.FINISH:
+                                        return 'LAUNCHED';
+                                    case StageStatus.INCOMING:
+                                        return 'INCOMING';
+                                    default:
+                                        return 'DEFAULT';
+                                }
+                            })()}
+                        </p>
                     </button>
                 </div>                
             </div>
