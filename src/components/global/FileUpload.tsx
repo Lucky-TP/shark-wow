@@ -5,8 +5,10 @@ import { Button, Form, Upload, message as antdMessage } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { apiPath } from "src/constants/routePath";
 import { FileUploadResponse } from "src/interfaces/response/fileResponse";
-import { upload } from "src/services/apiService/files/upload";
-import { FileTypeKeys } from "src/constants/payloadKeys/file";
+import {
+    multipleUpload,
+    ProjectMultipleUploadsDetail,
+} from "src/services/apiService/files/multipleUpload";
 
 export default function FileUpload() {
     const [file, setFile] = useState<File | null>(null);
@@ -30,21 +32,23 @@ export default function FileUpload() {
         // }
 
         try {
-            const mockFile: Blob = new Blob(["file content 1"], {
+            // Single mock file
+            const mockFile: File = new File(["file content 1"], "mockFile.png", {
                 type: "image/png",
             });
 
-            const mockFiles: Blob[] = [
-                new Blob(["file content 1"], { type: "image/png" }),
-                new Blob(["file content 2"], { type: "image/png" }),
-                new Blob(["file content 3"], { type: "image/png" }),
-                new Blob(["file content 4"], { type: "image/png" }),
+            // Array of mock files
+            const mockFiles: File[] = [
+                new File(["file content 1"], "file1.png", { type: "image/png" }),
+                new File(["file content 2"], "file2.png", { type: "image/png" }),
+                new File(["file content 3"], "file3.png", { type: "image/png" }),
+                new File(["file content 4"], "file4.png", { type: "image/png" }),
             ];
 
             setLoading(true);
-            const response: FileUploadResponse[] = await upload({
-                file: mockFile,
-                fileType: FileTypeKeys.CAROUSEL_IMAGE_FILES,
+            const response: FileUploadResponse[] = await multipleUpload({
+                files: mockFiles,
+                type: "projectGeneral",
                 projectId: "QM2gmeMoyqJb35GAbDQe",
             });
             setMessage(response[0].message);
@@ -61,8 +65,8 @@ export default function FileUpload() {
 
     return (
         <div className="my-4 flex items-center justify-center">
-            <Form onFinish={handleSubmit} className="bg-white p-6 rounded shadow-md">
-                <h1 className="text-2xl mb-4">Upload File</h1>
+            <Form onFinish={handleSubmit} className="rounded bg-white p-6 shadow-md">
+                <h1 className="mb-4 text-2xl">Upload File</h1>
                 <Form.Item>
                     <Upload beforeUpload={() => false} onChange={handleFileChange} maxCount={1}>
                         <Button icon={<UploadOutlined />}>Select File</Button>

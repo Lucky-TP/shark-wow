@@ -6,7 +6,7 @@ import { Button, Dropdown } from "antd";
 import Image from "next/image";
 import { signOut } from "src/services/authService";
 import { createProject } from "src/services/apiService/projects/createProject"; // Import your function
-import { useUserData } from "src/context/custom-hooks/useUserData";
+import { useUserData } from "src/context/useUserData";
 
 type Props = {};
 
@@ -32,11 +32,15 @@ export default function Navbar({}: Props) {
     const handleProfile = async () => {
         router.push("/profile");
     };
+    const handleProfileSetting = async () => {
+        router.push("/settings/profile-config");
+    };
 
     const handleSignOut = async () => {
         try {
             await signOut();
             router.push("/");
+            window.location.reload();
         } catch (error: any) {
             console.error("Error signing out:", error.message);
         }
@@ -117,6 +121,10 @@ export default function Navbar({}: Props) {
                                             },
                                             {
                                                 key: "2",
+                                                label: <div onClick={handleProfileSetting}>Setting</div>,
+                                            },
+                                            {
+                                                key: "3",
                                                 label: <div onClick={handleSignOut}>Sign Out</div>,
                                                 danger: true,
                                             },

@@ -16,3 +16,7 @@ export interface GetProjectsByCategoriesResponse extends DefaultResponse {
 export interface GetPopularProjectsResponse extends DefaultResponse {
     data: ShowProject[];
 }
+
+export interface GetPendingProjectsResponse extends DefaultResponse {
+    data: ShowProject[];
+}

@@ -3,7 +3,7 @@ import React from "react";
 import { Stage } from "src/interfaces/models/project";
 
 import { Skeleton } from "antd";
-import { useProjectDetails } from "src/context/custom-hooks/useProjectDetails";
+import { useProjectDetails } from "src/context/useProjectDetails";
 
 function formatDate(date: string ): string {
     const DateO = new Date(date)
@@ -23,12 +23,19 @@ export default function ProjectStat() {
                 <>
                     <div className="flex justify-between items-center mb-2">
                         {/* implement project info current stage later */}
-                        <span className="text-2xl font-bold">฿ {(Number(ProjectInfo.costPerQuantity) * Number(ProjectInfo.totalQuantity)).toLocaleString()} THB</span>
+                        <div className="flex justify-center flex-col">
+                            <h1 className="text-2xl  text-orange-500 ">
+                                Current {((ProjectInfo.totalSupporter ?? 0) * (ProjectInfo.costPerQuantity ?? 0)).toLocaleString()}
+                            </h1>
+                            <span className="text-sm text-gray-400">
+                                Goal {(Number(ProjectInfo.costPerQuantity) * Number(ProjectInfo.totalQuantity)).toLocaleString()}
+                            </span>      
+                        </div>
                         <span className="text-gray-600">{ProjectInfo.totalSupporter} backers</span>
                     </div>
                     <div className="w-full bg-gray-300 h-1 rounded-full mb-2">
                         <div
-                            className="bg-orange-300 h-full rounded-full w-0"
+                            className="bg-orange-400 h-full rounded-full w-full"
                         />
                     </div>
                     <div className="flex justify-between items-center text-gray-600 w-full" >

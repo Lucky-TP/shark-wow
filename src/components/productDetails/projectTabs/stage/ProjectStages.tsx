@@ -8,7 +8,7 @@ import TargetStage from "./TargetStage";
 
 import { Skeleton } from "antd";
 
-import { useProjectDetails } from "src/context/custom-hooks/useProjectDetails";
+import { useProjectDetails } from "src/context/useProjectDetails";
 import { dateToString } from "src/utils/date";
 
 interface Stages {
@@ -27,7 +27,8 @@ export default function ProjectStages() {
                 {ProjectInfo.stages !== undefined &&
                     ProjectInfo.stages.map((stage: Stage, key) => (
                         <TargetStage key={key} stage={stage} />
-                    ))}
+                    )
+                )}
                 {(isLoading || ProjectInfo.stages === null) && (
                     <li>
                         <Skeleton active />

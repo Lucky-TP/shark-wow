@@ -6,8 +6,8 @@ import { updateProject } from "src/libs/databases/firestore/projects";
 import { withAuthVerify } from "src/utils/api/auth";
 import { StatusCode } from "src/constants/statusCode";
 import { CollectionPath } from "src/constants/firestore";
-import { ProjectModel } from "src/interfaces/models/project";
-import { ProjectStatus } from "src/interfaces/models/enums";
+import { ProjectModel, Stage } from "src/interfaces/models/project";
+import { ProjectStatus , StageStatus } from "src/interfaces/models/enums";
 import { CommentData } from "src/interfaces/datas/comment";
 import { ProjectData } from "src/interfaces/datas/project";
 import { EditProjectPayload } from "src/interfaces/payload/projectPayload";
@@ -243,7 +243,7 @@ export async function PUT(request: NextRequest, { params }: { params: { projectI
                 carouselImageUrls: body.carouselImageUrls,
                 description: body.description,
                 address: body.address,
-                status: body.status, // implement to check if every field is filled before it could change the status (in short "IMPLEMENT LATER")
+                //status: body.status,  //implement to check if every field is filled before it could change the status (in short "IMPLEMENT LATER")
                 category: body.category,
                 totalQuantity: body.totalQuantity,
                 costPerQuantity: body.costPerQuantity,
@@ -271,6 +271,85 @@ export async function PUT(request: NextRequest, { params }: { params: { projectI
 
         return NextResponse.json(
             { message: "Update project successful" },
+            { status: StatusCode.SUCCESS }
+        );
+    } catch (error: unknown) {
+        return errorHandler(error);
+    }
+}
+
+export async function PATCH(request: NextRequest, { params }: { params: { projectId: string } }) {
+    try {
+        const tokenData = await withAuthVerify(request);
+        const uid = tokenData.uid;
+
+        const projectDocRef = getDocRef(CollectionPath.PROJECT, params.projectId);
+        const projectSnapshot = await projectDocRef.get();
+        if (!projectSnapshot.exists) {
+            return NextResponse.json(
+                { message: "Project not exist" },
+                { status: StatusCode.NOT_FOUND }
+            );
+        }
+
+        const currentProjectModel = projectSnapshot.data() as ProjectModel;
+        const projectId = currentProjectModel.projectId;
+        if (uid !== currentProjectModel.uid) {
+            return NextResponse.json(
+                { message: "You have no permission to update this project" },
+                { status: StatusCode.UNAUTHORIZED }
+            );
+        }
+
+        if(currentProjectModel.status !== ProjectStatus.RUNNING){
+            return NextResponse.json(
+                {
+                    message: "Something went wrong.",
+                },
+                { status: StatusCode.BAD_REQUEST }
+            );
+        }
+
+        const projectStage = currentProjectModel.stages as Stage[];
+
+        if(projectStage[0].status === StageStatus.CURRENT && projectStage[0].currentFunding >= projectStage[0].goalFunding){
+            projectStage[0].status = StageStatus.FINISH;
+            projectStage[1].status = StageStatus.CURRENT;
+        }
+        else if(projectStage[1].status === StageStatus.CURRENT && projectStage[1].currentFunding >= projectStage[1].goalFunding){
+            projectStage[1].status = StageStatus.FINISH;
+            projectStage[2].status = StageStatus.CURRENT;
+
+        }
+        else if(projectStage[2].status === StageStatus.CURRENT && projectStage[2].currentFunding >= projectStage[2].goalFunding){
+            projectStage[2].status = StageStatus.FINISH;
+            await updateProject(projectId, {
+                status: ProjectStatus.SUCCESS,
+                stages: projectStage,
+            });
+            return NextResponse.json(
+                {
+                    message: "End project successful.",
+                },
+                { status: StatusCode.SUCCESS }
+            );
+        }
+        else{
+            return NextResponse.json(
+                {
+                    message: "Something went wrong.",
+                },
+                { status: StatusCode.BAD_REQUEST }
+            );
+        }
+
+        await updateProject(projectId, {
+            status: ProjectStatus.PENDING,
+            stages: projectStage,
+        });
+
+        return NextResponse.json(
+            { message: "send a request to admin successful" },
             { status: StatusCode.SUCCESS }
         );
     } catch (error: unknown) {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { useProjectDetails } from "src/context/custom-hooks/useProjectDetails";
+import { useProjectDetails } from "src/context/useProjectDetails";
 
 import UpdateBlog from "./UpdateBlog";
 

@@ -3,14 +3,18 @@
 import React, { useMemo, useRef } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { upload } from "src/services/apiService/files/upload";
-import { FileTypeKeys } from "src/constants/payloadKeys/file";
+import {
+    singleUpload,
+    ProjectSingleUploadDetail,
+    UserSingleUploadDetail,
+} from "src/services/apiService/files/singleUpload";
 import { message } from "antd";
+import { FileUploadResponse } from "src/interfaces/response/fileResponse";
 
 type QuillEditorProps = {
     value: string;
     onChange: (data: string) => void;
-    projectId: string;
+    projectId?: string;
 };
 
 export default function QuillEditor({ value, onChange, projectId }: QuillEditorProps) {
@@ -27,13 +31,22 @@ export default function QuillEditor({ value, onChange, projectId }: QuillEditorP
             const file = input.files?.[0];
             if (file && /^image\//.test(file.type)) {
                 try {
-                    const payload = {
-                        file: file,
-                        fileType: FileTypeKeys.CAROUSEL_IMAGE_FILES,
-                        projectId: projectId,
-                    };
-                    const response = await upload(payload);
-                    const url = response[0]?.url;
+                    let response: FileUploadResponse;
+                    if (projectId) {
+                        const payload: ProjectSingleUploadDetail = {
+                            file: file,
+                            type: "projectGeneral",
+                            projectId: projectId,
+                        };
+                        response = await singleUpload(payload);
+                    } else {
+                        const payload: UserSingleUploadDetail = {
+                            file: file,
+                            type: "userGeneral",
+                        };
+                        response = await singleUpload(payload);
+                    }
+                    const url = response.url;
 
                     if (url) {
                         editor.insertEmbed(editor.getSelection()?.index || 0, "image", url);
@@ -110,7 +123,7 @@ export default function QuillEditor({ value, onChange, projectId }: QuillEditorP
     return (
         <ReactQuill
             theme="snow"
-            className="min-w-[90dvw]"
+            className="min-w-[90dvw] pr-40"
             ref={quillRef}
             value={value}
             modules={modules}

@@ -4,6 +4,11 @@ const API_BASE_URL =
         : "https://localhost:3000";
 
 export const apiPath = {
+    ADMIN: {
+        APPROVE: (projectId: string) => `${API_BASE_URL}/api/admin/approve/${projectId}`,
+        REJECT: (projectId: string) => `${API_BASE_URL}/api/admin/reject/${projectId}`,
+        GET_PENDING_PROJECT: `${API_BASE_URL}/api/admin/getPendingProjects`,
+    },
     AUTH: {
         // BASE: `${API_BASE_URL}/api/auth`,
         GOOGLE_SIGNIN: `${API_BASE_URL}/api/auth/signin/google`,
@@ -21,6 +26,10 @@ export const apiPath = {
         UPDATE: (userId: string) => `${API_BASE_URL}/api/users/${userId}/update`,
         DELETE: (userId: string) => `${API_BASE_URL}/api/users/${userId}/delete`,
         GET_CREATOR_SUMMARY_STATS: `${API_BASE_URL}/api/users/me/creator-view/summary-stats`,
+        GET_CREATOR_SPECIFIC_PROJECT_SUMMARY_STATS: `${API_BASE_URL}/api/users/me/creator-view/summary-stats`,
+        GET_CREATOR_OWN_PROJECTS: `${API_BASE_URL}/api/users/me/creator-view/own-projects`,
+        GET_CONTRIBUTED_TRANSACTIONS: `${API_BASE_URL}/api/users/me/transactions`,
+        GET_SUPPORTER_SUMMARY_PROJECTS: `${API_BASE_URL}/api/users/me/supporter-view/projects`,
     },
     FILES: {
         UPLOAD: `${API_BASE_URL}/api/files/upload`,
@@ -35,6 +44,8 @@ export const apiPath = {
         GET_BY_ID: (projectId: string) => `${API_BASE_URL}/api/projects/${projectId}`,
         UPDATE: (projectId: string) => `${API_BASE_URL}/api/projects/${projectId}`,
         DELETE: (projectId: string) => `${API_BASE_URL}/api/projects/${projectId}`,
+        UPDATE_STAGE: (projectId: string) => `${API_BASE_URL}/api/projects/${projectId}`,
+        UPDATE_STATUS: (projectId: string) => `${API_BASE_URL}/api/projects/status/${projectId}`,
     },
     COMMENTS: {
         USER: {
