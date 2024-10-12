@@ -165,6 +165,10 @@ export default function TargetStage({ stage }: Props) {
                 <div className="flex items-center justify-center w-full">
                     <button
                         onClick={async ()=>{
+                            if (!user) {
+                                router.push("/sign-in");
+                                return;
+                            }
                             const payload : CheckoutPayload = {
                                 projectId : ProjectInfo.projectId ?? "",
                                 fundingCost : Number((stage.goalFunding / (ProjectInfo?.totalQuantity || 1)).toFixed(2)),
