@@ -162,17 +162,17 @@ export default function TargetStage({ stage }: Props) {
                             }
                             handleCheckout()
                         }}
-                        disabled={stage.status !== StageStatus.CURRENT || stage.currentFunding >= stage.goalFunding? true : false}
+                        disabled={stage.status !== StageStatus.CURRENT || stage.totalSupporter == ProjectInfo.totalSupporter ? true : false}
                         className={`w-full py-[1.5vh] rounded-xl shadow-md hover:shadow-lg
                             transition-all duration-700
-                            ${stage.status !== StageStatus.CURRENT || stage.currentFunding >= stage.goalFunding ? 'cursor-not-allowed bg-orange-200 text-gray-500': 'text-gray-600 bg-orange-300 cursor-pointer hover:bg-orange-400 hover:scale-[1.02]'}
+                            ${stage.status !== StageStatus.CURRENT || stage.totalSupporter == ProjectInfo.totalSupporter ? 'cursor-not-allowed bg-orange-200 text-gray-500': 'text-gray-600 bg-orange-300 cursor-pointer hover:bg-orange-400 hover:scale-[1.02]'}
                         `}
                     >
                         <p className=" text-base font-bold">
                             {(() => {
                                 switch (stage.status) {
                                     case StageStatus.CURRENT:
-                                        return stage.currentFunding >= stage.goalFunding ? 'FULLY FUNDING' : 'SUPPORT';
+                                        return stage.totalSupporter == ProjectInfo.totalSupporter ? 'FULLY FUNDING' : 'SUPPORT';
                                     case StageStatus.FINISH:
                                         return 'LAUNCHED';
                                     case StageStatus.INCOMING:
