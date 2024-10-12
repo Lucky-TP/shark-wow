@@ -136,10 +136,10 @@ export default function TargetStage({ stage }: Props) {
                                 router.push(response.redirectUrl)
                             }
                         }}
-                        disabled={(stage.status !== StageStatus.CURRENT || stage.currentFunding == stage.goalFunding) ? true : false}
+                        disabled={(stage.status !== StageStatus.CURRENT || stage.currentFunding >= stage.goalFunding) ? true : false}
                         className={`w-full py-[1.5vh] rounded-xl shadow-md hover:shadow-lg
                             transition-all duration-700
-                            ${(stage.status !== StageStatus.CURRENT || stage.currentFunding == stage.goalFunding ) ? 'cursor-not-allowed bg-orange-200 text-gray-500': 'text-gray-600 bg-orange-300 cursor-pointer hover:bg-orange-400 hover:scale-[1.02]'}
+                            ${(stage.status !== StageStatus.CURRENT || stage.currentFunding >= stage.goalFunding ) ? 'cursor-not-allowed bg-orange-200 text-gray-500': 'text-gray-600 bg-orange-300 cursor-pointer hover:bg-orange-400 hover:scale-[1.02]'}
                         `}
                     >
                         <p className=" text-base font-bold">
