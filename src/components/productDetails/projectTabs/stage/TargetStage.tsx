@@ -13,10 +13,16 @@ import { CheckoutPayload } from "src/interfaces/payload/paymentPayload";
 
 import Image from "next/image";
 
-
 type Props = {
     stage: Stage;
 };
+
+enum ButtonStatus {
+    SUPPORT = "SUPPORT",
+    UNAVALIABLE = "UNAVALIABLE",
+    LAUNCHED = "LAUNCHED",
+    EXPIRED = "EXPIRED",
+}
 
 function formatOwnerShip(goalStageFunding : number , goalProjectFunding : number ){
      return (goalStageFunding/goalProjectFunding)*100
@@ -77,19 +83,19 @@ export default function TargetStage({ stage }: Props) {
                             <p className="text-lg font-bold text-gray-700">
                                 Current Funding
                             </p>
-                            <p className="text-base pl-[1vw] text-gray-600">{stage.currentFunding} THB</p>
+                            <p className="text-base pl-[1vw] text-gray-600">{stage.currentFunding.toLocaleString()} THB</p>
                         </span>
                         <span className="flex flex-col w-1/2">
                             <p className="text-lg font-bold text-gray-700">
                                 Goal Funding
                             </p>
-                            <p className="text-base pl-[1vw] text-gray-600">{stage.goalFunding.toFixed(0).toLocaleString()} </p>
+                            <p className="text-base pl-[1vw] text-gray-600">{stage.goalFunding.toLocaleString()} </p>
                         </span>
                         <span className="flex flex-col w-1/2">
                             <p className="text-lg font-bold text-gray-700">
                                 Backers:
                             </p>
-                            <p className="text-base pl-[1vw] text-gray-600">{stage.totalSupporter}</p>
+                            <p className="text-base pl-[1vw] text-gray-600">{stage.totalSupporter.toLocaleString()}</p>
                         </span>
                         <span className="flex flex-col w-1/2">
                             <p className="text-lg font-bold text-gray-700">
@@ -111,7 +117,7 @@ export default function TargetStage({ stage }: Props) {
                         Estimated Date
                     </p>
                     <p className="text-base text-gray-600">
-                            {formateEstimatedDate(stage.expireDate)}
+                        {formateEstimatedDate(stage.expireDate)}
                     </p>
                 </div>
                 <div className="flex items-center justify-center w-full">
@@ -130,13 +136,26 @@ export default function TargetStage({ stage }: Props) {
                                 router.push(response.redirectUrl)
                             }
                         }}
-                        disabled={stage.status !== StageStatus.CURRENT ? true : false}
+                        disabled={(stage.status !== StageStatus.CURRENT || stage.currentFunding == stage.goalFunding) ? true : false}
                         className={`w-full py-[1.5vh] rounded-xl shadow-md hover:shadow-lg
                             transition-all duration-700
-                            ${stage.status !== StageStatus.CURRENT ? 'cursor-not-allowed bg-orange-200 text-gray-500': 'text-gray-600 bg-orange-300 cursor-pointer hover:bg-orange-400 hover:scale-[1.02]'}
+                            ${(stage.status !== StageStatus.CURRENT || stage.currentFunding == stage.goalFunding ) ? 'cursor-not-allowed bg-orange-200 text-gray-500': 'text-gray-600 bg-orange-300 cursor-pointer hover:bg-orange-400 hover:scale-[1.02]'}
                         `}
                     >
-                        <p className=" text-base font-bold">{stage.status !== StageStatus.CURRENT ? "UNAVALIABLE" : "SUPPORT"}</p>
+                        <p className=" text-base font-bold">
+                            {(() => {
+                                switch (stage.status) {
+                                    case StageStatus.CURRENT:
+                                        return stage.currentFunding < stage.goalFunding ? "SUPPORT" : "FULLY FUNDED";
+                                    case StageStatus.FINISH:
+                                        return "LAUNCHED";
+                                    case StageStatus.INCOMING:
+                                        return "INCOMING";
+                                    default:
+                                        return "UNAVAILABLE";
+                                }
+                            })()}
+                        </p>
                     </button>
                 </div>                
             </div>
