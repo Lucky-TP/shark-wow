@@ -91,7 +91,7 @@ export default function MainProjectDiscussion({}: Props) {
             {!currentUserStatus.isLoading && comments.length > 0 && 
                 <div className="flex flex-col w-[70vw] items-center">
                     {
-                        comments.reverse().map((e) => (
+                        comments.map((e) => (
                             <CommentSection key={e.commentId} data={e}/>
                         ))
                     }
