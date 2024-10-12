@@ -23,8 +23,8 @@ export default function MainProjectUpdates() {
                                 onClick={() => {
                                     setUpdateState(index);
                                 }}
-                                className={`flex items-center justify-center p-3 bg-orange-200 rounded-xl w-full px-[1vw] shadow-lg
-                                    hover:bg-orange-300 hover:scale-[1.02] duration-500 transition-all cursor-pointer ${currentUpdate === index ? "bg-orange-300" : "bg-orange-200"}`}
+                                className={`flex items-center justify-center p-3 bg-orange-50 rounded-xl w-full px-[1vw] shadow-lg
+                                    hover:bg-orange-100  ${currentUpdate === index ? "bg-orange-100" : "bg-orange-50"}`}
                             >
                                 <p className="text-lg text-gray-700 font-medium text-center">
                                     {update.detail}
@@ -34,7 +34,7 @@ export default function MainProjectUpdates() {
                     {ProjectInfo.update && ProjectInfo.update.length === 0 && (
                         <li
                             className="flex items-center justify-center p-3 bg-orange-300 rounded-xl w-full px-[1vw] shadow-lg
-                                  hover:bg-orange-300 hover:scale-[1.02] duration-500 transition-all cursor-pointer "
+                                  hover:bg-orange-100 cursor-pointer "
                         >
                             <p className="text-lg text-gray-700 font-medium text-center">
                                 There are no updates currently.
