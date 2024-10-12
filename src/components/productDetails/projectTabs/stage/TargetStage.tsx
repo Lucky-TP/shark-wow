@@ -105,7 +105,7 @@ export default function TargetStage({ stage }: Props) {
                         </h3>
                         <h3 className="flex flex-row text-lg font-normal text-gray-600">
                             ฿
-                            {(stage.goalFunding / (ProjectInfo?.totalQuantity || 1))
+                            {stage.fundingCost
                                 .toFixed(0)
                                 .toLocaleString()}
                         </h3>
@@ -145,9 +145,15 @@ export default function TargetStage({ stage }: Props) {
                             <p className="text-base  pl-[1vw] text-gray-600">{(formatOwnerShip(stage.goalFunding,(ProjectInfo.totalQuantity ?? 0) * (ProjectInfo.costPerQuantity ?? 0))).toFixed()} % </p>
                         </span>
                 </div>
-                <div className="my-[1.5vh] flex w-full flex-row items-center justify-between gap-y-[1vh]">
-                    <p className="text-lg font-bold text-gray-700">Stage</p>
-                    <p className="text-base text-gray-600">{stage.name}</p>
+                <div>
+                    <div className="my-[1.5vh] flex w-full flex-row items-center justify-between gap-y-[1vh]">
+                        <p className="text-lg font-bold text-gray-700">Stage</p>
+                        <p className="text-base text-gray-600">{stage.name}</p>
+                    </div>
+                    <div className="my-[1.5vh] flex w-full flex-row items-center justify-between gap-y-[1vh]">
+                        <p className="text-lg font-bold text-gray-700">Pieces</p>
+                        <p className="text-base text-gray-600">{ProjectInfo.totalQuantity}</p>
+                    </div>                    
                 </div>
                 <div className="flex w-full flex-row items-center justify-between gap-y-[1vh]">
                     <p className="text-lg font-bold text-gray-700">Estimated Date</p>
