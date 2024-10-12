@@ -24,11 +24,21 @@ export const revalidate = 20;
  *     tags:
  *       - users
  *     summary: Retrieve summary statistics for the authenticated user's projects
+ *     parameters:
+ *       - in: query
+ *         name: projectId
+ *         required: false
+ *         schema:
+ *           type: string
+ *         description: The ID of the specific project for which to fetch summary statistics.
  *     description:
  *       Returns summary statistics for the authenticated user's projects,
  *       including top projects, top donators, overall project stats,
  *       financial time series, recent contributions, total funding,
  *       and total supporters. Authentication is required via a valid token.
+ *       Optionally, you can include a `projectId` query parameter to fetch
+ *       summary statistics for a specific project. If no `projectId` is provided,
+ *       statistics for all the user's projects will be returned.
  *     security:
  *       - CookieAuth: []
  *     responses:
@@ -39,12 +49,19 @@ export const revalidate = 20;
  *       500:
  *         description: Internal Server Error - An unexpected error occurred
  */
+
 export async function GET(request: NextRequest) {
     try {
+        const params = request.nextUrl.searchParams.get("projectId");
         const tokenData = await withAuthVerify(request);
         const userModel = await getUser(tokenData.uid);
+        let projectIds: string[] = [];
+        if (params) {
+            projectIds = [params];
+        } else {
+            projectIds = userModel.ownProjectIds;
+        }
 
-        const projectIds = userModel.ownProjectIds;
         const projectModels = await getProjects(projectIds);
         const projectStats = countOverallProjectStats(projectModels);
 

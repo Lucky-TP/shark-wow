@@ -207,6 +207,18 @@ export default function FormStages({ projectId }: Props) {
             return;
         }
 
+        const conceptOwnership = values.conceptOwnership || 0;
+        const prototypeOwnership = values.prototypeOwnership || 0;
+        const productionOwnership = values.productionOwnership || 0;
+        const totalOwnership = conceptOwnership + prototypeOwnership + productionOwnership;
+
+        // Check if total ownership is exactly 100
+        if (totalOwnership !== 100) {
+            message.error("The total ownership for all stages must equal 100%");
+            setLoading(false);
+            return;
+        }
+
         const updatedStages: Stage[] = [
             {
                 stageId: StageId.CONCEPT,

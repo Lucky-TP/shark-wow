@@ -39,30 +39,30 @@ export default function SettingNavbar({}: Props) {
             <section>
                 <div className="flex items-start">
                     <div className="w-full">
-                        <h1 className="text-7xl text-black text-center mt-20">
+                        <h1 className="ml-40 mt-20 text-start text-7xl text-black">
                             {user?.username || "Loading..."}
                         </h1>
-                        <div className="flex items-center justify-center space-x-10 mt-20">
+                        <div className="ml-40 mt-20 flex items-start justify-start space-x-10">
                             <button
-                                className="bg-[#D2825E] text-white font-semibold py-2 px-16 rounded-xl text-xl"
+                                className="rounded-xl bg-[#D2825E] px-16 py-2 text-xl font-semibold text-white"
                                 onClick={() => router.push("/settings/profile-config")}
                             >
                                 Profile
                             </button>
                             <button
-                                className="bg-[#D2825E] text-white font-semibold py-2 px-16 rounded-xl text-xl"
+                                className="rounded-xl bg-[#D2825E] px-16 py-2 text-xl font-semibold text-white"
                                 onClick={() => router.push("/settings/address")}
                             >
                                 Address
                             </button>
                             <button
-                                className="bg-[#D2825E] text-white font-semibold py-2 px-16 rounded-xl text-xl"
+                                className="rounded-xl bg-[#D2825E] px-16 py-2 text-xl font-semibold text-white"
                                 onClick={() => router.push("/settings/preferences")}
                             >
                                 Interest
                             </button>
                         </div>
-                        <hr className="border-t-4 border-black w-4/5 my-8 ml-40" />
+                        <hr className="my-8 ml-40 w-4/5 border-t-4 border-black" />
                     </div>
                 </div>
             </section>

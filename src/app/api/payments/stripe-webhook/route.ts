@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { StatusCode } from "src/constants/statusCode";
 import { stripe } from "src/libs/stripe/stripe";
 import { updateOrder } from "src/libs/databases/firestore/orders/updateOrder";
-import { OrderStatus } from "src/interfaces/models/enums";
+import { OrderStatus, TransactionType } from "src/interfaces/models/enums";
 import { getOrder } from "src/libs/databases/firestore/orders/getOrder";
 import { createTransactionLog } from "src/libs/databases/firestore/transactionLogs/createTransactionLog";
 import { getProject, updateProject } from "src/libs/databases/firestore/projects";
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
             );
         }
         // Handle the Stripe event based on its type
-        console.log(event);
+        // console.log(event);
         console.log("✅ Success:", event.id);
 
         switch (event.type) {
@@ -80,15 +80,19 @@ export async function POST(request: NextRequest) {
                     paymentIntentId: charge.id as string,
                     paymentMethod: (charge.payment_method as string | null) ?? "",
                 });
-                const retrivedProjectModel = await promiseFetchProject;
-                const updatedStages = retrivedProjectModel.stages;
-                updatedStages[stageId].currentFunding += amount;
-                updatedStages[stageId].totalSupporter += 1;
-                const promiseUpdateProject = updateProject(projectId, {
-                    totalSupporter: updatedStages[stageId].totalSupporter,
-                    stages: updatedStages,
-                });
-                await Promise.all([promiseUpdateProject, promiseUpdateOrder]);
+                if (order.transactionType === TransactionType.FUNDING) {
+                    const retrivedProjectModel = await promiseFetchProject;
+                    const updatedStages = retrivedProjectModel.stages;
+                    updatedStages[stageId].currentFunding += amount;
+                    updatedStages[stageId].totalSupporter += 1;
+                    const promiseUpdateProject = updateProject(projectId, {
+                        totalSupporter: updatedStages[stageId].totalSupporter,
+                        stages: updatedStages,
+                    });
+                    await Promise.all([promiseUpdateProject, promiseUpdateOrder]);
+                } else {
+                    await promiseUpdateOrder;
+                }
                 break;
             }
             case "checkout.session.completed": {

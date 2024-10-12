@@ -117,7 +117,7 @@ const SingleprojectCard = ({ project, showEditProject }: ProjectCardProps) => {
                         <div className="w-64 h-10 text-xl font-semibold text-gray-800 truncate whitespace-nowrap">{project.name}</div>
                         <div className="flex justify-between items-center">
                             <p className="text-sm text-gray-600 mt-1">
-                                Fund at ${project.stages[0].fundingCost}
+                                Fund at {project.stages[0].fundingCost.toLocaleString()}฿
                             </p>
                             {showEditProject && (
                                 <div className={`px-1  text-sm rounded-md text-white ${project.status ? "bg-orange-600" : "bg-orange-300"}`}>{`${project.status ? "Launched" : "Draft"}`}</div>
@@ -133,7 +133,7 @@ const SingleprojectCard = ({ project, showEditProject }: ProjectCardProps) => {
                         </div>
                         <div className="flex justify-left">
                             <span className="text-sm text-gray-600">
-                                ${project.stages[0].currentFunding} raised |
+                                {project.stages[0].currentFunding.toLocaleString()}฿ |
                             </span>
                             <span className="text-sm text-gray-600 ml-1">
                                 {percentageFunded}% funded

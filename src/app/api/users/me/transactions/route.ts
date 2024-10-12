@@ -8,6 +8,27 @@ import { withAuthVerify } from "src/utils/api/auth";
 
 export const revalidate = 5;
 
+/**
+ * @swagger
+ * /api/users/me/transactions:
+ *   get:
+ *     tags:
+ *       - users
+ *     summary: Retrieve the authenticated user's contributed transactions
+ *     description:
+ *       This endpoint fetches the contributed transactions for the authenticated user,
+ *       including project names, amounts contributed, and transaction dates.
+ *       Authentication is required via a valid token in the cookies.
+ *     security:
+ *       - CookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved contributed transactions
+ *       401:
+ *         description: Unauthorized - Missing or invalid token
+ *       500:
+ *         description: Internal Server Error - An unexpected error occurred
+ */
 export async function GET(request: NextRequest) {
     try {
         const tokenData = await withAuthVerify(request);

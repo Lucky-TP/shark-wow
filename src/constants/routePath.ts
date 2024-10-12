@@ -26,8 +26,10 @@ export const apiPath = {
         UPDATE: (userId: string) => `${API_BASE_URL}/api/users/${userId}/update`,
         DELETE: (userId: string) => `${API_BASE_URL}/api/users/${userId}/delete`,
         GET_CREATOR_SUMMARY_STATS: `${API_BASE_URL}/api/users/me/creator-view/summary-stats`,
+        GET_CREATOR_SPECIFIC_PROJECT_SUMMARY_STATS: `${API_BASE_URL}/api/users/me/creator-view/summary-stats`,
         GET_CREATOR_OWN_PROJECTS: `${API_BASE_URL}/api/users/me/creator-view/own-projects`,
         GET_CONTRIBUTED_TRANSACTIONS: `${API_BASE_URL}/api/users/me/transactions`,
+        GET_SUPPORTER_SUMMARY_PROJECTS: `${API_BASE_URL}/api/users/me/supporter-view/projects`,
     },
     FILES: {
         UPLOAD: `${API_BASE_URL}/api/files/upload`,
@@ -39,9 +41,11 @@ export const apiPath = {
         GET_ALL: `${API_BASE_URL}/api/projects`,
         GET_BY_CATEGORIES: `${API_BASE_URL}/api/projects/getByCategories`,
         GET_TEN_POPULAR: `${API_BASE_URL}/api/projects/getTenPopular`,
+        GET_BY_SEARCH: `${API_BASE_URL}/api/projects/searchProject`,
         GET_BY_ID: (projectId: string) => `${API_BASE_URL}/api/projects/${projectId}`,
         UPDATE: (projectId: string) => `${API_BASE_URL}/api/projects/${projectId}`,
         DELETE: (projectId: string) => `${API_BASE_URL}/api/projects/${projectId}`,
+        UPDATE_STAGE: (projectId: string) => `${API_BASE_URL}/api/projects/${projectId}`,
         UPDATE_STATUS: (projectId: string) => `${API_BASE_URL}/api/projects/status/${projectId}`,
     },
     COMMENTS: {
