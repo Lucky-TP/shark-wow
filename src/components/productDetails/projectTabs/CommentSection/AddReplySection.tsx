@@ -10,10 +10,11 @@ import { addReplyToComment } from 'src/services/apiService/replies/addReplyToCom
 import { UserData } from 'src/interfaces/datas/user'
 import { CreateCommentPayload } from 'src/interfaces/payload/commentPayload';
 
-import { Input } from 'antd';
+import { Input, message } from 'antd';
 import { FaReply } from "react-icons/fa";
 import { useUserData } from 'src/context/useUserData';
 import { useRouter } from 'next/navigation';
+import { getSupporterSummaryProjects } from 'src/services/apiService/users/getSupporterSummaryProjects';
 
 
 type Props = {
@@ -35,7 +36,7 @@ const FormatDateSinceWhen = (date: string | undefined ):string  =>{
 } 
 
 export default function AddReplySection({ currentUser , parentComment }: Props) {
-    // const { UserInfo , ProjectInfo , OnReFetchingData} = useProjectDetails();
+    const { UserInfo , ProjectInfo , OnReFetchingData} = useProjectDetails();
     const { user } = useUserData();
     const [disable,setDisable] = useState<boolean>(false)
     const { 
@@ -51,6 +52,8 @@ export default function AddReplySection({ currentUser , parentComment }: Props) 
             }
         }
     )
+    const supported = getSupporterSummaryProjects()
+
     const router = useRouter()
 
     const OnCreatingReply : SubmitHandler<IFormInput> = async (data) => {
@@ -58,6 +61,15 @@ export default function AddReplySection({ currentUser , parentComment }: Props) 
             if (!user ){
                 router.push('/sign-in')
             }
+
+            const isSupport = await (await supported).data.contributed.find(item=> item.projectId === ProjectInfo.projectId)
+            if (!isSupport){
+                message.error("Only Supporters can comment on this project")
+                reset()
+                setDisable(false)
+                return
+            }
+
             if (parentComment){ 
                 const payload : CreateCommentPayload = {
                     detail : data.commentDetails
@@ -66,7 +78,7 @@ export default function AddReplySection({ currentUser , parentComment }: Props) 
                 await addReplyToComment(parentComment,payload)
                 reset()
                 setDisable(false)
-
+                window.location.reload()
             }
         } catch (err) {
             setDisable(false)
