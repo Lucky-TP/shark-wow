@@ -4,6 +4,7 @@ import { AiOutlineCheckCircle } from "react-icons/ai";
 import { getCreatorOwnProjects } from "src/services/apiService/users/getCreatorOwnProjects";
 import { ProjectSummary } from "src/interfaces/datas/project";
 import LoadingPage from "src/components/global/LoadingPage";
+import { goNextStage } from "src/services/apiService/projects/goNextStage"; // นำเข้าฟังก์ชัน API
 
 // Enum สำหรับ StageId
 export enum StageId {
@@ -50,32 +51,40 @@ const StagePage = () => {
         }
     };
 
-    // ฟังก์ชันสำหรับเปลี่ยน Stage ไปยังสเตจถัดไป
-    const goToNextStage = (index: number) => {
-        setProjects((prevProjects) => {
-            const updatedProjects = [...prevProjects];
-            const currentStageId = updatedProjects[index].currentStage?.stageId ?? StageId.CONCEPT;
+    // ฟังก์ชันสำหรับเปลี่ยน Stage ไปยังสเตจถัดไป และอัปเดต API
+    const goToNextStage = async (index: number, projectId: string) => {
+        try {
+            // เรียก API เพื่ออัปเดต stage ของโปรเจกต์
+            const response = await goNextStage(projectId);
+            if (response.status === 200) {
+                setProjects((prevProjects) => {
+                    const updatedProjects = [...prevProjects];
+                    const currentStageId = updatedProjects[index].currentStage?.stageId ?? StageId.CONCEPT;
 
-            // ตรวจสอบว่า currentStageId ไม่เกิน StageId.PRODUCTION และเพิ่ม stage ทีละขั้น
-            if (currentStageId === StageId.CONCEPT) {
-                updatedProjects[index].currentStage = {
-                    ...updatedProjects[index].currentStage,
-                    stageId: StageId.PROTOTYPE, // เปลี่ยนจาก Concept ไป Prototype
-                };
-            } else if (currentStageId === StageId.PROTOTYPE) {
-                updatedProjects[index].currentStage = {
-                    ...updatedProjects[index].currentStage,
-                    stageId: StageId.PRODUCTION, // เปลี่ยนจาก Prototype ไป Production
-                };
-            } else {
-                console.log(`Project ${index} is already in the final stage.`);
+                    // ตรวจสอบว่า currentStageId ไม่เกิน StageId.PRODUCTION และเพิ่ม stage ทีละขั้น
+                    if (currentStageId === StageId.CONCEPT) {
+                        updatedProjects[index].currentStage = {
+                            ...updatedProjects[index].currentStage,
+                            stageId: StageId.PROTOTYPE, // เปลี่ยนจาก Concept ไป Prototype
+                        };
+                    } else if (currentStageId === StageId.PROTOTYPE) {
+                        updatedProjects[index].currentStage = {
+                            ...updatedProjects[index].currentStage,
+                            stageId: StageId.PRODUCTION, // เปลี่ยนจาก Prototype ไป Production
+                        };
+                    } else {
+                        console.log(`Project ${index} is already in the final stage.`);
+                    }
+
+                    return updatedProjects;
+                });
+
+                // ทำให้กรอบเลื่อนไป stage ถัดไป
+                setActiveStage((prevActiveStage) => Math.min(prevActiveStage + 1, projects.length - 1));
             }
-
-            return updatedProjects;
-        });
-
-        // ทำให้กรอบเลื่อนไป stage ถัดไป
-        setActiveStage((prevActiveStage) => Math.min(prevActiveStage + 1, projects.length - 1));
+        } catch (error) {
+            console.error("Failed to go to next stage:", error);
+        }
     };
 
     if (loading) {
@@ -116,7 +125,7 @@ const StagePage = () => {
 
                             {/* ปุ่มจะถูกแสดงตลอดแม้ว่า stage สุดท้าย */}
                             <button
-                                onClick={() => goToNextStage(index)} // เมื่อกดปุ่มจะไปยังสเตจถัดไป
+                                onClick={() => goToNextStage(index, project.projectId)} // เมื่อกดปุ่มจะไปยังสเตจถัดไป
                                 className="mt-6 bg-gray-200 text-black font-semibold py-3 px-6 rounded-full text-lg"
                             >
                                 Go to next stage

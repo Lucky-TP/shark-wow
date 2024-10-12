@@ -11,4 +11,5 @@ export interface EditUserPayload {
     contact: Contact;
     profileImageUrl: string;
     cvUrl: string;
+    interestCategories: string[];
 }

@@ -1,9 +1,8 @@
 "use client";
 import React from "react";
 import { useParams } from "next/navigation"; // Import useParams
-import CreatorProfile from "src/components/CreatorAccount/CreatorProfile";
-import CreatorAccountNavbar from "src/components/CreatorAccount/CreatorAccountNavbar";
-
+import GenericUserProfile from "src/components/GenericUserAccount/GenericUserProfile";
+import TopBar from "src/components/GenericUserAccount/TopBar";
 
 type Props = {};
 
@@ -20,8 +19,8 @@ export default function UserProfile({}: Props) {
 
     return (
         <>
-            <CreatorAccountNavbar uid={uid} />
-            <CreatorProfile uid={uid} />
+            <TopBar uid={uid} />
+            <GenericUserProfile uid={uid} />
         </>
     );
 }

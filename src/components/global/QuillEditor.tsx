@@ -123,7 +123,7 @@ export default function QuillEditor({ value, onChange, projectId }: QuillEditorP
     return (
         <ReactQuill
             theme="snow"
-            className="min-w-[90dvw]"
+            className="min-w-[90dvw] pr-40"
             ref={quillRef}
             value={value}
             modules={modules}
