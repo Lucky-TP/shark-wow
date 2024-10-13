@@ -59,7 +59,7 @@ export default function ProjectOverviewInfo() {
                             </a>
                             <p className="text-base text-gray-600">
                                 Created at{" "}
-                                {UserInfo.birthDate ? formatDate(UserInfo.birthDate) : ""}
+                                {ProjectInfo.startDate ? formatDate(ProjectInfo.startDate) : ""}
                             </p>
                         </div>
                     </div>

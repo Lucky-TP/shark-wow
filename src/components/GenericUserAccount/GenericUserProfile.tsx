@@ -6,6 +6,7 @@ import { FaFacebook, FaTwitter, FaYoutube } from "react-icons/fa";
 import LoadingPage from "src/components/global/LoadingPage"; // Import loading component
 import { getUserById } from "src/services/apiService/users/getUserById"; // Import your API service
 import { message } from "antd"; // Optional, if you want to show error messages
+import { CalendarTwoTone, EnvironmentTwoTone } from "@ant-design/icons";
 
 type Props = {
     uid: string; // Expecting a user ID as a prop
@@ -75,9 +76,21 @@ export default function GenericUserProfile({ uid }: Props) {
 
                         {/* User Information */}
                         <div className="ml-20 mt-24 items-start space-y-2 text-3xl text-black">
-                            <p>{user?.firstName} {user?.lastName}</p>
-                            <p>Age: {userAge}</p> {/* Display the calculated age */}
-                            <p>Country: {user?.address[0]?.country}</p>
+                            <p>
+                                {user?.firstName} {user?.lastName}
+                            </p>
+                            {/* Age always shown with a static Calendar icon */}
+                            <p>
+                                <CalendarTwoTone twoToneColor="#f57c00" className="pr-2" />
+                                {userAge ? `Age: ${userAge}` : ""}
+                            </p>
+                            {/* Address always shown with a static Environment icon */}
+                            <p>
+                                <EnvironmentTwoTone twoToneColor="#f57c00" className="pr-2" />
+                                {user?.address[0]?.city && user?.address[0]?.country
+                                    ? `${user.address[0].city}, ${user.address[0].country}`
+                                    : ""}
+                            </p>
                         </div>
 
                         {/* Social Media Icons (Vertically aligned at the top) */}
