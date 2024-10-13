@@ -35,11 +35,12 @@ export default function ProjectStat() {
                     <div className="flex justify-between items-center mb-2">
                         {/* implement project info current stage later */}
                         <div className="flex justify-center flex-col">
-                            <h1 className="text-xl  text-orange-500 ">
-                                 {currentFunding.toLocaleString()} THB
+                            <h1 className="text-2xl  text-orange-500 ">
+                                Current {ProjectInfo.currentStage?.currentFunding.toLocaleString()}
+                                
                             </h1>
                             <span className="text-sm text-gray-400">
-                                Goal {(Number(ProjectInfo.costPerQuantity) * Number(ProjectInfo.totalQuantity)).toLocaleString()} THB
+                                Goal {ProjectInfo.currentStage?.goalFunding.toLocaleString()}
                             </span>      
                         </div>
                         <span className="text-gray-600">{ProjectInfo.totalSupporter} backers</span>

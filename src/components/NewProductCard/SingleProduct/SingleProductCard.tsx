@@ -25,9 +25,16 @@ const SingleprojectCard = ({ project, showEditProject }: ProjectCardProps) => {
         }
     }, [initUser]);
 
-    const percentageFunded = Math.round(
-        (project.stages[0].currentFunding / project.stages[0].goalFunding) * 100
-    );
+    let percentageFunded = 0;
+
+    if (project.stages[0].currentFunding > 0 && project.stages[1].currentFunding === 0 && project.stages[2].currentFunding === 0) {
+        percentageFunded = Math.round((project.stages[0].currentFunding / project.stages[0].goalFunding) * 100);
+    } else if (project.stages[0].currentFunding > 0 && project.stages[1].currentFunding > 0 && project.stages[2].currentFunding === 0) {
+        percentageFunded = Math.round((project.stages[1].currentFunding / project.stages[1].goalFunding) * 100);
+    } else if (project.stages[0].currentFunding > 0 && project.stages[1].currentFunding > 0 && project.stages[2].currentFunding > 0) {
+        percentageFunded = Math.round((project.stages[2].currentFunding / project.stages[2].goalFunding) * 100);
+    }
+
 
     const handleViewProject = () => {
         setIsLoading(true);
@@ -116,8 +123,25 @@ const SingleprojectCard = ({ project, showEditProject }: ProjectCardProps) => {
                     <div className="pt-3 py-1">
                         <div className="w-64 h-10 text-xl font-semibold text-gray-800 truncate whitespace-nowrap">{project.name}</div>
                         <div className="flex justify-between items-center">
-                            <p className="text-sm text-gray-600 mt-1">
-                                Fund at {project.stages[0].fundingCost.toLocaleString()}฿
+                            <p className="text-sm text-gray-600">
+                                {project.stages[0].currentFunding ===0 && project.stages[1].currentFunding === 0 && project.stages[2].currentFunding === 0 ? (
+                                    <>Fund at {project.stages[0].fundingCost.toLocaleString()}฿ | </>
+                                ) : project.stages[0].currentFunding > 0 && project.stages[1].currentFunding === 0 && project.stages[2].currentFunding === 0 ? (
+                                    <>Fund at {project.stages[0].fundingCost.toLocaleString()}฿ | </>
+                                ) : project.stages[0].currentFunding > 0 && project.stages[1].currentFunding > 0 && project.stages[2].currentFunding === 0 ? (
+                                    <>Fund at {project.stages[1].fundingCost.toLocaleString()}฿ | </>
+                                ) : project.stages[0].currentFunding > 0 && project.stages[1].currentFunding > 0 && project.stages[2].currentFunding > 0 ? (
+                                    <>Fund at {project.stages[2].fundingCost.toLocaleString()}฿ | </>
+                                ) : null}
+                                {project.stages[0].currentFunding === 0 && project.stages[1].currentFunding === 0 && project.stages[2].currentFunding === 0 ? (
+                                    <>Stage 1</>
+                                ) : project.stages[0].currentFunding > 0 && project.stages[1].currentFunding === 0 && project.stages[2].currentFunding === 0 ? (
+                                    <>Stage 1</>
+                                ) : project.stages[0].currentFunding > 0 && project.stages[1].currentFunding > 0 && project.stages[2].currentFunding === 0 ? (
+                                    <>Stage 2</>
+                                ) : project.stages[0].currentFunding > 0 && project.stages[1].currentFunding > 0 && project.stages[2].currentFunding > 0 ? (
+                                    <>Stage 3</>
+                                ) : null}
                             </p>
                             {showEditProject && (
                                 <div className={`px-1  text-sm rounded-md text-white ${project.status ? "bg-orange-600" : "bg-orange-300"}`}>{`${project.status ? "Launched" : "Draft"}`}</div>
@@ -133,7 +157,17 @@ const SingleprojectCard = ({ project, showEditProject }: ProjectCardProps) => {
                         </div>
                         <div className="flex justify-left">
                             <span className="text-sm text-gray-600">
-                                {project.stages[0].currentFunding.toLocaleString()}฿ |
+                                {project.stages[0].currentFunding === 0 && project.stages[1].currentFunding === 0 && project.stages[2].currentFunding === 0 ? (
+                                    <>{project.stages[0].currentFunding.toLocaleString()}฿ |</>
+                                ) : project.stages[0].currentFunding > 0 && project.stages[1].currentFunding === 0 && project.stages[2].currentFunding === 0 ? (
+                                    <>{project.stages[0].currentFunding.toLocaleString()}฿ |</>
+                                ) : project.stages[0].currentFunding > 0 && project.stages[1].currentFunding > 0 && project.stages[2].currentFunding === 0 ? (
+                                    <>{project.stages[1].currentFunding.toLocaleString()}฿ |</>
+                                ) : project.stages[0].currentFunding > 0 && project.stages[1].currentFunding > 0 && project.stages[2].currentFunding > 0 ? (
+                                    <>{project.stages[2].currentFunding.toLocaleString()}฿ |</>
+                                ) : null}
+                                {/* {project.stages[0].fundingCost.toLocaleString()}฿ |
+                                {project.stages[0].currentFunding.toLocaleString()}฿ | */}
                             </span>
                             <span className="text-sm text-gray-600 ml-1">
                                 {percentageFunded}% funded
