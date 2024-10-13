@@ -24,21 +24,23 @@ function formatOwnerShip(goalStageFunding: number, goalProjectFunding: number) {
     return (goalStageFunding / goalProjectFunding) * 100;
 }
 
-function formateEstimatedDate(endDate: string): string {
+function formatEstimatedDate(endDate: string): string {
     const now = new Date();
     const end = new Date(endDate);
     const diff = end.getTime() - now.getTime();
 
-    if (diff < 0) {
-        return "Stage is already launch";
+    
+    if (diff <= 0) {
+        return "The date has already passed.";
+
     }
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-    return `${days} days, ${hours} hours, ${minutes} minutes lefts`;
-}
 
+    return `${days} days, ${hours} hours` ;
+}
 export default function TargetStage({ stage }: Props) {
     const { ProjectInfo } = useProjectDetails();
     const { user } = useUserData();
@@ -97,7 +99,7 @@ export default function TargetStage({ stage }: Props) {
                     />
                 )}
             </div>
-            <div className="flex flex-col gap-y-[1vh] px-[2vw] py-[2vh]">
+            <div className="flex flex-col px-[2vw] py-[2vh]">
                 <div>
                     <div className="flex flex-row justify-between gap-x-[2vw]">
                         <h3 className="text-lg font-semibold text-gray-700">
@@ -147,10 +149,10 @@ export default function TargetStage({ stage }: Props) {
                         <p className="text-base text-gray-600">{stage.totalSupporter} / {ProjectInfo.totalQuantity}</p>
                     </div>                    
                 </div>
-                <div className="flex w-full flex-row items-center justify-between gap-y-[1vh]">
+                <div className="flex w-full flex-row items-center justify-between gap-y-[1vh] pb-[2vh]">
                     <p className="text-lg font-bold text-gray-700">Estimated Date</p>
                     <p className="text-base text-gray-600">
-                        {formateEstimatedDate(stage.expireDate)}
+                        {formatEstimatedDate(stage.expireDate)}
                     </p>
                 </div>
                 <div className="flex items-center justify-center w-full">
