@@ -25,7 +25,7 @@ const FormatDateSinceWhen = (date: string | undefined): string => {
 
 const FormatDateSinceWhenV2 = (date: string | undefined): string => {
     const now = new Date();
-    const created = date != undefined ? new Date(date) : new Date();
+    const created = date !== undefined ? new Date(date) : new Date();
 
     const nowDate = now.getDate();
     const createdDate = created.getDate();
@@ -42,9 +42,11 @@ const FormatDateSinceWhenV2 = (date: string | undefined): string => {
     if (diffInMinutes < 1) {
         return "posted recently";
     } else if (diffInMinutes < 60) {
-        return `posted ${Math.round(diffInMinutes)} minutes ago`;
+        const roundedMinutes = Math.round(diffInMinutes);
+        return `posted ${roundedMinutes} minute${roundedMinutes > 1 ? "s" : ""} ago`;
     } else if (diffInHours < 24) {
-        return `posted ${Math.round(diffInHours)} hours ago`;
+        const roundedHours = Math.round(diffInHours);
+        return `posted ${roundedHours} hour${roundedHours > 1 ? "s" : ""} ago`;
     }
 
     // Handle "yesterday" by comparing day, month, and year
@@ -53,19 +55,25 @@ const FormatDateSinceWhenV2 = (date: string | undefined): string => {
     }
 
     // Handle "2 days ago" and "3 days ago" by comparing day difference
-    if (nowYear === createdYear && nowMonth === createdMonth && nowDate - createdDate === 2) {
-        return "posted 2 days ago";
-    } else if (
-        nowYear === createdYear &&
-        nowMonth === createdMonth &&
-        nowDate - createdDate === 3
-    ) {
-        return "posted 3 days ago";
+    const dayDiff = nowDate - createdDate;
+
+    if (nowYear === createdYear && nowMonth === createdMonth) {
+        if (dayDiff === 2) {
+            return "posted 2 days ago";
+        } else if (dayDiff === 3) {
+            return "posted 3 days ago";
+        }
     }
 
-    // For posts more than 3 days ago, return the formatted date
-    return `posted on ${created.toLocaleDateString()}`;
+    // For posts more than 3 days ago, return the formatted date with day before month
+    const options: Intl.DateTimeFormatOptions = {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+    };
+    return `posted on ${created.toLocaleDateString("en-GB", options)}`; // 'en-GB' for DD/MM/YYYY format
 };
+
 
 
 export default function RepliesSection({data}: Props) {
