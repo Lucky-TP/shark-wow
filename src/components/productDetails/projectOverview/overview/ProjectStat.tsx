@@ -1,6 +1,4 @@
-import React from "react";
-
-import { Stage } from "src/interfaces/models/project";
+import React, { useEffect, useState } from "react";
 
 import { Skeleton } from "antd";
 import { useProjectDetails } from "src/context/useProjectDetails";
@@ -16,10 +14,23 @@ function formatDate(date: string ): string {
 
 export default function ProjectStat() {
     const { ProjectInfo, isLoading, error } = useProjectDetails();
+    const [currentFunding,setCurrentFunding] = useState<number>(0) ; 
+
+    useEffect(()=>{
+        if (ProjectInfo.stages){
+            let temp = 0 
+            ProjectInfo.stages.map((e)=>{
+                temp+=e.currentFunding
+            })
+            setCurrentFunding(temp)
+        }
+
+    },[ProjectInfo])
+
     return (
         <>
             {isLoading && <Skeleton active />}
-            {!isLoading && (
+            {!isLoading && ProjectInfo && (
                 <>
                     <div className="flex justify-between items-center mb-2">
                         {/* implement project info current stage later */}
@@ -36,7 +47,10 @@ export default function ProjectStat() {
                     </div>
                     <div className="w-full bg-gray-300 h-1 rounded-full mb-2">
                         <div
-                            className="bg-orange-400 h-full rounded-full w-full"
+                            className= 'bg-orange-400 h-full rounded-full'
+                            style={{
+                                width: `${(currentFunding / (Number(ProjectInfo.costPerQuantity) * Number(ProjectInfo.totalQuantity))) * 100}%`,
+                              }}
                         />
                     </div>
                     <div className="flex justify-between items-center text-gray-600 w-full" >
