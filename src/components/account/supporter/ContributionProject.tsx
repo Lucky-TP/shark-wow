@@ -137,7 +137,7 @@ export default function ContributionProject() {
                                             <div className="flex">
                                                 
                                                 <div className="flex-row">
-                                                    <div className="pb-2 text-xl">Funded at: Concept ({(formatOwnerShip(project.currentStage.goalFunding,(projectDetailsData[index].data?.totalQuantity ?? 0)*(projectDetailsData[index].data?.costPerQuantity ?? 0))).toFixed()} %)</div>
+                                                    <div className="pb-2 text-xl">Funded at: {stageLabels[project.currentStage.stageId]} ({(formatOwnerShip(project.currentStage.goalFunding,(projectDetailsData[index].data?.totalQuantity ?? 0)*(projectDetailsData[index].data?.costPerQuantity ?? 0))).toFixed()} %)</div>
                                                     {/* <div className="pb-2 text-xl">Funded at: Production (50%)</div> */}
                                                 </div>
                                             </div>
