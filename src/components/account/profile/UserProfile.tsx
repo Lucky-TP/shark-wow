@@ -6,6 +6,7 @@ import { FaFacebook, FaTwitter, FaYoutube } from "react-icons/fa";
 import { UserInfo } from "../UserInfo";
 import LoadingPage from "src/components/global/LoadingPage";
 import { useUserData } from "src/context/useUserData";
+import { CalendarTwoTone, EnvironmentTwoTone } from "@ant-design/icons";
 //import { Viewer } from "@react-pdf-viewer/core";
 //import "@react-pdf-viewer/core/lib/styles/index.css";
 
@@ -20,7 +21,7 @@ const calculateAge = (birthDateString: string): number | string => {
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
         age--;
     }
-    if (age <= 0) return "N/A";
+    if (age <= 0) return "";
     return age;
 };
 
@@ -38,7 +39,7 @@ export default function UserProfile({}: Props) {
         return <LoadingPage />;
     }
 
-    const userAge = user?.birthDate ? calculateAge(user.birthDate) : "N/A"; // Calculate age or show "N/A" if birthDate is not available
+    const userAge = user?.birthDate ? calculateAge(user.birthDate) : ""; // Calculate age or show "" if birthDate is not available
 
     return (
         <div>
@@ -59,9 +60,20 @@ export default function UserProfile({}: Props) {
 
                         {/* User Information */}
                         <div className="ml-20 mt-24 items-start space-y-2 text-3xl text-black">
-                            <p>{user?.firstName} {user?.lastName}</p>
-                            <p>Age: {userAge}</p> {/* Display the calculated age */}
-                            <p>Country: {user?.address[0]?.country}</p>
+                            <p>
+                                {user?.firstName} {user?.lastName}
+                            </p>
+                            <p>
+                                <CalendarTwoTone twoToneColor="#f57c00" className="pr-2" />
+                                {userAge ? `Age: ${userAge}` : ""}
+                            </p>
+                            {/* Address always shown with a static Environment icon */}
+                            <p>
+                                <EnvironmentTwoTone twoToneColor="#f57c00" className="pr-2" />
+                                {user?.address[0]?.city && user?.address[0]?.country
+                                    ? `${user.address[0].city}, ${user.address[0].country}`
+                                    : ""}
+                            </p>
                         </div>
 
                         {/* Social Media Icons (Vertically aligned at the top) */}
