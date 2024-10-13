@@ -4,19 +4,7 @@ import { useRouter } from "next/navigation";
 import LoadingSection from "src/components/global/LoadingSection";
 import { useProjectsCreatedByCreator } from "src/context/creatorDashboard/useProjectsCreatedByCreator";
 
-// TypeScript Interface for the Project object (adjust fields as per your data structure)
-// interface Project {
-//   projectId: string;
-//   name: string;
-//   previewImageUrl: string;
-//   totalSupports: number;
-//   currentStage: {
-//     stageId: number;
-//     goalFunding: number;
-//     totalSupporter: number;
-//     expireDate: string; // Assume expireDate is a string (adjust if necessary)
-//   };
-// }
+
 
 export default function ProjectsLaunched() {
   const router = useRouter();
