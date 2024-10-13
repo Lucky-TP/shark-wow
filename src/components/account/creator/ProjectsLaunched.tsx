@@ -4,19 +4,7 @@ import { useRouter } from "next/navigation";
 import LoadingSection from "src/components/global/LoadingSection";
 import { useProjectsCreatedByCreator } from "src/context/creatorDashboard/useProjectsCreatedByCreator";
 
-// TypeScript Interface for the Project object (adjust fields as per your data structure)
-// interface Project {
-//   projectId: string;
-//   name: string;
-//   previewImageUrl: string;
-//   totalSupports: number;
-//   currentStage: {
-//     stageId: number;
-//     goalFunding: number;
-//     totalSupporter: number;
-//     expireDate: string; // Assume expireDate is a string (adjust if necessary)
-//   };
-// }
+
 
 export default function ProjectsLaunched() {
   const router = useRouter();
@@ -85,7 +73,7 @@ export default function ProjectsLaunched() {
                             {stageLabels[project.currentStage.stageId]}
                           </p>
                           <div className="flex justify-between font-medium text-xl ">
-                            <div className="flex-col justify-between">{project.totalSupports} Baht</div>
+                            <div className="flex-col justify-between">{project.currentStage.currentFunding} Baht</div>
                             <div className="flex-col justify-between">{project.currentStage.totalSupporter} supporters</div>
                           </div>
                           <div className="w-full bg-gray-300 rounded-full h-2.5 mt-2 mb-2">
@@ -94,7 +82,7 @@ export default function ProjectsLaunched() {
                               style={{
                                 width: `${
                                   project.currentStage.goalFunding > 0
-                                    ? (project.currentStage.totalSupporter / project.currentStage.goalFunding) * 100
+                                    ? (project.currentStage.currentFunding / project.currentStage.goalFunding) * 100
                                     : 0
                                 }%`,
                               }}
@@ -103,7 +91,7 @@ export default function ProjectsLaunched() {
                           <div className="flex justify-between  text-sm text-gray-600">
                             <div>
                               {project.currentStage.goalFunding > 0
-                                ? `${((project.currentStage.totalSupporter / project.currentStage.goalFunding) * 100).toFixed(2)}%`
+                                ? `${((project.currentStage.currentFunding / project.currentStage.goalFunding) * 100).toFixed(2)}%`
                                 : "0%"} 
                               {" "} of {project.currentStage.goalFunding.toLocaleString()} Baht
                             </div>
