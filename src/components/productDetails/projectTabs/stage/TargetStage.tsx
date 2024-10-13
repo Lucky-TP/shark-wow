@@ -32,7 +32,7 @@ function formatEstimatedDate(endDate: string): string {
     
     if (diff <= 0) {
         return "The date has already passed.";
-        
+
     }
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -99,7 +99,7 @@ export default function TargetStage({ stage }: Props) {
                     />
                 )}
             </div>
-            <div className="flex flex-col gap-y-[1vh] px-[2vw] py-[2vh]">
+            <div className="flex flex-col px-[2vw] py-[2vh]">
                 <div>
                     <div className="flex flex-row justify-between gap-x-[2vw]">
                         <h3 className="text-lg font-semibold text-gray-700">
@@ -149,7 +149,7 @@ export default function TargetStage({ stage }: Props) {
                         <p className="text-base text-gray-600">{stage.totalSupporter} / {ProjectInfo.totalQuantity}</p>
                     </div>                    
                 </div>
-                <div className="flex w-full flex-row items-center justify-between gap-y-[1vh]">
+                <div className="flex w-full flex-row items-center justify-between gap-y-[1vh] pb-[2vh]">
                     <p className="text-lg font-bold text-gray-700">Estimated Date</p>
                     <p className="text-base text-gray-600">
                         {formatEstimatedDate(stage.expireDate)}
