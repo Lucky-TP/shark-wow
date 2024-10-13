@@ -32,12 +32,12 @@ export function UserInfo({ user }: Props) {
                 >
                     Creator
                 </button>
-                <button
+                {/* <button
                     className="bg-orange-400 text-orange-50 font-semibold py-[1vh] px-[3vw] rounded-xl text-lg"
                     onClick={() => router.push("/contribution")}
                 >
                     Contribution
-                </button>
+                </button> */}
                 {user?.role == UserRole.ADMIN && (
                     <button
                         className="bg-orange-400 text-orange-50 font-semibold py-[1vh] px-[3vw] rounded-xl text-lg"
