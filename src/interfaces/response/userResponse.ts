@@ -7,7 +7,6 @@ import {
     SupporterSummaryProjects,
 } from "../datas/user";
 import { UserData } from "../datas/user";
-import { TransactionLog } from "../models/transaction";
 import { ContributedTransactionPreview } from "../datas/transaction";
 
 export interface GetUserResponse extends DefaultResponse {

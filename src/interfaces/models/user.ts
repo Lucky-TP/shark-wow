@@ -32,4 +32,6 @@ export interface UserModel {
     contact: Contact;
     cvUrl: string;
     agreement: boolean;
+    accountBank: string;
+    accountNumber: string;
 }
