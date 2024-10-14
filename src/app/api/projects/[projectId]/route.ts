@@ -7,7 +7,7 @@ import { withAuthVerify } from "src/utils/api/auth";
 import { StatusCode } from "src/constants/statusCode";
 import { CollectionPath } from "src/constants/firestore";
 import { ProjectModel, Stage } from "src/interfaces/models/project";
-import { ProjectStatus , StageStatus } from "src/interfaces/models/enums";
+import { ProjectStatus, StageStatus } from "src/interfaces/models/enums";
 import { CommentData } from "src/interfaces/datas/comment";
 import { ProjectData } from "src/interfaces/datas/project";
 import { EditProjectPayload } from "src/interfaces/payload/projectPayload";
@@ -155,6 +155,8 @@ import { increaseTotalViewer } from "src/libs/databases/realtimeDatabase/server/
  *         description: Internal server error - Something went wrong
  */
 
+export const revalidate = 15;
+
 export async function GET(request: NextRequest, { params }: { params: { projectId: string } }) {
     try {
         const projectDocRef = getDocRef(CollectionPath.PROJECT, params.projectId);
@@ -301,7 +303,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { projec
             );
         }
 
-        if(currentProjectModel.status !== ProjectStatus.RUNNING){
+        if (currentProjectModel.status !== ProjectStatus.RUNNING) {
             return NextResponse.json(
                 {
                     message: "Something went wrong.",
@@ -312,16 +314,22 @@ export async function PATCH(request: NextRequest, { params }: { params: { projec
 
         const projectStage = currentProjectModel.stages as Stage[];
 
-        if(projectStage[0].status === StageStatus.CURRENT && projectStage[0].currentFunding >= projectStage[0].goalFunding){
+        if (
+            projectStage[0].status === StageStatus.CURRENT &&
+            projectStage[0].currentFunding >= projectStage[0].goalFunding
+        ) {
             projectStage[0].status = StageStatus.FINISH;
             projectStage[1].status = StageStatus.CURRENT;
-        }
-        else if(projectStage[1].status === StageStatus.CURRENT && projectStage[1].currentFunding >= projectStage[1].goalFunding){
+        } else if (
+            projectStage[1].status === StageStatus.CURRENT &&
+            projectStage[1].currentFunding >= projectStage[1].goalFunding
+        ) {
             projectStage[1].status = StageStatus.FINISH;
             projectStage[2].status = StageStatus.CURRENT;
-
-        }
-        else if(projectStage[2].status === StageStatus.CURRENT && projectStage[2].currentFunding >= projectStage[2].goalFunding){
+        } else if (
+            projectStage[2].status === StageStatus.CURRENT &&
+            projectStage[2].currentFunding >= projectStage[2].goalFunding
+        ) {
             projectStage[2].status = StageStatus.FINISH;
             await updateProject(projectId, {
                 status: ProjectStatus.SUCCESS,
@@ -333,8 +341,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { projec
                 },
                 { status: StatusCode.SUCCESS }
             );
-        }
-        else{
+        } else {
             return NextResponse.json(
                 {
                     message: "Something went wrong.",
