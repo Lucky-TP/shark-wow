@@ -14,7 +14,6 @@ import { Input, message } from 'antd';
 import { FaReply } from "react-icons/fa";
 import { useUserData } from 'src/context/useUserData';
 import { useRouter } from 'next/navigation';
-import { getSupporterSummaryProjects } from 'src/services/apiService/users/getSupporterSummaryProjects';
 
 
 type Props = {
@@ -27,16 +26,8 @@ interface IFormInput {
     type : string 
     }
 
-const FormatDateSinceWhen = (date: string | undefined ):string  =>{
-    const now = new Date()
-    const created = date != undefined ? new Date(date) : new Date()
-    const diff = now.getTime() - created.getTime()
-    const diffInDays = diff / (1000 * 3600 * 24)
-    return `${Math.round(diffInDays)} days ago`
-} 
-
 export default function AddReplySection({ currentUser , parentComment }: Props) {
-    const { UserInfo , ProjectInfo , OnReFetchingData} = useProjectDetails();
+    const { UserInfo , ProjectInfo , UserStatus , OnReFetchingData} = useProjectDetails();
     const { user } = useUserData();
     const [disable,setDisable] = useState<boolean>(false)
     const { 
@@ -52,33 +43,25 @@ export default function AddReplySection({ currentUser , parentComment }: Props) 
             }
         }
     )
-    const supported = getSupporterSummaryProjects()
 
     const router = useRouter()
 
     const OnCreatingReply : SubmitHandler<IFormInput> = async (data) => {
         try{
-            if (!user ){
+            if (UserStatus === 3){
+                message.error('You are not allowed to comment')
                 router.push('/sign-in')
             }
-
-            const isSupport = await (await supported).data.contributed.find(item=> item.projectId === ProjectInfo.projectId)
-            if (!isSupport){
-                message.error("Only Supporters can comment on this project")
-                reset()
-                setDisable(false)
-                return
-            }
-
-            if (parentComment){ 
-                const payload : CreateCommentPayload = {
-                    detail : data.commentDetails
-                }
+            else if (parentComment){ 
                 setDisable(true)
-                await addReplyToComment(parentComment,payload)
-                reset()
-                setDisable(false)
-                window.location.reload()
+                if (UserInfo.uid && ProjectInfo.projectId ){ 
+                    const payload : CreateCommentPayload = {
+                        detail : data.commentDetails
+                    }
+                    await addReplyToComment(parentComment,payload)
+                    reset()
+                    window.location.reload()
+                }
             }
         } catch (err) {
             setDisable(false)

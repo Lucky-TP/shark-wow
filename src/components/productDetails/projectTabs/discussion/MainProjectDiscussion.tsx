@@ -23,7 +23,7 @@ type UserStatusType = {
 }
 
 export default function MainProjectDiscussion({}: Props) {
-    const { ProjectInfo } = useProjectDetails();
+    const { ProjectInfo , OnCheckIsSupportAble} = useProjectDetails();
     const [ currentUserStatus , setCurrentUserStatus ] = useState<UserStatusType>({
         isLoading : true ,
         data : {} as UserData ,
@@ -68,8 +68,9 @@ export default function MainProjectDiscussion({}: Props) {
         const fetchInitialData = async () => {
             await OnGettingComments();
             await OnGetSelfUser(); // Make sure both are awaited independently
+            OnCheckIsSupportAble
         };
-        fetchInitialData();
+        fetchInitialData()
     },[])
 
     return (
