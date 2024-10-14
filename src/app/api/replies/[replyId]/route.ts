@@ -64,6 +64,8 @@ import { updateComment } from "src/libs/databases/firestore/comments";
  *         description: Unauthorized - Missing or invalid token
  */
 
+export const revalidate = 15;
+
 export async function PUT(request: NextRequest, { params }: { params: { replyId: string } }) {
     try {
         const author = await withAuthVerify(request);

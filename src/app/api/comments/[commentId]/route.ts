@@ -84,6 +84,8 @@ import { CommentModel } from "src/interfaces/models/comment";
  *         description: Unauthorized - Missing or invalid token.
  */
 
+export const revalidate = 15;
+
 export async function PUT(request: NextRequest, { params }: { params: { commentId: string } }) {
     try {
         await withAuthVerify(request);

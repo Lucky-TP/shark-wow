@@ -30,6 +30,8 @@ import { ProjectStatus } from "src/interfaces/models/enums";
  *         description: Failed to retrieve projects
  */
 
+export const revalidate = 15;
+
 export async function GET(request: NextRequest) {
     try {
         const categories = request.nextUrl.searchParams.getAll("category");
