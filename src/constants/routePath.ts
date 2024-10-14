@@ -41,6 +41,7 @@ export const apiPath = {
         GET_ALL: `${API_BASE_URL}/api/projects`,
         GET_BY_CATEGORIES: `${API_BASE_URL}/api/projects/getByCategories`,
         GET_TEN_POPULAR: `${API_BASE_URL}/api/projects/getTenPopular`,
+        GET_BY_SEARCH: `${API_BASE_URL}/api/projects/searchProject`,
         GET_BY_ID: (projectId: string) => `${API_BASE_URL}/api/projects/${projectId}`,
         UPDATE: (projectId: string) => `${API_BASE_URL}/api/projects/${projectId}`,
         DELETE: (projectId: string) => `${API_BASE_URL}/api/projects/${projectId}`,

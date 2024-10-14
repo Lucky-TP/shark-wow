@@ -10,9 +10,12 @@ import { addCommentToProject } from 'src/services/apiService/comments/addComment
 import { UserData } from 'src/interfaces/datas/user'
 import { CreateCommentPayload } from 'src/interfaces/payload/commentPayload';
 
-import { Input } from 'antd';
+import { Input, message } from 'antd';
 import { FaComment } from "react-icons/fa";
 import { addCommentToUser } from 'src/services/apiService/comments/addCommentToUser';
+import { getSupporterSummaryProjects } from 'src/services/apiService/users/getSupporterSummaryProjects';
+
+import Link from 'next/link';
 
 
 type Props = {
@@ -37,7 +40,7 @@ export default function AddCommentSection({currentUser , type  }: Props) {
     const { UserInfo , ProjectInfo , OnReFetchingData} = useProjectDetails();
 
     const [disable,setDisable] = useState<boolean>(false)
-
+    const supported = getSupporterSummaryProjects()
 
     const { 
         reset,
@@ -54,6 +57,14 @@ export default function AddCommentSection({currentUser , type  }: Props) {
 
     const OnCreatingComment : SubmitHandler<IFormInput> = async (data) => {
         try{
+            const isSupport = await (await supported).data.contributed.find(item=> item.projectId === ProjectInfo.projectId)
+            if (!isSupport){
+                message.error("Only Supporters can comment on this project")
+                reset()
+                setDisable(false)
+                return
+            }
+
             if (ProjectInfo.projectId && UserInfo.uid){ 
                 const payload : CreateCommentPayload = {
                     detail : data.commentDetails
@@ -64,6 +75,7 @@ export default function AddCommentSection({currentUser , type  }: Props) {
                 addCommentToUser(UserInfo.uid, payload)
                 reset()
                 setDisable(false)
+                window.location.reload()
             }
         } catch (err) {
             setDisable(false)
@@ -72,82 +84,79 @@ export default function AddCommentSection({currentUser , type  }: Props) {
     }
 
     return (
-        <div className='flex flex-col w-full bg-orange-200 px-[2vw] py-[1.5vh]'>   
-            <div className='flex flex-col bg-orange-100 p-4 border border-orange-300 rounded-xl w-full gap-y-[2vh]'>
-            <div className='flex flex-row justify-between items-center'>
-                    {
-                        currentUser?.username && 
-                        <div className='flex flex-row gap-x-[2vw] items-center'>
-                            <div className='w-[3.5vw] rounded-full'>
-                                <img
-                                    src={currentUser.profileImageUrl}
-                                    alt={currentUser.username} 
-                                    className='rounded-full'
-                                />
+        <div className="flex w-full flex-col bg-orange-200 px-[2vw] py-[1.5vh]">
+            <div className="flex w-full flex-col gap-y-[2vh] rounded-xl border border-orange-300 bg-orange-100 p-4">
+                <div className="flex flex-row items-center justify-between">
+                    {currentUser?.username && (
+                        <div className="flex flex-row items-center gap-x-[2vw]">
+                            <div className="aspect-square w-[3.5vw] overflow-hidden rounded-full">
+                                <Link href={`/users/${currentUser.uid}/profile`} passHref>
+                                    <img
+                                        src={currentUser.profileImageUrl}
+                                        alt={currentUser.username}
+                                        className="h-full w-full object-cover"
+                                    />
+                                </Link>
                             </div>
                             <div>
-                                <div className='flex flex-row gap-x-[2vw] items-center justify-center'>
+                                <div className="flex flex-row items-center justify-center gap-x-[2vw]">
                                     <span>
-                                        <h3 className='hover:underline text-xl font-normal '>
-                                            {currentUser.username}
-                                        </h3>
-                                        <p>
-                                            {FormatDateSinceWhen(currentUser.birthDate)}
-                                        </p>                                        
+                                        <Link href={`/users/${currentUser.uid}/profile`} passHref>
+                                            <h3 className="text-xl font-normal hover:underline">
+                                                {currentUser.username}
+                                            </h3>
+                                        </Link>
                                     </span>
-                                    <span className='flex items-center'>
-                                        {
-                                            UserInfo.uid === currentUser.uid ? 
-                                            <p className='text-orange-100 bg-orange-500 px-[1vw] py-[0.5vh] rounded-xl hover:opacity-80'>
+                                    <span className="flex items-center">
+                                        {UserInfo.uid === currentUser.uid ? (
+                                            <p className="rounded-xl bg-orange-500 px-[1vw] py-[0.5vh] text-orange-100 hover:opacity-80">
                                                 Creator
-                                            </p> 
-                                            :
-                                            <p className='text-orange-100 bg-orange-300 px-[1vw] py-[0.5vh] rounded-xl hover:opacity-80'>
+                                            </p>
+                                        ) : (
+                                            <p className="rounded-xl bg-orange-300 px-[1vw] py-[0.5vh] text-orange-100 hover:opacity-80">
                                                 Supporter
                                             </p>
-                                        }
+                                        )}
                                     </span>
                                 </div>
-
                             </div>
-
                         </div>
-                    }
+                    )}
                 </div>
                 <form
                     onSubmit={handleSubmit(OnCreatingComment)}
-                    className='flex flex-col gap-y-[1vh]'
+                    className="flex flex-col gap-y-[1vh]"
                 >
-                        <div>
-                            <Controller
-                                name="commentDetails"  // Fix the name to match your form input
-                                control={control}
-                                rules={{
-                                    required: 'This field is required.',
-                                }}
-                                render={({ field }) => (
-                                    <Input.TextArea
-                                        {...field}
-                                        placeholder={`Write your comment to ${type === "project" ? "project" : "creator"} here...`}
-                                        className='w-full'
-                                    />
-                                )}
-                            />
-                            {errors.commentDetails && (
-                                <p className="text-red-500">This field is required.</p>
-                            )}                             
-                        </div>
-                    <div className='flex w-full justify-end'>
+                    <div>
+                        <Controller
+                            name="commentDetails" // Fix the name to match your form input
+                            control={control}
+                            rules={{
+                                required: "This field is required.",
+                            }}
+                            render={({ field }) => (
+                                <Input.TextArea
+                                    {...field}
+                                    placeholder={`Write your comment to ${type === "project" ? "project" : "creator"} here...`}
+                                    className="w-full"
+                                />
+                            )}
+                        />
+                        {errors.commentDetails && (
+                            <p className="text-red-500">This field is required.</p>
+                        )}
+                    </div>
+                    <div className="flex w-full justify-end">
                         <button
                             type="submit"
-                            className='flex flex-end  text-orange-50 bg-orange-400 px-[1.5vw] py-[1vh] rounded-lg hover:scale-[1.01] hover:bg-orange-500 duration-700 transition-all'
+                            className="flex-end flex rounded-lg bg-orange-400 px-[1.5vw] py-[1vh] text-orange-50 transition-all duration-700 hover:scale-[1.01] hover:bg-orange-500"
                             disabled={disable}
                         >
-                            <FaComment/>
-                        </button>   
+                            <FaComment />
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
-    )
+    );
 }
