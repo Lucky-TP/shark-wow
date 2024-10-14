@@ -47,6 +47,7 @@ export interface UserActivity {
 }
 
 export interface CreatorSummaryStats {
+    timeSeriesData(timeSeriesData: any): unknown;
     topDonators: DonatorPreview[];
     topSupportedProjects: ProjectPreview[];
     projectStats: CreatorProjectStats;

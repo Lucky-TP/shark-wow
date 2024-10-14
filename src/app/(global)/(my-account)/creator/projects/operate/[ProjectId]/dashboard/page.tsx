@@ -4,11 +4,11 @@ import GraphProject from 'src/components/account/updateproject/GraphProject'
 type Props = {}
 
 
-export default function page({}: Props) {
+export default function page({ params }: { params: { ProjectId: string } }) {
   return (
     <section>
       <Projecttitle/>
-      <GraphProject/>
+      <GraphProject projectId={params.ProjectId}/>
     </section>
   )
 }

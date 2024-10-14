@@ -2,7 +2,7 @@ import React from "react";
 import Projecttitle from "src/components/account/updateproject/projecttitle";
 import Stage from "src/components/account/updateproject/stage";
 import Updateor from "src/components/account/updateproject/updateor";
-import Ckeditor from "src/components/account/updateproject/ckeditor";
+import Ckeditor from "src/components/account/updateproject/editor";
 
 type Props = {};
 
