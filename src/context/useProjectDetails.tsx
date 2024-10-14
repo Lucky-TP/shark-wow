@@ -8,19 +8,30 @@ import { UserModel } from "src/interfaces/models/user";
 
 import { message } from "antd";
 import { dateToString } from "src/utils/date";
+import { getSupporterSummaryProjects } from "src/services/apiService/users/getSupporterSummaryProjects";
+
 
 export interface ProjectDetailPayloadInterface {
     ProjectInfo: Partial<ProjectData>;
     UserInfo: Partial<UserModel>;
     isLoading: boolean;
+    UserStatus : UserStatusType;
     error: boolean;
     OnGettingUserDetails?: (uid: string) => Promise<void>;
     OnReFetchingData?: ()=> Promise<void>;
+    OnCheckIsSupportAble?: ()=> Promise<void>;
+}
+
+enum UserStatusType {
+    SUPPORTER = 1,
+    CREATOR = 2,
+    GUEST = 3,
 }
 
 const initializedProjectDetailPayload: ProjectDetailPayloadInterface = {
     ProjectInfo: {}, // Initialize with an empty object instead of undefined
     UserInfo: {},
+    UserStatus : UserStatusType.GUEST ,
     isLoading: true,
     error: false,
 };
@@ -91,13 +102,39 @@ export const ProjectDetailProvider = ({
         }
     }
 
+    const OnCheckIsSupportAble = async ()=>{
+        if (projectDetailPayload.UserInfo.uid){
+            const isCreator = projectDetailPayload.ProjectInfo.uid === projectDetailPayload.UserInfo.uid
+            if (isCreator){
+                SetProjectDetailsPayload({
+                    ...projectDetailPayload,
+                    UserStatus : UserStatusType.CREATOR
+                })
+                return 
+            }
+            const response = await getSupporterSummaryProjects()
+            const supported = response.data.contributed.find(item=> item.projectId === projectId)
+            if (supported){
+                SetProjectDetailsPayload({
+                    ...projectDetailPayload,
+                    UserStatus : UserStatusType.SUPPORTER
+                })
+            }
+        }
+        SetProjectDetailsPayload({
+            ...projectDetailPayload,
+            UserStatus : UserStatusType.GUEST
+        })
+        return
+    }
+
     useEffect(() => {
         if (projectId) {
             fetchProjectData();
         }
     }, [projectId]);
     return (
-        <ProjectDetailsContext.Provider value={{ ...projectDetailPayload, OnGettingUserDetails , OnReFetchingData }}>
+        <ProjectDetailsContext.Provider value={{ ...projectDetailPayload, OnGettingUserDetails , OnReFetchingData , OnCheckIsSupportAble }}>
             {children}
         </ProjectDetailsContext.Provider>
     );
