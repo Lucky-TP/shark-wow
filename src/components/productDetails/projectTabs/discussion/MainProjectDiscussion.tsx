@@ -23,7 +23,7 @@ type UserStatusType = {
 }
 
 export default function MainProjectDiscussion({}: Props) {
-    const { ProjectInfo , OnCheckIsSupportAble} = useProjectDetails();
+    const { ProjectInfo , OnCheckIsSupportAble , OnGettingUserDetails } = useProjectDetails();
     const [ currentUserStatus , setCurrentUserStatus ] = useState<UserStatusType>({
         isLoading : true ,
         data : {} as UserData ,
@@ -57,7 +57,7 @@ export default function MainProjectDiscussion({}: Props) {
             if (ProjectInfo.projectId){
                 const response = await getCommentsWithReplies(ProjectInfo.projectId,"project")
                 setComments(response.comments)
-                console.log(response.comments)
+                // console.log(response.comments)
             }
         }catch(err :any) { 
             console.log(err)
@@ -89,7 +89,7 @@ export default function MainProjectDiscussion({}: Props) {
                 }                
             </div>
 
-            {!currentUserStatus.isLoading && comments.length > 0 && 
+            {!currentUserStatus.isLoading && 
                 <div className="flex flex-col w-[70vw] items-center">
                     {
                         comments.map((e) => (

@@ -51,9 +51,9 @@ export default function MainProjectUpdates() {
                 {!isLoading && ProjectInfo.update?.length === 0 && (
                     <section className="w-full">
                         <div
-                            className="flex flex-col items-center justify-center text-center bg-orange-100 w-full min-h-[60vh] px-[2vw] py-[3vh]
-                        rounded-lg  hover:shadow-xl hover:scale-[1.02] hover:bg-orange-200 border border-orange-200 shadow-xl
-                        transition-all duration-700 hover:translate-y-[-1vh] cursor-pointer"
+                            className="flex flex-col items-center justify-center text-center bg-orange-50 w-full min-h-[60vh] px-[2vw] py-[3vh]
+                        rounded-lg  hover:shadow-xl hover:bg-orange-100 border border-orange-200 shadow-xl
+                        transition-all duration-700  cursor-pointer"
                         >
                             <p className="text-3xl font-medium">
                                 Waiting for creator update there progress.
