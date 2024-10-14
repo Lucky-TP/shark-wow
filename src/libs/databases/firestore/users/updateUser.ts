@@ -20,18 +20,18 @@ export async function updateUser(uid: string, newUserData: Partial<UserModel>): 
                 aboutMe: newUserData.aboutMe ?? currentUserData.aboutMe ?? "",
                 profileImageUrl: newUserData.profileImageUrl ?? currentUserData.profileImageUrl ?? "",
                 birthDate: newUserData.birthDate ?? currentUserData.birthDate ?? "",
-                ownProjectIds: newUserData.ownProjectIds ?? currentUserData.ownProjectIds ?? "",
+                ownProjectIds: newUserData.ownProjectIds ?? currentUserData.ownProjectIds ?? [],
                 favoriteProjectIds:
-                    newUserData.favoriteProjectIds ?? currentUserData.favoriteProjectIds ?? "",
-                popularDetail: newUserData.popularDetail ?? currentUserData.popularDetail ?? "",
+                    newUserData.favoriteProjectIds ?? currentUserData.favoriteProjectIds ?? [],
+                popularDetail: newUserData.popularDetail ?? currentUserData.popularDetail,
                 receivedCommentIds:
-                    newUserData.receivedCommentIds ?? currentUserData.receivedCommentIds ?? "",
+                    newUserData.receivedCommentIds ?? currentUserData.receivedCommentIds ?? [],
                 interestCategories:
-                    newUserData.interestCategories ?? currentUserData.interestCategories ?? "",
-                address: newUserData.address ?? currentUserData.address ?? "",
-                contact: newUserData.contact ?? currentUserData.contact ?? "",
+                    newUserData.interestCategories ?? currentUserData.interestCategories ?? [],
+                address: newUserData.address ?? currentUserData.address,
+                contact: newUserData.contact ?? currentUserData.contact,
                 cvUrl: newUserData.cvUrl ?? currentUserData.cvUrl ?? "",
-                agreement: newUserData.agreement ?? currentUserData.agreement ?? "",
+                agreement: newUserData.agreement,
                 accountBank: newUserData.accountBank ?? currentUserData.accountBank ?? "",
                 accountNumber: newUserData.accountNumber ?? currentUserData.accountNumber ?? "",
                 accountHolderName:
