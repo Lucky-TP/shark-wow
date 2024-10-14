@@ -26,6 +26,9 @@ import { withAuthVerify } from "src/utils/api/auth";
  *       500:
  *         description: Internal Server Error - An unexpected error occurred
  */
+
+export const revalidate = 10;
+
 export async function GET(request: NextRequest) {
     try {
         const tokenData = await withAuthVerify(request);
