@@ -34,6 +34,8 @@ export async function updateUser(uid: string, newUserData: Partial<UserModel>): 
                 agreement: newUserData.agreement ?? currentUserData.agreement,
                 accountBank: newUserData.accountBank ?? currentUserData.accountBank,
                 accountNumber: newUserData.accountNumber ?? currentUserData.accountNumber,
+                accountHolderName:
+                    newUserData.accountHolderName ?? currentUserData.accountHolderName,
             };
             transaction.update(userDocRef, updateData);
         });

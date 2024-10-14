@@ -45,6 +45,7 @@ export async function createUser(userData?: Partial<UserModel>): Promise<void> {
             cvUrl: "",
             agreement: userData?.agreement || false,
             accountBank: "",
+            accountHolderName: "",
             accountNumber: "",
         };
 
