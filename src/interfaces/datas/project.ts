@@ -37,4 +37,6 @@ export interface ExtendProjectPreview extends ProjectPreview {
     currentStage: Stage;
     projectOwnerUsername: string;
     stages: Stage[];
+    totalQuantity: number;
+    costPerQuantity: number;
 }
