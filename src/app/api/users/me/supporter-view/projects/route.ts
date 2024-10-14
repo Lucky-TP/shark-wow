@@ -64,6 +64,8 @@ export async function GET(request: NextRequest) {
             totalSupports: projectModel.totalSupporter,
             stages: projectModel.stages,
             currentStage: projectModel.stages.find(({ status }) => status === StageStatus.CURRENT)!,
+            totalQuantity: projectModel.totalQuantity,
+            costPerQuantity: projectModel.costPerQuantity,
         });
         const favoritedProjects = favoritedProjectModels.map(createExtendProjectPreview);
         const contributedProjects = contributedProjectModels.map(createExtendProjectPreview);
