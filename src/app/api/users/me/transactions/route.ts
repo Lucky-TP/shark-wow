@@ -6,8 +6,6 @@ import { getTransactionLogsByUserId } from "src/libs/databases/firestore/transac
 import { errorHandler } from "src/libs/errors/apiError";
 import { withAuthVerify } from "src/utils/api/auth";
 
-export const revalidate = 5;
-
 /**
  * @swagger
  * /api/users/me/transactions:
@@ -29,6 +27,9 @@ export const revalidate = 5;
  *       500:
  *         description: Internal Server Error - An unexpected error occurred
  */
+
+export const revalidate = 10;
+
 export async function GET(request: NextRequest) {
     try {
         const tokenData = await withAuthVerify(request);

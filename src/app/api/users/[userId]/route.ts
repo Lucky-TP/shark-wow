@@ -30,6 +30,8 @@ import { ProjectStatus } from "src/interfaces/models/enums";
  *         description: Internal server error
  */
 
+export const revalidate = 30;
+
 export async function GET(request: NextRequest, { params }: { params: { userId: string } }) {
     try {
         const uid = params.userId;
