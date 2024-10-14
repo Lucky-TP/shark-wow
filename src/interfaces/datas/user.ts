@@ -26,6 +26,8 @@ export type PublicUserData = Omit<
     | "birthDate"
     | "agreement"
     | "ownProjectIds"
+    | "accountBank"
+    | "accountNumber"
 > & {
     projectSummarizes: ShowProject[];
     birthDate: string;
