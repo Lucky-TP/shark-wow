@@ -198,9 +198,11 @@ export async function GET(request: NextRequest, { params }: { params: { projectI
             story: projectModel.story,
             update: projectModel.update,
             website: projectModel.website,
-            payment: projectModel.payment,
             startDate: projectTime.startDate,
             expireDate: projectTime.expireDate,
+            accountBank: projectModel.accountBank,
+            accountHolderName: projectModel.accountHolderName,
+            accountNumber: projectModel.accountNumber,
             currentStage,
         };
         if (projectModel.status === ProjectStatus.RUNNING) {
@@ -253,6 +255,9 @@ export async function PUT(request: NextRequest, { params }: { params: { projectI
                 story: body.story,
                 update: body.update,
                 website: body.website,
+                accountBank: body.accountBank,
+                accountHolderName: body.accountHolderName,
+                accountNumber: body.accountNumber,
             });
         } else if (currentProjectModel.status === ProjectStatus.RUNNING) {
             await updateProject(projectId, {
