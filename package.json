@@ -41,7 +41,8 @@
         "react-quill": "^2.0.0",
         "recharts": "^2.12.7",
         "stripe": "^16.10.0",
-        "swagger-ui-react": "^5.17.14"
+        "swagger-ui-react": "^5.17.14",
+        "uuid": "^10.0.0"
     },
     "devDependencies": {
         "@types/node": "^20",
