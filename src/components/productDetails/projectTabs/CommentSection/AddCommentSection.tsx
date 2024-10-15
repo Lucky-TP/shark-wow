@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useForm, SubmitHandler , Controller, set} from "react-hook-form"
 
@@ -13,7 +13,6 @@ import { CreateCommentPayload } from 'src/interfaces/payload/commentPayload';
 import { Input, message } from 'antd';
 import { FaComment } from "react-icons/fa";
 import { addCommentToUser } from 'src/services/apiService/comments/addCommentToUser';
-import { getSupporterSummaryProjects } from 'src/services/apiService/users/getSupporterSummaryProjects';
 
 import Link from 'next/link';
 
@@ -37,10 +36,9 @@ const FormatDateSinceWhen = (date: string | undefined ):string  =>{
 } 
 
 export default function AddCommentSection({currentUser , type  }: Props) {
-    const { UserInfo , ProjectInfo , OnReFetchingData} = useProjectDetails();
+    const { UserInfo , ProjectInfo , UserStatus , OnReFetchingData} = useProjectDetails();
 
     const [disable,setDisable] = useState<boolean>(false)
-    const supported = getSupporterSummaryProjects()
 
     const { 
         reset,
@@ -57,29 +55,20 @@ export default function AddCommentSection({currentUser , type  }: Props) {
 
     const OnCreatingComment : SubmitHandler<IFormInput> = async (data) => {
         try{
-            const isSupport = await (await supported).data.contributed.find(item=> item.projectId === ProjectInfo.projectId)
-            if (!isSupport){
-                message.error("Only Supporters can comment on this project")
+            if (UserStatus === 3){
+                message.error('You are not supporters of this project')
                 reset()
-                setDisable(false)
                 return
-            }
-
-            if (ProjectInfo.projectId && UserInfo.uid){ 
+            }else if (ProjectInfo.projectId && UserInfo.uid ){
                 const payload : CreateCommentPayload = {
                     detail : data.commentDetails
                 }
-                setDisable(true)
-                type ===  "project" ?
-                addCommentToProject(ProjectInfo.projectId, payload) : 
-                addCommentToUser(UserInfo.uid, payload)
+                type ===  "project" ? addCommentToProject(ProjectInfo.projectId, payload) : addCommentToUser(UserInfo.uid, payload)
                 reset()
-                setDisable(false)
                 window.location.reload()
             }
         } catch (err) {
             setDisable(false)
-            console.log(err)
         }
     }
 

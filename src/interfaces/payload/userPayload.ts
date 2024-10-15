@@ -14,4 +14,5 @@ export interface EditUserPayload {
     interestCategories: string[];
     accountBank: string;
     accountNumber: string;
+    accountHolderName: string;
 }

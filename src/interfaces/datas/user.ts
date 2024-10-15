@@ -23,6 +23,7 @@ export type PublicUserData = Omit<
     | "agreement"
     | "ownProjectIds"
     | "accountBank"
+    | "accountHolderName"
     | "accountNumber"
 > & {
     projectSummarizes: ShowProject[];
