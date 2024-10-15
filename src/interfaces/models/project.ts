@@ -2,9 +2,9 @@ import { Address } from "./common";
 import { ProjectStatus, StageId, StageStatus } from "./enums";
 
 export interface Update {
-    id: number;
+    id: string;
     detail: string;
-    date: Date;
+    date: string;
     belongTo?: StageId;
 }
 
