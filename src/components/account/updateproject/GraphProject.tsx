@@ -59,7 +59,7 @@ export default function GraphProject({ projectId }: Props) {
     async function fetchData() {
       try {
         const result = await getCreatorSpecificProjectSummaryStats(projectId); // เรียกใช้ API โดยใช้ projectId
-        const processedData = calculateDaysFromFirstDate(result.data.timeSeriesData); // ประมวลผลข้อมูลให้แสดงผลตามวัน
+        const processedData = calculateDaysFromFirstDate(result.data.financialTimeSeries); // ประมวลผลข้อมูลให้แสดงผลตามวัน
         setData(processedData); // ตั้งค่า data ที่ได้รับจาก API
         setLoading(false); // ปิดการแสดงผล Loading
       } catch (error) {

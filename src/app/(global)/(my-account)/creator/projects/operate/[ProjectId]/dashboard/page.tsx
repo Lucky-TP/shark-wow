@@ -7,8 +7,8 @@ type Props = {}
 export default function page({ params }: { params: { ProjectId: string } }) {
   return (
     <section>
-      <Projecttitle/>
-      <GraphProject projectId={params.ProjectId}/>
+      <Projecttitle projectId={params.ProjectId}/>
+      {/* <GraphProject projectId={params.ProjectId}/> */}
     </section>
   )
 }
