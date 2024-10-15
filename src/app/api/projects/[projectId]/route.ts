@@ -180,7 +180,7 @@ export async function GET(request: NextRequest, { params }: { params: { projectI
 
         const projectTime = getStartAndExpireTime(projectModel.stages);
         const currentStage = getCurrentStage(projectModel.stages);
-        const discussions: CommentData[] = await getComments(projectModel.discussionIds);
+
         const projectData: ProjectData = {
             projectId: projectModel.projectId,
             uid: projectModel.uid,
@@ -193,9 +193,9 @@ export async function GET(request: NextRequest, { params }: { params: { projectI
             category: projectModel.category,
             totalQuantity: projectModel.totalQuantity,
             costPerQuantity: projectModel.costPerQuantity,
+            discussionIds: projectModel.discussionIds,
             stages: projectModel.stages,
             story: projectModel.story,
-            discussion: discussions,
             update: projectModel.update,
             website: projectModel.website,
             payment: projectModel.payment,
