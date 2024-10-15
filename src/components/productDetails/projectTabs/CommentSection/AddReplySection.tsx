@@ -57,7 +57,7 @@ export default function AddReplySection({ currentUser , parentComment }: Props) 
                 message.error('You are not supporters of this project')
                 reset()
             }
-            else if (parentComment){ 
+            if (parentComment && UserStatus !== 3){ 
                 setDisable(true)
                 const payload : CreateCommentPayload = {
                     detail : data.commentDetails

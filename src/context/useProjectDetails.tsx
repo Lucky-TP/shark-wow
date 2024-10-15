@@ -114,8 +114,10 @@ export const ProjectDetailProvider = ({
                 return 
             }
             const response = await getSupporterSummaryProjects()
+            // console.log(response)
             const supported = response.data.contributed.find((project)=> project.projectId === projectId)
-            if (supported){
+            // console.log(supported)
+            if (supported?.projectId === projectId){
                 SetProjectDetailsPayload({
                     ...projectDetailPayload,
                     UserStatus : UserStatusType.SUPPORTER
