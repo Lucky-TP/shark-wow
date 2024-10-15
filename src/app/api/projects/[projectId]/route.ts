@@ -200,6 +200,9 @@ export async function GET(request: NextRequest, { params }: { params: { projectI
             website: projectModel.website,
             startDate: projectTime.startDate,
             expireDate: projectTime.expireDate,
+            accountBank: projectModel.accountBank,
+            accountHolderName: projectModel.accountHolderName,
+            accountNumber: projectModel.accountNumber,
             currentStage,
         };
         if (projectModel.status === ProjectStatus.RUNNING) {
