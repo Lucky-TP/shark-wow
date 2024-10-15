@@ -39,5 +39,7 @@ export interface ProjectModel {
     discussionIds: string[];
     update: Update[];
     website: string;
-    payment?: unknown;
+    accountBank: string;
+    accountHolderName: string;
+    accountNumber: string;
 }
