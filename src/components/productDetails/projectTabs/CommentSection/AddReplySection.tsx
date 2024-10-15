@@ -49,8 +49,13 @@ export default function AddReplySection({ currentUser , parentComment }: Props) 
     const OnCreatingReply : SubmitHandler<IFormInput> = async (data) => {
         try{
             if (UserStatus === 3){
-                message.error('You are not allowed to comment')
-                router.push('/sign-in')
+                if(!user){
+                    message.error('Please sign in first!!')
+                    router.push('/sign-in')
+                    return
+                }          
+                message.error('You are not supporters of this project')
+                reset()
             }
             else if (parentComment){ 
                 setDisable(true)
