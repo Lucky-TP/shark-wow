@@ -56,7 +56,8 @@ export default function AddCommentSection({currentUser , type  }: Props) {
     const OnCreatingComment : SubmitHandler<IFormInput> = async (data) => {
         try{
             if (UserStatus === 3){
-                message.error('You are not supporters of this project')
+                
+                message.error(`You are not supporters of this ${type === "project" ? "project" : "creator"}`)
                 reset()
                 return
             }else if (ProjectInfo.projectId && UserInfo.uid ){
