@@ -1,10 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { AiOutlineCheckCircle } from "react-icons/ai";
+import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/ai"; // นำเข้าไอคอนใหม่
 import { getProjectById } from "src/services/apiService/projects/getProjectById";
 import LoadingPage from "src/components/global/LoadingPage";
 import { goNextStage } from "src/services/apiService/projects/goNextStage"; // นำเข้าฟังก์ชัน API
-import { ProjectData } from "src/interfaces/datas/project";
+import { ProjectSummary } from "src/interfaces/datas/project";
 
 // Enum สำหรับ StageId
 export enum StageId {
@@ -19,7 +19,7 @@ type Props = {
 };
 
 const StagePage = ({ projectId }: Props) => {
-    const [project, setProject] = useState<ProjectData | null>(null); // เก็บข้อมูลโปรเจกต์
+    const [project, setProject] = useState<ProjectSummary | null>(null); // เก็บข้อมูลโปรเจกต์
     const [loading, setLoading] = useState(true); // ใช้สำหรับ loading state
     const [error, setError] = useState<string | null>(null); // สำหรับจัดการ error
     const [activeStage, setActiveStage] = useState(0); // ควบคุมการเลื่อนของ stage
@@ -29,10 +29,22 @@ const StagePage = ({ projectId }: Props) => {
         async function fetchProject() {
             try {
                 const response = await getProjectById(projectId);
-                if (response.data ){
-                setProject(response.data); // ตั้งค่าข้อมูลที่ได้จาก API ไปยัง state
-                setLoading(false);
-            }
+                if (response.data) {
+                    const projectData = response.data;
+
+                    // ตรวจสอบเงื่อนไข isFundingComplete และ isUpdateOnce
+                    const isFundingComplete = projectData.currentStage.fundingCost >= projectData.currentStage.goalFunding;
+                    const isUpdateOnce = projectData.update.length > 0;
+
+                    // อัปเดต project ด้วยเงื่อนไขที่คำนวณได้
+                    setProject({
+                        projectData,
+                        isFundingComplete,
+                        isUpdateOnce,
+                    });
+
+                    setLoading(false);
+                }
             } catch (error) {
                 console.error("Error fetching project:", error);
                 setError("Failed to load project");
@@ -65,7 +77,7 @@ const StagePage = ({ projectId }: Props) => {
             if (response.status === 200) {
                 setProject((prevProject) => {
                     if (!prevProject) return null;
-                    
+
                     // ตรวจสอบค่าของ currentStage
                     const currentStageId = prevProject.currentStage?.stageId ?? StageId.CONCEPT;
 
@@ -77,7 +89,7 @@ const StagePage = ({ projectId }: Props) => {
                         newStageId = StageId.PRODUCTION;
                     }
 
-                    // คืนค่า ProjectData ที่ปรับปรุงแล้ว
+                    // คืนค่า ProjectSummary ที่ปรับปรุงแล้ว
                     return {
                         ...prevProject,
                         currentStage: {
@@ -116,13 +128,27 @@ const StagePage = ({ projectId }: Props) => {
                         </p>
 
                         <div className="flex items-center mb-4">
-                            <AiOutlineCheckCircle className="text-green-600 h-8 w-8" />
-                            <p className="text-lg ml-3">Funding complete</p>
+                            {/* เปลี่ยนสีของไอคอนตามสถานะของ isFundingComplete */}
+                            {project.isFundingComplete ? (
+                                <AiOutlineCheckCircle className="text-green-600 h-8 w-8" />
+                            ) : (
+                                <AiOutlineCloseCircle className="text-gray-400 h-8 w-8" />
+                            )}
+                            <p className="text-lg ml-3">
+                                {project.isFundingComplete ? "Funding complete" : "Funding ongoing"}
+                            </p>
                         </div>
 
-                        <div className="flex items-center mb-6">
-                            <AiOutlineCheckCircle className="text-green-600 h-8 w-8" />
-                            <p className="text-lg ml-3">Project progress has been updated by creator</p>
+                        <div className="flex items-center mb-4">
+                            {/* เปลี่ยนสีของไอคอนตามสถานะของ isUpdateOnce */}
+                            {project.isUpdateOnce ? (
+                                <AiOutlineCheckCircle className="text-green-600 h-8 w-8" />
+                            ) : (
+                                <AiOutlineCloseCircle className="text-gray-400 h-8 w-8" />
+                            )}
+                            <p className="text-lg ml-3">
+                                {project.isUpdateOnce ? "Project updated" : "No updates yet"}
+                            </p>
                         </div>
 
                         <button
