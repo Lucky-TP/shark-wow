@@ -8,19 +8,31 @@ import { UserModel } from "src/interfaces/models/user";
 
 import { message } from "antd";
 import { dateToString } from "src/utils/date";
+import { getSupporterSummaryProjects } from "src/services/apiService/users/getSupporterSummaryProjects";
+import { UserData } from "src/interfaces/datas/user";
+
 
 export interface ProjectDetailPayloadInterface {
     ProjectInfo: Partial<ProjectData>;
     UserInfo: Partial<UserModel>;
     isLoading: boolean;
+    UserStatus : UserStatusType;
     error: boolean;
     OnGettingUserDetails?: (uid: string) => Promise<void>;
     OnReFetchingData?: ()=> Promise<void>;
+    OnCheckIsCommentAble?: (currentUser : UserData)=> Promise<void>;
+}
+
+enum UserStatusType {
+    SUPPORTER = 1,
+    CREATOR = 2,
+    GUEST = 3,
 }
 
 const initializedProjectDetailPayload: ProjectDetailPayloadInterface = {
     ProjectInfo: {}, // Initialize with an empty object instead of undefined
     UserInfo: {},
+    UserStatus : UserStatusType.GUEST ,
     isLoading: true,
     error: false,
 };
@@ -91,13 +103,43 @@ export const ProjectDetailProvider = ({
         }
     }
 
+    const OnCheckIsCommentAble = async (currentUser : UserData)=>{
+        if (currentUser){
+            const isCreator = projectDetailPayload.ProjectInfo.uid === currentUser.uid
+            if (isCreator){
+                SetProjectDetailsPayload({
+                    ...projectDetailPayload,
+                    UserStatus : UserStatusType.CREATOR
+                })
+                return 
+            }
+            const response = await getSupporterSummaryProjects()
+            // console.log(response)
+            const supported = response.data.contributed.find((project)=> project.projectId === projectId)
+            // console.log(supported)
+            if (supported?.projectId === projectId){
+                SetProjectDetailsPayload({
+                    ...projectDetailPayload,
+                    UserStatus : UserStatusType.SUPPORTER
+                })
+            }
+            return
+        }
+        
+        SetProjectDetailsPayload({
+            ...projectDetailPayload,
+            UserStatus : UserStatusType.GUEST
+        })        
+    }
+
     useEffect(() => {
         if (projectId) {
             fetchProjectData();
         }
     }, [projectId]);
+
     return (
-        <ProjectDetailsContext.Provider value={{ ...projectDetailPayload, OnGettingUserDetails , OnReFetchingData }}>
+        <ProjectDetailsContext.Provider value={{ ...projectDetailPayload, OnGettingUserDetails , OnReFetchingData , OnCheckIsCommentAble }}>
             {children}
         </ProjectDetailsContext.Provider>
     );

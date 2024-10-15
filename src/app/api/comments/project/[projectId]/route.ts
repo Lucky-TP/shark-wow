@@ -61,6 +61,8 @@ import { getComments } from "src/libs/databases/firestore/comments";
  *         description: Internal Server Error - An unexpected error occurred
  */
 
+export const revalidate = 15;
+
 export async function POST(request: NextRequest, { params }: { params: { projectId: string } }) {
     try {
         const author = await withAuthVerify(request);

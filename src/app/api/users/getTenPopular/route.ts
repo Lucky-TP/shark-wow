@@ -19,7 +19,7 @@ import { errorHandler } from "src/libs/errors/apiError";
  *       500:
  *         description: Internal server error
  */
-export const revalidate = 10;
+export const revalidate = 30;
 
 export async function GET(request: NextRequest) {
     try {

@@ -19,7 +19,8 @@ import { ShowProject } from "src/interfaces/datas/project";
  *       500:
  *         description: Failed to retrieve popular projects
  */
-export const revalidate = 10;
+
+export const revalidate = 15;
 
 export async function GET(request: NextRequest) {
     try {

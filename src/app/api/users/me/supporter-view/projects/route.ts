@@ -10,8 +10,6 @@ import { withAuthVerify } from "src/utils/api/auth";
 import { ProjectModel } from "src/interfaces/models/project";
 import { ExtendProjectPreview } from "src/interfaces/datas/project";
 
-export const revalidate = 5;
-
 /**
  * @swagger
  * /api/users/me/supporter-view/projects:
@@ -33,6 +31,9 @@ export const revalidate = 5;
  *       500:
  *         description: Internal Server Error - An unexpected error occurred
  */
+
+export const revalidate = 10;
+
 export async function GET(request: NextRequest) {
     try {
         const tokenData = await withAuthVerify(request);
@@ -63,6 +64,8 @@ export async function GET(request: NextRequest) {
             totalSupports: projectModel.totalSupporter,
             stages: projectModel.stages,
             currentStage: projectModel.stages.find(({ status }) => status === StageStatus.CURRENT)!,
+            totalQuantity: projectModel.totalQuantity,
+            costPerQuantity: projectModel.costPerQuantity,
         });
         const favoritedProjects = favoritedProjectModels.map(createExtendProjectPreview);
         const contributedProjects = contributedProjectModels.map(createExtendProjectPreview);

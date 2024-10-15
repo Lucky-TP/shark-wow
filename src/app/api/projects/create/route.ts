@@ -29,11 +29,12 @@ import { userValidation } from "src/libs/validation";
  */
 
 export async function POST(request: NextRequest) {
+    let newProjectId: string | null = null;
     try {
         const tokenData = await withAuthVerify(request);
 
         const uid = tokenData.uid;
-        
+
         /*
         if(!(await userValidation(uid))){
             return NextResponse.json(
@@ -112,7 +113,7 @@ export async function POST(request: NextRequest) {
             website: "",
         };
 
-        const newProjectId = await addNewProject(newProjectModel);
+        newProjectId = await addNewProject(newProjectModel);
         const currentUserModel = userSnapshot.data() as UserModel;
         await updateUser(uid, {
             ownProjectIds: [...currentUserModel.ownProjectIds, newProjectId],
@@ -125,6 +126,10 @@ export async function POST(request: NextRequest) {
             { status: StatusCode.CREATED }
         );
     } catch (error: unknown) {
+        if (newProjectId) {
+            const newProjectRef = getDocRef(CollectionPath.PROJECT, newProjectId);
+            await newProjectRef.delete();
+        }
         return errorHandler(error);
     }
 }

@@ -13,6 +13,7 @@ import { CommentData } from "src/interfaces/datas/comment";
 
 import { Skeleton } from "antd";
 import { getCommentsWithReplies } from "src/services/apiService/comments/getCommentsWithReplies";
+import { useUserData } from "src/context/useUserData";
 
 type Props = {};
 
@@ -23,7 +24,7 @@ type UserStatusType = {
 }
 
 export default function MainProjectDiscussion({}: Props) {
-    const { ProjectInfo } = useProjectDetails();
+    const { UserInfo , ProjectInfo , OnCheckIsCommentAble} = useProjectDetails();
     const [ currentUserStatus , setCurrentUserStatus ] = useState<UserStatusType>({
         isLoading : true ,
         data : {} as UserData ,
@@ -57,7 +58,7 @@ export default function MainProjectDiscussion({}: Props) {
             if (ProjectInfo.projectId){
                 const response = await getCommentsWithReplies(ProjectInfo.projectId,"project")
                 setComments(response.comments)
-                console.log(response.comments)
+                // console.log(response.comments)
             }
         }catch(err :any) { 
             console.log(err)
@@ -69,7 +70,13 @@ export default function MainProjectDiscussion({}: Props) {
             await OnGettingComments();
             await OnGetSelfUser(); // Make sure both are awaited independently
         };
-        fetchInitialData();
+        fetchInitialData()
+    },[])
+
+    useEffect(()=>{
+        if (OnCheckIsCommentAble){
+            OnCheckIsCommentAble(currentUserStatus.data)
+        }
     },[])
 
     return (
@@ -88,7 +95,7 @@ export default function MainProjectDiscussion({}: Props) {
                 }                
             </div>
 
-            {!currentUserStatus.isLoading && comments.length > 0 && 
+            {!currentUserStatus.isLoading && 
                 <div className="flex flex-col w-[70vw] items-center">
                     {
                         comments.map((e) => (

@@ -93,39 +93,14 @@ import { getProjects } from "src/libs/databases/firestore/projects/getProjects";
  *         description: Unauthorized - Missing or invalid token
  */
 
+export const revalidate = 15;
+
 export async function GET(request: NextRequest) {
     try {
         const tokenData = await withAuthVerify(request);
         const retrivedUser = await getUser(tokenData.uid);
-
-        // get own project datas
-        const ownProjects: ShowProject[] = [];
-        if (retrivedUser.ownProjectIds.length > 0) {
-            const showProjects = await getProjects(retrivedUser.ownProjectIds, (projectModel) => {
-                const showProject: ShowProject = {
-                    projectId: projectModel.projectId,
-                    name: projectModel.name,
-                    carouselImageUrls: projectModel.carouselImageUrls,
-                    description: projectModel.description,
-                    stages: projectModel.stages,
-                    category: projectModel.category,
-                    status: projectModel.status,
-                };
-                return showProject;
-            });
-            ownProjects.push(...showProjects);
-        }
-
-        const receivedComments: CommentData[] = await getComments(retrivedUser.receivedCommentIds);
-        const { receivedCommentIds, ownProjectIds, ...extractedUser } = retrivedUser;
-        const userData: UserData = {
-            ...extractedUser,
-            ownProjects,
-            receivedComments,
-        };
-
         return NextResponse.json(
-            { message: "Retrived user successful", data: userData },
+            { message: "Retrived user successful", data: retrivedUser },
             { status: StatusCode.SUCCESS }
         );
     } catch (error: unknown) {

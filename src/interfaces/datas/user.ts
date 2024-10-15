@@ -1,12 +1,8 @@
 import { UserModel } from "../models/user";
-import { CommentData } from "./comment";
 import { CreatorProjectStats, TimeSeriesDataPoint } from "./common";
 import { ExtendProjectPreview, ProjectPreview, ProjectSummary, ShowProject } from "./project";
 
-export type UserData = Omit<UserModel, "ownProjectIds" | "receivedCommentIds"> & {
-    ownProjects: ShowProject[];
-    receivedComments: CommentData[];
-};
+export type UserData = UserModel;
 
 export interface PopularCreator {
     uid: string;
@@ -26,6 +22,9 @@ export type PublicUserData = Omit<
     | "birthDate"
     | "agreement"
     | "ownProjectIds"
+    | "accountBank"
+    | "accountHolderName"
+    | "accountNumber"
 > & {
     projectSummarizes: ShowProject[];
     birthDate: string;

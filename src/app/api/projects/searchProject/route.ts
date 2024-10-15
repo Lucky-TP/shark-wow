@@ -6,6 +6,8 @@ import { ShowProject } from "src/interfaces/datas/project";
 import { StatusCode } from "src/constants/statusCode";
 import { ProjectStatus } from "src/interfaces/models/enums";
 
+export const revalidate = 15;
+
 export async function GET(request: NextRequest) {
     try {
         const projectName = request.nextUrl.searchParams.get("search");
@@ -18,7 +20,7 @@ export async function GET(request: NextRequest) {
         const projectCollection = getCollectionRef(CollectionPath.PROJECT);
         const querySnapshot = await projectCollection
             .where("name", ">=", projectName)
-            .where("name", "<=", projectName+"\uf8ff")
+            .where("name", "<=", projectName + "\uf8ff")
             .where("status", "==", ProjectStatus.RUNNING)
             .select(
                 "projectId",

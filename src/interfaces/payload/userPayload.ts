@@ -12,4 +12,7 @@ export interface EditUserPayload {
     profileImageUrl: string;
     cvUrl: string;
     interestCategories: string[];
+    accountBank: string;
+    accountNumber: string;
+    accountHolderName: string;
 }

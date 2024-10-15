@@ -30,6 +30,8 @@ import { StatusCode } from "src/constants/statusCode";
  *         description: Internal server error
  */
 
+export const revalidate = 10;
+
 export async function PUT(request: NextRequest, { params }: { params: { projectId: string } }) {
     const newProjectId = params.projectId;
     try {
