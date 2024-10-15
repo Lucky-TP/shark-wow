@@ -13,6 +13,7 @@ import { CommentData } from "src/interfaces/datas/comment";
 
 import { Skeleton } from "antd";
 import { getCommentsWithReplies } from "src/services/apiService/comments/getCommentsWithReplies";
+import { useUserData } from "src/context/useUserData";
 
 type Props = {};
 
@@ -23,7 +24,7 @@ type UserStatusType = {
 }
 
 export default function MainProjectDiscussion({}: Props) {
-    const { ProjectInfo , OnCheckIsSupportAble , OnGettingUserDetails } = useProjectDetails();
+    const { UserInfo , ProjectInfo , OnCheckIsSupportAble , OnGettingUserDetails } = useProjectDetails();
     const [ currentUserStatus , setCurrentUserStatus ] = useState<UserStatusType>({
         isLoading : true ,
         data : {} as UserData ,
@@ -68,9 +69,14 @@ export default function MainProjectDiscussion({}: Props) {
         const fetchInitialData = async () => {
             await OnGettingComments();
             await OnGetSelfUser(); // Make sure both are awaited independently
-            OnCheckIsSupportAble
         };
         fetchInitialData()
+    },[])
+
+    useEffect(()=>{
+        if (OnCheckIsSupportAble){
+            OnCheckIsSupportAble(currentUserStatus.data)
+        }
     },[])
 
     return (

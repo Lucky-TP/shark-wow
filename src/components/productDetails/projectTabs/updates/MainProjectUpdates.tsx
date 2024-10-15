@@ -10,6 +10,7 @@ import { Divider } from "antd";
 export default function MainProjectUpdates() {
     const { ProjectInfo, isLoading } = useProjectDetails();
 
+    
     const [currentUpdate, setUpdateState] = useState(0);
     return (
         <section className="flex flex-row w-full gap-x-[2vw] px-[5vw]">
