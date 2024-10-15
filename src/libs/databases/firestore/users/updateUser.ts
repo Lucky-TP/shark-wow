@@ -18,7 +18,8 @@ export async function updateUser(uid: string, newUserData: Partial<UserModel>): 
                 firstName: newUserData.firstName ?? currentUserData.firstName ?? "",
                 lastName: newUserData.lastName ?? currentUserData.lastName ?? "",
                 aboutMe: newUserData.aboutMe ?? currentUserData.aboutMe ?? "",
-                profileImageUrl: newUserData.profileImageUrl ?? currentUserData.profileImageUrl ?? "",
+                profileImageUrl:
+                    newUserData.profileImageUrl ?? currentUserData.profileImageUrl ?? "",
                 birthDate: newUserData.birthDate ?? currentUserData.birthDate ?? "",
                 ownProjectIds: newUserData.ownProjectIds ?? currentUserData.ownProjectIds ?? [],
                 favoriteProjectIds:
@@ -31,7 +32,10 @@ export async function updateUser(uid: string, newUserData: Partial<UserModel>): 
                 address: newUserData.address ?? currentUserData.address,
                 contact: newUserData.contact ?? currentUserData.contact,
                 cvUrl: newUserData.cvUrl ?? currentUserData.cvUrl ?? "",
-                agreement: newUserData.agreement,
+                agreement:
+                    newUserData.agreement !== undefined
+                        ? newUserData.agreement
+                        : currentUserData.agreement,
                 accountBank: newUserData.accountBank ?? currentUserData.accountBank ?? "",
                 accountNumber: newUserData.accountNumber ?? currentUserData.accountNumber ?? "",
                 accountHolderName:
