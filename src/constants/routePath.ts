@@ -47,6 +47,8 @@ export const apiPath = {
         DELETE: (projectId: string) => `${API_BASE_URL}/api/projects/${projectId}`,
         UPDATE_STAGE: (projectId: string) => `${API_BASE_URL}/api/projects/${projectId}`,
         UPDATE_STATUS: (projectId: string) => `${API_BASE_URL}/api/projects/status/${projectId}`,
+        ADD_NEW_UPDATE: (projectId: string) =>
+            `${API_BASE_URL}/api/projects/${projectId}/add-update`,
     },
     COMMENTS: {
         USER: {
