@@ -7,6 +7,7 @@ import { EditProjectPayload } from "src/interfaces/payload/projectPayload";
 import { editProjectById } from "src/services/apiService/projects/editProjectById";
 import { getProjectById } from "src/services/apiService/projects/getProjectById";
 import QuillEditor from "src/components/global/QuillEditor";
+import { addNewUpdateToProject } from "src/services/apiService/projects/addNewUpdateToProject";
 
 type FormStoryProps = {
     projectId: string;
@@ -41,9 +42,10 @@ export default function UpdateEditor({ projectId }: FormStoryProps) {
         const projectPayload: Partial<EditProjectPayload> = {
             story: content,
         };
+    
         if (content) {
             try {
-                await editProjectById(projectId, projectPayload);
+                await addNewUpdateToProject(projectId, projectPayload);
                 message.success("Project updated successfully!");
                 router.push(`/create-project/${projectId}/stages`);
             } catch (error) {
