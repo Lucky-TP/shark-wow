@@ -20,8 +20,7 @@ export interface ProjectDetailPayloadInterface {
     error: boolean;
     OnGettingUserDetails?: (uid: string) => Promise<void>;
     OnReFetchingData?: ()=> Promise<void>;
-    OnCheckIsSupportAble?: (currentUser : UserData)=> Promise<void>;
-    OnClearUserDetails?: ()=> void;
+    OnCheckIsCommentAble?: (currentUser : UserData)=> Promise<void>;
 }
 
 enum UserStatusType {
@@ -104,41 +103,31 @@ export const ProjectDetailProvider = ({
         }
     }
 
-    const OnCheckIsSupportAble = async (currentUser : UserData)=>{
-        if (currentUser.uid){
+    const OnCheckIsCommentAble = async (currentUser : UserData)=>{
+        if (currentUser){
             const isCreator = projectDetailPayload.ProjectInfo.uid === currentUser.uid
             if (isCreator){
                 SetProjectDetailsPayload({
                     ...projectDetailPayload,
                     UserStatus : UserStatusType.CREATOR
                 })
-                console.log('creator')
                 return 
             }
             const response = await getSupporterSummaryProjects()
-            const supported = response.data.contributed
-            console.log(supported)
-            console.log("supporter")
-            SetProjectDetailsPayload({
-                ...projectDetailPayload,
-                UserStatus : UserStatusType.SUPPORTER
-            })
+            const supported = response.data.contributed.find((project)=> project.projectId === projectId)
+            if (supported){
+                SetProjectDetailsPayload({
+                    ...projectDetailPayload,
+                    UserStatus : UserStatusType.SUPPORTER
+                })
+            }
             return   
         }
         
         SetProjectDetailsPayload({
             ...projectDetailPayload,
             UserStatus : UserStatusType.GUEST
-        })
-        console.log('guest')
-        
-    }
-
-    const OnClearUserDetails = () => {
-        SetProjectDetailsPayload({
-            ...projectDetailPayload,
-            UserInfo: {},
-        });
+        })        
     }
 
     useEffect(() => {
@@ -148,7 +137,7 @@ export const ProjectDetailProvider = ({
     }, [projectId]);
 
     return (
-        <ProjectDetailsContext.Provider value={{ ...projectDetailPayload, OnGettingUserDetails , OnReFetchingData , OnCheckIsSupportAble ,OnClearUserDetails }}>
+        <ProjectDetailsContext.Provider value={{ ...projectDetailPayload, OnGettingUserDetails , OnReFetchingData , OnCheckIsCommentAble }}>
             {children}
         </ProjectDetailsContext.Provider>
     );

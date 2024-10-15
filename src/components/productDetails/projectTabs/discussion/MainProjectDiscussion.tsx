@@ -24,7 +24,7 @@ type UserStatusType = {
 }
 
 export default function MainProjectDiscussion({}: Props) {
-    const { UserInfo , ProjectInfo , OnCheckIsSupportAble , OnGettingUserDetails } = useProjectDetails();
+    const { UserInfo , ProjectInfo , OnCheckIsCommentAble} = useProjectDetails();
     const [ currentUserStatus , setCurrentUserStatus ] = useState<UserStatusType>({
         isLoading : true ,
         data : {} as UserData ,
@@ -74,8 +74,8 @@ export default function MainProjectDiscussion({}: Props) {
     },[])
 
     useEffect(()=>{
-        if (OnCheckIsSupportAble){
-            OnCheckIsSupportAble(currentUserStatus.data)
+        if (OnCheckIsCommentAble){
+            OnCheckIsCommentAble(currentUserStatus.data)
         }
     },[])
 
