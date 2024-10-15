@@ -1,5 +1,5 @@
 import { Address } from "../models/common";
-import { ProjectStatus } from "../models/enums";
+import { ProjectStatus, StageId } from "../models/enums";
 import { Stage, Update } from "../models/project";
 
 export interface EditProjectPayload {
@@ -16,4 +16,9 @@ export interface EditProjectPayload {
     update: Update[];
     website: string;
     //payment?: unknown;
+}
+
+export interface AddNewUpdateToProjectPayload {
+    detail: string;
+    belongTo?: StageId;
 }
