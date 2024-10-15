@@ -39,7 +39,6 @@ export default function AddCommentSection({currentUser , type  }: Props) {
     const { UserInfo , ProjectInfo , UserStatus , OnReFetchingData} = useProjectDetails();
 
     const [disable,setDisable] = useState<boolean>(false)
-    const [supporting,setSupporting] = useState([])
 
     const { 
         reset,
@@ -56,9 +55,11 @@ export default function AddCommentSection({currentUser , type  }: Props) {
 
     const OnCreatingComment : SubmitHandler<IFormInput> = async (data) => {
         try{
-            setDisable(true)
-            console.log(UserStatus)
-            if (UserInfo.uid && ProjectInfo.projectId && UserStatus !== 3 ){ 
+            if (UserStatus === 3){
+                message.error('You are not supporters of this project')
+                reset()
+                return
+            }else if (ProjectInfo.projectId && UserInfo.uid ){
                 const payload : CreateCommentPayload = {
                     detail : data.commentDetails
                 }
@@ -68,7 +69,6 @@ export default function AddCommentSection({currentUser , type  }: Props) {
             }
         } catch (err) {
             setDisable(false)
-            console.log(err)
         }
     }
 

@@ -59,14 +59,13 @@ export default function AddReplySection({ currentUser , parentComment }: Props) 
             }
             else if (parentComment){ 
                 setDisable(true)
-                if (UserInfo.uid && ProjectInfo.projectId ){ 
-                    const payload : CreateCommentPayload = {
-                        detail : data.commentDetails
-                    }
-                    await addReplyToComment(parentComment,payload)
-                    reset()
-                    window.location.reload()
+                const payload : CreateCommentPayload = {
+                    detail : data.commentDetails
                 }
+                await addReplyToComment(parentComment,payload)
+                reset()
+                window.location.reload()
+                
             }
         } catch (err) {
             setDisable(false)

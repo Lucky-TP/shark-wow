@@ -121,7 +121,7 @@ export const ProjectDetailProvider = ({
                     UserStatus : UserStatusType.SUPPORTER
                 })
             }
-            return   
+            return
         }
         
         SetProjectDetailsPayload({
