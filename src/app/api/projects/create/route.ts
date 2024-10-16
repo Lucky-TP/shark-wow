@@ -111,6 +111,9 @@ export async function POST(request: NextRequest) {
             discussionIds: [],
             update: [],
             website: "",
+            accountBank: "",
+            accountHolderName: "",
+            accountNumber: "",
         };
 
         newProjectId = await addNewProject(newProjectModel);

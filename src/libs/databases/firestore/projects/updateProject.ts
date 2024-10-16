@@ -33,6 +33,11 @@ export async function updateProject(
                 discussionIds: newProjectData.discussionIds ?? currentProjectData.discussionIds,
                 update: newProjectData.update ?? currentProjectData.update,
                 website: newProjectData.website ?? currentProjectData.website,
+                accountBank: newProjectData.accountBank ?? currentProjectData.accountBank ?? "",
+                accountHolderName:
+                    newProjectData.accountHolderName ?? currentProjectData.accountHolderName ?? "",
+                accountNumber:
+                    newProjectData.accountNumber ?? currentProjectData.accountNumber ?? "",
             };
             transaction.update(projectDocRef, updateData);
         });

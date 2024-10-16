@@ -2,8 +2,7 @@ import { ProjectModel, Stage } from "../models/project";
 import { CommentData } from "./comment";
 import { ProjectStatus } from "../models/enums";
 
-export type ProjectData = Omit<ProjectModel, "discussionIds"> & {
-    discussion: CommentData[];
+export type ProjectData = ProjectModel & {
     currentStage?: Stage;
     startDate: string;
     expireDate: string;
