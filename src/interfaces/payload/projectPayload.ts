@@ -21,6 +21,7 @@ export interface EditProjectPayload {
 }
 
 export interface AddNewUpdateToProjectPayload {
+    title: string;
     detail: string;
     belongTo?: StageId;
 }

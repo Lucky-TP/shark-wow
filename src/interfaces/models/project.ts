@@ -3,6 +3,7 @@ import { ProjectStatus, StageId, StageStatus } from "./enums";
 
 export interface Update {
     id: string;
+    title: string;
     detail: string;
     date: string;
     belongTo?: StageId;
