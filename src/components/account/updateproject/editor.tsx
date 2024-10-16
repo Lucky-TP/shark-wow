@@ -8,11 +8,11 @@ import { getProjectById } from "src/services/apiService/projects/getProjectById"
 import QuillEditor from "src/components/global/QuillEditor";
 import { addNewUpdateToProject } from "src/services/apiService/projects/addNewUpdateToProject";
 
-type FormStoryProps = {
+type UpdateEditorProps = {
     projectId: string;
 };
 
-export default function UpdateEditor({ projectId }: FormStoryProps) {
+export default function UpdateEditor({ projectId }: UpdateEditorProps) {
     const router = useRouter();
     const [loading, setLoading] = useState<boolean>(false);
     const [content, setContent] = useState<string>("");
@@ -38,15 +38,18 @@ export default function UpdateEditor({ projectId }: FormStoryProps) {
 
     const onFinish = async () => {
         setLoading(true);
-        const projectPayload: Partial<AddNewUpdateToProjectPayload> = {
+        const projectPayload: AddNewUpdateToProjectPayload = {
             detail: content,
         };
 
         if (content) {
             try {
+                if(projectPayload){
+                    console.log("scscsc",projectPayload);
                 await addNewUpdateToProject(projectId, projectPayload);
                 message.success("Project updated successfully!");
                 router.push(`/create-project/${projectId}/stages`);
+                }
             } catch (error) {
                 message.error("Project update failed!");
             } finally {

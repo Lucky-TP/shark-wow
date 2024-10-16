@@ -4,7 +4,7 @@ import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/ai";
 import { getProjectById } from "src/services/apiService/projects/getProjectById";
 import LoadingPage from "src/components/global/LoadingPage";
 import { goNextStage } from "src/services/apiService/projects/goNextStage"; 
-import { ProjectSummary } from "src/interfaces/datas/project";
+import { ProjectData, ProjectSummary } from "src/interfaces/datas/project";
 
 // Enum สำหรับ StageId
 export enum StageId {
@@ -19,7 +19,8 @@ type Props = {
 };
 
 const StagePage = ({ projectId }: Props) => {
-    const [project, setProject] = useState<ProjectSummary | null>(null); // เก็บข้อมูลโปรเจกต์
+    const [project, setProject] = useState<ProjectData | null>(null); // เก็บข้อมูลโปรเจกต์
+    const [projectSummary, setProjectSummary] = useState<ProjectSummary | null>(null); // เก็บข้อมูลโปรเจกต์
     const [loading, setLoading] = useState(true); // ใช้สำหรับ loading state
     const [error, setError] = useState<string | null>(null); // สำหรับจัดการ error
     const [activeStage, setActiveStage] = useState(0); // ควบคุมการเลื่อนของ stage
@@ -37,11 +38,18 @@ const StagePage = ({ projectId }: Props) => {
                     const isUpdateOnce = projectData.update?.length > 0;
                     
                     // อัปเดต project ด้วยเงื่อนไขที่คำนวณได้
-                    setProject({
-                        ...projectData, 
-                        isFundingComplete,
-                        isUpdateOnce,
-                    });
+                    setProject(
+                        projectData,
+                    
+                    );
+                    setProjectSummary({
+                        currentStage: projectData.currentStage ,
+                        projectStatus: projectData.status,
+                        isFundingComplete: isFundingComplete,
+                        isUpdateOnce: isUpdateOnce
+
+                    }
+                    );
 
                     setLoading(false);
                 }
@@ -129,25 +137,25 @@ const StagePage = ({ projectId }: Props) => {
 
                         <div className="flex items-center mb-4">
                             {/* เปลี่ยนสีของไอคอนตามสถานะของ isFundingComplete */}
-                            {project?.isFundingComplete ? (
+                            {projectSummary?.isFundingComplete ? (
                                 <AiOutlineCheckCircle className="text-green-600 h-8 w-8" />
                             ) : (
                                 <AiOutlineCloseCircle className="text-gray-400 h-8 w-8" />
                             )}
                             <p className="text-lg ml-3">
-                                {project?.isFundingComplete ? "Funding complete" : "Funding ongoing"}
+                                {projectSummary?.isFundingComplete ? "Funding complete" : "Funding ongoing"}
                             </p>
                         </div>
 
                         <div className="flex items-center mb-4">
                             {/* เปลี่ยนสีของไอคอนตามสถานะของ isUpdateOnce */}
-                            {project?.isUpdateOnce ? (
+                            {projectSummary?.isUpdateOnce ? (
                                 <AiOutlineCheckCircle className="text-green-600 h-8 w-8" />
                             ) : (
                                 <AiOutlineCloseCircle className="text-gray-400 h-8 w-8" />
                             )}
                             <p className="text-lg ml-3">
-                                {project?.isUpdateOnce ? "Project updated" : "No updates yet"}
+                                {projectSummary?.isUpdateOnce ? "Project updated" : "No updates yet"}
                             </p>
                         </div>
 
