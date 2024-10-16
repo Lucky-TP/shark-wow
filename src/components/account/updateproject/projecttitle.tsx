@@ -1,7 +1,9 @@
 import React from "react";
 import GraphProject from "./GraphProject";
-
-const ProjectProgressBar = () => {
+type Props = {
+  projectId: string;
+};
+export default function projecttitle({ projectId }: Props){
   const raised = 10000;
   const goal = 200000;
   const progress = (raised / goal) * 100;
@@ -76,10 +78,10 @@ const ProjectProgressBar = () => {
 
       {/* Graph Project Container */}
       <div className="flex flex-col items-center justify-center w-[80vw] px-[4vw] mb-8">
-        <GraphProject />
+        <GraphProject projectId={projectId} />
       </div>
     </>
   );
 };
 
-export default ProjectProgressBar;
+
