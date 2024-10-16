@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/ai"; // นำเข้าไอคอนใหม่
+import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/ai"; 
 import { getProjectById } from "src/services/apiService/projects/getProjectById";
 import LoadingPage from "src/components/global/LoadingPage";
-import { goNextStage } from "src/services/apiService/projects/goNextStage"; // นำเข้าฟังก์ชัน API
+import { goNextStage } from "src/services/apiService/projects/goNextStage"; 
 import { ProjectSummary } from "src/interfaces/datas/project";
 
 // Enum สำหรับ StageId
@@ -33,12 +33,12 @@ const StagePage = ({ projectId }: Props) => {
                     const projectData = response.data;
 
                     // ตรวจสอบเงื่อนไข isFundingComplete และ isUpdateOnce
-                    const isFundingComplete = (projectData.currentStage?.fundingCost || 0) >= (projectData.currentStage?.goalFunding || 0);
+                    const isFundingComplete = (projectData.currentStage?.currentFunding || 0) >= (projectData.currentStage?.goalFunding || 0);
                     const isUpdateOnce = projectData.update?.length > 0;
 
                     // อัปเดต project ด้วยเงื่อนไขที่คำนวณได้
                     setProject({
-                        projectData,
+                        ...projectData, 
                         isFundingComplete,
                         isUpdateOnce,
                     });
@@ -129,25 +129,25 @@ const StagePage = ({ projectId }: Props) => {
 
                         <div className="flex items-center mb-4">
                             {/* เปลี่ยนสีของไอคอนตามสถานะของ isFundingComplete */}
-                            {project.isFundingComplete ? (
+                            {project?.isFundingComplete ? (
                                 <AiOutlineCheckCircle className="text-green-600 h-8 w-8" />
                             ) : (
                                 <AiOutlineCloseCircle className="text-gray-400 h-8 w-8" />
                             )}
                             <p className="text-lg ml-3">
-                                {project.isFundingComplete ? "Funding complete" : "Funding ongoing"}
+                                {project?.isFundingComplete ? "Funding complete" : "Funding ongoing"}
                             </p>
                         </div>
 
                         <div className="flex items-center mb-4">
                             {/* เปลี่ยนสีของไอคอนตามสถานะของ isUpdateOnce */}
-                            {project.isUpdateOnce ? (
+                            {project?.isUpdateOnce ? (
                                 <AiOutlineCheckCircle className="text-green-600 h-8 w-8" />
                             ) : (
                                 <AiOutlineCloseCircle className="text-gray-400 h-8 w-8" />
                             )}
                             <p className="text-lg ml-3">
-                                {project.isUpdateOnce ? "Project updated" : "No updates yet"}
+                                {project?.isUpdateOnce ? "Project updated" : "No updates yet"}
                             </p>
                         </div>
 
