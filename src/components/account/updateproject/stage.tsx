@@ -35,7 +35,7 @@ const StagePage = ({ projectId }: Props) => {
                     // ตรวจสอบเงื่อนไข isFundingComplete และ isUpdateOnce
                     const isFundingComplete = (projectData.currentStage?.currentFunding || 0) >= (projectData.currentStage?.goalFunding || 0);
                     const isUpdateOnce = projectData.update?.length > 0;
-
+                    
                     // อัปเดต project ด้วยเงื่อนไขที่คำนวณได้
                     setProject({
                         ...projectData, 
