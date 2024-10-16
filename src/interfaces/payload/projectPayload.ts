@@ -15,10 +15,13 @@ export interface EditProjectPayload {
     story: string;
     update: Update[];
     website: string;
-    //payment?: unknown;
+    accountBank: string;
+    accountHolderName: string;
+    accountNumber: string;
 }
 
 export interface AddNewUpdateToProjectPayload {
+    title: string;
     detail: string;
     belongTo?: StageId;
 }

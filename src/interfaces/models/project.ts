@@ -3,6 +3,7 @@ import { ProjectStatus, StageId, StageStatus } from "./enums";
 
 export interface Update {
     id: string;
+    title: string;
     detail: string;
     date: string;
     belongTo?: StageId;
@@ -39,5 +40,7 @@ export interface ProjectModel {
     discussionIds: string[];
     update: Update[];
     website: string;
-    payment?: unknown;
+    accountBank: string;
+    accountHolderName: string;
+    accountNumber: string;
 }

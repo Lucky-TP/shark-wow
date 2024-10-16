@@ -26,10 +26,9 @@ import { errorHandler, CustomError } from "src/libs/errors/apiError";
  */
 
 export async function POST(request: NextRequest) {
-    let decodedToken: DecodedIdToken | null = null;
     try {
         const userIdToken = extractBearerToken(request);
-        decodedToken = await auth.verifyIdToken(userIdToken);
+        const decodedToken = await auth.verifyIdToken(userIdToken);
 
         const userDocRef = getDocRef(CollectionPath.USER, decodedToken.uid);
         const userSnapshot = await userDocRef.get();
@@ -56,13 +55,13 @@ export async function POST(request: NextRequest) {
             { status: StatusCode.SUCCESS }
         );
     } catch (error: unknown) {
-        if (error instanceof Error || error instanceof CustomError) {
-            if (decodedToken) {
-                await auth.deleteUser(decodedToken.uid);
-                await deleteUser(decodedToken.uid);
-            }
-            await clearUserSession();
-        }
+        // if (error instanceof Error || error instanceof CustomError) {
+        //     if (decodedToken) {
+        //         await auth.deleteUser(decodedToken.uid);
+        //         await deleteUser(decodedToken.uid);
+        //     }
+        //     await clearUserSession();
+        // }
         return errorHandler(error);
     }
 }
