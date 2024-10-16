@@ -66,6 +66,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { projec
 
         const newUpdate: Update = {
             id: uuidv4(),
+            title: body.title,
             detail: body.detail,
             date: dateToString(new Date()),
             belongTo: body.belongTo ?? StageId.UNDEFINE,
