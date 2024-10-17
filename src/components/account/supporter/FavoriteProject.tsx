@@ -135,13 +135,28 @@ export default function FavoriteProject() {
                                                                 Fund: {projectDetailsData[index].data?.costPerQuantity} Baht
                                                             </div>
                                                             <div className="pb-2 font-bold text-xl ml-2 w-[15vw]">
-                                                                Ownership: {(formatOwnerShip(favoriteProject.currentStage.goalFunding,(projectDetailsData[index].data?.totalQuantity ?? 0)*(projectDetailsData[index].data?.costPerQuantity ?? 0))).toFixed()} %
+                                                                Ownership: {formatOwnerShip(
+                                                                                favoriteProject.contributedStages.reduce((total, stage) => total + stage.goalFunding, 0), // Summing the goalFunding of all contributed stages
+                                                                                (favoriteProject.totalQuantity ?? 0) * (favoriteProject.costPerQuantity ?? 0)
+                                                                            ).toFixed()}{" "}
+                                                                            %
                                                             </div>
                                                         </div>
                                                         <div className="flex">
                                                             
                                                             <div className="flex-row">
-                                                                <div className="pb-2 text-xl">Funded at: Concept ({(formatOwnerShip(favoriteProject.currentStage.goalFunding,(projectDetailsData[index].data?.totalQuantity ?? 0)*(projectDetailsData[index].data?.costPerQuantity ?? 0))).toFixed()} %)</div>
+                                                            <div className="pb-2 text-xl">
+                                                            {favoriteProject.contributedStages.map((stage, index) => (
+                                                                <div key={index}>
+                                                                    Funded at: {stageLabels[stage.stageId]}{" "}
+                                                                    {formatOwnerShip(
+                                                                        stage.goalFunding,
+                                                                        (favoriteProject.totalQuantity ?? 0) *
+                                                                            (favoriteProject.costPerQuantity ?? 0)
+                                                                    ).toFixed()}{" "}% 
+                                                                </div>
+                                                            ))}
+                                                            </div>
                                                                 {/* <div className="pb-2 text-xl">Funded at: Production (50%)</div> */}
                                                             </div>
                                                         </div>

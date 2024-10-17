@@ -113,24 +113,28 @@ export default function ContributionProject() {
                                                 </div>
                                                 <div className="ml-2 w-[15vw] pb-2 text-xl font-bold">
                                                     Ownership:{" "}
+                                                    
                                                     {formatOwnerShip(
-                                                        project.currentStage.goalFunding,
-                                                        (project.totalQuantity ?? 0) *
-                                                            (project.costPerQuantity ?? 0)
+                                                        project.contributedStages.reduce((total, stage) => total + stage.goalFunding, 0), // Summing the goalFunding of all contributed stages
+                                                        (project.totalQuantity ?? 0) * (project.costPerQuantity ?? 0)
                                                     ).toFixed()}{" "}
                                                     %
                                                 </div>
+
                                             </div>
                                             <div className="flex">
                                                 <div className="flex-row">
                                                     <div className="pb-2 text-xl">
-                                                        Funded at: Concept (
-                                                        {formatOwnerShip(
-                                                            project.currentStage.goalFunding,
-                                                            (project.totalQuantity ?? 0) *
-                                                                (project.costPerQuantity ?? 0)
-                                                        ).toFixed()}{" "}
-                                                        %)
+                                                    {project.contributedStages.map((stage, index) => (
+                                                        <div key={index}>
+                                                            Funded at: {stageLabels[stage.stageId]}{" "}
+                                                            {formatOwnerShip(
+                                                                stage.goalFunding,
+                                                                (project.totalQuantity ?? 0) *
+                                                                    (project.costPerQuantity ?? 0)
+                                                            ).toFixed()}{" "}% 
+                                                        </div>
+                                                    ))}
                                                     </div>
                                                     {/* <div className="pb-2 text-xl">Funded at: Production (50%)</div> */}
                                                 </div>
