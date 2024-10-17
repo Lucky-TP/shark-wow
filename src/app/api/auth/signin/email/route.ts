@@ -42,7 +42,11 @@ export async function POST(request: NextRequest) {
         const userIdToken = extractBearerToken(request);
         const decodedToken = await auth.verifyIdToken(userIdToken);
         const retrivedUserModel = await getUser(decodedToken.uid);
-        await signUserSession({ uid: retrivedUserModel.uid, role: retrivedUserModel.role });
+        await signUserSession({
+            uid: retrivedUserModel.uid,
+            email: retrivedUserModel.email,
+            role: retrivedUserModel.role,
+        });
 
         return NextResponse.json({ message: "Authentication successful" }, { status: 200 });
     } catch (error: unknown) {

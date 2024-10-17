@@ -1,7 +1,6 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { DecodedIdToken } from "firebase-admin/auth";
 import { generateJWT } from "./jose";
 import { translateDurationToSeconds } from "../../date/translateDurationToSeconds";
 import { UserToken } from "src/interfaces/token";
@@ -10,11 +9,12 @@ import { UserRole } from "src/interfaces/models/enums";
 
 interface SignUserSessionParams {
     uid: string;
+    email: string;
     role: UserRole;
 }
 
-export async function signUserSession({ uid, role }: SignUserSessionParams) {
-    const tokenData: UserToken = { uid, role };
+export async function signUserSession({ uid, email, role }: SignUserSessionParams) {
+    const tokenData: UserToken = { uid, email, role };
     const token = await generateJWT(tokenData);
     const cookieStore = cookies();
     cookieStore.set(USER_TOKEN, token, {
