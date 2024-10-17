@@ -132,7 +132,7 @@ export default function FavoriteProject() {
                                                     <div className="flex-row">
                                                         <div className="flex">
                                                             <div className="pb-2 font-bold text-xl mr-2 w-[15vw]">
-                                                                Fund: {projectDetailsData[index].data?.costPerQuantity} Baht
+                                                                Fund: {favoriteProject.contributedStages.reduce((sum, stage) => sum + stage.fundingCost, 0)} Baht
                                                             </div>
                                                             <div className="pb-2 font-bold text-xl ml-2 w-[15vw]">
                                                                 Ownership: {formatOwnerShip(

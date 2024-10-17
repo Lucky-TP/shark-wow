@@ -109,7 +109,7 @@ export default function ContributionProject() {
                                         <div className="flex-row">
                                             <div className="flex">
                                                 <div className="mr-2 w-[15vw] pb-2 text-xl font-bold">
-                                                    Fund: {project.costPerQuantity} Baht
+                                                    Fund: {project.contributedStages.reduce((sum, stage) => sum + stage.fundingCost, 0)} Baht
                                                 </div>
                                                 <div className="ml-2 w-[15vw] pb-2 text-xl font-bold">
                                                     Ownership:{" "}
