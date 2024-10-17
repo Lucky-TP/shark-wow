@@ -24,7 +24,7 @@ type UserStatusType = {
 }
 
 export default function MainProjectToCreator({}: Props) {
-    const { UserInfo } = useProjectDetails();
+    const { UserInfo , OnCheckIsCommentAble } = useProjectDetails();
     const [ currentUserStatus , setCurrentUserStatus ] = useState<UserStatusType>({
         isLoading : true ,
         data : {} as UserData ,
@@ -72,6 +72,13 @@ export default function MainProjectToCreator({}: Props) {
         };
         fetchInitialData();
     },[])
+
+    useEffect(()=>{
+        if (OnCheckIsCommentAble && currentUserStatus.data){
+            OnCheckIsCommentAble(currentUserStatus.data)
+        }
+    },[currentUserStatus.data])
+
 
     return (
         <section className="flex flex-col items-center justify-center w-full gap-y-[3vh] ">

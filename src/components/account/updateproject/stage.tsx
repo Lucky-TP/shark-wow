@@ -4,7 +4,7 @@ import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/ai";
 import { getProjectById } from "src/services/apiService/projects/getProjectById";
 import LoadingPage from "src/components/global/LoadingPage";
 import { goNextStage } from "src/services/apiService/projects/goNextStage"; 
-import { ProjectData, ProjectStatus, ProjectSummary } from "src/interfaces/datas/project";
+import { ProjectData, ProjectLaunchedSummary } from "src/interfaces/datas/project";
 
 // Enum สำหรับ StageId
 export enum StageId {
@@ -20,7 +20,7 @@ type Props = {
 
 const StagePage = ({ projectId }: Props) => {
     const [project, setProject] = useState<ProjectData>({} as ProjectData); // เก็บข้อมูลโปรเจกต์
-    const [projectSummary, setProjectSummary] = useState<ProjectSummary>({} as ProjectSummary); // เก็บข้อมูลโปรเจกต์
+    const [projectSummary, setProjectSummary] = useState<ProjectLaunchedSummary>({} as ProjectLaunchedSummary); // เก็บข้อมูลโปรเจกต์
     const [loading, setLoading] = useState(true); // ใช้สำหรับ loading state
     const [error, setError] = useState<string | null>(null); // สำหรับจัดการ error
     const [activeStage, setActiveStage] = useState(0); // ควบคุมการเลื่อนของ stage
@@ -149,7 +149,7 @@ const StagePage = ({ projectId }: Props) => {
                                 onClick={goToNextStage}
                                 className="mt-6 bg-gray-200 text-black font-semibold py-3 px-6 rounded-full text-lg"
                             >
-                               {ProjectStatus.SUCCESS === projectSummary.projectStatus &&
+                                {projectSummary?.currentStage?.stageId === StageId.PRODUCTION &&
                                 projectSummary?.isFundingComplete &&
                                 projectSummary?.isUpdateOnce
                                     ? "Mark as Complete"

@@ -23,6 +23,7 @@ export enum StageStatus {
     INCOMING = 1,
     CURRENT = 2,
     FINISH = 3,
+    FAILED = 4,
 }
 
 export enum MetadataId {
