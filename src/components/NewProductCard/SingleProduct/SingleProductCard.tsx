@@ -26,13 +26,14 @@ const SingleprojectCard = ({ project, showEditProject }: ProjectCardProps) => {
     }, [initUser]);
 
     let percentageFunded = 0;
+    let fullgoalFunding = (project.stages[0].goalFunding + project.stages[1].goalFunding+ project.stages[2].goalFunding);
 
     if (project.stages[0].currentFunding > 0 && project.stages[1].currentFunding === 0 && project.stages[2].currentFunding === 0) {
-        percentageFunded = Math.round((project.stages[0].currentFunding / project.stages[0].goalFunding) * 100);
+        percentageFunded = Math.round((project.stages[0].currentFunding / fullgoalFunding) * 100);
     } else if (project.stages[0].currentFunding > 0 && project.stages[1].currentFunding > 0 && project.stages[2].currentFunding === 0) {
-        percentageFunded = Math.round((project.stages[1].currentFunding / project.stages[1].goalFunding) * 100);
+        percentageFunded = Math.round(((project.stages[0].currentFunding+project.stages[1].currentFunding) / fullgoalFunding) * 100);
     } else if (project.stages[0].currentFunding > 0 && project.stages[1].currentFunding > 0 && project.stages[2].currentFunding > 0) {
-        percentageFunded = Math.round((project.stages[2].currentFunding / project.stages[2].goalFunding) * 100);
+        percentageFunded = Math.round(((project.stages[0].currentFunding+project.stages[1].currentFunding+project.stages[2].currentFunding) / fullgoalFunding) * 100);
     }
 
 
