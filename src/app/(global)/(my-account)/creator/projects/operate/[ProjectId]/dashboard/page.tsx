@@ -1,5 +1,5 @@
 import React from 'react'
-import Projecttitle from 'src/components/account/updateproject/projecttitletemp'
+import Projecttitle from 'src/components/account/updateproject/ProjectTitle'
 import GraphProject from 'src/components/account/updateproject/GraphProject'
 type Props = {}
 
