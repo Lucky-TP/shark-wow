@@ -92,28 +92,47 @@ export const revalidate = 15;
 
 export async function GET(request: NextRequest) {
     try {
+        console.log("GET request received for user data.");
+
         const tokenData = await withAuthVerify(request);
-        const retrivedUser = await getUser(tokenData.uid);
+        console.log(`Token verified for user ID: ${tokenData.uid}`);
+
+        const retrievedUser = await getUser(tokenData.uid);
+        console.log("User data retrieved successfully", {
+            uid: tokenData.uid,
+            userData: retrievedUser,
+        });
+
         return NextResponse.json(
-            { message: "Retrived user successful", data: retrivedUser },
+            { message: "Retrieved user successfully", data: retrievedUser },
             { status: StatusCode.SUCCESS }
         );
     } catch (error: unknown) {
+        console.error("Error retrieving user data", error);
         return errorHandler(error);
     }
 }
 
 export async function PUT(request: NextRequest) {
     try {
+        console.log("PUT request received to update user data.");
+
         const tokenData = await withAuthVerify(request);
+        console.log(`Token verified for user ID: ${tokenData.uid}`);
+
         const uid = tokenData.uid;
         const body: Partial<EditUserPayload> = await request.json();
+        console.log("User update data received", body);
+
         await updateUser(uid, body);
+        console.log("User data updated successfully", { uid });
+
         return NextResponse.json(
             { message: "Update user successful" },
             { status: StatusCode.SUCCESS }
         );
     } catch (error: unknown) {
+        console.error("Error updating user data", error);
         return errorHandler(error);
     }
 }
