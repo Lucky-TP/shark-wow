@@ -42,10 +42,38 @@ export async function GET(request: NextRequest) {
         const contributedTransactions = await getTransactionLogsByUserId(retrivedUser.uid);
         const contributedProjectIds = contributedTransactions.map(({ projectId }) => projectId);
 
+        const supportedProject = new Set(contributedTransactions.map(({ projectId }) => projectId))
+        // console.log(supportedProject)
+        const SupportMemSet : any = {}
+        supportedProject.forEach((key)=>{
+            // console.log("Key and values : ",key )
+            contributedTransactions.map((transaction)=>{
+                if (transaction.projectId === key){
+                    if (SupportMemSet[key] === undefined){
+                        SupportMemSet[key] = []
+                        SupportMemSet[key].push(transaction)
+                    }else{
+                        const hasTransaction = SupportMemSet[key].some((existingTransaction : any ) => {
+                            // Adjust this condition based on what makes the transaction unique
+                            return existingTransaction.transactionId === transaction.transactionId;
+                        });
+            
+                        // If transaction is not already in the list, push it
+                        if (!hasTransaction) {
+                            SupportMemSet[key].push(transaction);
+                        }
+                    }
+                }
+            })
+        })
+    
+        console.log("Support meme set test : ",SupportMemSet)
+
         const [favoritedProjectModels, contributedProjectModels] = await Promise.all([
             getProjects(retrivedUser.favoriteProjectIds),
             getProjects(contributedProjectIds),
-        ]);
+        ])
+
         const uidMappingToUsername: { [key: string]: string } = {};
         await getUsers(
             [
