@@ -7,6 +7,7 @@ import { OrderStatus, TransactionType } from "src/interfaces/models/enums";
 import { getOrder } from "src/libs/databases/firestore/orders/getOrder";
 import { createTransactionLog } from "src/libs/databases/firestore/transactionLogs/createTransactionLog";
 import { getProject, updateProject } from "src/libs/databases/firestore/projects";
+import { sendConfirmationEmail } from "src/libs/notifications";
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
@@ -60,39 +61,92 @@ export async function POST(request: NextRequest) {
             }
             case "charge.succeeded": {
                 const charge = event.data.object;
-                const metadata = charge.metadata as { orderId: string };
-                const order = await getOrder(metadata.orderId);
-                const { orderId, projectId, amount, stageId } = order;
+                const { orderId } = charge.metadata as { orderId: string };
+                const order = await getOrder(orderId);
+                const { projectId, amount, stageId } = order;
                 const promiseFetchProject = getProject(projectId);
+
                 const transactionId = await createTransactionLog({
                     uid: order.uid,
-                    orderId: metadata.orderId,
-                    projectId: order.projectId,
-                    amount: order.amount,
-                    stageId: order.stageId,
+                    email: order.email,
+                    orderId: orderId,
+                    projectId: projectId,
+                    projectName: order.projectName,
+                    amount: amount,
+                    stageId: stageId,
                     stageName: order.stageName,
                     transactionType: order.transactionType,
                     slipUrl: charge.receipt_url as string,
                 });
+
+                // Send confirmation email
+                const promiseSendConfirmationEmail = sendConfirmationEmail({
+                    recipientEmail: order.email,
+                    projectName: order.projectName,
+                    stageName: order.stageName,
+                    slipUrl: charge.receipt_url as string,
+                });
+
+                // Update the order status
                 const promiseUpdateOrder = updateOrder(orderId, {
                     transactionId,
                     status: OrderStatus.COMPLETED,
                     paymentIntentId: charge.id as string,
-                    paymentMethod: (charge.payment_method as string | null) ?? "",
+                    paymentMethod: charge.payment_method ?? "",
                 });
+
+                // Handle funding transactions
                 if (order.transactionType === TransactionType.FUNDING) {
-                    const retrivedProjectModel = await promiseFetchProject;
-                    const updatedStages = retrivedProjectModel.stages;
+                    const retrievedProjectModel = await promiseFetchProject;
+
+                    // Update funding data
+                    const updatedStages = retrievedProjectModel.stages;
                     updatedStages[stageId].currentFunding += amount;
                     updatedStages[stageId].totalSupporter += 1;
+
                     const promiseUpdateProject = updateProject(projectId, {
                         totalSupporter: updatedStages[stageId].totalSupporter,
                         stages: updatedStages,
                     });
-                    await Promise.all([promiseUpdateProject, promiseUpdateOrder]);
+
+                    // Wait for all updates to complete, including project update
+                    const results = await Promise.allSettled([
+                        promiseUpdateProject,
+                        promiseUpdateOrder,
+                        promiseSendConfirmationEmail,
+                    ]);
+
+                    // Log results for each operation
+                    results.forEach((result) => {
+                        if (result.status === "rejected") {
+                            console.error(
+                                "Error during funding transaction updates:",
+                                result.reason
+                            );
+                        } else {
+                            console.log("Success:", result.value); // Log success if needed
+                        }
+                    });
                 } else {
-                    await promiseUpdateOrder;
+                    // Wait for both updates to complete for non-funding transactions
+                    const results = await Promise.allSettled([
+                        promiseUpdateOrder,
+                        promiseSendConfirmationEmail,
+                    ]);
+
+                    // Log results for each operation
+                    results.forEach((result) => {
+                        if (result.status === "rejected") {
+                            console.error(
+                                "Error during order update or sending confirmation email:",
+                                result.reason
+                            );
+                        } else {
+                            console.log("Success:", result.value); // Log success if needed
+                        }
+                    });
                 }
+
                 break;
             }
             case "checkout.session.completed": {

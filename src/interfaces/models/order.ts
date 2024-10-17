@@ -5,7 +5,9 @@ export interface OrderModel {
     transactionId?: string;
     transactionType: TransactionType;
     uid: string;
+    email: string;
     projectId: string;
+    projectName: string;
     currency: string;
     stageId: StageId;
     stageName: string;

@@ -4,7 +4,9 @@ export interface TransactionLog {
     transactionId: string;
     orderId: string;
     uid: string;
+    email: string;
     projectId: string;
+    projectName: string;
     stageId: StageId;
     stageName: string;
     amount: number;
