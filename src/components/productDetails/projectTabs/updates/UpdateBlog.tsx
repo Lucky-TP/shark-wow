@@ -16,12 +16,7 @@ export default function UpdateBlog({ data }: Props) {
                     <p>Posted on: {data.date}</p>
                     <p>By: {data.belongTo}</p>
                 </div>
-                <div className="text-sm">
-                    {data.detail}
-                    Long text Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa earum
-                    fugiat ipsum beatae, quis, voluptates voluptatum, dignissimos aliquid eligendi
-                    odit illum quam tempora expedita aut facilis quae sequi doloremque nam.
-                </div>
+                <div className="ql-editor !p-0 preview-content" dangerouslySetInnerHTML={{ __html: data.detail }} />
             </div>
         </section>
     );
