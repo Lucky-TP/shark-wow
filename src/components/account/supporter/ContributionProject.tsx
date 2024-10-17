@@ -117,7 +117,7 @@ export default function ContributionProject() {
                                                 <div className="ml-2 w-[15vw] pb-2 text-xl font-bold">
                                                     Ownership:{" "}
                                                     {formatOwnerShip(
-                                                        project.currentStage.goalFunding,
+                                                        project.currentStage.goalFunding, //project.stage[0].goalFunding + project.stage[1].goalFunding + project.stage[2].goalFunding  
                                                         (project.totalQuantity ?? 0) *
                                                             (project.costPerQuantity ?? 0)
                                                     ).toFixed()}{" "}
