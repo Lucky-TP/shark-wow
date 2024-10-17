@@ -23,27 +23,32 @@ export const UserProvider = ({ children, initialData }: UserProviderProps) => {
     const [loading, setLoading] = useState(true);
     const { user: authUser, authLoading } = useAuth();
 
-    let intervalIdRef = useRef<NodeJS.Timeout | null>(null); // Store the intervalId with useRef
-
-    const fetchUserData = useCallback(async () => {
-        if (authUser) {
-            try {
-                const fetchedUserData = await getSelf();
-                setUser(fetchedUserData.data);
-                if (intervalIdRef.current) {
-                    clearInterval(intervalIdRef.current); // Clear interval after data is fetched
+    const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+    const fetchUserData = useCallback(
+        async (retryCount = 3) => {
+            if (authUser) {
+                for (let attempt = 0; attempt < retryCount; attempt++) {
+                    try {
+                        const fetchedUserData = await getSelf();
+                        setUser(fetchedUserData.data);
+                        setLoading(false);
+                        return; // Exit if the fetch is successful
+                    } catch (error) {
+                        console.error(`Attempt ${attempt + 1} failed:`, error);
+                        // Wait before retrying if it's not the last attempt
+                        if (attempt < retryCount - 1) {
+                            await delay(1000); // Delay before retrying
+                        }
+                    }
                 }
-            } catch (error) {
-                console.error("Failed to fetch user data", error);
+                setUser(null); // If all attempts fail
+            } else {
                 setUser(null);
-            } finally {
-                setLoading(false);
             }
-        } else {
-            setUser(null);
-            setLoading(false);
-        }
-    }, [authUser]);
+            setLoading(false); // Set loading to false after attempts are complete
+        },
+        [authUser]
+    );
 
     // Define refetchUserData function
     const refetchUserData = () => {
@@ -52,26 +57,13 @@ export const UserProvider = ({ children, initialData }: UserProviderProps) => {
     };
 
     useEffect(() => {
-        if (!authLoading) {
-            intervalIdRef.current = setInterval(() => {
-                if (!user) {
-                    fetchUserData();
-                }
-            }, 1000);
-
-            setTimeout(() => {
-                if (intervalIdRef.current) {
-                    clearInterval(intervalIdRef.current); // Ensure the interval is cleared after 3 seconds
-                }
-            }, 3000);
+        if (!authLoading && authUser) {
+            setLoading(true); // Set loading to true before fetching
+            fetchUserData(); // Fetch user data when authUser is available
+        } else {
+            setLoading(false); // Ensure loading is false if there's no authUser
         }
-
-        return () => {
-            if (intervalIdRef.current) {
-                clearInterval(intervalIdRef.current); // Cleanup interval on unmount
-            }
-        };
-    }, [authUser, authLoading, fetchUserData, user]);
+    }, [authUser, authLoading, fetchUserData]);
 
     return (
         <UserContext.Provider value={{ user, setUser, refetchUserData, loading }}>

@@ -49,7 +49,11 @@ export async function POST(request: NextRequest) {
             await createUser(userModel);
         }
         const retrivedUserModel = await getUser(decodedToken.uid);
-        await signUserSession({ uid: retrivedUserModel.uid, role: retrivedUserModel.role });
+        await signUserSession({
+            uid: retrivedUserModel.uid,
+            email: retrivedUserModel.email,
+            role: retrivedUserModel.role,
+        });
         return NextResponse.json(
             { message: "Authentication successful" },
             { status: StatusCode.SUCCESS }
