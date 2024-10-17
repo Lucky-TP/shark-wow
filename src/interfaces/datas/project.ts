@@ -25,11 +25,21 @@ export interface ProjectPreview {
     totalSupports: number;
 }
 
-export interface ProjectSummary extends ProjectPreview {
+export interface ProjectLaunchedSummary extends ProjectPreview {
     currentStage: Stage;
     projectStatus: ProjectStatus;
     isFundingComplete: boolean;
     isUpdateOnce: boolean;
+}
+
+export interface ProjectCompletedSummary extends ProjectPreview {
+    totalFunding: number;
+    projectStatus: ProjectStatus;
+}
+
+export interface ProjectFailedSummary extends ProjectPreview {
+    failedStage: Stage;
+    projectStatus: ProjectStatus;
 }
 
 export interface ExtendProjectPreview extends ProjectPreview {
