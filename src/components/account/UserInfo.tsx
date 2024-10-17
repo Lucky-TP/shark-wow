@@ -9,11 +9,11 @@ type Props = {
 export function UserInfo({ user }: Props) {
     const router = useRouter();
     return (
-        <section className="flex flex-col">
-            <div className=" px-[5vw]">
+        <section className="flex  flex-col">
+            <div className=" px-[5vw] pt-6">
                 <h1 className="text-6xl text-gray-700 ">{user?.username}</h1>
             </div>
-            <div className="flex flex-row w-full gap-x-[2vw] px-[3vw] py-[5vh]">
+            <div className="flex flex-row w-full gap-x-[2vw] px-[4vw] py-[5vh]">
                 <button
                     className="bg-orange-400 text-orange-50 font-semibold py-[1vh] px-[3vw] rounded-xl text-lg"
                     onClick={() => router.push("/profile")}

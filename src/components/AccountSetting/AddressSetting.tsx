@@ -54,7 +54,6 @@ export default function AddressSetting() {
 
     return (
         <div className="w-full p-8 pl-40 pr-40 pt-6">
-
             <Form form={form} layout="vertical" onFinish={onFinish}>
                 <div className="pb-8">
                     <h2 className="border-b border-gray-400 pb-2 text-xl font-bold text-black">
@@ -101,7 +100,7 @@ export default function AddressSetting() {
                         htmlType="submit"
                         loading={loading}
                         disabled={loading}
-                        className="w-full"
+                        className="w-full bg-orange-600"
                     >
                         Save Changes
                     </Button>
