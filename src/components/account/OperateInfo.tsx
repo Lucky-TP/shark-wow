@@ -3,26 +3,29 @@ import { UserData } from "src/interfaces/datas/user";
 import Link from "next/link";
 type Props = {
     user?: UserData;
+    projectId: string;
 };
 
-export function UserInfo({ user }: Props) {
+export function OperateInfo({ projectId }: Props) {
     const router = useRouter();
     return (
         <div className="flex items-center justify-center  mt-10">
              
+            <button className="text-black hover:bg-[#FB923C] font-semibold py-10 px-40 text-center border-b-2 border-black"
+            onClick={() => router.push(`/creator/projects/operate/${projectId}/dashboard`)}>
+                 Project Report
+            </button> 
 
+            <button className="text-black hover:bg-[#FB923C] font-semibold py-10 px-40 text-center border-b-2 border-black"
+            onClick={() => router.push(`/creator/projects/operate/${projectId}/stage`)}>
+                 Stage
+            </button>
 
-            <Link href="/creator/projects/operate/dashboard" className="text-black hover:bg-[#FB923C] font-semibold py-10 px-40 text-center border-b-2 border-black">
-                Project Report
-            </Link>
-        
-            <Link href="/creator/projects/operate/stage" className="text-black hover:bg-[#FB923C] font-semibold py-10 px-40 text-center border-b-2 border-black">
-                Stage
-            </Link>
-        
-            <Link href="/creator/projects/operate/update" className="text-black hover:bg-[#FB923C] font-semibold py-10 px-40 text-center border-b-2 border-black">
-                Updates
-            </Link>
+            <button className="text-black hover:bg-[#FB923C] font-semibold py-10 px-40 text-center border-b-2 border-black"
+            onClick={() => router.push(`/creator/projects/operate/${projectId}/update`)}>
+                 Updates
+            </button>
+            
         </div>
     );
 }
