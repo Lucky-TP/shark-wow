@@ -39,16 +39,17 @@ export default function UpdateEditor({ projectId }: UpdateEditorProps) {
     const onFinish = async () => {
         setLoading(true);
         const projectPayload: AddNewUpdateToProjectPayload = {
+            title: "ใส่ title มาอีสัส", // ต้องกำหนด title ที่นี่
             detail: content,
         };
-
+    
         if (content) {
             try {
-                if(projectPayload){
-                    console.log("scscsc",projectPayload);
-                await addNewUpdateToProject(projectId, projectPayload);
-                message.success("Project updated successfully!");
-                router.push(`/create-project/${projectId}/stages`);
+                if (projectPayload) {
+                    console.log("Payload", projectPayload);
+                    await addNewUpdateToProject(projectId, projectPayload);
+                    message.success("Project updated successfully!");
+                    router.push(`/create-project/${projectId}/stages`);
                 }
             } catch (error) {
                 message.error("Project update failed!");
@@ -59,6 +60,7 @@ export default function UpdateEditor({ projectId }: UpdateEditorProps) {
             message.error("Please input the story!");
         }
     };
+    
 
     return (
         <>

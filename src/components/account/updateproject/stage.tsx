@@ -4,7 +4,7 @@ import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/ai";
 import { getProjectById } from "src/services/apiService/projects/getProjectById";
 import LoadingPage from "src/components/global/LoadingPage";
 import { goNextStage } from "src/services/apiService/projects/goNextStage"; 
-import { ProjectData, ProjectSummary } from "src/interfaces/datas/project";
+import { ProjectData, ProjectStatus, ProjectSummary } from "src/interfaces/datas/project";
 
 // Enum สำหรับ StageId
 export enum StageId {
@@ -24,6 +24,7 @@ const StagePage = ({ projectId }: Props) => {
     const [loading, setLoading] = useState(true); // ใช้สำหรับ loading state
     const [error, setError] = useState<string | null>(null); // สำหรับจัดการ error
     const [activeStage, setActiveStage] = useState(0); // ควบคุมการเลื่อนของ stage
+    const [isComplete, setIsComplete] = useState(false); // ควบคุมสถานะการ complete ของโปรเจกต์
 
     // เรียก API เมื่อคอมโพเนนต์เรนเดอร์
     useEffect(() => {
@@ -38,18 +39,16 @@ const StagePage = ({ projectId }: Props) => {
                     const isUpdateOnce = projectData.update?.length > 0;
                     
                     // อัปเดต project ด้วยเงื่อนไขที่คำนวณได้
-                    setProject(
-                        projectData,
-                        
-                    )
+                    setProject(projectData);
+                    
                     if (projectData.currentStage) {
-                            setProjectSummary({
-                                ...projectSummary,
-                                currentStage: projectData.currentStage ,
-                                projectStatus: projectData.status,
-                                isFundingComplete: isFundingComplete,
-                                isUpdateOnce: isUpdateOnce
-                            });
+                        setProjectSummary({
+                            ...projectSummary,
+                            currentStage: projectData.currentStage,
+                            projectStatus: projectData.status,
+                            isFundingComplete: isFundingComplete,
+                            isUpdateOnce: isUpdateOnce
+                        });
                     }
 
                     setLoading(false);
@@ -82,45 +81,18 @@ const StagePage = ({ projectId }: Props) => {
         if (!project) return;
 
         try {
+            if (
+                projectSummary?.currentStage?.stageId === StageId.PRODUCTION &&
+                projectSummary?.isFundingComplete &&
+                projectSummary?.isUpdateOnce
+            ) {
+                // เมื่ออยู่ใน Production stage และ funding, update ครบแล้ว ให้ถือว่าโปรเจกต์เสร็จสิ้น
+                setIsComplete(true);
+                return;
+            }
+
             const response = await goNextStage(project.projectId);
-
             if (response.status === 200) {
-                response.message && 
-                console.log(response.message);
-                // setProject(
-                //     {
-                //        ...project,
-                        
-
-                //     }
-                // )
-                    
-                    // (prevProject) => {
-                    // if (!prevProject) return null;
-
-                    // // ตรวจสอบค่าของ currentStage
-                    // const currentStageId = prevProject.currentStage?.stageId ?? StageId.CONCEPT;
-
-                    // // สร้าง stage ใหม่ตามลำดับ
-                    // let newStageId = currentStageId;
-                    // if (currentStageId === StageId.CONCEPT) {
-                    //     newStageId = StageId.PROTOTYPE;
-                    // } else if (currentStageId === StageId.PROTOTYPE) {
-                    //     newStageId = StageId.PRODUCTION;
-                    // }
-
-                    // // คืนค่า ProjectSummary ที่ปรับปรุงแล้ว
-                    // return {
-                    //     ...prevProject,
-                    //     currentStage: {
-                    //         ...prevProject.currentStage,
-                    //         stageId: newStageId,
-                    //         name: prevProject.currentStage?.name ?? "Unnamed Stage",
-                    //     },
-                    // };
-                
-
-                // อัปเดต UI เพื่อเลื่อนไปยัง stage ถัดไป
                 setActiveStage((prevActiveStage) => prevActiveStage + 1);
             }
         } catch (error) {
@@ -171,12 +143,21 @@ const StagePage = ({ projectId }: Props) => {
                             </p>
                         </div>
 
-                        <button
-                            onClick={goToNextStage}
-                            className="mt-6 bg-gray-200 text-black font-semibold py-3 px-6 rounded-full text-lg"
-                        >
-                            Go to next stage
-                        </button>
+                        {/* แสดงปุ่ม Go to Next Stage */}
+                        {!isComplete ? (
+                            <button
+                                onClick={goToNextStage}
+                                className="mt-6 bg-gray-200 text-black font-semibold py-3 px-6 rounded-full text-lg"
+                            >
+                               {ProjectStatus.SUCCESS === projectSummary.projectStatus &&
+                                projectSummary?.isFundingComplete &&
+                                projectSummary?.isUpdateOnce
+                                    ? "Mark as Complete"
+                                    : "Go to next stage"}
+                            </button>
+                        ) : (
+                            <p className="text-lg font-bold text-green-600">Project is complete!</p>
+                        )}
                     </div>
                 </div>
             </div>
