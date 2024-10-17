@@ -104,7 +104,7 @@ export const ProjectDetailProvider = ({
     }
 
     const OnCheckIsCommentAble = async (currentUser : UserData)=>{
-        console.log(currentUser)
+        // console.log(currentUser)
         if (currentUser){
             const isCreator = projectDetailPayload.ProjectInfo.uid === currentUser.uid
             console.log(isCreator)
