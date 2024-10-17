@@ -108,7 +108,7 @@ export default function FavoriteProject() {
                                         </div>
                                         <div className="w-[20vw]">
                                             <div className="truncate whitespace-nowrap pb-2 text-2xl font-extrabold">
-                                                {favoritedProject.name}
+                                                {favoriteProject.name}
                                             </div>
                                             <div className="flex-row justify-between">
                                                 <div className="font-normal text-base text-green-500">
