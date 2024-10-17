@@ -24,6 +24,12 @@ export default function ProjectOverviewInfo() {
     const [isFirstTime, setFirstTime] = useState(true);
 
     useEffect(() => {
+        if (error) {
+            message.error("There's somethings went wrong");
+        }
+    }, [error]);
+
+    useEffect(() => {
         if (ProjectInfo.uid && OnGettingUserDetails) {
             OnGettingUserDetails(ProjectInfo.uid);
             setFirstTime(false);
@@ -69,7 +75,6 @@ export default function ProjectOverviewInfo() {
                     </div>
                 </>
             )}
-            {error && message.error("User details")}
         </>
     );
 }
