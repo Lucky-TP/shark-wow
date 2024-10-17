@@ -4,12 +4,7 @@ import { getUser } from "src/libs/databases/firestore/users";
 import { errorHandler } from "src/libs/errors/apiError";
 import { withAuthVerify } from "src/utils/api/auth";
 import { EditUserPayload } from "src/interfaces/payload/userPayload";
-import { CommentData } from "src/interfaces/datas/comment";
-import { UserData } from "src/interfaces/datas/user";
 import { updateUser } from "src/libs/databases/firestore/users/updateUser";
-import { getComments } from "src/libs/databases/firestore/comments";
-import { ShowProject } from "src/interfaces/datas/project";
-import { getProjects } from "src/libs/databases/firestore/projects/getProjects";
 
 /**
  * @swagger
