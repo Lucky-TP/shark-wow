@@ -49,3 +49,5 @@ export interface ExtendProjectPreview extends ProjectPreview {
     totalQuantity: number;
     costPerQuantity: number;
 }
+
+export { ProjectStatus };
