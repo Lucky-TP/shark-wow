@@ -24,11 +24,11 @@ export default function MainProjectUpdates() {
                                 onClick={() => {
                                     setUpdateState(index);
                                 }}
-                                className={`flex items-center justify-center p-3 bg-orange-50 rounded-xl w-full px-[1vw] shadow-lg
+                                className={`flex cursor-pointer items-center justify-center p-3 bg-orange-50 rounded-xl w-full px-[1vw] shadow-lg
                                     hover:bg-orange-100  ${currentUpdate === index ? "bg-orange-100" : "bg-orange-50"}`}
                             >
                                 <p className="text-lg text-gray-700 font-medium text-center">
-                                    {update.detail}
+                                    {update.title}
                                 </p>
                             </li>
                         ))}
