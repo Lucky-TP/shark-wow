@@ -83,6 +83,7 @@ export async function GET(request: NextRequest) {
                 }
                 case ProjectStatus.SUCCESS: {
                     const projectSummary: ProjectCompletedSummary = {
+                        totalFunding: stages.reduce((acc, stage) => acc + stage.currentFunding, 0),
                         ...commonProjectSummary,
                     };
                     creatorOwnProjects.completed.push(projectSummary);

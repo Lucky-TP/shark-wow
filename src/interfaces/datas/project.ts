@@ -33,6 +33,7 @@ export interface ProjectLaunchedSummary extends ProjectPreview {
 }
 
 export interface ProjectCompletedSummary extends ProjectPreview {
+    totalFunding: number;
     projectStatus: ProjectStatus;
 }
 

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { getCreatorOwnProjects } from "src/services/apiService/users/getCreatorOwnProjects";
-import { ProjectSummary } from "src/interfaces/datas/project";
+import { ProjectLaunchedSummary } from "src/interfaces/datas/project";
 import LoadingPage from "src/components/global/LoadingPage";
 import { goNextStage } from "src/services/apiService/projects/goNextStage"; // นำเข้าฟังก์ชัน API
 
@@ -15,7 +15,7 @@ export enum StageId {
 }
 
 const StagePage = () => {
-    const [projects, setProjects] = useState<ProjectSummary[]>([]); // เก็บข้อมูลโปรเจกต์จาก API
+    const [projects, setProjects] = useState<ProjectLaunchedSummary[]>([]); // เก็บข้อมูลโปรเจกต์จาก API
     const [loading, setLoading] = useState(true); // ใช้สำหรับ loading state
     const [error, setError] = useState<string | null>(null); // สำหรับจัดการ error
     const [activeStage, setActiveStage] = useState(0); // ควบคุมการเลื่อนของ stage
@@ -59,7 +59,8 @@ const StagePage = () => {
             if (response.status === 200) {
                 setProjects((prevProjects) => {
                     const updatedProjects = [...prevProjects];
-                    const currentStageId = updatedProjects[index].currentStage?.stageId ?? StageId.CONCEPT;
+                    const currentStageId =
+                        updatedProjects[index].currentStage?.stageId ?? StageId.CONCEPT;
 
                     // ตรวจสอบว่า currentStageId ไม่เกิน StageId.PRODUCTION และเพิ่ม stage ทีละขั้น
                     if (currentStageId === StageId.CONCEPT) {
@@ -80,7 +81,9 @@ const StagePage = () => {
                 });
 
                 // ทำให้กรอบเลื่อนไป stage ถัดไป
-                setActiveStage((prevActiveStage) => Math.min(prevActiveStage + 1, projects.length - 1));
+                setActiveStage((prevActiveStage) =>
+                    Math.min(prevActiveStage + 1, projects.length - 1)
+                );
             }
         } catch (error) {
             console.error("Failed to go to next stage:", error);
@@ -94,9 +97,9 @@ const StagePage = () => {
     if (!projects.length) return <p>No projects available.</p>; // แสดงข้อความเมื่อไม่มีโปรเจกต์
 
     return (
-        <div className="flex justify-center mt-10">
+        <div className="mt-10 flex justify-center">
             {/* Container สำหรับสองกรอบ */}
-            <div className="overflow-hidden w-full max-w-lg">
+            <div className="w-full max-w-lg overflow-hidden">
                 {/* Section ที่ใช้สำหรับเลื่อน */}
                 <div
                     className="flex transition-transform duration-500 ease-in-out"
@@ -105,28 +108,30 @@ const StagePage = () => {
                     {projects.map((project, index) => (
                         <div
                             key={index}
-                            className="w-full flex-shrink-0 p-8 bg-orange-100 rounded-lg shadow-lg"
+                            className="w-full flex-shrink-0 rounded-lg bg-orange-100 p-8 shadow-lg"
                         >
-                            <h2 className="text-2xl font-bold mb-2">{project.name || "No Name"}</h2>
+                            <h2 className="mb-2 text-2xl font-bold">{project.name || "No Name"}</h2>
                             {/* ใช้ getStageName เพื่อแสดงชื่อ Stage ที่ถูกต้อง */}
-                            <p className="text-lg mb-6">
+                            <p className="mb-6 text-lg">
                                 {getStageName(project.currentStage?.stageId ?? StageId.UNDEFINE)}
                             </p>
 
-                            <div className="flex items-center mb-4">
-                                <AiOutlineCheckCircle className="text-green-600 h-8 w-8" />
-                                <p className="text-lg ml-3">Funding complete</p>
+                            <div className="mb-4 flex items-center">
+                                <AiOutlineCheckCircle className="h-8 w-8 text-green-600" />
+                                <p className="ml-3 text-lg">Funding complete</p>
                             </div>
 
-                            <div className="flex items-center mb-6">
-                                <AiOutlineCheckCircle className="text-green-600 h-8 w-8" />
-                                <p className="text-lg ml-3">Project progress has been updated by creator</p>
+                            <div className="mb-6 flex items-center">
+                                <AiOutlineCheckCircle className="h-8 w-8 text-green-600" />
+                                <p className="ml-3 text-lg">
+                                    Project progress has been updated by creator
+                                </p>
                             </div>
 
                             {/* ปุ่มจะถูกแสดงตลอดแม้ว่า stage สุดท้าย */}
                             <button
                                 onClick={() => goToNextStage(index, project.projectId)} // เมื่อกดปุ่มจะไปยังสเตจถัดไป
-                                className="mt-6 bg-gray-200 text-black font-semibold py-3 px-6 rounded-full text-lg"
+                                className="mt-6 rounded-full bg-gray-200 px-6 py-3 text-lg font-semibold text-black"
                             >
                                 Go to next stage
                             </button>
