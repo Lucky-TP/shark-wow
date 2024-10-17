@@ -107,11 +107,8 @@ export default function FavoriteProject() {
                                             </button>
                                         </div>
                                         <div className="w-[20vw]">
-                                            <div className="pb-2 font-extrabold text-2xl truncate whitespace-nowrap">
+                                            <div className="truncate whitespace-nowrap pb-2 text-2xl font-extrabold">
                                                 {favoriteProject.name}
-                                                <div className="font-thin text-sm text-gray-500">
-                                                    created by {favoriteProject.projectOwnerUsername}
-                                                </div>
                                             </div>
                                             <div className="flex-row justify-between">
                                                 <div className="font-normal text-base text-green-500">

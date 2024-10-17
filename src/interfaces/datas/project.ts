@@ -44,8 +44,8 @@ export interface ProjectFailedSummary extends ProjectPreview {
 
 export interface ExtendProjectPreview extends ProjectPreview {
     currentStage: Stage;
-    projectOwnerUsername: string;
     stages: Stage[];
+    contributedStages: Stage[];
     totalQuantity: number;
     costPerQuantity: number;
 }
