@@ -19,8 +19,8 @@ type Props = {
 };
 
 const StagePage = ({ projectId }: Props) => {
-    const [project, setProject] = useState<ProjectData | null>(null); // เก็บข้อมูลโปรเจกต์
-    const [projectSummary, setProjectSummary] = useState<ProjectSummary | null>(null); // เก็บข้อมูลโปรเจกต์
+    const [project, setProject] = useState<ProjectData>({} as ProjectData); // เก็บข้อมูลโปรเจกต์
+    const [projectSummary, setProjectSummary] = useState<ProjectSummary>({} as ProjectSummary); // เก็บข้อมูลโปรเจกต์
     const [loading, setLoading] = useState(true); // ใช้สำหรับ loading state
     const [error, setError] = useState<string | null>(null); // สำหรับจัดการ error
     const [activeStage, setActiveStage] = useState(0); // ควบคุมการเลื่อนของ stage
@@ -40,16 +40,17 @@ const StagePage = ({ projectId }: Props) => {
                     // อัปเดต project ด้วยเงื่อนไขที่คำนวณได้
                     setProject(
                         projectData,
-                    
-                    );
-                    setProjectSummary({
-                        currentStage: projectData.currentStage ,
-                        projectStatus: projectData.status,
-                        isFundingComplete: isFundingComplete,
-                        isUpdateOnce: isUpdateOnce
-
+                        
+                    )
+                    if (projectData.currentStage) {
+                            setProjectSummary({
+                                ...projectSummary,
+                                currentStage: projectData.currentStage ,
+                                projectStatus: projectData.status,
+                                isFundingComplete: isFundingComplete,
+                                isUpdateOnce: isUpdateOnce
+                            });
                     }
-                    );
 
                     setLoading(false);
                 }
@@ -82,31 +83,42 @@ const StagePage = ({ projectId }: Props) => {
 
         try {
             const response = await goNextStage(project.projectId);
+
             if (response.status === 200) {
-                setProject((prevProject) => {
-                    if (!prevProject) return null;
+                response.message && 
+                console.log(response.message);
+                // setProject(
+                //     {
+                //        ...project,
+                        
 
-                    // ตรวจสอบค่าของ currentStage
-                    const currentStageId = prevProject.currentStage?.stageId ?? StageId.CONCEPT;
+                //     }
+                // )
+                    
+                    // (prevProject) => {
+                    // if (!prevProject) return null;
 
-                    // สร้าง stage ใหม่ตามลำดับ
-                    let newStageId = currentStageId;
-                    if (currentStageId === StageId.CONCEPT) {
-                        newStageId = StageId.PROTOTYPE;
-                    } else if (currentStageId === StageId.PROTOTYPE) {
-                        newStageId = StageId.PRODUCTION;
-                    }
+                    // // ตรวจสอบค่าของ currentStage
+                    // const currentStageId = prevProject.currentStage?.stageId ?? StageId.CONCEPT;
 
-                    // คืนค่า ProjectSummary ที่ปรับปรุงแล้ว
-                    return {
-                        ...prevProject,
-                        currentStage: {
-                            ...prevProject.currentStage,
-                            stageId: newStageId,
-                            name: prevProject.currentStage?.name ?? "Unnamed Stage",
-                        },
-                    };
-                });
+                    // // สร้าง stage ใหม่ตามลำดับ
+                    // let newStageId = currentStageId;
+                    // if (currentStageId === StageId.CONCEPT) {
+                    //     newStageId = StageId.PROTOTYPE;
+                    // } else if (currentStageId === StageId.PROTOTYPE) {
+                    //     newStageId = StageId.PRODUCTION;
+                    // }
+
+                    // // คืนค่า ProjectSummary ที่ปรับปรุงแล้ว
+                    // return {
+                    //     ...prevProject,
+                    //     currentStage: {
+                    //         ...prevProject.currentStage,
+                    //         stageId: newStageId,
+                    //         name: prevProject.currentStage?.name ?? "Unnamed Stage",
+                    //     },
+                    // };
+                
 
                 // อัปเดต UI เพื่อเลื่อนไปยัง stage ถัดไป
                 setActiveStage((prevActiveStage) => prevActiveStage + 1);

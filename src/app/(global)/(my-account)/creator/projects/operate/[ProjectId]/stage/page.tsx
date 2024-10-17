@@ -1,6 +1,5 @@
 import React from 'react'
-import StagePage from 'src/components/account/updateproject/Stage'
-
+import StagePage from 'src/components/account/updateproject/stage'
 
 type Props = {}
 
