@@ -74,10 +74,10 @@ export default function MainProjectDiscussion({}: Props) {
     },[])
 
     useEffect(()=>{
-        if (OnCheckIsCommentAble){
+        if (OnCheckIsCommentAble && currentUserStatus.data){
             OnCheckIsCommentAble(currentUserStatus.data)
         }
-    },[])
+    },[currentUserStatus.data])
 
     return (
         <section className="flex flex-col items-center justify-center w-full gap-y-[3vh] ">
@@ -95,7 +95,7 @@ export default function MainProjectDiscussion({}: Props) {
                 }                
             </div>
 
-            {!currentUserStatus.isLoading && 
+            {!currentUserStatus.isLoading && currentUserStatus.data &&
                 <div className="flex flex-col w-[70vw] items-center">
                     {
                         comments.map((e) => (

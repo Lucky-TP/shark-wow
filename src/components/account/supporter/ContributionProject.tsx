@@ -85,9 +85,6 @@ export default function ContributionProject() {
                                     <div className="w-[20vw]">
                                         <div className="truncate whitespace-nowrap pb-2 text-2xl font-extrabold">
                                             {project.name}
-                                            <div className="text-sm font-thin text-gray-500">
-                                                created by {project.projectOwnerUsername}
-                                            </div>
                                         </div>
                                         <div className="flex-row justify-between">
                                             <div className="text-base font-normal text-green-500">
@@ -112,28 +109,32 @@ export default function ContributionProject() {
                                         <div className="flex-row">
                                             <div className="flex">
                                                 <div className="mr-2 w-[15vw] pb-2 text-xl font-bold">
-                                                    Fund: {project.costPerQuantity} Baht
+                                                    Fund: {project.contributedStages.reduce((sum, stage) => sum + stage.fundingCost, 0)} Baht
                                                 </div>
                                                 <div className="ml-2 w-[15vw] pb-2 text-xl font-bold">
                                                     Ownership:{" "}
+                                                    
                                                     {formatOwnerShip(
-                                                        project.currentStage.goalFunding,
-                                                        (project.totalQuantity ?? 0) *
-                                                            (project.costPerQuantity ?? 0)
+                                                        project.contributedStages.reduce((total, stage) => total + stage.goalFunding, 0), // Summing the goalFunding of all contributed stages
+                                                        (project.totalQuantity ?? 0) * (project.costPerQuantity ?? 0)
                                                     ).toFixed()}{" "}
                                                     %
                                                 </div>
+
                                             </div>
                                             <div className="flex">
                                                 <div className="flex-row">
                                                     <div className="pb-2 text-xl">
-                                                        Funded at: Concept (
-                                                        {formatOwnerShip(
-                                                            project.currentStage.goalFunding,
-                                                            (project.totalQuantity ?? 0) *
-                                                                (project.costPerQuantity ?? 0)
-                                                        ).toFixed()}{" "}
-                                                        %)
+                                                    {project.contributedStages.map((stage, index) => (
+                                                        <div key={index}>
+                                                            Funded at: {stageLabels[stage.stageId]}{" "}
+                                                            {formatOwnerShip(
+                                                                stage.goalFunding,
+                                                                (project.totalQuantity ?? 0) *
+                                                                    (project.costPerQuantity ?? 0)
+                                                            ).toFixed()}{" "}% 
+                                                        </div>
+                                                    ))}
                                                     </div>
                                                     {/* <div className="pb-2 text-xl">Funded at: Production (50%)</div> */}
                                                 </div>
