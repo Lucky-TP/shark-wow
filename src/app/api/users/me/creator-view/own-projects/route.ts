@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { StatusCode } from "src/constants/statusCode";
-import { ProjectPreview, ProjectSummary } from "src/interfaces/datas/project";
+import {
+    ProjectCompletedSummary,
+    ProjectFailedSummary,
+    ProjectLaunchedSummary,
+    ProjectPreview,
+} from "src/interfaces/datas/project";
 import { CreatorOwnProjects } from "src/interfaces/datas/user";
 import { ProjectStatus, StageStatus } from "src/interfaces/models/enums";
 import { getProjects } from "src/libs/databases/firestore/projects";
@@ -41,50 +46,69 @@ export async function GET(request: NextRequest) {
             completed: [],
         };
 
-        projectModels.forEach((projectModel) => {
+        projectModels.forEach((projectModel, index) => {
             const { projectId, name, carouselImageUrls, totalSupporter, stages, status, update } =
                 projectModel;
-            if (projectModel.status === ProjectStatus.DRAFT) {
-                const projectPreview: ProjectPreview = {
-                    projectId,
-                    name,
-                    previewImageUrl: carouselImageUrls.length > 0 ? carouselImageUrls[0] : "",
-                    totalSupports: totalSupporter,
-                };
-                creatorOwnProjects.drafted.push(projectPreview);
-            } else {
-                const currentStage = stages.find(({ status }) => status === StageStatus.CURRENT)!;
-                const projectSummary: ProjectSummary = {
-                    projectId,
-                    name,
-                    previewImageUrl: carouselImageUrls.length > 0 ? carouselImageUrls[0] : "",
-                    totalSupports: totalSupporter,
-                    currentStage,
-                    projectStatus: status,
-                    isFundingComplete: currentStage.fundingCost >= currentStage.goalFunding,
-                    isUpdateOnce: update.length > 0,
-                };
 
-                switch (projectModel.status) {
-                    case ProjectStatus.RUNNING:
-                        creatorOwnProjects.launched.push(projectSummary);
-                        break;
-                    case ProjectStatus.FAIL:
-                        creatorOwnProjects.failed.push(projectSummary);
-                        break;
-                    case ProjectStatus.SUCCESS:
-                        creatorOwnProjects.completed.push(projectSummary);
-                        break;
-                    default:
-                        console.warn(`Unknown project status: ${projectModel.status}`);
+            // Common properties
+            const previewImageUrl = carouselImageUrls.length > 0 ? carouselImageUrls[0] : "";
+            const commonProjectSummary = {
+                projectId,
+                name,
+                previewImageUrl,
+                totalSupports: totalSupporter,
+                projectStatus: status,
+            };
+
+            switch (status) {
+                case ProjectStatus.DRAFT: {
+                    const projectPreview: ProjectPreview = {
+                        ...commonProjectSummary,
+                    };
+                    creatorOwnProjects.drafted.push(projectPreview);
+                    break;
                 }
+                case ProjectStatus.RUNNING: {
+                    const currentStage = stages.find(
+                        ({ status }) => status === StageStatus.CURRENT
+                    )!;
+                    const projectSummary: ProjectLaunchedSummary = {
+                        ...commonProjectSummary,
+                        currentStage,
+                        isFundingComplete: currentStage.fundingCost >= currentStage.goalFunding,
+                        isUpdateOnce: update.length > 0,
+                    };
+                    creatorOwnProjects.launched.push(projectSummary);
+                    break;
+                }
+                case ProjectStatus.SUCCESS: {
+                    const projectSummary: ProjectCompletedSummary = {
+                        totalFunding: stages.reduce((acc, stage) => acc + stage.currentFunding, 0),
+                        ...commonProjectSummary,
+                    };
+                    creatorOwnProjects.completed.push(projectSummary);
+                    break;
+                }
+                case ProjectStatus.FAIL: {
+                    const failedStage = stages.find(({ status }) => status === StageStatus.FAILED)!;
+                    const projectSummary: ProjectFailedSummary = {
+                        ...commonProjectSummary,
+                        failedStage,
+                    };
+                    creatorOwnProjects.failed.push(projectSummary);
+                    break;
+                }
+                default:
+                    console.warn(`Unhandled project ${index}, status: ${status} (PENDING)`);
             }
         });
+        console.log("Successfully retrieved creator's own projects:", creatorOwnProjects);
         return NextResponse.json(
             { message: "Get creator own projects successful", data: creatorOwnProjects },
             { status: StatusCode.SUCCESS }
         );
     } catch (error: unknown) {
+        console.error("Error retrieving creator's own projects:", error);
         return errorHandler(error);
     }
 }

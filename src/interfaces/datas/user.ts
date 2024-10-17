@@ -1,6 +1,13 @@
 import { UserModel } from "../models/user";
 import { CreatorProjectStats, TimeSeriesDataPoint } from "./common";
-import { ExtendProjectPreview, ProjectPreview, ProjectSummary, ShowProject } from "./project";
+import {
+    ExtendProjectPreview,
+    ProjectCompletedSummary,
+    ProjectFailedSummary,
+    ProjectLaunchedSummary,
+    ProjectPreview,
+    ShowProject,
+} from "./project";
 
 export type UserData = UserModel;
 
@@ -59,9 +66,9 @@ export interface CreatorSummaryStats {
 
 export interface CreatorOwnProjects {
     drafted: ProjectPreview[];
-    launched: ProjectSummary[];
-    failed: ProjectSummary[];
-    completed: ProjectSummary[];
+    launched: ProjectLaunchedSummary[];
+    failed: ProjectFailedSummary[];
+    completed: ProjectCompletedSummary[];
 }
 
 export interface SupporterSummaryProjects {
