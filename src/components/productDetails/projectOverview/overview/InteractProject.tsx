@@ -37,8 +37,8 @@ export default function InteractProject({}: Props) {
             try {
                 setDonateLoading(true);
                 const payload: CheckoutPayload = {
+                    projectName: ProjectInfo.name ?? "",
                     projectId: ProjectInfo.projectId ?? "",
-
                     fundingCost: donateAmount,
                     paymentMethod: StripePaymentMethod.Card,
                     stageId: ProjectInfo.currentStage?.stageId!,

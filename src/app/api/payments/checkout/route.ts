@@ -68,7 +68,9 @@ export async function POST(request: NextRequest) {
         const body: CheckoutPayload = await request.json();
         orderId = await createOrder({
             uid: user.uid,
+            email: user.email,
             projectId: body.projectId,
+            projectName: body.projectName,
             stageId: body.stageId,
             stageName: body.stageName,
             amount: body.fundingCost,
