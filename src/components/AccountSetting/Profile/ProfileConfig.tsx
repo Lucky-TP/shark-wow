@@ -216,7 +216,7 @@ export default function ProfileConfig() {
                 : previewImage === defaultPlaceholder
                   ? defaultPlaceholder
                   : initUser?.profileImageUrl,
-            cvUrl: uploadCvResult ? uploadCvResult.url : "",
+            cvUrl: uploadCvResult ? uploadCvResult.url : initUser?.cvUrl,
             contact: {
                 facebook: values.facebookLink,
                 X: values.xLink,
