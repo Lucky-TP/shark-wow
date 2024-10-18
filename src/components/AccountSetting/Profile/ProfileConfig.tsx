@@ -371,20 +371,45 @@ export default function ProfileConfig() {
                         Outside Links
                     </Title>
                     {/* Facebook Link */}
-                    <Form.Item label="Facebook Link" name="facebookLink">
+                    <Form.Item
+                        label="Facebook Link"
+                        name="facebookLink"
+                        rules={[
+                            {
+                                type: "url",
+                                message: "Please enter a valid URL!",
+                            },
+                        ]}
+                    >
                         <Input placeholder="Facebook Link" />
                     </Form.Item>
-                    {/* Twitter Link */}
-                    <Form.Item label="X Link" name="xLink">
+
+                    {/* X (formerly Twitter) Link */}
+                    <Form.Item
+                        label="X Link"
+                        name="xLink"
+                        rules={[
+                            {
+                                type: "url",
+                                message: "Please enter a valid URL!",
+                            },
+                        ]}
+                    >
                         <Input placeholder="X Link" />
                     </Form.Item>
+
                     {/* YouTube Link */}
-                    <Form.Item label="Youtube Link" name="youtubeLink">
+                    <Form.Item
+                        label="YouTube Link"
+                        name="youtubeLink"
+                        rules={[
+                            {
+                                type: "url",
+                                message: "Please enter a valid URL!",
+                            },
+                        ]}
+                    >
                         <Input placeholder="YouTube Link" />
-                    </Form.Item>
-                    {/* Phone Number */}
-                    <Form.Item label="Phone Number" name="phoneNumber">
-                        <Input placeholder="Phone number" />
                     </Form.Item>
                 </div>
 
@@ -430,7 +455,7 @@ export default function ProfileConfig() {
                             loading={loading}
                             disabled={loading || isUpload}
                             htmlType="submit"
-                            className="w-full"
+                            className="w-full bg-orange-600"
                         >
                             Save Changes
                         </Button>

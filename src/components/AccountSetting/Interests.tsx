@@ -135,7 +135,7 @@ export default function Interests() {
                     loading={loading}
                     onClick={onFinish}
                     disabled={loading}
-                    className="w-full"
+                    className="w-full bg-orange-600"
                 >
                     Save Changes
                 </Button>

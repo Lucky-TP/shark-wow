@@ -37,32 +37,34 @@ export default function SettingNavbar({}: Props) {
     return (
         <div>
             <section>
-                <div className="flex items-start">
+                <div className="flex flex-col items-start">
                     <div className="w-full">
-                        <h1 className="ml-40 mt-20 text-start text-7xl text-black">
-                            {user?.username || "Loading..."}
-                        </h1>
-                        <div className="ml-40 mt-20 flex items-start justify-start space-x-10">
+                        <div className="px-[8vw] pt-6">
+                            <h1 className="text-6xl text-gray-700">{user?.username}</h1>
+                        </div>
+                        <div className="flex w-full flex-row gap-x-[2vw] px-[7vw] py-[5vh]">
                             <button
-                                className="rounded-xl bg-[#D2825E] px-16 py-2 text-xl font-semibold text-white"
+                                className="rounded-xl bg-orange-400 px-[3vw] py-[1vh] text-lg font-semibold text-orange-50"
                                 onClick={() => router.push("/settings/profile-config")}
                             >
                                 Profile
                             </button>
                             <button
-                                className="rounded-xl bg-[#D2825E] px-16 py-2 text-xl font-semibold text-white"
+                                className="rounded-xl bg-orange-400 px-[3vw] py-[1vh] text-lg font-semibold text-orange-50"
                                 onClick={() => router.push("/settings/address")}
                             >
                                 Address
                             </button>
                             <button
-                                className="rounded-xl bg-[#D2825E] px-16 py-2 text-xl font-semibold text-white"
+                                className="rounded-xl bg-orange-400 px-[3vw] py-[1vh] text-lg font-semibold text-orange-50"
                                 onClick={() => router.push("/settings/preferences")}
                             >
                                 Interest
                             </button>
                         </div>
-                        <hr className="my-8 ml-40 w-4/5 border-t-4 border-black" />
+                        <div className="flex w-full justify-center">
+                            <hr className="mb-[4vh] w-[86vw] border-t-4 border-gray-600" />
+                        </div>
                     </div>
                 </div>
             </section>
