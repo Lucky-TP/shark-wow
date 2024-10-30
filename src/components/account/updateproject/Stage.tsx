@@ -79,26 +79,34 @@ const StagePage = ({ projectId }: Props) => {
     // ฟังก์ชันสำหรับเปลี่ยน Stage ไปยังสเตจถัดไป และอัปเดต API
     const goToNextStage = async () => {
         if (!project) return;
-
+    
         try {
+            // ตรวจสอบว่าอยู่ใน stage production และเงื่อนไขครบแล้วหรือไม่
             if (
                 projectSummary?.currentStage?.stageId === StageId.PRODUCTION &&
                 projectSummary?.isFundingComplete &&
                 projectSummary?.isUpdateOnce
             ) {
-                // เมื่ออยู่ใน Production stage และ funding, update ครบแล้ว ให้ถือว่าโปรเจกต์เสร็จสิ้น
-                setIsComplete(true);
+                // อัปเดตไปที่ Firebase และทำเครื่องหมายว่าเสร็จสมบูรณ์โดยไม่รีเฟรช
+                const response = await goNextStage(project.projectId);
+                if (response.status === 200) {
+                    setIsComplete(true); // ทำเครื่องหมายว่าโปรเจกต์เสร็จสมบูรณ์
+                }
                 return;
             }
-
+    
+            // ถ้ายังไม่ถึง stage สุดท้าย ให้ทำการอัปเดตและรีเฟรช
             const response = await goNextStage(project.projectId);
             if (response.status === 200) {
                 setActiveStage((prevActiveStage) => prevActiveStage + 1);
+                window.location.reload(); // รีเฟรชหน้าเมื่อไปยัง stage ถัดไปสำเร็จ
             }
         } catch (error) {
             console.error("Failed to go to next stage:", error);
         }
     };
+    
+
 
     if (loading) {
         return <LoadingPage />;
