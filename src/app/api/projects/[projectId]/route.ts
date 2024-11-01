@@ -370,19 +370,22 @@ export async function PATCH(request: NextRequest, { params }: { params: { projec
 
         if (
             projectStage[0].status === StageStatus.CURRENT &&
-            projectStage[0].currentFunding >= projectStage[0].goalFunding
+            projectStage[0].currentFunding >= projectStage[0].goalFunding &&
+            currentProjectModel.update.length > 0
         ) {
             projectStage[0].status = StageStatus.FINISH;
             projectStage[1].status = StageStatus.CURRENT;
         } else if (
             projectStage[1].status === StageStatus.CURRENT &&
-            projectStage[1].currentFunding >= projectStage[1].goalFunding
+            projectStage[1].currentFunding >= projectStage[1].goalFunding &&
+            currentProjectModel.update.length > 0
         ) {
             projectStage[1].status = StageStatus.FINISH;
             projectStage[2].status = StageStatus.CURRENT;
         } else if (
             projectStage[2].status === StageStatus.CURRENT &&
-            projectStage[2].currentFunding >= projectStage[2].goalFunding
+            projectStage[2].currentFunding >= projectStage[2].goalFunding &&
+            currentProjectModel.update.length > 0
         ) {
             projectStage[2].status = StageStatus.FINISH;
             await updateProject(projectId, {
