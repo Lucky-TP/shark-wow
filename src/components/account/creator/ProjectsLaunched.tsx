@@ -16,6 +16,11 @@ export default function ProjectsLaunched() {
     router.push(`/create-project/${projectId}/basic`);
   };
 
+  const handleViewProject = (projectId: string) => {
+    setIsLoading(true);
+    router.push(`/explore/${projectId}`);
+  };
+
   const handleOperateProject = (projectId: string) => {
     setIsLoading(true);
     // router.push(`/creator/projects/operate/dashboard/${projectId}`);
@@ -100,6 +105,12 @@ export default function ProjectsLaunched() {
                         </div>
                       </div>
                       <div className="space-y-2">
+                        <button
+                          className="font-semibold py-2 px-4 rounded-md w-full bg-orange-400 text-white hover:bg-orange-500"
+                          onClick={() => handleViewProject(project.projectId)}
+                        >
+                          View Project
+                        </button>
                         {/* <button
                           className="font-semibold py-2 px-4 rounded-md w-full bg-orange-400 text-white hover:bg-orange-500"
                           onClick={() => handleEditProject(project.projectId)}
