@@ -57,8 +57,8 @@ export const DotButton: React.FC<PropType> = (props) => {
     const { children, ...restProps } = props;
     return (
         // className='border-2 border-gray-500 p-1 rounded-full
-        <button type="button" {...restProps} className="cursor-pointer max-w-[5vw] min-w-[5vw]">
-            <img src={props.slide.image} alt="" className="w-full" />
+        <button type="button" {...restProps} className="cursor-pointer max-w-[5vw] ">
+            <img src={props.slide.image} alt="" className="w-full items-center flex max-h-[5vh]"/>
         </button>
     );
 };

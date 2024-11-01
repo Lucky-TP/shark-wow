@@ -99,10 +99,10 @@ export default function TargetStage({ stage }: Props) {
                 <div>
                     <div className="flex flex-row justify-between gap-x-[2vw]">
                         <h3 className="text-lg font-semibold text-gray-700">
-                            1x {ProjectInfo.name}
+                            {ProjectInfo.name}
                         </h3>
                         <h3 className="flex flex-row text-lg font-normal text-gray-600">
-                            ฿{stage.fundingCost.toLocaleString()}
+                            {stage.fundingCost.toLocaleString()} THB
                         </h3>
                     </div>
                 </div>
@@ -118,13 +118,13 @@ export default function TargetStage({ stage }: Props) {
                     <span className="flex w-1/2 flex-col items-center">
                         <p className="text-lg font-bold text-gray-700">Current Funding</p>
                         <p className="pl-[1vw] text-base text-gray-600">
-                            {stage.currentFunding.toLocaleString()} ฿
+                            {stage.currentFunding.toLocaleString()} THB
                         </p>
                     </span>
                     <span className="flex w-1/2 flex-col items-center">
                         <p className="text-lg font-bold text-gray-700">Goal Funding</p>
                         <p className="pl-[1vw] text-base text-gray-600">
-                            {stage.goalFunding.toLocaleString()}{" "}
+                            {stage.goalFunding.toLocaleString()}{" "} THB
                         </p>
                     </span>
                     <span className="flex w-1/2 flex-col items-center">
