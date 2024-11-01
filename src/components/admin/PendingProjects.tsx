@@ -8,6 +8,7 @@ import LoadingPage from "../global/LoadingPage";
 import { useRouter } from "next/navigation";
 import { Modal, Alert } from "antd";
 import { CheckCircleOutlined } from "@ant-design/icons"; // Add Ant Design icon for approval
+import { getCurrentStage } from "src/utils/api/projects";
 
 export default function PendingProjects() {
     const router = useRouter();
@@ -90,7 +91,17 @@ export default function PendingProjects() {
 
     if (loading) return <LoadingPage />;
     if (error) return <p>{error}</p>;
-
+    
+    const whichStage = (project: ShowProject) => {
+        const stages = project.stages.map((stage) => stage.currentFunding === stage.goalFunding);
+        
+        if (!stages[0] && !stages[1] && !stages[2]) return <span>Approve Stage 1 Concept</span>;
+        if (stages[0] && !stages[1] && !stages[2]) return <span>Stage 1 Concept to Stage 2 Prototype</span>;
+        if (stages[0] && stages[1] && !stages[2]) return <span>Stage 2 Concept to Stage 3 Prototype</span>;
+        if (stages[0] && stages[1] && stages[2]) return <span>Approve Stage 3 Prototype</span>;
+        
+    };
+    
     return (
         <div className="px-40">
             <h1 className="text-4xl mb-4 font-bold">Pending Projects</h1>
@@ -102,8 +113,9 @@ export default function PendingProjects() {
                             alt={project.name}
                             className="w-16 h-16 object-cover rounded"
                         />
-                        <div className="flex flex-col gap-4">
+                        <div className="flex flex-col ">
                             <h3 className="font-bold text-lg">{project.name}</h3>
+                            <span className="mb-1 text-gray-600">{whichStage(project)}</span>  
                             <button
                                 className="bg-orange-400 text-white font-semibold py-2 px-4 rounded-full w-fit"
                                 onClick={() => handleViewProject(project.projectId)}
