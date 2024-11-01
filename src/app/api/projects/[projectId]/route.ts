@@ -1,19 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDocRef } from "src/libs/databases/firestore/commons";
 import { errorHandler } from "src/libs/errors/apiError";
-import { getComments } from "src/libs/databases/firestore/comments";
-import { updateProject } from "src/libs/databases/firestore/projects";
+import { getProject, updateProject } from "src/libs/databases/firestore/projects";
 import { withAuthVerify } from "src/utils/api/auth";
 import { StatusCode } from "src/constants/statusCode";
 import { CollectionPath } from "src/constants/firestore";
 import { ProjectModel, Stage } from "src/interfaces/models/project";
 import { ProjectStatus, StageStatus } from "src/interfaces/models/enums";
-import { CommentData } from "src/interfaces/datas/comment";
 import { ProjectData } from "src/interfaces/datas/project";
 import { EditProjectPayload } from "src/interfaces/payload/projectPayload";
 import { getCurrentStage } from "src/utils/api/projects/getCurrentStage";
 import { getStartAndExpireTime } from "src/utils/api/projects";
 import { increaseTotalViewer } from "src/libs/databases/realtimeDatabase/server/projects/increaseTotalViewer";
+import { deleteProject } from "src/libs/databases/firestore/projects/deleteProject";
 
 /**
  * @swagger
@@ -153,6 +152,56 @@ import { increaseTotalViewer } from "src/libs/databases/realtimeDatabase/server/
  *         description: Not found - Project with the specified ID does not exist
  *       500:
  *         description: Internal server error - Something went wrong
+ *
+ *   patch:
+ *     tags:
+ *       - projects
+ *     description: Update the status of a project by its ID.
+ *     security:
+ *       - CookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: projectId
+ *         required: true
+ *         description: The ID of the project to update.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Update successful, project status changed
+ *       400:
+ *         description: Bad request - Something went wrong
+ *       401:
+ *         description: Unauthorized - You have no permission to update this project
+ *       404:
+ *         description: Project not exist
+ *       500:
+ *         description: Internal server error
+ *
+ *   delete:
+ *     tags:
+ *       - projects
+ *     description: Delete a project by its ID if the status is DRAFT and the user is the owner.
+ *     security:
+ *       - CookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: projectId
+ *         required: true
+ *         description: The ID of the project to delete.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Delete project successful
+ *       400:
+ *         description: Bad request - Project cannot be deleted
+ *       401:
+ *         description: Unauthorized - Permission denied
+ *       404:
+ *         description: Project not found
+ *       500:
+ *         description: Internal server error
  */
 
 export const revalidate = 15;
@@ -362,6 +411,37 @@ export async function PATCH(request: NextRequest, { params }: { params: { projec
 
         return NextResponse.json(
             { message: "send a request to admin successful" },
+            { status: StatusCode.SUCCESS }
+        );
+    } catch (error: unknown) {
+        return errorHandler(error);
+    }
+}
+
+export async function DELETE(request: NextRequest, { params }: { params: { projectId: string } }) {
+    const { projectId } = params;
+    try {
+        const tokenData = await withAuthVerify(request);
+        const retrievedProjectModel = await getProject(projectId);
+
+        
+        if (retrievedProjectModel.uid !== tokenData.uid) {
+            return NextResponse.json(
+                { message: "Permission denied" },
+                { status: StatusCode.UNAUTHORIZED }
+            );
+        }
+        
+        if (retrievedProjectModel.status !== ProjectStatus.DRAFT) {
+            return NextResponse.json(
+                { message: "Project cannot be deleted" },
+                { status: StatusCode.BAD_REQUEST }
+            );
+        }
+        
+        await deleteProject(projectId);
+        return NextResponse.json(
+            { message: "Delete project successful" },
             { status: StatusCode.SUCCESS }
         );
     } catch (error: unknown) {

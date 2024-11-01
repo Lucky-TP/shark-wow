@@ -13,7 +13,7 @@ export async function updateProject(
             const projectDocRef = getDocRef(CollectionPath.PROJECT, projectId);
             const projectSnapshot = await transaction.get(projectDocRef);
             if (!projectSnapshot.exists) {
-                throw new CustomError("User does not exist", StatusCode.NOT_FOUND);
+                throw new CustomError("Project not exist", StatusCode.NOT_FOUND);
             }
             const currentProjectData = projectSnapshot.data() as ProjectModel;
             const updateData: Partial<ProjectModel> = {
