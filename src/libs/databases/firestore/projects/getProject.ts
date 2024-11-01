@@ -19,6 +19,6 @@ export async function getProject(projectId: string) {
         if (error instanceof CustomError) {
             throw error;
         }
-        throw new CustomError("Get project failed", StatusCode.INTERNAL_SERVER_ERROR);
+        throw new CustomError("Retrieve project failed", StatusCode.INTERNAL_SERVER_ERROR);
     }
 }
