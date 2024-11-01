@@ -216,7 +216,7 @@ export default function ProfileConfig() {
                 : previewImage === defaultPlaceholder
                   ? defaultPlaceholder
                   : initUser?.profileImageUrl,
-            cvUrl: uploadCvResult ? uploadCvResult.url : initUser?.cvUrl,
+            cvUrl: uploadCvResult?.url || initUser?.cvUrl,
             contact: {
                 facebook: values.facebookLink,
                 X: values.xLink,
@@ -379,6 +379,11 @@ export default function ProfileConfig() {
                                 type: "url",
                                 message: "Please enter a valid URL!",
                             },
+                            {
+                                pattern: /^https:\/\/(www\.)?facebook\.com\/.+$/,
+                                message:
+                                    "Please enter a valid Facebook URL (e.g., https://www.facebook.com/username).",
+                            },
                         ]}
                     >
                         <Input placeholder="Facebook Link" />
@@ -393,6 +398,11 @@ export default function ProfileConfig() {
                                 type: "url",
                                 message: "Please enter a valid URL!",
                             },
+                            {
+                                pattern: /^https:\/\/(www\.)?(x|twitter)\.com\/.+$/,
+                                message:
+                                    "Please enter a valid X URL (e.g., https://www.x.com/username or https://www.twitter.com/username).",
+                            },
                         ]}
                     >
                         <Input placeholder="X Link" />
@@ -406,6 +416,11 @@ export default function ProfileConfig() {
                             {
                                 type: "url",
                                 message: "Please enter a valid URL!",
+                            },
+                            {
+                                pattern: /^https:\/\/(www\.)?(youtube\.com|youtu\.be)\/.+$/,
+                                message:
+                                    "Please enter a valid YouTube URL (e.g., https://www.youtube.com/channel/ID or https://youtu.be/videoID).",
                             },
                         ]}
                     >
