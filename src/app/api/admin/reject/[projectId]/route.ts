@@ -24,18 +24,32 @@ export async function PATCH(request : NextRequest , { params }: { params: { proj
         const projectDocRef = getDocRef(CollectionPath.PROJECT, projectId);
         const projectSnapshot = await projectDocRef.get();
         const projectModel = projectSnapshot.data() as ProjectModel;
-        const projectStage1 = projectModel.stages[0] as Stage;
+        const projectStages = projectModel.stages as Stage[];
+        const projectStage1 = projectStages[0] as Stage;
+        const projectStage2 = projectStages[1] as Stage;
 
         if(projectStage1.status === StageStatus.CURRENT && projectStage1.currentFunding < projectStage1.goalFunding){
             await updateProject(projectId, {
                 status: ProjectStatus.DRAFT
             });
+            return NextResponse.json(
+                { message: "Reject project successful." },
+                { status: StatusCode.SUCCESS }
+            );
+        }
+        else if (projectStage1.status === StageStatus.CURRENT){
+            projectStages[0].status = StageStatus.FAILED;
+        }
+        else if (projectStage2.status === StageStatus.CURRENT){
+            projectStages[1].status = StageStatus.FAILED;
         }
         else{
-            await updateProject(projectId, {
-                status: ProjectStatus.FAIL
-            });
+            projectStages[2].status = StageStatus.FAILED;
         }
+        await updateProject(projectId, {
+            status: ProjectStatus.FAIL,
+            stages:projectStages
+        });
         return NextResponse.json(
             { message: "Reject project successful." },
             { status: StatusCode.SUCCESS }
