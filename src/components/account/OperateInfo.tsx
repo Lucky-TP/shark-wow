@@ -1,6 +1,7 @@
 import { useRouter, usePathname } from "next/navigation";
 import { UserData } from "src/interfaces/datas/user";
 import { useState } from "react";
+import { ArrowLeft, FileText, Layers, Bell } from "lucide-react";
 
 type Props = {
     user?: UserData;
@@ -8,15 +9,15 @@ type Props = {
 };
 
 const buttons = [
-    { label: "Project Report", path: "dashboard" },
-    { label: "Stage", path: "stage" },
-    { label: "Updates", path: "update" },
+    { label: "Project Report", path: "dashboard", icon: FileText },
+    { label: "Stage", path: "stage", icon: Layers },
+    { label: "Updates", path: "update", icon: Bell },
 ];
 
 export function OperateInfo({ projectId }: Props) {
     const router = useRouter();
-    const pathname = usePathname(); // Get the current URL
-    const [hoveredButton, setHoveredButton] = useState<string | null>(null); // State to track hovered button
+    const pathname = usePathname();
+    const [hoveredButton, setHoveredButton] = useState<string | null>(null);
 
     const handleMouseEnter = (buttonName: string) => {
         setHoveredButton(buttonName);
@@ -27,23 +28,40 @@ export function OperateInfo({ projectId }: Props) {
     };
 
     return (
-        <div className="flex items-center justify-center mt-10">
-            {buttons.map((button) => (
+        <div className="bg-white shadow-md rounded-lg mt-10 mx-auto max-w-4xl">
+            <div className="flex items-center border-b border-gray-200">
                 <button
-                    key={button.path}
-                    className={`text-black font-semibold py-10 px-40 text-center border-b-2 border-black ${
-                        (pathname === `/creator/projects/operate/${projectId}/${button.path}` && !hoveredButton) ||
-                        hoveredButton === button.path
-                            ? "bg-[#FB923C]"
-                            : ""
-                    }`}
-                    onClick={() => router.push(`/creator/projects/operate/${projectId}/${button.path}`)}
-                    onMouseEnter={() => handleMouseEnter(button.path)}
-                    onMouseLeave={handleMouseLeave}
+                    onClick={() => router.push(`/creator/projects/launched`)}
+                    className="flex items-center justify-center text-gray-600 font-medium py-4 px-6 hover:bg-gray-100 transition-colors duration-200 rounded-tl-lg"
                 >
-                    {button.label}
+                    <ArrowLeft className="mr-2 h-5 w-5" />
+                    Back
                 </button>
-            ))}
+                {buttons.map((button) => {
+                    const isActive = pathname === `/creator/projects/operate/${projectId}/${button.path}`;
+                    const Icon = button.icon;
+                    return (
+                        <button
+                            key={button.path}
+                            className={`flex-1 flex items-center justify-center text-center py-4 px-6 transition-colors duration-200 ${
+                                isActive || hoveredButton === button.path
+                                    ? "bg-orange-400 text-white font-semibold"
+                                    : "text-gray-600 hover:bg-orange-100"
+                            }`}
+                            onClick={() => router.push(`/creator/projects/operate/${projectId}/${button.path}`)}
+                            onMouseEnter={() => handleMouseEnter(button.path)}
+                            onMouseLeave={handleMouseLeave}
+                        >
+                            <Icon className="mr-2 h-5 w-5" />
+                            {button.label}
+                        </button>
+                    );
+                })}
+            </div>
         </div>
     );
+}
+
+function setIsLoading(arg0: boolean) {
+    throw new Error("Function not implemented.");
 }
