@@ -13,6 +13,7 @@ export default function SupporterProjectList({ status }: Props) {
             {status === "favorite" && <FavoriteProject />}
             {status === "contribution" && <ContributionProject />}
 
+
             {!status && <div>No Data</div>}
         </div>
     );

@@ -50,19 +50,28 @@ export async function getTopDonatorsForProjects(
         const topDonatorIds = topTransactionLogsOwners.map((pair) => pair[0]);
 
         // Get and extracted top donators who donated relate to previous calculation
-        const topDonators = await Promise.all(
+        const topDonatorsWithNull = await Promise.all(
             topDonatorIds.map(async (donatorId) => {
-                const retrievedUserModel = await getUser(donatorId);
-                return {
-                    uid: retrievedUserModel.uid,
-                    username: retrievedUserModel.username,
-                    profileImageUrl: retrievedUserModel.profileImageUrl ?? "",
-                    totalDonates: transactionLogsOwners[donatorId],
-                };
+                try {
+                    const retrievedUserModel = await getUser(donatorId);
+                    return {
+                        uid: retrievedUserModel.uid,
+                        username: retrievedUserModel.username,
+                        profileImageUrl: retrievedUserModel.profileImageUrl ?? "",
+                        totalDonates: transactionLogsOwners[donatorId],
+                    };
+                } catch (error: unknown) {
+                    console.warn(`User ${donatorId} missing and removed from retrieval array`);
+                    return null;
+                }
             })
         );
+        const topDonators = topDonatorsWithNull.filter((topDonator) => topDonator !== null);
         return topDonators;
     } catch (error: unknown) {
+        if (error instanceof CustomError) {
+            throw error;
+        }
         throw new CustomError("Get top donators failed", StatusCode.INTERNAL_SERVER_ERROR);
     }
 }

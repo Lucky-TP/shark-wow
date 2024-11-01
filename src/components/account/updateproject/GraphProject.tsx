@@ -81,13 +81,13 @@ export default function GraphProject({ projectId }: Props) {
   }
 
   return (
-    <div className="w-full bg-white rounded-lg shadow-lg p-6">
+    <div className="w-[65vw] h-full bg-white mt-8 rounded-lg shadow-lg p-6">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-extrabold text-gray-700">
           Project Funding
         </h2>
       </div>
-      <div className="h-[400px]">
+      <div className="h-[60vh]">
         {data.length > 0 ? (
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
