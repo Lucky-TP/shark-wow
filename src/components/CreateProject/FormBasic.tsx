@@ -245,6 +245,10 @@ export default function FormBasic({ projectId }: Props) {
                             required: true,
                             message: "Please input the postal code!",
                         },
+                        {
+                            pattern: /^\d+$/,
+                            message: "Postal code must be numeric",
+                        },
                     ]}
                 >
                     <Input />
