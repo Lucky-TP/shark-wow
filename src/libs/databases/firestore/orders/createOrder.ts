@@ -6,15 +6,7 @@ import { OrderStatus, TransactionType } from "src/interfaces/models/enums";
 import { CustomError } from "src/libs/errors/apiError";
 import { dateToString } from "src/utils/date";
 
-interface InitialOrderData {
-    uid: string;
-    projectId: string;
-    currency: string;
-    stageId: number;
-    stageName: string;
-    amount: number;
-    transactionType: TransactionType;
-}
+type InitialOrderData = Omit<OrderModel, "createAt" | "updateAt" | "status" | "orderId">;
 
 export async function createOrder(orderData: InitialOrderData) {
     try {
@@ -23,7 +15,9 @@ export async function createOrder(orderData: InitialOrderData) {
             const orderModel: OrderModel = {
                 orderId: docRef.id,
                 uid: orderData.uid,
+                email: orderData.email,
                 projectId: orderData.projectId,
+                projectName: orderData.projectName,
                 currency: orderData.currency,
                 stageId: orderData.stageId,
                 stageName: orderData.stageName,
