@@ -107,8 +107,8 @@ export default function ProjectsEnd() {
                                                         {project.name}
                                                     </h3>
                                                     {/* {project.status == 3 && <p className="pb-4 font-medium text-xl text-red-600">Fail at {project.stage}</p>} */}
-                                                    <p className="pb-4 text-xl font-medium">
-                                                        {stageLabels[project.failedStage.stageId]}
+                                                    <p className="pb-4 text-xl font-medium text-red-500">
+                                                        Failed
                                                     </p>
                                                     <div className="flex justify-between text-xl font-medium">
                                                         <div className="flex-col justify-between">
@@ -119,7 +119,7 @@ export default function ProjectsEnd() {
                                                             supporters
                                                         </div>
                                                     </div>
-                                                    <div className="mb-2 mt-2 h-2.5 w-full rounded-full bg-gray-300">
+                                                    {/* <div className="mb-2 mt-2 h-2.5 w-full rounded-full bg-gray-300">
                                                         <div
                                                             className="h-2.5 rounded-full bg-orange-400"
                                                             style={{
@@ -135,8 +135,8 @@ export default function ProjectsEnd() {
                                                                 }%`,
                                                             }}
                                                         ></div>
-                                                    </div>
-                                                    <div className="text-sm text-gray-600">
+                                                    </div> */}
+                                                    {/* <div className="text-sm text-gray-600">
                                                         <div>
                                                             {project.failedStage.goalFunding > 0
                                                                 ? `${((project.failedStage.totalSupporter / project.failedStage.goalFunding) * 100).toFixed(2)}%`
@@ -145,7 +145,7 @@ export default function ProjectsEnd() {
                                                             {project.failedStage.goalFunding.toLocaleString()}{" "}
                                                             Baht
                                                         </div>
-                                                    </div>
+                                                    </div> */}
                                                 </div>
                                             </div>
                                         </div>
