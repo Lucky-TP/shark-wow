@@ -21,7 +21,7 @@ const calculateAge = (birthDateString: string): number | string => {
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
         age--;
     }
-    return age <= 0 ? "" : age;
+    return age <= 0 ? "N/A" : age;
 };
 
 export default function GenericUserProfile({ uid }: Props) {
@@ -82,14 +82,14 @@ export default function GenericUserProfile({ uid }: Props) {
                             {/* Age always shown with a static Calendar icon */}
                             <p>
                                 <CalendarTwoTone twoToneColor="#f57c00" className="pr-2" />
-                                {userAge ? `Age: ${userAge}` : ""}
+                                {userAge ? `Age: ${userAge}` : "Age: N/A"}
                             </p>
                             {/* Address always shown with a static Environment icon */}
                             <p>
                                 <EnvironmentTwoTone twoToneColor="#f57c00" className="pr-2" />
                                 {user?.address[0]?.city && user?.address[0]?.country
                                     ? `${user.address[0].city}, ${user.address[0].country}`
-                                    : ""}
+                                    : "City: N/A"}
                             </p>
                         </div>
 
@@ -131,21 +131,29 @@ export default function GenericUserProfile({ uid }: Props) {
                     <div className="mt-10 flex flex-col justify-center">
                         <h2 className="mx-auto mb-8 text-3xl font-bold text-black">About me</h2>
                         <div className="mx-auto w-[80dvh] rounded-lg bg-white px-6 shadow-lg">
-                            <div
-                                className="ql-editor preview-content !p-0"
-                                dangerouslySetInnerHTML={{ __html: content }}
-                            />
+                            {content ? (
+                                <div
+                                    className="ql-editor preview-content !p-0"
+                                    dangerouslySetInnerHTML={{ __html: content }}
+                                />
+                            ) : (
+                                <p className="py-6 text-center text-gray-500">No Data Available</p>
+                            )}
                         </div>
                         <h2 className="mx-auto mb-8 mt-10 text-3xl font-bold text-black">
                             Resume / CV
                         </h2>
                         <div className="mx-auto mb-8 w-[80dvh] overflow-hidden rounded-lg shadow-lg">
-                            {user?.cvUrl && (
+                            {user?.cvUrl ? (
                                 <iframe
                                     src={`${user.cvUrl}#toolbar=0&navpanes=0`}
-                                    className="h-[700px] w-full" // Adjust height as needed for more pages
+                                    className="h-[700px] w-full"
                                     style={{ border: "none", overflow: "auto" }}
                                 />
+                            ) : (
+                                <p className="bg-white py-6 text-center text-gray-500">
+                                    No Data Available
+                                </p>
                             )}
                         </div>
                     </div>

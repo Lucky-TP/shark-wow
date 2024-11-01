@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useCreatorSummary } from 'src/context/creatorDashboard/useCreatorSummary';
 import LoadingSection from "src/components/global/LoadingSection";
+import Link from 'next/link';
 
 export default function TopDonate() {
     const { creatorSummary, onGettingSummary } = useCreatorSummary();
@@ -14,9 +15,13 @@ export default function TopDonate() {
                 creatorSummary.data.topDonators.map((user, index) => (
                     <div key={index} className='flex items-center justify-between p-3'>
                         <div className='flex items-center'>
+                            <Link href={`/users/${user.uid}/profile`} passHref> 
                             <img src={user.profileImageUrl} alt={user.uid} className='object-contain h-12 w-12 rounded-full mr-3' />
+                            </Link>
                             <div>
-                                <h3 className='text-base w-[20vw] truncate whitespace-nowrap font-semibold'>{user.username}</h3>
+                                <Link href={`/users/${user.uid}/profile`} passHref>
+                                    <h3 className='text-base w-[20vw] truncate whitespace-nowrap font-semibold'>{user.username}</h3>
+                                </Link>
                                 <p className='text-sm text-gray-600'>Donated {user.totalDonates} baht</p>
                             </div>
                         </div>
