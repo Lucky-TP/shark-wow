@@ -20,6 +20,13 @@ export async function getRecentContributionsByTransactionLogs(
             userModelsObject[userModel.uid] = userModel;
         });
         const recentActivities = transactionLogs
+            .filter(({ uid }) => {
+                if (!userModelsObject[uid]) {
+                    console.warn(`User ${uid} missing and removed from retrieval array`);
+                    return false;
+                }
+                return true;
+            })
             .sort((a, b) => new Date(b.createAt).getTime() - new Date(a.createAt).getTime())
             .map(({ uid, amount, createAt, transactionType }) => {
                 const userActivity: UserActivity = {
