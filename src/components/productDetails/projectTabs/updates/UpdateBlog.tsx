@@ -9,7 +9,7 @@ type Props = {
 export default function UpdateBlog({ data }: Props) {
     // console.log(data)
     return (
-        <section className="h-[150vh]">
+        <section className="min-h-[150vh]">
             <div className="flex flex-col px-[3vw] py-[3vh] rounded-xl border bg-orange-100 border-orange-200 h-full">
                 <h1>Update Topic</h1>
                 <div className="flex flex-row gap-x-[1vw] ">

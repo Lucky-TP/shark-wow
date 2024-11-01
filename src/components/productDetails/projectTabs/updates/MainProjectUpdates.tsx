@@ -13,8 +13,8 @@ export default function MainProjectUpdates() {
     
     const [currentUpdate, setUpdateState] = useState(0);
     return (
-        <section className="flex flex-row w-full gap-x-[2vw] px-[5vw]">
-            <nav className="flex flex-col  min-w-fit items-center">
+        <section className="flex flex-row w-full gap-x-[2vw] px-[2vw]">
+            <nav className="flex flex-col min-w-fit items-center w-5/12">
                 <h1 className="text-2xl font-semibold  mb-[3vh]">Progression</h1>
                 <ul className="flex flex-col gap-y-[3vh] max-w-[27vw]">
                     {ProjectInfo.update &&
@@ -34,7 +34,7 @@ export default function MainProjectUpdates() {
                         ))}
                     {ProjectInfo.update && ProjectInfo.update.length === 0 && (
                         <li
-                            className="flex items-center justify-center p-3 bg-orange-300 rounded-xl w-full px-[1vw] shadow-lg
+                            className="flex items-center justify-center p-3 bg-orange-300 rounded-xl w-full px-[1vw] shadow-lg 
                                   hover:bg-orange-100 cursor-pointer "
                         >
                             <p className="text-lg text-gray-700 font-medium text-center">
