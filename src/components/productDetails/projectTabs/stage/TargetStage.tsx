@@ -118,7 +118,7 @@ export default function TargetStage({ stage }: Props) {
                     <span className="flex w-1/2 flex-col items-center">
                         <p className="text-lg font-bold text-gray-700">Current Funding</p>
                         <p className="pl-[1vw] text-base text-gray-600">
-                            {stage.currentFunding.toLocaleString()} THB
+                            {stage.currentFunding.toLocaleString()} ฿
                         </p>
                     </span>
                     <span className="flex w-1/2 flex-col items-center">
