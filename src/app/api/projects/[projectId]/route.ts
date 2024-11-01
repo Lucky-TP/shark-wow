@@ -168,7 +168,7 @@ export async function GET(request: NextRequest, { params }: { params: { projectI
             );
         }
         const projectModel = projectSnapshot.data() as ProjectModel;
-        if (projectModel.status === ProjectStatus.DRAFT) {
+        if (projectModel.status === ProjectStatus.RUNNING) {
             const projectOwner = await withAuthVerify(request);
             if (projectModel.uid !== projectOwner.uid) {
                 return NextResponse.json(
