@@ -39,6 +39,7 @@ function formatEstimatedDate(endDate: string): string {
     return `${days} days, ${hours} hours`;
 }
 export default function TargetStage({ stage }: Props) {
+    // test
     const { ProjectInfo } = useProjectDetails();
     const { user } = useUserData();
     const router = useRouter();
@@ -98,9 +99,7 @@ export default function TargetStage({ stage }: Props) {
             <div className="flex flex-col px-[2vw] py-[2vh]">
                 <div>
                     <div className="flex flex-row justify-between gap-x-[2vw]">
-                        <h3 className="text-lg font-semibold text-gray-700">
-                            {ProjectInfo.name}
-                        </h3>
+                        <h3 className="text-lg font-semibold text-gray-700">{ProjectInfo.name}</h3>
                         <h3 className="flex flex-row text-lg font-normal text-gray-600">
                             {stage.fundingCost.toLocaleString()} THB
                         </h3>
@@ -124,7 +123,7 @@ export default function TargetStage({ stage }: Props) {
                     <span className="flex w-1/2 flex-col items-center">
                         <p className="text-lg font-bold text-gray-700">Goal Funding</p>
                         <p className="pl-[1vw] text-base text-gray-600">
-                            {stage.goalFunding.toLocaleString()}{" "} THB
+                            {stage.goalFunding.toLocaleString()} THB
                         </p>
                     </span>
                     <span className="flex w-1/2 flex-col items-center">
